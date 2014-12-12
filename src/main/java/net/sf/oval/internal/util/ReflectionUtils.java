@@ -64,8 +64,7 @@ public final class ReflectionUtils {
         } else {
             final List<Annotation> annotations = Arrays.asList(clazz.getAnnotations());
             for (final Class<?> next : ReflectionUtils.getInterfacesRecursive(clazz)) {
-                final Annotation[] declaredAnnotations = next.getDeclaredAnnotations();
-                annotations.addAll(Arrays.asList(declaredAnnotations));
+                Collections.addAll(annotations, next.getDeclaredAnnotations());
             }
             return annotations.toArray(new Annotation[annotations.size()]);
         }
@@ -297,9 +296,8 @@ public final class ReflectionUtils {
                     if (paramAnnos.length > 0) {
                         HashSet<Annotation> cummulatedParamAnnos = methodParameterAnnotations[i];
                         if (cummulatedParamAnnos == null)
-                            methodParameterAnnotations[i] = cummulatedParamAnnos = new HashSet<Annotation>();
-                        for (final Annotation anno : paramAnnos)
-                            cummulatedParamAnnos.add(anno);
+                            methodParameterAnnotations[i] = cummulatedParamAnnos = new HashSet<>();
+                        Collections.addAll(cummulatedParamAnnos,paramAnnos);
                     }
                 }
             } catch (final NoSuchMethodException e) {
@@ -317,11 +315,11 @@ public final class ReflectionUtils {
     }
 
     public static Method getSetter(final Class<?> clazz, final String propertyName) {
-        final String methodName = "set" + propertyName.substring(0, 1).toUpperCase(Locale.getDefault()) + propertyName.substring(1);
+        final String methodName = "set" + propertyName;
 
         final Method[] declaredMethods = clazz.getDeclaredMethods();
         for (final Method method : declaredMethods)
-            if (methodName.equals(method.getName()) && method.getParameterTypes().length == 1)
+            if (methodName.equalsIgnoreCase(method.getName()) && method.getParameterTypes().length == 1)
                 return method;
         LOG.trace("No setter for {} not found on class {}.", propertyName, clazz);
         return null;
@@ -484,21 +482,12 @@ public final class ReflectionUtils {
     }
 
     /**
-     * determines if a method is a JavaBean style setter method
+     * Determines if a method is a JavaBean style setter method. A setter
+     * method have its name start with "{@code }set}", and takes 1 parameter.
      */
     public static boolean isSetter(final Method method) {
-        final Class<?>[] methodParameterTypes = method.getParameterTypes();
-
-        // check if method has exactly one parameter
-        if (methodParameterTypes.length != 1) return false;
-
-        final String methodName = method.getName();
-        final int methodNameLen = methodName.length();
-
-        // check if the method's name starts with setXXX
-        if (methodNameLen < 4 || !methodName.startsWith("set")) return false;
-
-        return true;
+        Assert.argumentNotNull("method", method);
+        return method.getName().startsWith("set") && method.getParameterTypes().length == 1;
     }
 
     public static boolean isStatic(final Member member) {
@@ -525,14 +514,11 @@ public final class ReflectionUtils {
         } catch (final IllegalArgumentException ex) {
             LOG.debug("Setting {1} failed on {2} failed.", propertyName, target, ex);
             return false;
-        } catch (final IllegalAccessException ex) {
-            LOG.debug("Setting {1} failed on {2} failed.", propertyName, target, ex);
-            return false;
-        } catch (final InvocationTargetException ex) {
+        } catch(final ReflectiveOperationException ex) {
             LOG.debug("Setting {1} failed on {2} failed.", propertyName, target, ex);
             return false;
         }
-        return false;
+        return true;
     }
 
     private ReflectionUtils() {

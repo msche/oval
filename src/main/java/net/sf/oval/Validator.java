@@ -249,7 +249,7 @@ public class Validator implements IValidator
 	 */
 	private boolean isProfilesFeatureUsed = false;
 
-	protected final ObjectGraphNavigatorRegistry ognRegistry = new ObjectGraphNavigatorRegistry();
+	private final ObjectGraphNavigatorRegistry ognRegistry = new ObjectGraphNavigatorRegistry();
 
 	protected final DelegatingParameterNameResolver parameterNameResolver = new DelegatingParameterNameResolver(
 			new ParameterNameResolverEnumerationImpl());

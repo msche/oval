@@ -12,6 +12,7 @@
  *******************************************************************************/
 package net.sf.oval.internal.util;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.Method;
 import java.util.*;
 
@@ -20,9 +21,7 @@ import java.util.*;
  */
 public final class ArrayUtils
 {
-	public static final Method[] EMPTY_METHOD_ARRAY = {};
 	public static final Object[] EMPTY_OBJECT_ARRAY = {};
-	public static final String[] EMPTY_STRING_ARRAY = {};
 
 	/**
      * Adds all of the specified elements to the specified collection.
@@ -34,7 +33,7 @@ public final class ArrayUtils
      * <p>When elements are specified individually, this method provides a
      * convenient way to add a few elements to an existing collection:
      * <pre>
-     *     Collections.addAll(flavors, "Peaches 'n Plutonium", "Rocky Racoon");
+     *     Collections.addAll(flavors, "Peaches 'n Plutonium", "Rocky Raccoon");
      * </pre>
      *
      * @param collection the collection into which <tt>elements</tt> are to be inserted
@@ -48,95 +47,43 @@ public final class ArrayUtils
      * @throws IllegalArgumentException if some property of a value in
      *         <tt>elements</tt> prevents it from being added to <tt>c</tt>
 	 */
-	public static <T> boolean addAll(final Collection<T> collection, final T... elements)
+	@SafeVarargs
+    public static <T> boolean addAll(final Collection<T> collection, final T... elements)
 	{
-		if (elements == null) {
-            return false;
-        } else {
-            return Collections.addAll(collection, elements);
-        }
+        return elements != null && Collections.addAll(collection, elements);
 	}
 
-	public static List< ? > asList(final Object array)
+    /**
+     * Returns a list containing the values in the specified array.
+     *
+     * @param array array of values
+     *
+     * @return a list contains the values of the specified array
+     */
+    public static <T> List<T> asList(final T array)
 	{
-		if (array instanceof Object[])
-		{
-			final Object[] arrayCasted = (Object[]) array;
-			final List<Object> result = new ArrayList<Object>(arrayCasted.length);
-			Collections.addAll(result, arrayCasted);
-			return result;
-		}
-		if (array instanceof byte[])
-		{
-			final byte[] arrayCasted = (byte[]) array;
-			final List<Byte> result = new ArrayList<Byte>(arrayCasted.length);
-			for (final byte i : arrayCasted)
-				result.add(i);
-			return result;
-		}
-		if (array instanceof char[])
-		{
-			final char[] arrayCasted = (char[]) array;
-			final List<Character> result = new ArrayList<Character>(arrayCasted.length);
-			for (final char i : arrayCasted)
-				result.add(i);
-			return result;
-		}
-		if (array instanceof short[])
-		{
-			final short[] arrayCasted = (short[]) array;
-			final List<Short> result = new ArrayList<Short>(arrayCasted.length);
-			for (final short i : arrayCasted)
-				result.add(i);
-			return result;
-		}
-		if (array instanceof int[])
-		{
-			final int[] arrayCasted = (int[]) array;
-			final List<Integer> result = new ArrayList<Integer>(arrayCasted.length);
-			for (final int i : arrayCasted)
-				result.add(i);
-			return result;
-		}
-		if (array instanceof long[])
-		{
-			final long[] arrayCasted = (long[]) array;
-			final List<Long> result = new ArrayList<Long>(arrayCasted.length);
-			for (final long i : arrayCasted)
-				result.add(i);
-			return result;
-		}
-		if (array instanceof double[])
-		{
-			final double[] arrayCasted = (double[]) array;
-			final List<Double> result = new ArrayList<Double>(arrayCasted.length);
-			for (final double i : arrayCasted)
-				result.add(i);
-			return result;
-		}
-		if (array instanceof float[])
-		{
-			final float[] arrayCasted = (float[]) array;
-			final List<Float> result = new ArrayList<Float>(arrayCasted.length);
-			for (final float i : arrayCasted)
-				result.add(i);
-			return result;
-		}
-		if (array instanceof boolean[])
-		{
-			final boolean[] arrayCasted = (boolean[]) array;
-			final List<Boolean> result = new ArrayList<Boolean>(arrayCasted.length);
-			for (final boolean i : arrayCasted)
-				result.add(i);
-			return result;
-		}
-
-		throw new IllegalArgumentException("Argument [array] must be an array");
+        Assert.argumentNotNull("array", array);
+        if (array.getClass().isArray()) {
+            Class arrayType = array.getClass().getComponentType();
+            if (arrayType.isPrimitive()) {
+                List<T> result = new ArrayList<>();
+                final int size = Array.getLength(array);
+                for(int i=0; i<size; i++) {
+                    result.add((T) Array.get(array,i));
+                }
+                return result;
+            } else {
+                return asList((T[]) array);
+            }
+        } else {
+            throw new IllegalArgumentException("Argument [array] must be an array");
+        }
 	}
 
 	public static <T> List<T> asList(final T[] array)
 	{
-        return new ArrayList<T>(Arrays.asList(array));
+        Assert.argumentNotNull("array", array);
+        return new ArrayList<>(Arrays.asList(array));
 	}
 
 	public static <T> boolean containsEqual(final T[] theArray, final T theItem)
