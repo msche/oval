@@ -220,7 +220,7 @@ public class XMLConfigurationTest extends TestCase
 			}
 			{
 				final FieldConfiguration fc = new FieldConfiguration();
-				fc.overwrite = Boolean.TRUE;
+				fc.overwrite = true;
 				cf.fieldConfigurations.add(fc);
 
 				fc.name = "userId";

@@ -30,5 +30,5 @@ public class ConfigurationElement implements Serializable
 	 * 
 	 * If not set (<code>null</code>) -> interpreted as false.   
 	 */
-	public Boolean overwrite;
+	public boolean overwrite;
 }

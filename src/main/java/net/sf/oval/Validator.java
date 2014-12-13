@@ -294,20 +294,20 @@ public class Validator implements IValidator
 	private void _addChecks(final ClassChecks cc, final ClassConfiguration classCfg) throws InvalidConfigurationException,
 	ReflectionException
 	{
-		if (TRUE.equals(classCfg.overwrite))
+		if (classCfg.overwrite)
 		{
 			cc.clear();
 		}
 
-		if (classCfg.checkInvariants != null)
-		{
+//		if (classCfg.checkInvariants != null)
+//		{
 			cc.isCheckInvariants = classCfg.checkInvariants;
-		}
+//		}
 
 		// cache the result for better performance
-		final boolean applyFieldConstraintsToConstructors = TRUE.equals(classCfg.applyFieldConstraintsToConstructors);
-		final boolean applyFieldConstraintsToSetters = TRUE.equals(classCfg.applyFieldConstraintsToSetters);
-		final boolean assertParametersNotNull = TRUE.equals(classCfg.assertParametersNotNull);
+		final boolean applyFieldConstraintsToConstructors = classCfg.applyFieldConstraintsToConstructors;
+		final boolean applyFieldConstraintsToSetters = classCfg.applyFieldConstraintsToSetters;
+		final boolean assertParametersNotNull = classCfg.assertParametersNotNull;
 		final NotNullCheck sharedNotNullCheck = assertParametersNotNull ? new NotNullCheck() : null;
 
 		try
@@ -319,7 +319,7 @@ public class Validator implements IValidator
 			{
 				final ObjectConfiguration objectCfg = classCfg.objectConfiguration;
 
-				if (TRUE.equals(objectCfg.overwrite))
+				if (objectCfg.overwrite)
 				{
 					cc.clearObjectChecks();
 				}
@@ -335,7 +335,7 @@ public class Validator implements IValidator
 				{
 					final Field field = classCfg.type.getDeclaredField(fieldCfg.name);
 
-					if (TRUE.equals(fieldCfg.overwrite))
+					if (fieldCfg.overwrite)
 					{
 						cc.clearFieldChecks(field);
 					}
@@ -369,12 +369,12 @@ public class Validator implements IValidator
 
 					final Constructor< ? > ctor = classCfg.type.getDeclaredConstructor(paramTypes);
 
-					if (TRUE.equals(ctorCfg.overwrite))
+					if (ctorCfg.overwrite)
 					{
 						cc.clearConstructorChecks(ctor);
 					}
 
-					if (TRUE.equals(ctorCfg.postCheckInvariants))
+					if (ctorCfg.postCheckInvariants)
 					{
 						cc.methodsWithCheckInvariantsPost.add(ctor);
 					}
@@ -385,7 +385,7 @@ public class Validator implements IValidator
 					{
 						final ParameterConfiguration paramCfg = ctorCfg.parameterConfigurations.get(i);
 
-						if (TRUE.equals(paramCfg.overwrite))
+						if (paramCfg.overwrite)
 						{
 							cc.clearConstructorParameterChecks(ctor, i);
 						}
@@ -452,7 +452,7 @@ public class Validator implements IValidator
 						method = classCfg.type.getDeclaredMethod(methodCfg.name, paramTypes);
 					}
 
-					if (TRUE.equals(methodCfg.overwrite))
+					if (methodCfg.overwrite)
 					{
 						cc.clearMethodChecks(method);
 					}
@@ -482,7 +482,7 @@ public class Validator implements IValidator
 						{
 							final ParameterConfiguration paramCfg = methodCfg.parameterConfigurations.get(i);
 
-							if (TRUE.equals(paramCfg.overwrite))
+							if (paramCfg.overwrite)
 							{
 								cc.clearMethodParameterChecks(method, i);
 							}
@@ -509,7 +509,7 @@ public class Validator implements IValidator
 					 * ******************************/
 					if (methodCfg.returnValueConfiguration != null)
 					{
-						if (TRUE.equals(methodCfg.returnValueConfiguration.overwrite))
+						if (methodCfg.returnValueConfiguration.overwrite)
 						{
 							cc.clearMethodReturnValueChecks(method);
 						}
@@ -520,7 +520,7 @@ public class Validator implements IValidator
 						}
 					}
 
-					if (TRUE.equals(methodCfg.preCheckInvariants))
+					if (methodCfg.preCheckInvariants)
 					{
 						cc.methodsWithCheckInvariantsPre.add(method);
 					}
@@ -530,7 +530,7 @@ public class Validator implements IValidator
 					 */
 					if (methodCfg.preExecutionConfiguration != null)
 					{
-						if (TRUE.equals(methodCfg.preExecutionConfiguration.overwrite))
+						if (methodCfg.preExecutionConfiguration.overwrite)
 						{
 							cc.clearMethodPreChecks(method);
 						}
@@ -541,7 +541,7 @@ public class Validator implements IValidator
 						}
 					}
 
-					if (TRUE.equals(methodCfg.postCheckInvariants))
+					if (methodCfg.postCheckInvariants)
 					{
 						cc.methodsWithCheckInvariantsPost.add(method);
 					}
@@ -551,7 +551,7 @@ public class Validator implements IValidator
 					 */
 					if (methodCfg.postExecutionConfiguration != null)
 					{
-						if (TRUE.equals(methodCfg.postExecutionConfiguration.overwrite))
+						if (methodCfg.postExecutionConfiguration.overwrite)
 						{
 							cc.clearMethodPostChecks(method);
 						}
@@ -1223,7 +1223,7 @@ public class Validator implements IValidator
 						cs = new ConstraintSet(csc.id);
 						cs.setChecks(csc.checks);
 
-						addConstraintSet(cs, csc.overwrite != null && csc.overwrite);
+						addConstraintSet(cs, csc.overwrite);
 					}
 				}
 			}

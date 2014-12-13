@@ -22,14 +22,14 @@ public class MethodConfiguration extends ConfigurationElement
 	private static final long serialVersionUID = 1L;
 
 	public String name;
-	public Boolean isInvariant;
+	public boolean isInvariant;
 	
 	public List<ParameterConfiguration> parameterConfigurations;
 	public MethodReturnValueConfiguration returnValueConfiguration;
 
-	public Boolean postCheckInvariants;
+	public boolean postCheckInvariants;
 	public MethodPostExecutionConfiguration postExecutionConfiguration;
 	
-	public Boolean preCheckInvariants;
+	public boolean preCheckInvariants;
 	public MethodPreExecutionConfiguration preExecutionConfiguration;
 }

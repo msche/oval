@@ -78,8 +78,8 @@ import net.sf.oval.internal.util.ReflectionUtils;
 @SuppressWarnings("javadoc")
 public class JPAAnnotationsConfigurer implements Configurer
 {
-	protected Boolean applyFieldConstraintsToSetters;
-	protected Boolean applyFieldConstraintsToConstructors;
+	protected boolean applyFieldConstraintsToSetters;
+	protected boolean applyFieldConstraintsToConstructors;
 
 	protected void addAssertValidCheckIfRequired(final Annotation constraintAnnotation, final Collection<Check> checks,
 			@SuppressWarnings("unused")/*parameter for potential use by subclasses*/final AccessibleObject fieldOrMethod)

@@ -52,7 +52,7 @@ public class ClassConfiguration extends ConfigurationElement
 	 * of constructors declared within the same class. A corresponding
 	 * parameter is a parameter with the same name and type as the field.
 	 */
-	public Boolean applyFieldConstraintsToConstructors;
+	public boolean applyFieldConstraintsToConstructors;
 
 	/**
 	 * Automatically apply field constraints to the parameters of the
@@ -60,23 +60,23 @@ public class ClassConfiguration extends ConfigurationElement
 	 * corresponding setter method is a method following the JavaBean
 	 * convention and its parameter has as the same type as the field.
 	 */
-	public Boolean applyFieldConstraintsToSetters;
+	public boolean applyFieldConstraintsToSetters;
 
 	/**
 	 * Declares if parameter values of constructors and methods are expected to be not null.
 	 * This can be weakened by using the @net.sf.oval.constraint.exclusion.Nullable annotation on specific parameters.
 	 */
-	public Boolean assertParametersNotNull;
+	public boolean assertParametersNotNull;
 
 	/**
 	 * Specifies if invariants are checked prior and after calls to
 	 * non-private methods and constructors.
 	 */
-	public Boolean checkInvariants;
+	public boolean checkInvariants;
 
 	/**
 	 * Specifies whether annotations can be applied to interfaces that this class implements,
 	 * supporting a documentation function
 	 */
-	public Boolean inspectInterfaces;
+	public boolean inspectInterfaces;
 }

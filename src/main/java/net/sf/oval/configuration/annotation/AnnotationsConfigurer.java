@@ -169,7 +169,7 @@ public class AnnotationsConfigurer implements Configurer
 			boolean postValidateThis = false;
 
 			// loop over all annotations
-			for (final Annotation annotation : ReflectionUtils.getAnnotations(method, Boolean.TRUE.equals(classCfg.inspectInterfaces)))
+			for (final Annotation annotation : ReflectionUtils.getAnnotations(method, classCfg.inspectInterfaces))
 				if (annotation instanceof Pre)
 				{
 					final PreCheck pc = new PreCheck();
@@ -195,7 +195,7 @@ public class AnnotationsConfigurer implements Configurer
 			 * determine parameter checks
 			 */
 			final List<ParameterConfiguration> paramCfg = _createParameterConfiguration(
-					ReflectionUtils.getParameterAnnotations(method, Boolean.TRUE.equals(classCfg.inspectInterfaces)),
+					ReflectionUtils.getParameterAnnotations(method, classCfg.inspectInterfaces),
 					method.getParameterTypes());
 
 			// check if anything has been configured for this method at all
@@ -208,7 +208,7 @@ public class AnnotationsConfigurer implements Configurer
 				mc.name = method.getName();
 				mc.parameterConfigurations = paramCfg;
 				mc.isInvariant = ReflectionUtils.isAnnotationPresent(method, IsInvariant.class,
-						Boolean.TRUE.equals(classCfg.inspectInterfaces));
+						classCfg.inspectInterfaces);
 				mc.preCheckInvariants = preValidateThis;
 				mc.postCheckInvariants = postValidateThis;
 				if (returnValueChecks.size() > 0)
@@ -238,7 +238,7 @@ public class AnnotationsConfigurer implements Configurer
 	{
 		final List<Check> checks = new ArrayList<>(2);
 
-		for (final Annotation annotation : ReflectionUtils.getAnnotations(classCfg.type, Boolean.TRUE.equals(classCfg.inspectInterfaces)))
+		for (final Annotation annotation : ReflectionUtils.getAnnotations(classCfg.type, classCfg.inspectInterfaces))
 			// check if the current annotation is a constraint annotation
 			if (annotation.annotationType().isAnnotationPresent(Constraint.class))
 				checks.add(initializeCheck(annotation));

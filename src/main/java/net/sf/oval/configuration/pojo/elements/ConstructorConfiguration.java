@@ -23,5 +23,5 @@ public class ConstructorConfiguration extends ConfigurationElement
 	
 	public List<ParameterConfiguration> parameterConfigurations;
 	
-	public Boolean postCheckInvariants;
+	public boolean postCheckInvariants;
 }

@@ -166,14 +166,14 @@ public class BeanValidationAnnotationsConfigurer implements Configurer
 		for (final Method method : classCfg.type.getDeclaredMethods())
 		{
 			// loop over all annotations
-			for (final Annotation annotation : ReflectionUtils.getAnnotations(method, Boolean.TRUE.equals(classCfg.inspectInterfaces)))
+			for (final Annotation annotation : ReflectionUtils.getAnnotations(method,classCfg.inspectInterfaces))
 				initializeChecks(annotation, returnValueChecks);
 
 			/*
 			 * determine parameter checks
 			 */
 			final List<ParameterConfiguration> paramCfg = _createParameterConfiguration(
-					ReflectionUtils.getParameterAnnotations(method, Boolean.TRUE.equals(classCfg.inspectInterfaces)),
+					ReflectionUtils.getParameterAnnotations(method, classCfg.inspectInterfaces),
 					method.getParameterTypes());
 
 			// check if anything has been configured for this method at all
