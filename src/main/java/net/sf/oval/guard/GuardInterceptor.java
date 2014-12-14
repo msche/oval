@@ -14,13 +14,14 @@ package net.sf.oval.guard;
 
 import java.lang.reflect.Constructor;
 
-import net.sf.oval.internal.Log;
 import net.sf.oval.internal.util.Invocable;
 
 import org.aopalliance.intercept.ConstructorInterceptor;
 import org.aopalliance.intercept.ConstructorInvocation;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * AOP Alliance Interceptor implementation of the Guard aspect
@@ -47,7 +48,7 @@ public class GuardInterceptor implements MethodInterceptor, ConstructorIntercept
 		}
 	}
 
-	private static final Log LOG = Log.getLog(GuardInterceptor.class);
+	private static final Logger LOG = LoggerFactory.getLogger(GuardInterceptor.class);
 
 	private Guard guard;
 

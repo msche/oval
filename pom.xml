@@ -143,8 +143,11 @@ Besides field/property validation OVal implements Programming by Contract featur
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+        <!-- Versions of dependencies -->
 		<java.version>1.7</java.version>
 		<aspectj.version>1.8.2</aspectj.version>
+        <slf4j.version>1.7.7</slf4j.version>
 
         <!-- Determines whether unit tests are skipped or not -->
         <skip.unit.tests>false</skip.unit.tests>
@@ -161,6 +164,18 @@ Besides field/property validation OVal implements Programming by Contract featur
 			<version>4.11</version>
 			<scope>test</scope>
 		</dependency>
+        <dependency>
+            <groupId>org.easymock</groupId>
+            <artifactId>easymock</artifactId>
+            <version>3.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>${slf4j.version}</version>
+            <scope>test</scope>
+        </dependency>
 
         <!-- Dependencies performance test -->
         <dependency>
@@ -170,46 +185,18 @@ Besides field/property validation OVal implements Programming by Contract featur
             <scope>test</scope>
         </dependency>
 
-		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-			<version>1.2.17</version>
-			<optional>true</optional>
-			<!--<exclusions>-->
-				<!--<exclusion>-->
-					<!--<groupId>javax.jms</groupId>-->
-					<!--<artifactId>jms</artifactId>-->
-				<!--</exclusion>-->
-				<!--<exclusion>-->
-					<!--<groupId>com.sun.jdmk</groupId>-->
-					<!--<artifactId>jmxtools</artifactId>-->
-				<!--</exclusion>-->
-				<!--<exclusion>-->
-					<!--<groupId>com.sun.jmx</groupId>-->
-					<!--<artifactId>jmxri</artifactId>-->
-				<!--</exclusion>-->
-				<!--<exclusion>-->
-					<!--<groupId>javax.mail</groupId>-->
-					<!--<artifactId>mail</artifactId>-->
-				<!--</exclusion>-->
-			<!--</exclusions>-->
-		</dependency>
+        <!-- Logging dependencies -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
+            <optional>true</optional>
+        </dependency>
+
 		<dependency>
 			<groupId>org.aspectj</groupId>
 			<artifactId>aspectjrt</artifactId>
 			<version>${aspectj.version}</version>
-			<optional>true</optional>
-		</dependency>
-		<dependency>
-			<groupId>commons-logging</groupId>
-			<artifactId>commons-logging</artifactId>
-			<version>1.2</version>
-			<optional>true</optional>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<version>1.7.7</version>
 			<optional>true</optional>
 		</dependency>
 		<dependency>

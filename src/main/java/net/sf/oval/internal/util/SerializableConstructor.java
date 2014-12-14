@@ -17,7 +17,8 @@ import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.util.WeakHashMap;
 
-import net.sf.oval.internal.Log;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Serializable Wrapper for java.lang.reflect.Constructor objects since they do not implement Serializable
@@ -26,7 +27,7 @@ import net.sf.oval.internal.Log;
  */
 public final class SerializableConstructor implements Serializable
 {
-	private static final Log LOG = Log.getLog(SerializableConstructor.class);
+	private static final Logger LOG = LoggerFactory.getLogger(SerializableConstructor.class);
 
 	private static final WeakHashMap<Constructor< ? >, SerializableConstructor> CACHE = //
 	new WeakHashMap<Constructor< ? >, SerializableConstructor>();
@@ -93,7 +94,7 @@ public final class SerializableConstructor implements Serializable
 		}
 		catch (final NoSuchMethodException ex)
 		{
-			LOG.debug("Unexpected NoSuchMethodException occured", ex);
+			LOG.debug("Unexpected NoSuchMethodException occurred", ex);
 			throw new IOException(ex.getMessage());
 		}
 	}

@@ -15,17 +15,18 @@ package net.sf.oval.expression;
 import java.util.Map;
 
 import net.sf.oval.exception.ExpressionEvaluationException;
-import net.sf.oval.internal.Log;
 import net.sf.oval.internal.util.ObjectCache;
 
 import org.mvel2.MVEL;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Sebastian Thomschke
  */
 public class ExpressionLanguageMVELImpl implements ExpressionLanguage
 {
-	private static final Log LOG = Log.getLog(ExpressionLanguageMVELImpl.class);
+	private static final Logger LOG = LoggerFactory.getLogger(ExpressionLanguageMVELImpl.class);
 
 	private final ObjectCache<String, Object> expressionCache = new ObjectCache<String, Object>();
 
@@ -34,7 +35,7 @@ public class ExpressionLanguageMVELImpl implements ExpressionLanguage
 	 */
 	public Object evaluate(final String expression, final Map<String, ? > values) throws ExpressionEvaluationException
 	{
-		LOG.debug("Evaluating MVEL expression: {1}", expression);
+		LOG.debug("Evaluating MVEL expression: {}", expression);
 		try
 		{
 			Object expr = expressionCache.get(expression);

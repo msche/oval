@@ -16,7 +16,8 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
 import net.sf.oval.AbstractCheckExclusion;
-import net.sf.oval.internal.Log;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Partial implementation of check exclusion classes configurable via annotations.
@@ -29,7 +30,7 @@ public abstract class AbstractAnnotationCheckExclusion<ExclusionAnnotation exten
 {
 	private static final long serialVersionUID = 1L;
 
-	private static final Log LOG = Log.getLog(AbstractAnnotationCheckExclusion.class);
+	private static final Logger LOG = LoggerFactory.getLogger(AbstractAnnotationCheckExclusion.class);
 
 	/**
 	 * {@inheritDoc}
@@ -48,7 +49,7 @@ public abstract class AbstractAnnotationCheckExclusion<ExclusionAnnotation exten
 		}
 		catch (final Exception e)
 		{
-			LOG.debug("Cannot determine constraint profiles based on annotation {1}", exclusionClazz.getName(), e);
+			LOG.debug("Cannot determine constraint profiles based on annotation {}", exclusionClazz.getName(), e);
 		}
 
 		/*
@@ -61,7 +62,7 @@ public abstract class AbstractAnnotationCheckExclusion<ExclusionAnnotation exten
 		}
 		catch (final Exception e)
 		{
-			LOG.debug("Cannot determine constraint when formula based on annotation {1}", exclusionClazz.getName(), e);
+			LOG.debug("Cannot determine constraint when formula based on annotation {}", exclusionClazz.getName(), e);
 		}
 	}
 }

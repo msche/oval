@@ -20,16 +20,17 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import net.sf.oval.exception.ExpressionEvaluationException;
-import net.sf.oval.internal.Log;
 import net.sf.oval.internal.util.ObjectCache;
 import net.sf.oval.internal.util.ThreadLocalObjectCache;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Sebastian Thomschke
  */
 public class ExpressionLanguageGroovyImpl implements ExpressionLanguage
 {
-	private static final Log LOG = Log.getLog(ExpressionLanguageGroovyImpl.class);
+	private static final Logger LOG = LoggerFactory.getLogger(ExpressionLanguageGroovyImpl.class);
 
 	private static final GroovyShell GROOVY_SHELL = new GroovyShell();
 
@@ -40,7 +41,7 @@ public class ExpressionLanguageGroovyImpl implements ExpressionLanguage
 	 */
 	public Object evaluate(final String expression, final Map<String, ? > values) throws ExpressionEvaluationException
 	{
-		LOG.debug("Evaluating Groovy expression: {1}", expression);
+		LOG.debug("Evaluating Groovy expression: {}", expression);
 		try
 		{
 			final ObjectCache<String, Script> scriptCache = threadScriptCache.get();

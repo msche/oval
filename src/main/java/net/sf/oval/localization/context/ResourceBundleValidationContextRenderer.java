@@ -26,7 +26,8 @@ import net.sf.oval.context.MethodExitContext;
 import net.sf.oval.context.MethodParameterContext;
 import net.sf.oval.context.MethodReturnValueContext;
 import net.sf.oval.context.OValContext;
-import net.sf.oval.internal.Log;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This renderer searches for a resource file that is in the same package and has the same name as the validated class.
@@ -49,7 +50,7 @@ import net.sf.oval.internal.Log;
  */
 public class ResourceBundleValidationContextRenderer implements OValContextRenderer
 {
-	private static final Log LOG = Log.getLog(ResourceBundleValidationContextRenderer.class);
+	private static final Logger LOG = LoggerFactory.getLogger(ResourceBundleValidationContextRenderer.class);
 
 	public static final ResourceBundleValidationContextRenderer INSTANCE = new ResourceBundleValidationContextRenderer();
 
@@ -119,11 +120,11 @@ public class ResourceBundleValidationContextRenderer implements OValContextRende
 		{
 			final ResourceBundle bundle = ResourceBundle.getBundle(baseName, getLocale());
 			if (containsKey(bundle, key)) return bundle.getString(key);
-			LOG.debug("Key {1} not found in bundle {2}", key, baseName);
+			LOG.debug("Key {} not found in bundle {}", key, baseName);
 		}
 		catch (final MissingResourceException ex)
 		{
-			LOG.debug("Bundle {1} not found", baseName, ex);
+			LOG.debug("Bundle {} not found", baseName, ex);
 		}
 		return ovalContext.toString();
 	}

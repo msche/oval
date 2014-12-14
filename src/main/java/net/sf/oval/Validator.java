@@ -63,7 +63,6 @@ import net.sf.oval.guard.ParameterNameResolver;
 import net.sf.oval.guard.ParameterNameResolverEnumerationImpl;
 import net.sf.oval.internal.ClassChecks;
 import net.sf.oval.internal.ContextCache;
-import net.sf.oval.internal.Log;
 import net.sf.oval.internal.MessageRenderer;
 import net.sf.oval.internal.util.ArrayUtils;
 import net.sf.oval.internal.util.Assert;
@@ -79,7 +78,6 @@ import net.sf.oval.localization.message.MessageResolver;
 import net.sf.oval.localization.message.ResourceBundleMessageResolver;
 import net.sf.oval.localization.value.MessageValueFormatter;
 import net.sf.oval.localization.value.ToStringMessageValueFormatter;
-import net.sf.oval.logging.LoggerFactory;
 import net.sf.oval.ogn.ObjectGraphNavigationResult;
 import net.sf.oval.ogn.ObjectGraphNavigatorRegistry;
 
@@ -145,10 +143,10 @@ public class Validator implements IValidator
 		return localeProvider;
 	}
 
-	public static LoggerFactory getLoggerFactory()
-	{
-		return Log.getLoggerFactory();
-	}
+//MASE public static LoggerFactory getLoggerFactory()
+//	{
+//		return Log.getLoggerFactory();
+//	}
 
 	public static MessageResolver getMessageResolver()
 	{
@@ -183,14 +181,14 @@ public class Validator implements IValidator
 		Validator.localeProvider = localeProvider;
 	}
 
-	/**
-	 * @param loggerFactory the loggerFactory to set
-	 */
-	public static void setLoggerFactory(final LoggerFactory loggerFactory)
-	{
-		Assert.argumentNotNull("loggerFactory", loggerFactory);
-		Log.setLoggerFactory(loggerFactory);
-	}
+//	/**
+//	 * @param loggerFactory the loggerFactory to set
+//	 */
+//	public static void setLoggerFactory(final LoggerFactory loggerFactory)
+//	{
+//		Assert.argumentNotNull("loggerFactory", loggerFactory);
+//		Log.setLoggerFactory(loggerFactory);
+//	}
 
 	/**
 	 * @param messageResolver the messageResolver to set
@@ -211,7 +209,7 @@ public class Validator implements IValidator
 		Validator.messageValueFormatter = formatter;
 	}
 
-	private static final Log LOG = Log.getLog(Validator.class);
+//	private static final Log LOG = Log.getLog(Validator.class);
 
 	//private static CollectionFactory collectionFactory = _createDefaultCollectionFactory();
 

@@ -17,7 +17,9 @@ import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.WeakHashMap;
 
-import net.sf.oval.internal.Log;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Serializable Wrapper for java.lang.reflect.Method objects since they do not implement Serializable
@@ -26,7 +28,7 @@ import net.sf.oval.internal.Log;
  */
 public final class SerializableMethod implements Serializable
 {
-	private static final Log LOG = Log.getLog(SerializableMethod.class);
+	private static final Logger LOG = LoggerFactory.getLogger(SerializableMethod.class);
 
 	private static final WeakHashMap<Method, SerializableMethod> CACHE = new WeakHashMap<Method, SerializableMethod>();
 
@@ -101,7 +103,7 @@ public final class SerializableMethod implements Serializable
 		}
 		catch (final NoSuchMethodException ex)
 		{
-			LOG.debug("Unexpected NoSuchMethodException occured.", ex);
+			LOG.debug("Unexpected NoSuchMethodException occurred.", ex);
 			throw new IOException(ex.getMessage());
 		}
 	}

@@ -19,7 +19,8 @@ import net.sf.oval.context.MethodEntryContext;
 import net.sf.oval.context.MethodParameterContext;
 import net.sf.oval.context.MethodReturnValueContext;
 import net.sf.oval.context.OValContext;
-import net.sf.oval.internal.Log;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Translates OVal specific exceptions to standard exceptions part of the JRE:
@@ -33,7 +34,7 @@ import net.sf.oval.internal.Log;
  */
 public class ExceptionTranslatorJDKExceptionsImpl implements ExceptionTranslator
 {
-	private static final Log LOG = Log.getLog(ExceptionTranslatorJDKExceptionsImpl.class);
+	private static final Logger LOG = LoggerFactory.getLogger(ExceptionTranslatorJDKExceptionsImpl.class);
 
 	/**
 	 * {@inheritDoc}
@@ -53,7 +54,7 @@ public class ExceptionTranslatorJDKExceptionsImpl implements ExceptionTranslator
 			{
 				final IllegalArgumentException iaex = new IllegalArgumentException(cv.getMessage(), ex.getCause());
 				iaex.setStackTrace(ex.getStackTrace());
-				LOG.debug("Translated Exception {1} to {2}", ex, iaex);
+				LOG.debug("Translated Exception {} to {}", ex, iaex);
 				return iaex;
 			}
 
@@ -62,7 +63,7 @@ public class ExceptionTranslatorJDKExceptionsImpl implements ExceptionTranslator
 			{
 				final IllegalStateException ise = new IllegalStateException(cv.getMessage(), ex.getCause());
 				ise.setStackTrace(ex.getStackTrace());
-				LOG.debug("Translated Exception {1} to {2}", ex, ise);
+				LOG.debug("Translated Exception {} to {}", ex, ise);
 				return ise;
 			}
 		}
@@ -71,7 +72,7 @@ public class ExceptionTranslatorJDKExceptionsImpl implements ExceptionTranslator
 		{
 			final RuntimeException rex = new RuntimeException(ex.getMessage(), ex.getCause());
 			rex.setStackTrace(ex.getStackTrace());
-			LOG.debug("Translated Exception {1} to {2}", ex, rex);
+			LOG.debug("Translated Exception {} to {}", ex, rex);
 			return rex;
 		}
 	}

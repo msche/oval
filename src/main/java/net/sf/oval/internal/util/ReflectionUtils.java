@@ -14,7 +14,6 @@ package net.sf.oval.internal.util;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Member;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -27,13 +26,14 @@ import net.sf.oval.exception.ConstraintsViolatedException;
 import net.sf.oval.exception.InvokingMethodFailedException;
 import net.sf.oval.exception.ReflectionException;
 import net.sf.oval.internal.ContextCache;
-import net.sf.oval.internal.Log;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Sebastian Thomschke
  */
 public final class ReflectionUtils {
-    private static final Log LOG = Log.getLog(ReflectionUtils.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ReflectionUtils.class);
 
     private static final ReflectPermission SUPPRESS_ACCESS_CHECKS_PERMISSION = new ReflectPermission("suppressAccessChecks");
 
@@ -128,7 +128,7 @@ public final class ReflectionUtils {
 
             // check if field and method parameter are of the same type
             if (!field.getType().equals(methodParameterTypes[0])) {
-                LOG.warn("Found field <{1}> in class <{2}>that matches setter <{3}> name, but mismatches parameter type.", fieldName,
+                LOG.warn("Found field <{}> in class <{}>that matches setter <{}> name, but mismatches parameter type.", fieldName,
                         clazz.getName(), methodName);
                 field = null;
             }
@@ -146,7 +146,7 @@ public final class ReflectionUtils {
 
                 // check if found field is of boolean or Boolean
                 if (!boolean.class.equals(field.getType()) && Boolean.class.equals(field.getType())) {
-                    LOG.warn("Found field <{1}> in class <{2}>that matches setter <{3}> name, but mismatches parameter type.", fieldName,
+                    LOG.warn("Found field <{}> in class <{}>that matches setter <{}> name, but mismatches parameter type.", fieldName,
                             clazz.getName(), methodName);
                     field = null;
                 }
@@ -189,8 +189,8 @@ public final class ReflectionUtils {
             return clazz.getDeclaredMethod("is" + appendix);
         } catch (final NoSuchMethodException ex) {
             LOG.trace("isXXX method not found.", ex);
-            return null;
         }
+        return null;
     }
 
     public static Method getGetterRecursive(final Class<?> clazz, final String propertyName) {
@@ -512,10 +512,10 @@ public final class ReflectionUtils {
         if (setter != null) try {
             setter.invoke(target, propertyValue);
         } catch (final IllegalArgumentException ex) {
-            LOG.debug("Setting {1} failed on {2} failed.", propertyName, target, ex);
+            LOG.debug("Setting {} failed on {} failed.", propertyName, target, ex);
             return false;
         } catch(final ReflectiveOperationException ex) {
-            LOG.debug("Setting {1} failed on {2} failed.", propertyName, target, ex);
+            LOG.debug("Setting {} failed on {} failed.", propertyName, target, ex);
             return false;
         }
         return true;

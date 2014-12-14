@@ -17,8 +17,9 @@ import java.lang.reflect.Method;
 
 import net.sf.oval.AbstractCheck;
 import net.sf.oval.ConstraintTarget;
-import net.sf.oval.internal.Log;
 import net.sf.oval.internal.util.ReflectionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Partial implementation of check classes configurable via annotations.
@@ -31,7 +32,7 @@ public abstract class AbstractAnnotationCheck<ConstraintAnnotation extends Annot
 {
 	private static final long serialVersionUID = 1L;
 
-	private static final Log LOG = Log.getLog(AbstractAnnotationCheck.class);
+	private static final Logger LOG = LoggerFactory.getLogger(AbstractAnnotationCheck.class);
 
 	/**
 	 * {@inheritDoc}
@@ -48,7 +49,7 @@ public abstract class AbstractAnnotationCheck<ConstraintAnnotation extends Annot
 		final Method getMessage = ReflectionUtils.getMethod(constraintClazz, "message", (Class< ? >[]) null);
 		if (getMessage == null)
 			LOG.debug(
-					"Cannot determine constraint error message based on annotation {1} since attribtue message() is not defined.",
+					"Cannot determine constraint error message based on annotation {} since attribtue message() is not defined.",
 					constraintClazz.getName());
 		else
 			try
@@ -57,7 +58,7 @@ public abstract class AbstractAnnotationCheck<ConstraintAnnotation extends Annot
 			}
 			catch (final Exception ex)
 			{
-				LOG.warn("Cannot determine constraint error message based on annotation {1}",
+				LOG.warn("Cannot determine constraint error message based on annotation {}",
 						constraintClazz.getName(), ex);
 
 				try
@@ -76,7 +77,7 @@ public abstract class AbstractAnnotationCheck<ConstraintAnnotation extends Annot
 		final Method getAppliesTo = ReflectionUtils.getMethod(constraintClazz, "appliesTo", (Class< ? >[]) null);
 		if (getAppliesTo == null)
 			LOG.debug(
-					"Cannot determine constraint targets based on annotation {1} since attribtue appliesTo() is not defined.",
+					"Cannot determine constraint targets based on annotation {} since attribtue appliesTo() is not defined.",
 					constraintClazz.getName());
 		else
 			try
@@ -94,7 +95,7 @@ public abstract class AbstractAnnotationCheck<ConstraintAnnotation extends Annot
 		final Method getErrorCode = ReflectionUtils.getMethod(constraintClazz, "errorCode", (Class< ? >[]) null);
 		if (getErrorCode == null)
 			LOG.debug(
-					"Cannot determine constraint error code based on annotation {1} since attribtue errorCode() is not defined.",
+					"Cannot determine constraint error code based on annotation {} since attribute errorCode() is not defined.",
 					constraintClazz.getName());
 		else
 			try
@@ -103,7 +104,7 @@ public abstract class AbstractAnnotationCheck<ConstraintAnnotation extends Annot
 			}
 			catch (final Exception ex)
 			{
-				LOG.warn("Cannot determine constraint error code based on annotation {1}", constraintClazz.getName(),
+				LOG.warn("Cannot determine constraint error code based on annotation {}", constraintClazz.getName(),
 						ex);
 				try
 				{
@@ -121,7 +122,7 @@ public abstract class AbstractAnnotationCheck<ConstraintAnnotation extends Annot
 		final Method getSeverity = ReflectionUtils.getMethod(constraintClazz, "severity", (Class< ? >[]) null);
 		if (getSeverity == null)
 			LOG.debug(
-					"Cannot determine constraint severity based on annotation {1} since attribtue severity() is not defined.",
+					"Cannot determine constraint severity based on annotation {} since attribtue severity() is not defined.",
 					constraintClazz.getName());
 		else
 			try
@@ -130,7 +131,7 @@ public abstract class AbstractAnnotationCheck<ConstraintAnnotation extends Annot
 			}
 			catch (final Exception ex)
 			{
-				LOG.warn("Cannot determine constraint severity based on annotation {1}", constraintClazz.getName(), ex);
+				LOG.warn("Cannot determine constraint severity based on annotation {}", constraintClazz.getName(), ex);
 			}
 
 		/*
@@ -139,7 +140,7 @@ public abstract class AbstractAnnotationCheck<ConstraintAnnotation extends Annot
 		final Method getProfiles = ReflectionUtils.getMethod(constraintClazz, "profiles", (Class< ? >[]) null);
 		if (getProfiles == null)
 			LOG.debug(
-					"Cannot determine constraint profiles based on annotation {1} since attribtue profiles() is not defined.",
+					"Cannot determine constraint profiles based on annotation {} since attribute profiles() is not defined.",
 					constraintClazz.getName());
 		else
 			try
@@ -148,7 +149,7 @@ public abstract class AbstractAnnotationCheck<ConstraintAnnotation extends Annot
 			}
 			catch (final Exception ex)
 			{
-				LOG.warn("Cannot determine constraint profiles based on annotation {1}", constraintClazz.getName(), ex);
+				LOG.warn("Cannot determine constraint profiles based on annotation {}", constraintClazz.getName(), ex);
 			}
 
 		/*
@@ -157,7 +158,7 @@ public abstract class AbstractAnnotationCheck<ConstraintAnnotation extends Annot
 		final Method getTarget = ReflectionUtils.getMethod(constraintClazz, "target", (Class< ? >[]) null);
 		if (getTarget == null)
 			LOG.debug(
-					"Cannot determine constraint target based on annotation {1} since attribtue target() is not defined.",
+					"Cannot determine constraint target based on annotation {} since attribute target() is not defined.",
 					constraintClazz.getName());
 		else
 			try
@@ -166,7 +167,7 @@ public abstract class AbstractAnnotationCheck<ConstraintAnnotation extends Annot
 			}
 			catch (final Exception ex)
 			{
-				LOG.warn("Cannot determine constraint target based on annotation {1}", constraintClazz.getName(), ex);
+				LOG.warn("Cannot determine constraint target based on annotation {}", constraintClazz.getName(), ex);
 			}
 
 		/*
@@ -175,7 +176,7 @@ public abstract class AbstractAnnotationCheck<ConstraintAnnotation extends Annot
 		final Method getWhen = ReflectionUtils.getMethod(constraintClazz, "when", (Class< ? >[]) null);
 		if (getWhen == null)
 			LOG.debug(
-					"Cannot determine constraint when formula based on annotation {1} since attribtue when() is not defined.",
+					"Cannot determine constraint when formula based on annotation {} since attribute when() is not defined.",
 					constraintClazz.getName());
 		else
 			try
@@ -184,7 +185,7 @@ public abstract class AbstractAnnotationCheck<ConstraintAnnotation extends Annot
 			}
 			catch (final Exception ex)
 			{
-				LOG.warn("Cannot determine constraint when formula based on annotation {1}", constraintClazz.getName(),
+				LOG.warn("Cannot determine constraint when formula based on annotation {}", constraintClazz.getName(),
 						ex);
 			}
 	}

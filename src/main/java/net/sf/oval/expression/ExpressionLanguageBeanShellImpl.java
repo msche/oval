@@ -16,23 +16,24 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import net.sf.oval.exception.ExpressionEvaluationException;
-import net.sf.oval.internal.Log;
 import bsh.EvalError;
 import bsh.Interpreter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Sebastian Thomschke
  */
 public class ExpressionLanguageBeanShellImpl implements ExpressionLanguage
 {
-	private static final Log LOG = Log.getLog(ExpressionLanguageBeanShellImpl.class);
+	private static final Logger LOG = LoggerFactory.getLogger(ExpressionLanguageBeanShellImpl.class);
 
 	/**
 	 * {@inheritDoc}
 	 */
 	public Object evaluate(final String expression, final Map<String, ? > values) throws ExpressionEvaluationException
 	{
-		LOG.debug("Evaluating BeanShell expression: {1}", expression);
+		LOG.debug("Evaluating BeanShell expression: {}", expression);
 		try
 		{
 			final Interpreter interpreter = new Interpreter();

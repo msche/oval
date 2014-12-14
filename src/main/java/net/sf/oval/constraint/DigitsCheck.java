@@ -23,14 +23,15 @@ import net.sf.oval.ConstraintTarget;
 import net.sf.oval.Validator;
 import net.sf.oval.configuration.annotation.AbstractAnnotationCheck;
 import net.sf.oval.context.OValContext;
-import net.sf.oval.internal.Log;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Sebastian Thomschke
  */
 public class DigitsCheck extends AbstractAnnotationCheck<Digits>
 {
-	private static final Log LOG = Log.getLog(DigitsCheck.class);
+	private static final Logger LOG = LoggerFactory.getLogger(DigitsCheck.class);
 
 	private static final long serialVersionUID = 1L;
 

@@ -17,7 +17,6 @@ public class DefaultInstancesTest extends TestCase
 		assertNotNull(ToStringValidationContextRenderer.INSTANCE);
 
 		assertNotNull(Validator.getContextRenderer());
-		assertNotNull(Validator.getLoggerFactory());
 		assertNotNull(Validator.getMessageResolver());
 		assertNotNull(Validator.getMessageValueFormatter());
 	}

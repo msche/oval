@@ -27,8 +27,9 @@ import javax.script.ScriptException;
 
 import net.sf.oval.Validator;
 import net.sf.oval.exception.ExpressionEvaluationException;
-import net.sf.oval.internal.Log;
 import net.sf.oval.internal.util.ObjectCache;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * JSR223 Support
@@ -37,7 +38,7 @@ import net.sf.oval.internal.util.ObjectCache;
  */
 public class ExpressionLanguageScriptEngineImpl implements ExpressionLanguage
 {
-	private static final Log LOG = Log.getLog(ExpressionLanguageScriptEngineImpl.class);
+	private static final Logger LOG = LoggerFactory.getLogger(ExpressionLanguageScriptEngineImpl.class);
 
 	private static final ScriptEngineManager FACTORY = new ScriptEngineManager();
 
@@ -46,7 +47,7 @@ public class ExpressionLanguageScriptEngineImpl implements ExpressionLanguage
 		final List<Object> languages = new ArrayList<>();
 		for (final ScriptEngineFactory ef : FACTORY.getEngineFactories())
 			languages.add(ef.getNames());
-		LOG.info("Available ScriptEngine language names: {1}", languages);
+		LOG.info("Available ScriptEngine language names: {}", languages);
 	}
 
 	public static ExpressionLanguageScriptEngineImpl get(final String languageId)
@@ -79,7 +80,7 @@ public class ExpressionLanguageScriptEngineImpl implements ExpressionLanguage
 	 */
 	public Object evaluate(final String expression, final Map<String, ? > values) throws ExpressionEvaluationException
 	{
-		LOG.debug("Evaluating JavaScript expression: {1}", expression);
+		LOG.debug("Evaluating JavaScript expression: {}", expression);
 		try
 		{
 			final Bindings scope = engine.createBindings();

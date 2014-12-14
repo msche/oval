@@ -25,14 +25,15 @@ import net.sf.oval.Validator;
 import net.sf.oval.configuration.annotation.AbstractAnnotationCheck;
 import net.sf.oval.context.OValContext;
 import net.sf.oval.exception.InvalidConfigurationException;
-import net.sf.oval.internal.Log;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Sebastian Thomschke
  */
 public class DateRangeCheck extends AbstractAnnotationCheck<DateRange>
 {
-	private static final Log LOG = Log.getLog(DateRangeCheck.class);
+	private static final Logger LOG = LoggerFactory.getLogger(DateRangeCheck.class);
 
 	private static final long serialVersionUID = 1L;
 
@@ -268,14 +269,14 @@ public class DateRangeCheck extends AbstractAnnotationCheck<DateRange>
 				}
 				catch (final ParseException ex)
 				{
-					LOG.debug("valueToValidate not parsable with specified format {1}", format, ex);
+					LOG.debug("valueToValidate not parsable with specified format {}", format, ex);
 				}
 
 				if (valueInMillis == -1) valueInMillis = DateFormat.getDateTimeInstance().parse(stringValue).getTime();
 			}
 			catch (final ParseException ex)
 			{
-				LOG.debug("valueToValidate is unparsable.", ex);
+				LOG.debug("valueToValidate is not parsable.", ex);
 				return false;
 			}
 		}

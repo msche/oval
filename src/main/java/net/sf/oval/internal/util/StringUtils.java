@@ -43,18 +43,19 @@ public final class StringUtils
 	 */
 	public static String replaceAll(final String searchIn, final String searchFor, final String replaceWith)
 	{
-		final StringBuilder out = new StringBuilder();
-
-		int searchFrom = 0, foundAt = 0;
-		final int searchForLength = searchFor.length();
-
-		while ((foundAt = searchIn.indexOf(searchFor, searchFrom)) >= 0)
-		{
-			out.append(searchIn.substring(searchFrom, foundAt)).append(replaceWith);
-			searchFrom = foundAt + searchForLength;
-		}
-
-		return out.append(searchIn.substring(searchFrom, searchIn.length())).toString();
+        return searchIn.replace(searchFor, replaceWith);
+//		final StringBuilder out = new StringBuilder();
+//
+//		int searchFrom = 0, foundAt = 0;
+//		final int searchForLength = searchFor.length();
+//
+//		while ((foundAt = searchIn.indexOf(searchFor, searchFrom)) >= 0)
+//		{
+//			out.append(searchIn.substring(searchFrom, foundAt)).append(replaceWith);
+//			searchFrom = foundAt + searchForLength;
+//		}
+//
+//		return out.append(searchIn.substring(searchFrom, searchIn.length())).toString();
 	}
 
 	/**

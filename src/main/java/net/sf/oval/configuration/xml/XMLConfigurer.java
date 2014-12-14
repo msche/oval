@@ -95,7 +95,6 @@ import net.sf.oval.constraint.exclusion.NullableExclusion;
 import net.sf.oval.exception.InvalidConfigurationException;
 import net.sf.oval.guard.PostCheck;
 import net.sf.oval.guard.PreCheck;
-import net.sf.oval.internal.Log;
 import net.sf.oval.internal.util.Assert;
 import net.sf.oval.internal.util.ReflectionUtils;
 
@@ -113,6 +112,8 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
 import com.thoughtworks.xstream.io.xml.StaxDriver;
 import com.thoughtworks.xstream.io.xml.XppDriver;
 import com.thoughtworks.xstream.mapper.Mapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * XStream (http://xstream.codehaus.org/) based XML configuration class.
@@ -282,7 +283,7 @@ public class XMLConfigurer implements Configurer
 		}
 	}
 
-	private static final Log LOG = Log.getLog(Validator.class);
+	private static final Logger LOG = LoggerFactory.getLogger(Validator.class);
 
 	protected final Set<CheckInitializationListener> listeners = new LinkedHashSet<CheckInitializationListener>(2);
 	private POJOConfigurer pojoConfigurer = new POJOConfigurer();
@@ -300,7 +301,7 @@ public class XMLConfigurer implements Configurer
 		ReflectionUtils.isClassPresent("javax.xml.stream.XMLStreamReader") ? new StaxDriver() : //
 				ReflectionUtils.isClassPresent("org.xmlpull.mxp1.MXParser") ? new XppDriver() : //
 						new DomDriver();
-		LOG.info("XML driver implementation: {1}", xmlDriver.getClass().getName());
+		LOG.info("XML driver implementation: {}", xmlDriver.getClass().getName());
 		xStream = new XStream(new XStreamReflectionProvider(), xmlDriver);
 		configureXStream();
 	}

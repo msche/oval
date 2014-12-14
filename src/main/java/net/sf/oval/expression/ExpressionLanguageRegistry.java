@@ -17,16 +17,17 @@ import java.util.Map;
 
 import net.sf.oval.Validator;
 import net.sf.oval.exception.ExpressionLanguageNotAvailableException;
-import net.sf.oval.internal.Log;
 import net.sf.oval.internal.util.Assert;
 import net.sf.oval.internal.util.ReflectionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Sebastian Thomschke
  */
 public class ExpressionLanguageRegistry
 {
-	private static final Log LOG = Log.getLog(ExpressionLanguageRegistry.class);
+	private static final Logger LOG = LoggerFactory.getLogger(ExpressionLanguageRegistry.class);
 
 	private final Map<String, ExpressionLanguage> elcache = new LinkedHashMap<>(4);
 
@@ -104,7 +105,7 @@ public class ExpressionLanguageRegistry
 		Assert.argumentNotNull("languageId", languageId);
 		Assert.argumentNotNull("impl", impl);
 
-		LOG.info("Expression language '{1}' registered: {2}", languageId, impl);
+		LOG.info("Expression language '{}' registered: {}", languageId, impl);
 		elcache.put(languageId, impl);
 		return impl;
 	}

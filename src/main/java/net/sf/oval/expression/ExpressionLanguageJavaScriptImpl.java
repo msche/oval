@@ -16,7 +16,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import net.sf.oval.exception.ExpressionEvaluationException;
-import net.sf.oval.internal.Log;
 import net.sf.oval.internal.util.ObjectCache;
 
 import org.mozilla.javascript.Context;
@@ -24,6 +23,8 @@ import org.mozilla.javascript.ContextFactory;
 import org.mozilla.javascript.EvaluatorException;
 import org.mozilla.javascript.Script;
 import org.mozilla.javascript.Scriptable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Sebastian Thomschke
@@ -31,7 +32,7 @@ import org.mozilla.javascript.Scriptable;
  */
 public class ExpressionLanguageJavaScriptImpl implements ExpressionLanguage
 {
-	private static final Log LOG = Log.getLog(ExpressionLanguageJavaScriptImpl.class);
+	private static final Logger LOG = LoggerFactory.getLogger(ExpressionLanguageJavaScriptImpl.class);
 
 	private final Scriptable parentScope;
 
@@ -58,7 +59,7 @@ public class ExpressionLanguageJavaScriptImpl implements ExpressionLanguage
 	 */
 	public Object evaluate(final String expression, final Map<String, ? > values) throws ExpressionEvaluationException
 	{
-		LOG.debug("Evaluating JavaScript expression: {1}", expression);
+		LOG.debug("Evaluating JavaScript expression: {}", expression);
 		try
 		{
 			final Context ctx = ContextFactory.getGlobal().enterContext();

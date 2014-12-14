@@ -33,6 +33,8 @@ import net.sf.oval.guard.PostCheck;
 import net.sf.oval.guard.PreCheck;
 import net.sf.oval.internal.util.ArrayUtils;
 import net.sf.oval.internal.util.ReflectionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This class holds the instantiated checks for a single class.
@@ -48,7 +50,7 @@ public final class ClassChecks
 	" Class does not implement IsGuarded interface. This indicates, " + //
 			"that constraints guarding may not activated for this class.";
 
-	private static final Log LOG = Log.getLog(ClassChecks.class);
+	private static final Logger LOG = LoggerFactory.getLogger(ClassChecks.class);
 
 	/**
 	 * checks on constructors' parameter values
@@ -120,7 +122,7 @@ public final class ClassChecks
 	 */
 	public ClassChecks(final Class< ? > clazz, final ParameterNameResolver parameterNameResolver)
 	{
-		LOG.debug("Initializing constraints configuration for class {1}", clazz);
+		LOG.debug("Initializing constraints configuration for class {}", clazz);
 
 		this.clazz = clazz;
 		this.parameterNameResolver = parameterNameResolver;
@@ -145,8 +147,8 @@ public final class ClassChecks
 	private void _addConstructorParameterChecks(final Constructor< ? > constructor, final int parameterIndex, final Object checks)
 			throws InvalidConfigurationException
 	{
-		if (LOG.isDebug() && !IsGuarded.class.isAssignableFrom(clazz))
-			LOG.warn("Constructor parameter constraints may not be validated." + GUARDING_MAY_NOT_BE_ACTIVATED_MESSAGE);
+		if (!IsGuarded.class.isAssignableFrom(clazz))
+			LOG.warn("Constructor parameter constraints may not be validated. {}", GUARDING_MAY_NOT_BE_ACTIVATED_MESSAGE);
 
 		final ParameterChecks checksOfConstructorParameter = _getChecksOfConstructorParameter(constructor, parameterIndex);
 
@@ -214,8 +216,8 @@ public final class ClassChecks
 	private void _addMethodParameterChecks(final Method method, final int parameterIndex, final Object checks)
 			throws InvalidConfigurationException
 	{
-		if (LOG.isDebug() && !IsGuarded.class.isAssignableFrom(clazz))
-			LOG.warn("Method parameter constraints may not be validated." + GUARDING_MAY_NOT_BE_ACTIVATED_MESSAGE);
+		if (!IsGuarded.class.isAssignableFrom(clazz))
+			LOG.warn("Method parameter constraints may not be validated. {}", GUARDING_MAY_NOT_BE_ACTIVATED_MESSAGE);
 
 		final ParameterChecks checksOfMethodParameter = _getChecksOfMethodParameter(method, parameterIndex);
 
@@ -236,8 +238,8 @@ public final class ClassChecks
 	@SuppressWarnings("unchecked")
 	private void _addMethodPostChecks(final Method method, final Object checks) throws InvalidConfigurationException
 	{
-		if (LOG.isDebug() && !IsGuarded.class.isAssignableFrom(clazz))
-			LOG.warn("Method post-conditions may not be validated." + GUARDING_MAY_NOT_BE_ACTIVATED_MESSAGE);
+		if (!IsGuarded.class.isAssignableFrom(clazz))
+			LOG.warn("Method post-conditions may not be validated. {}", GUARDING_MAY_NOT_BE_ACTIVATED_MESSAGE);
 
 		synchronized (checksForMethodsPostExcecution)
 		{
@@ -266,8 +268,8 @@ public final class ClassChecks
 	@SuppressWarnings("unchecked")
 	private void _addMethodPreChecks(final Method method, final Object checks) throws InvalidConfigurationException
 	{
-		if (LOG.isDebug() && !IsGuarded.class.isAssignableFrom(clazz))
-			LOG.warn("Method pre-conditions may not be validated." + GUARDING_MAY_NOT_BE_ACTIVATED_MESSAGE);
+		if (!IsGuarded.class.isAssignableFrom(clazz))
+			LOG.warn("Method pre-conditions may not be validated. {}", GUARDING_MAY_NOT_BE_ACTIVATED_MESSAGE);
 
 		synchronized (checksForMethodsPreExecution)
 		{
@@ -307,13 +309,13 @@ public final class ClassChecks
 
 		final boolean hasParameters = method.getParameterTypes().length > 0;
 
-		if (LOG.isDebug() && hasParameters && !IsGuarded.class.isAssignableFrom(clazz))
-			LOG.warn("Method return value constraints may not be validated." + GUARDING_MAY_NOT_BE_ACTIVATED_MESSAGE);
+		if (hasParameters && !IsGuarded.class.isAssignableFrom(clazz))
+			LOG.warn("Method return value constraints may not be validated. {}", GUARDING_MAY_NOT_BE_ACTIVATED_MESSAGE);
 
 		final boolean isInvariant2 = isInvariant == null ? constrainedMethods.contains(method) : isInvariant;
 
-		if (LOG.isDebug() && !isInvariant2 && !IsGuarded.class.isAssignableFrom(clazz))
-			LOG.warn("Method return value constraints may not be validated." + GUARDING_MAY_NOT_BE_ACTIVATED_MESSAGE);
+		if (!isInvariant2 && !IsGuarded.class.isAssignableFrom(clazz))
+			LOG.warn("Method return value constraints may not be validated. {}", GUARDING_MAY_NOT_BE_ACTIVATED_MESSAGE);
 
 		synchronized (checksForMethodReturnValues)
 		{
@@ -647,7 +649,7 @@ public final class ClassChecks
 
 	public synchronized void clear()
 	{
-		LOG.debug("Clearing all checks for class {1}", clazz);
+		LOG.debug("Clearing all checks for class {}", clazz);
 
 		checksForObject.clear();
 		checksForMethodsPostExcecution.clear();

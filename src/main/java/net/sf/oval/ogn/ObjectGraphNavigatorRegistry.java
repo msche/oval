@@ -17,9 +17,10 @@ import java.util.Map;
 
 import net.sf.oval.Validator;
 import net.sf.oval.exception.ObjectGraphNavigatorNotAvailableException;
-import net.sf.oval.internal.Log;
 import net.sf.oval.internal.util.Assert;
 import net.sf.oval.internal.util.ReflectionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Sebastian Thomschke
@@ -27,7 +28,7 @@ import net.sf.oval.internal.util.ReflectionUtils;
  */
 public class ObjectGraphNavigatorRegistry
 {
-	private static final Log LOG = Log.getLog(ObjectGraphNavigatorRegistry.class);
+	private static final Logger LOG = LoggerFactory.getLogger(ObjectGraphNavigatorRegistry.class);
 
 	private final Map<String, ObjectGraphNavigator> cache = new LinkedHashMap<>(2);
 
@@ -60,7 +61,7 @@ public class ObjectGraphNavigatorRegistry
 		Assert.argumentNotNull("id", id);
 		Assert.argumentNotNull("ogn", ogn);
 
-		LOG.info("Object Graph Navigator '{1}' registered: {2}", id, ogn);
+		LOG.info("Object Graph Navigator '{}' registered: {}", id, ogn);
 
 		cache.put(id, ogn);
 		return ogn;

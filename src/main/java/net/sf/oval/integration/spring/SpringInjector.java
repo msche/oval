@@ -12,8 +12,8 @@
  *******************************************************************************/
 package net.sf.oval.integration.spring;
 
-import net.sf.oval.internal.Log;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor;
 import org.springframework.stereotype.Component;
@@ -38,7 +38,7 @@ import org.springframework.util.Assert;
 @Component
 public class SpringInjector
 {
-	private static final Log LOG = Log.getLog(SpringInjector.class);
+	private static final Logger LOG = LoggerFactory.getLogger(SpringInjector.class);
 
 	private static SpringInjector INSTANCE;
 

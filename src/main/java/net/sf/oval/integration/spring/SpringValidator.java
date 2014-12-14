@@ -17,8 +17,9 @@ import net.sf.oval.Validator;
 import net.sf.oval.context.FieldContext;
 import net.sf.oval.context.OValContext;
 import net.sf.oval.exception.ValidationFailedException;
-import net.sf.oval.internal.Log;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.Assert;
 import org.springframework.validation.Errors;
@@ -28,7 +29,7 @@ import org.springframework.validation.Errors;
  */
 public class SpringValidator implements org.springframework.validation.Validator, InitializingBean
 {
-	private static final Log LOG = Log.getLog(SpringValidator.class);
+	private static final Logger LOG = LoggerFactory.getLogger(SpringValidator.class);
 
 	private Validator validator;
 

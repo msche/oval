@@ -15,19 +15,20 @@ package net.sf.oval.expression;
 import java.util.Map;
 
 import net.sf.oval.exception.ExpressionEvaluationException;
-import net.sf.oval.internal.Log;
 import net.sf.oval.internal.util.ObjectCache;
 
 import org.apache.commons.jexl2.Expression;
 import org.apache.commons.jexl2.JexlEngine;
 import org.apache.commons.jexl2.MapContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Sebastian Thomschke
  */
 public class ExpressionLanguageJEXLImpl implements ExpressionLanguage
 {
-	private static final Log LOG = Log.getLog(ExpressionLanguageJEXLImpl.class);
+	private static final Logger LOG = LoggerFactory.getLogger(ExpressionLanguageJEXLImpl.class);
 
 	private static final JexlEngine jexl = new JexlEngine();
 
@@ -39,7 +40,7 @@ public class ExpressionLanguageJEXLImpl implements ExpressionLanguage
 	@SuppressWarnings("unchecked")
 	public Object evaluate(final String expression, final Map<String, ? > values) throws ExpressionEvaluationException
 	{
-		LOG.debug("Evaluating JEXL expression: {1}", expression);
+		LOG.debug("Evaluating JEXL expression: {}", expression);
 		try
 		{
 			Expression expr = expressionCache.get(expression);

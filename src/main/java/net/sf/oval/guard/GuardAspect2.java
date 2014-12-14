@@ -15,7 +15,6 @@ package net.sf.oval.guard;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 
-import net.sf.oval.internal.Log;
 import net.sf.oval.internal.util.Invocable;
 
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -25,6 +24,8 @@ import org.aspectj.lang.annotation.DeclareParents;
 import org.aspectj.lang.annotation.SuppressAjWarnings;
 import org.aspectj.lang.reflect.ConstructorSignature;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This is an annotations based version of the GuardAspect aspect.
@@ -58,7 +59,7 @@ public abstract class GuardAspect2 extends ApiUsageAuditor2
 		}
 	}
 
-	private static final Log LOG = Log.getLog(GuardAspect2.class);
+	private static final Logger LOG = LoggerFactory.getLogger(GuardAspect2.class);
 
 	// add the IsGuarded marker interface to all classes annotated with @Guarded
 	@DeclareParents("(@net.sf.oval.guard.Guarded *)")
@@ -91,7 +92,7 @@ public abstract class GuardAspect2 extends ApiUsageAuditor2
 	{
 		final ConstructorSignature signature = (ConstructorSignature) thisJoinPoint.getSignature();
 
-		LOG.debug("aroundConstructor() {1}", signature);
+		LOG.debug("aroundConstructor() {}", signature);
 
 		final Constructor< ? > ctor = signature.getConstructor();
 		final Object[] args = thisJoinPoint.getArgs();
@@ -118,7 +119,7 @@ public abstract class GuardAspect2 extends ApiUsageAuditor2
 	{
 		final MethodSignature signature = (MethodSignature) thisJoinPoint.getSignature();
 
-		LOG.debug("aroundMethod() {1}", signature);
+		LOG.debug("aroundMethod() {}", signature);
 
 		final Method method = signature.getMethod();
 		final Object[] args = thisJoinPoint.getArgs();

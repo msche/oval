@@ -43,7 +43,6 @@ import net.sf.oval.exception.ValidationFailedException;
 import net.sf.oval.expression.ExpressionLanguage;
 import net.sf.oval.internal.ClassChecks;
 import net.sf.oval.internal.ContextCache;
-import net.sf.oval.internal.Log;
 import net.sf.oval.internal.ParameterChecks;
 import net.sf.oval.internal.util.ArrayUtils;
 import net.sf.oval.internal.util.Assert;
@@ -52,6 +51,8 @@ import net.sf.oval.internal.util.Invocable;
 import net.sf.oval.internal.util.ReflectionUtils;
 import net.sf.oval.internal.util.ThreadLocalList;
 import net.sf.oval.internal.util.ThreadLocalWeakHashMap;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Extended version of the validator to realize programming by contract.
@@ -91,7 +92,7 @@ public class Guard extends Validator
 	 */
 	protected static final GuardMethodPreResult DO_NOT_PROCEED = new GuardMethodPreResult(null, null, null, null, false, null, null);
 
-	private static final Log LOG = Log.getLog(Guard.class);
+	private static final Logger LOG = LoggerFactory.getLogger(Guard.class);
 
 	/**
 	 * string based on validated object hashcode + method hashcode for currently validated method return values
@@ -464,7 +465,7 @@ public class Guard extends Validator
 		Assert.argumentNotNull("guardedObject", guardedObject);
 
 		if (guardedObject instanceof Class< ? >)
-			LOG.warn("Enabling probe mode for a class looks like a programming error. Class: {1}", guardedObject);
+			LOG.warn("Enabling probe mode for a class looks like a programming error. Class: {}", guardedObject);
 		isProbeModeFeatureUsed = true;
 
 		if (objectsInProbeMode.get().get(guardedObject) != null) throw new IllegalStateException("The object is already in probe mode.");
@@ -997,7 +998,7 @@ public class Guard extends Validator
 			}
 			catch (final RuntimeException rex)
 			{
-				LOG.warn("Notifying listener '{1}' failed.", listener, rex);
+				LOG.warn("Notifying listener '{}' failed.", listener, rex);
 			}
 
 	}

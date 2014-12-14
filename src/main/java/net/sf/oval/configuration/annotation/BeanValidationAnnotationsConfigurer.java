@@ -61,8 +61,9 @@ import net.sf.oval.constraint.NotNullCheck;
 import net.sf.oval.constraint.PastCheck;
 import net.sf.oval.constraint.SizeCheck;
 import net.sf.oval.guard.Guarded;
-import net.sf.oval.internal.Log;
 import net.sf.oval.internal.util.ReflectionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Constraints configurer that interprets the JSR303 built-in Java Bean Validation annotations:
@@ -86,7 +87,7 @@ import net.sf.oval.internal.util.ReflectionUtils;
  */
 public class BeanValidationAnnotationsConfigurer implements Configurer
 {
-	private static final Log LOG = Log.getLog(BeanValidationAnnotationsConfigurer.class);
+	private static final Logger LOG = LoggerFactory.getLogger(BeanValidationAnnotationsConfigurer.class);
 
 	private List<ParameterConfiguration> _createParameterConfiguration(final Annotation[][] paramAnnotations,
 			final Class< ? >[] parameterTypes)
@@ -387,7 +388,7 @@ public class BeanValidationAnnotationsConfigurer implements Configurer
 				initializeChecks(anno, checks);
 		else
 		{
-			LOG.warn("Ignoring unsupported bean validation constraint annotation {1}", annotation);
+			LOG.warn("Ignoring unsupported bean validation constraint annotation {}", annotation);
 			return;
 		}
 	}

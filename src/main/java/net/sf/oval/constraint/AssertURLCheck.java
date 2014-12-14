@@ -27,8 +27,9 @@ import net.sf.oval.ConstraintTarget;
 import net.sf.oval.Validator;
 import net.sf.oval.configuration.annotation.AbstractAnnotationCheck;
 import net.sf.oval.context.OValContext;
-import net.sf.oval.internal.Log;
 import net.sf.oval.internal.util.ArrayUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Sebastian Thomschke
@@ -71,7 +72,7 @@ public class AssertURLCheck extends AbstractAnnotationCheck<AssertURL>
 
 	private static final long serialVersionUID = 1L;
 
-	private static final Log LOG = Log.getLog(AssertURLCheck.class);
+	private static final Logger LOG = LoggerFactory.getLogger(AssertURLCheck.class);
 
 	private static boolean canConnect(final String url)
 	{
@@ -87,7 +88,7 @@ public class AssertURLCheck extends AbstractAnnotationCheck<AssertURL>
 				final int rc = httpConnection.getResponseCode();
 
 				if (rc < HttpURLConnection.HTTP_BAD_REQUEST) return true;
-				LOG.debug("Connecting failed with HTTP response code " + rc);
+				LOG.debug("Connecting failed with HTTP response code {}",rc);
 				return false;
 			}
 			return true;

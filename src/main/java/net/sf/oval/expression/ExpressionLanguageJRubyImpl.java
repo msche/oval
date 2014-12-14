@@ -17,13 +17,14 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import net.sf.oval.exception.ExpressionEvaluationException;
-import net.sf.oval.internal.Log;
 
 import org.jruby.CompatVersion;
 import org.jruby.Ruby;
 import org.jruby.RubyInstanceConfig;
 import org.jruby.javasupport.JavaEmbedUtils;
 import org.jruby.runtime.builtin.IRubyObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Sebastian Thomschke
@@ -31,14 +32,14 @@ import org.jruby.runtime.builtin.IRubyObject;
  */
 public class ExpressionLanguageJRubyImpl implements ExpressionLanguage
 {
-	private static final Log LOG = Log.getLog(ExpressionLanguageJRubyImpl.class);
+	private static final Logger LOG = LoggerFactory.getLogger(ExpressionLanguageJRubyImpl.class);
 
 	/**
 	 * {@inheritDoc}
 	 */
 	public Object evaluate(final String expression, final Map<String, ? > values) throws ExpressionEvaluationException
 	{
-		LOG.debug("Evaluating JRuby expression: {1}", expression);
+		LOG.debug("Evaluating JRuby expression: {}", expression);
 		try
 		{
 			final RubyInstanceConfig config = new RubyInstanceConfig();

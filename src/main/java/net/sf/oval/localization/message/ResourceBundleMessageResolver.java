@@ -23,8 +23,9 @@ import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import net.sf.oval.Validator;
-import net.sf.oval.internal.Log;
 import net.sf.oval.internal.util.Assert;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Default implementation that resolves messages based
@@ -34,7 +35,7 @@ import net.sf.oval.internal.util.Assert;
  */
 public class ResourceBundleMessageResolver implements MessageResolver
 {
-	private static final Log LOG = Log.getLog(ResourceBundleMessageResolver.class);
+	private static final Logger LOG = LoggerFactory.getLogger(ResourceBundleMessageResolver.class);
 
 	public static final ResourceBundleMessageResolver INSTANCE = new ResourceBundleMessageResolver();
 
@@ -106,7 +107,7 @@ public class ResourceBundleMessageResolver implements MessageResolver
 			}
 			catch (final MissingResourceException ex)
 			{
-				LOG.debug("No message bundle net.sf.oval.Messages for locale %s found.", ex, locale);
+				LOG.debug("No message bundle net.sf.oval.Messages for locale " + locale + " found.", ex);
 			}
 		}
 		return mbs;
