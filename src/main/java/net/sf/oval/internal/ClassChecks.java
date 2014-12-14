@@ -33,6 +33,7 @@ import net.sf.oval.guard.PostCheck;
 import net.sf.oval.guard.PreCheck;
 import net.sf.oval.internal.util.ArrayUtils;
 import net.sf.oval.internal.util.ReflectionUtils;
+import org.jruby.util.ArraysUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -128,230 +129,7 @@ public final class ClassChecks
 		this.parameterNameResolver = parameterNameResolver;
 	}
 
-	private void _addConstructorParameterCheckExclusions(final Constructor< ? > constructor, final int parameterIndex,
-			final Object exclusions) throws InvalidConfigurationException
-	{
-		final ParameterChecks checksOfConstructorParameter = _getChecksOfConstructorParameter(constructor, parameterIndex);
 
-		if (exclusions instanceof Collection< ? >)
-		{
-			@SuppressWarnings("unchecked")
-			final Collection<CheckExclusion> exclusionsColl = (Collection<CheckExclusion>) exclusions;
-			checksOfConstructorParameter.checkExclusions.addAll(exclusionsColl);
-		}
-		else
-			ArrayUtils.addAll(checksOfConstructorParameter.checkExclusions, (CheckExclusion[]) exclusions);
-	}
-
-	@SuppressWarnings("unchecked")
-	private void _addConstructorParameterChecks(final Constructor< ? > constructor, final int parameterIndex, final Object checks)
-			throws InvalidConfigurationException
-	{
-		if (!IsGuarded.class.isAssignableFrom(clazz))
-			LOG.warn("Constructor parameter constraints may not be validated. {}", GUARDING_MAY_NOT_BE_ACTIVATED_MESSAGE);
-
-		final ParameterChecks checksOfConstructorParameter = _getChecksOfConstructorParameter(constructor, parameterIndex);
-
-		if (checks instanceof Collection)
-			for (final Check check : (Collection<Check>) checks)
-			{
-				checksOfConstructorParameter.checks.add(check);
-				if (check.getContext() == null) check.setContext(checksOfConstructorParameter.context);
-			}
-		else
-			for (final Check check : (Check[]) checks)
-			{
-				checksOfConstructorParameter.checks.add(check);
-				if (check.getContext() == null) check.setContext(checksOfConstructorParameter.context);
-			}
-	}
-
-	@SuppressWarnings("unchecked")
-	private void _addFieldChecks(final Field field, final Object checks)
-	{
-		synchronized (checksForFields)
-		{
-			Set<Check> checksOfField = checksForFields.get(field);
-			if (checksOfField == null)
-			{
-				checksOfField = new LinkedHashSet<Check>(2);
-				checksForFields.put(field, checksOfField);
-				if (ReflectionUtils.isStatic(field))
-					constrainedStaticFields.add(field);
-				else
-					constrainedFields.add(field);
-			}
-
-			if (checks instanceof Collection)
-				for (final Check check : (Collection<Check>) checks)
-				{
-					checksOfField.add(check);
-					if (check.getContext() == null) check.setContext(ContextCache.getFieldContext(field));
-				}
-			else
-				for (final Check check : (Check[]) checks)
-				{
-					checksOfField.add(check);
-					if (check.getContext() == null) check.setContext(ContextCache.getFieldContext(field));
-				}
-		}
-	}
-
-	private void _addMethodParameterCheckExclusions(final Method method, final int parameterIndex, final Object exclusions)
-			throws InvalidConfigurationException
-	{
-		final ParameterChecks checksOfMethodParameter = _getChecksOfMethodParameter(method, parameterIndex);
-
-		if (exclusions instanceof Collection< ? >)
-		{
-			@SuppressWarnings("unchecked")
-			final Collection<CheckExclusion> exclusionsColl = (Collection<CheckExclusion>) exclusions;
-			checksOfMethodParameter.checkExclusions.addAll(exclusionsColl);
-		}
-		else
-			ArrayUtils.addAll(checksOfMethodParameter.checkExclusions, (CheckExclusion[]) exclusions);
-	}
-
-	@SuppressWarnings("unchecked")
-	private void _addMethodParameterChecks(final Method method, final int parameterIndex, final Object checks)
-			throws InvalidConfigurationException
-	{
-		if (!IsGuarded.class.isAssignableFrom(clazz))
-			LOG.warn("Method parameter constraints may not be validated. {}", GUARDING_MAY_NOT_BE_ACTIVATED_MESSAGE);
-
-		final ParameterChecks checksOfMethodParameter = _getChecksOfMethodParameter(method, parameterIndex);
-
-		if (checks instanceof Collection)
-			for (final Check check : (Collection<Check>) checks)
-			{
-				if (check.getContext() == null) check.setContext(checksOfMethodParameter.context);
-				checksOfMethodParameter.checks.add(check);
-			}
-		else
-			for (final Check check : (Check[]) checks)
-			{
-				if (check.getContext() == null) check.setContext(checksOfMethodParameter.context);
-				checksOfMethodParameter.checks.add(check);
-			}
-	}
-
-	@SuppressWarnings("unchecked")
-	private void _addMethodPostChecks(final Method method, final Object checks) throws InvalidConfigurationException
-	{
-		if (!IsGuarded.class.isAssignableFrom(clazz))
-			LOG.warn("Method post-conditions may not be validated. {}", GUARDING_MAY_NOT_BE_ACTIVATED_MESSAGE);
-
-		synchronized (checksForMethodsPostExcecution)
-		{
-			Set<PostCheck> postChecks = checksForMethodsPostExcecution.get(method);
-			if (postChecks == null)
-			{
-				postChecks = new LinkedHashSet<PostCheck>(2);
-				checksForMethodsPostExcecution.put(method, postChecks);
-			}
-
-			if (checks instanceof Collection)
-				for (final PostCheck check : (Collection<PostCheck>) checks)
-				{
-					postChecks.add(check);
-					if (check.getContext() == null) check.setContext(ContextCache.getMethodExitContext(method));
-				}
-			else
-				for (final PostCheck check : (PostCheck[]) checks)
-				{
-					postChecks.add(check);
-					if (check.getContext() == null) check.setContext(ContextCache.getMethodExitContext(method));
-				}
-		}
-	}
-
-	@SuppressWarnings("unchecked")
-	private void _addMethodPreChecks(final Method method, final Object checks) throws InvalidConfigurationException
-	{
-		if (!IsGuarded.class.isAssignableFrom(clazz))
-			LOG.warn("Method pre-conditions may not be validated. {}", GUARDING_MAY_NOT_BE_ACTIVATED_MESSAGE);
-
-		synchronized (checksForMethodsPreExecution)
-		{
-			Set<PreCheck> preChecks = checksForMethodsPreExecution.get(method);
-			if (preChecks == null)
-			{
-				preChecks = new LinkedHashSet<PreCheck>(2);
-				checksForMethodsPreExecution.put(method, preChecks);
-			}
-
-			if (checks instanceof Collection)
-				for (final PreCheck check : (Collection<PreCheck>) checks)
-				{
-					preChecks.add(check);
-					if (check.getContext() == null) check.setContext(ContextCache.getMethodEntryContext(method));
-				}
-			else
-				for (final PreCheck check : (PreCheck[]) checks)
-				{
-					preChecks.add(check);
-					if (check.getContext() == null) check.setContext(ContextCache.getMethodEntryContext(method));
-				}
-		}
-	}
-
-	@SuppressWarnings("unchecked")
-	private void _addMethodReturnValueChecks(final Method method, final Boolean isInvariant, final Object checks)
-			throws InvalidConfigurationException
-	{
-		// ensure the method has a return type
-		if (method.getReturnType() == Void.TYPE)
-			throw new InvalidConfigurationException("Adding return value constraints for method " + method
-					+ " is not possible. The method is declared as void and does not return any values.");
-
-		if (ReflectionUtils.isVoidMethod(method))
-			throw new InvalidConfigurationException("Cannot apply method return value constraints for void method " + method);
-
-		final boolean hasParameters = method.getParameterTypes().length > 0;
-
-		if (hasParameters && !IsGuarded.class.isAssignableFrom(clazz))
-			LOG.warn("Method return value constraints may not be validated. {}", GUARDING_MAY_NOT_BE_ACTIVATED_MESSAGE);
-
-		final boolean isInvariant2 = isInvariant == null ? constrainedMethods.contains(method) : isInvariant;
-
-		if (!isInvariant2 && !IsGuarded.class.isAssignableFrom(clazz))
-			LOG.warn("Method return value constraints may not be validated. {}", GUARDING_MAY_NOT_BE_ACTIVATED_MESSAGE);
-
-		synchronized (checksForMethodReturnValues)
-		{
-			if (!hasParameters && isInvariant2)
-			{
-				if (ReflectionUtils.isStatic(method))
-					constrainedStaticMethods.add(method);
-				else
-					constrainedMethods.add(method);
-			}
-			else if (ReflectionUtils.isStatic(method))
-				constrainedStaticMethods.remove(method);
-			else
-				constrainedMethods.remove(method);
-
-			Set<Check> methodChecks = checksForMethodReturnValues.get(method);
-			if (methodChecks == null)
-			{
-				methodChecks = new LinkedHashSet<Check>(2);
-				checksForMethodReturnValues.put(method, methodChecks);
-			}
-
-			if (checks instanceof Collection)
-				for (final Check check : (Collection<Check>) checks)
-				{
-					methodChecks.add(check);
-					if (check.getContext() == null) check.setContext(ContextCache.getMethodReturnValueContext(method));
-				}
-			else
-				for (final Check check : (Check[]) checks)
-				{
-					methodChecks.add(check);
-					if (check.getContext() == null) check.setContext(ContextCache.getMethodReturnValueContext(method));
-				}
-		}
-	}
 
 	private ParameterChecks _getChecksOfConstructorParameter(final Constructor< ? > ctor, final int paramIndex)
 	{
@@ -424,7 +202,7 @@ public final class ClassChecks
 	public void addConstructorParameterCheckExclusions(final Constructor< ? > constructor, final int parameterIndex,
 			final CheckExclusion... exclusions) throws InvalidConfigurationException
 	{
-		_addConstructorParameterCheckExclusions(constructor, parameterIndex, exclusions);
+        addConstructorParameterCheckExclusions(constructor, parameterIndex, ArrayUtils.asList(exclusions));
 	}
 
 	/**
@@ -438,7 +216,8 @@ public final class ClassChecks
 	public void addConstructorParameterCheckExclusions(final Constructor< ? > constructor, final int parameterIndex,
 			final Collection<CheckExclusion> exclusions) throws InvalidConfigurationException
 	{
-		_addConstructorParameterCheckExclusions(constructor, parameterIndex, exclusions);
+        final ParameterChecks checksOfConstructorParameter = _getChecksOfConstructorParameter(constructor, parameterIndex);
+        checksOfConstructorParameter.checkExclusions.addAll(exclusions);
 	}
 
 	/**
@@ -452,7 +231,7 @@ public final class ClassChecks
 	public void addConstructorParameterChecks(final Constructor< ? > constructor, final int parameterIndex, final Check... checks)
 			throws InvalidConfigurationException
 	{
-		_addConstructorParameterChecks(constructor, parameterIndex, checks);
+        addConstructorParameterChecks(constructor, parameterIndex, ArrayUtils.asList(checks));
 	}
 
 	/**
@@ -466,7 +245,16 @@ public final class ClassChecks
 	public void addConstructorParameterChecks(final Constructor< ? > constructor, final int parameterIndex, final Collection<Check> checks)
 			throws InvalidConfigurationException
 	{
-		_addConstructorParameterChecks(constructor, parameterIndex, checks);
+        if (!IsGuarded.class.isAssignableFrom(clazz))
+            LOG.warn("Constructor parameter constraints may not be validated. {}", GUARDING_MAY_NOT_BE_ACTIVATED_MESSAGE);
+
+        final ParameterChecks checksOfConstructorParameter = _getChecksOfConstructorParameter(constructor, parameterIndex);
+
+        for (final Check check : (Collection<Check>) checks)
+        {
+            checksOfConstructorParameter.checks.add(check);
+            if (check.getContext() == null) check.setContext(checksOfConstructorParameter.context);
+        }
 	}
 
 	/**
@@ -477,7 +265,7 @@ public final class ClassChecks
 	 */
 	public void addFieldChecks(final Field field, final Check... checks) throws InvalidConfigurationException
 	{
-		_addFieldChecks(field, checks);
+		addFieldChecks(field, ArrayUtils.asList(checks));
 	}
 
 	/**
@@ -488,7 +276,25 @@ public final class ClassChecks
 	 */
 	public void addFieldChecks(final Field field, final Collection<Check> checks) throws InvalidConfigurationException
 	{
-		_addFieldChecks(field, checks);
+        synchronized (checksForFields)
+        {
+            Set<Check> checksOfField = checksForFields.get(field);
+            if (checksOfField == null)
+            {
+                checksOfField = new LinkedHashSet<>(2);
+                checksForFields.put(field, checksOfField);
+                if (ReflectionUtils.isStatic(field))
+                    constrainedStaticFields.add(field);
+                else
+                    constrainedFields.add(field);
+            }
+
+                for (final Check check : checks)
+                {
+                    checksOfField.add(check);
+                    if (check.getContext() == null) check.setContext(ContextCache.getFieldContext(field));
+                }
+        }
 	}
 
 	/**
@@ -502,7 +308,7 @@ public final class ClassChecks
 	public void addMethodParameterCheckExclusions(final Method method, final int parameterIndex, final CheckExclusion... exclusions)
 			throws InvalidConfigurationException
 	{
-		_addMethodParameterCheckExclusions(method, parameterIndex, exclusions);
+		addMethodParameterCheckExclusions(method, parameterIndex, ArrayUtils.asList(exclusions));
 	}
 
 	/**
@@ -516,7 +322,8 @@ public final class ClassChecks
 	public void addMethodParameterCheckExclusions(final Method method, final int parameterIndex, final Collection<CheckExclusion> exclusions)
 			throws InvalidConfigurationException
 	{
-		_addMethodParameterCheckExclusions(method, parameterIndex, exclusions);
+        final ParameterChecks checksOfMethodParameter = _getChecksOfMethodParameter(method, parameterIndex);
+            checksOfMethodParameter.checkExclusions.addAll(exclusions);
 	}
 
 	/**
@@ -530,7 +337,7 @@ public final class ClassChecks
 	public void addMethodParameterChecks(final Method method, final int parameterIndex, final Check... checks)
 			throws InvalidConfigurationException
 	{
-		_addMethodParameterChecks(method, parameterIndex, checks);
+		addMethodParameterChecks(method, parameterIndex, ArrayUtils.asList(checks));
 	}
 
 	/**
@@ -544,7 +351,16 @@ public final class ClassChecks
 	public void addMethodParameterChecks(final Method method, final int parameterIndex, final Collection<Check> checks)
 			throws InvalidConfigurationException
 	{
-		_addMethodParameterChecks(method, parameterIndex, checks);
+        if (!IsGuarded.class.isAssignableFrom(clazz))
+            LOG.warn("Method parameter constraints may not be validated. {}", GUARDING_MAY_NOT_BE_ACTIVATED_MESSAGE);
+
+        final ParameterChecks checksOfMethodParameter = _getChecksOfMethodParameter(method, parameterIndex);
+
+            for (final Check check : checks)
+            {
+                if (check.getContext() == null) check.setContext(checksOfMethodParameter.context);
+                checksOfMethodParameter.checks.add(check);
+            }
 	}
 
 	/**
@@ -555,7 +371,24 @@ public final class ClassChecks
 	 */
 	public void addMethodPostChecks(final Method method, final Collection<PostCheck> checks) throws InvalidConfigurationException
 	{
-		_addMethodPostChecks(method, checks);
+        if (!IsGuarded.class.isAssignableFrom(clazz))
+            LOG.warn("Method post-conditions may not be validated. {}", GUARDING_MAY_NOT_BE_ACTIVATED_MESSAGE);
+
+        synchronized (checksForMethodsPostExcecution)
+        {
+            Set<PostCheck> postChecks = checksForMethodsPostExcecution.get(method);
+            if (postChecks == null)
+            {
+                postChecks = new LinkedHashSet<PostCheck>(2);
+                checksForMethodsPostExcecution.put(method, postChecks);
+            }
+
+                for (final PostCheck check : (Collection<PostCheck>) checks)
+                {
+                    postChecks.add(check);
+                    if (check.getContext() == null) check.setContext(ContextCache.getMethodExitContext(method));
+                }
+        }
 	}
 
 	/**
@@ -566,7 +399,7 @@ public final class ClassChecks
 	 */
 	public void addMethodPostChecks(final Method method, final PostCheck... checks) throws InvalidConfigurationException
 	{
-		_addMethodPostChecks(method, checks);
+		addMethodPostChecks(method, ArrayUtils.asList(checks));
 	}
 
 	/**
@@ -576,7 +409,24 @@ public final class ClassChecks
 	 */
 	public void addMethodPreChecks(final Method method, final Collection<PreCheck> checks) throws InvalidConfigurationException
 	{
-		_addMethodPreChecks(method, checks);
+        if (!IsGuarded.class.isAssignableFrom(clazz))
+            LOG.warn("Method pre-conditions may not be validated. {}", GUARDING_MAY_NOT_BE_ACTIVATED_MESSAGE);
+
+        synchronized (checksForMethodsPreExecution)
+        {
+            Set<PreCheck> preChecks = checksForMethodsPreExecution.get(method);
+            if (preChecks == null)
+            {
+                preChecks = new LinkedHashSet<>(2);
+                checksForMethodsPreExecution.put(method, preChecks);
+            }
+
+                for (final PreCheck check : checks)
+                {
+                    preChecks.add(check);
+                    if (check.getContext() == null) check.setContext(ContextCache.getMethodEntryContext(method));
+                }
+        }
 	}
 
 	/**
@@ -586,7 +436,7 @@ public final class ClassChecks
 	 */
 	public void addMethodPreChecks(final Method method, final PreCheck... checks) throws InvalidConfigurationException
 	{
-		_addMethodPreChecks(method, checks);
+        addMethodPreChecks(method, ArrayUtils.asList(checks));
 	}
 
 	/**
@@ -598,7 +448,7 @@ public final class ClassChecks
 	public void addMethodReturnValueChecks(final Method method, final Boolean isInvariant, final Check... checks)
 			throws InvalidConfigurationException
 	{
-		_addMethodReturnValueChecks(method, isInvariant, checks);
+		addMethodReturnValueChecks(method, isInvariant, ArrayUtils.asList(checks));
 	}
 
 	/**
@@ -610,7 +460,51 @@ public final class ClassChecks
 	public void addMethodReturnValueChecks(final Method method, final Boolean isInvariant, final Collection<Check> checks)
 			throws InvalidConfigurationException
 	{
-		_addMethodReturnValueChecks(method, isInvariant, checks);
+		// ensure the method has a return type
+		if (method.getReturnType() == Void.TYPE)
+			throw new InvalidConfigurationException("Adding return value constraints for method " + method
+					+ " is not possible. The method is declared as void and does not return any values.");
+
+		if (ReflectionUtils.isVoidMethod(method))
+			throw new InvalidConfigurationException("Cannot apply method return value constraints for void method " + method);
+
+		final boolean hasParameters = method.getParameterTypes().length > 0;
+
+		if (hasParameters && !IsGuarded.class.isAssignableFrom(clazz))
+			LOG.warn("Method return value constraints may not be validated. {}", GUARDING_MAY_NOT_BE_ACTIVATED_MESSAGE);
+
+		final boolean isInvariant2 = isInvariant == null ? constrainedMethods.contains(method) : isInvariant;
+
+		if (!isInvariant2 && !IsGuarded.class.isAssignableFrom(clazz))
+			LOG.warn("Method return value constraints may not be validated. {}", GUARDING_MAY_NOT_BE_ACTIVATED_MESSAGE);
+
+		synchronized (checksForMethodReturnValues)
+		{
+			if (!hasParameters && isInvariant2)
+			{
+				if (ReflectionUtils.isStatic(method))
+					constrainedStaticMethods.add(method);
+				else
+					constrainedMethods.add(method);
+			}
+			else if (ReflectionUtils.isStatic(method))
+				constrainedStaticMethods.remove(method);
+			else
+				constrainedMethods.remove(method);
+
+			Set<Check> methodChecks = checksForMethodReturnValues.get(method);
+			if (methodChecks == null)
+			{
+				methodChecks = new LinkedHashSet<>(2);
+				checksForMethodReturnValues.put(method, methodChecks);
+			}
+
+				for (final Check check : checks)
+				{
+					methodChecks.add(check);
+					if (check.getContext() == null) check.setContext(ContextCache.getMethodReturnValueContext(method));
+				}
+		}
 	}
 
 	/**
@@ -620,14 +514,15 @@ public final class ClassChecks
 	 */
 	public void addObjectChecks(final Check... checks)
 	{
-		synchronized (checksForObject)
-		{
-			for (final Check check : checks)
-			{
-				if (check.getContext() == null) check.setContext(ContextCache.getClassContext(clazz));
-				checksForObject.add(check);
-			}
-		}
+        addObjectChecks(ArrayUtils.asList(checks));
+//		synchronized (checksForObject)
+//		{
+//			for (final Check check : checks)
+//			{
+//				if (check.getContext() == null) check.setContext(ContextCache.getClassContext(clazz));
+//				checksForObject.add(check);
+//			}
+//		}
 	}
 
 	/**
