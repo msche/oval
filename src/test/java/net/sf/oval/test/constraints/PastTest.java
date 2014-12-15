@@ -47,11 +47,11 @@ public class PastTest extends AbstractContraintsTest
 		final PastCheck check = new PastCheck();
 
 		final Calendar cal = Calendar.getInstance();
-		cal.roll(Calendar.SECOND, 3);
+		cal.roll(Calendar.SECOND, 10);
 		assertFalse(check.isSatisfied(null, cal, null, null));
 		check.setTolerance(1000);
 		assertFalse(check.isSatisfied(null, cal, null, null));
-		check.setTolerance(5000);
+		check.setTolerance(15000);
 		assertTrue(check.isSatisfied(null, cal, null, null));
 	}
 }

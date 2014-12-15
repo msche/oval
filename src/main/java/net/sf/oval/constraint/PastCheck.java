@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Portions created by Sebastian Thomschke are copyright (c) 2005-2011 Sebastian
  * Thomschke.
- * 
+ *
  * All Rights Reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *     Sebastian Thomschke - initial implementation.
  *******************************************************************************/
@@ -23,74 +23,73 @@ import net.sf.oval.configuration.annotation.AbstractAnnotationCheck;
 import net.sf.oval.context.OValContext;
 
 /**
+ * Validates whether passed date is in the past.
+ *
  * @author Sebastian Thomschke
  */
-public class PastCheck extends AbstractAnnotationCheck<Past>
-{
-	private static final long serialVersionUID = 1L;
+public class PastCheck extends AbstractAnnotationCheck<Past> {
+    private static final long serialVersionUID = 1L;
 
-	private long tolerance;
+    /**
+     * Contains {@code DateFormat} instance that will be used to parse date string.
+     */
+    private static final DateFormat FORMATTER = DateFormat.getDateTimeInstance();
 
-	@Override
-	public void configure(final Past constraintAnnotation)
-	{
-		super.configure(constraintAnnotation);
-		setTolerance(constraintAnnotation.tolerance());
-	}
+    private long tolerance;
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected ConstraintTarget[] getAppliesToDefault()
-	{
-		return new ConstraintTarget[]{ConstraintTarget.VALUES};
-	}
+    @Override
+    public void configure(final Past constraintAnnotation) {
+        super.configure(constraintAnnotation);
+        setTolerance(constraintAnnotation.tolerance());
+    }
 
-	/**
-	 * @return the tolerance
-	 */
-	public long getTolerance()
-	{
-		return tolerance;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected ConstraintTarget[] getAppliesToDefault() {
+        return new ConstraintTarget[]{ConstraintTarget.VALUES};
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public boolean isSatisfied(final Object validatedObject, final Object valueToValidate, final OValContext context,
-			final Validator validator)
-	{
-		if (valueToValidate == null) return true;
+    /**
+     * @return the tolerance
+     */
+    public long getTolerance() {
+        return tolerance;
+    }
 
-		final long now = System.currentTimeMillis() + tolerance;
+    /**
+     * {@inheritDoc}
+     */
+    public boolean isSatisfied(final Object validatedObject, final Object valueToValidate, final OValContext context,
+                               final Validator validator) {
+        if (valueToValidate == null) {
+            return true;
+        } else {
+            Date date;
 
-		// check if the value is a Date
-		if (valueToValidate instanceof Date) // return ((Date) value).before(new Date());
-			return ((Date) valueToValidate).getTime() < now;
+            if (valueToValidate instanceof Date) {
+                date = (Date) valueToValidate;
+            } else if (valueToValidate instanceof Calendar) {
+                date = ((Calendar) valueToValidate).getTime();
+            } else {
+                // see if we can extract a date based on the object's String representation
+                final String stringValue = valueToValidate.toString();
+                try {
+                    date = FORMATTER.parse(stringValue);
+                } catch (final ParseException ex) {
+                    return false;
+                }
+            }
+            final long now = System.currentTimeMillis() + tolerance;
+            return date.getTime() < now;
+        }
+    }
 
-		// check if the value is a Calendar
-		if (valueToValidate instanceof Calendar) // return ((Calendar) value).getTime().before(new Date());
-			return ((Calendar) valueToValidate).getTime().getTime() < now;
-
-		// see if we can extract a date based on the object's String representation
-		final String stringValue = valueToValidate.toString();
-		try
-		{
-			// return DateFormat.getDateTimeInstance().parse(stringValue).before(new Date());
-			return DateFormat.getDateTimeInstance().parse(stringValue).getTime() < now;
-		}
-		catch (final ParseException ex)
-		{
-			return false;
-		}
-	}
-
-	/**
-	 * @param tolerance the tolerance to set
-	 */
-	public void setTolerance(final long tolerance)
-	{
-		this.tolerance = tolerance;
-	}
+    /**
+     * @param tolerance the tolerance to set
+     */
+    public void setTolerance(final long tolerance) {
+        this.tolerance = tolerance;
+    }
 }
