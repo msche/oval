@@ -12,8 +12,6 @@
  *******************************************************************************/
 package net.sf.oval.internal;
 
-import static net.sf.oval.Validator.*;
-
 import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -33,7 +31,6 @@ import net.sf.oval.guard.PostCheck;
 import net.sf.oval.guard.PreCheck;
 import net.sf.oval.internal.util.ArrayUtils;
 import net.sf.oval.internal.util.ReflectionUtils;
-import org.jruby.util.ArraysUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -80,7 +77,7 @@ public final class ClassChecks
 	/**
 	 * compound constraints / object level invariants
 	 */
-	public final Set<Check> checksForObject = new LinkedHashSet<Check>(2);
+	public final Set<Check> checksForObject = new LinkedHashSet<>(2);
 
 	public final Class< ? > clazz;
 
@@ -88,25 +85,25 @@ public final class ClassChecks
 	 * all non-static fields that have value constraints.
 	 * Validator loops over this set during validation.
 	 */
-	public final Set<Field> constrainedFields = new LinkedHashSet<Field>();
+	public final Set<Field> constrainedFields = new LinkedHashSet<>();
 
 	/**
 	 * all non-static non-void, non-parameterized methods marked as invariant that have return value constraints.
 	 * Validator loops over this set during validation.
 	 */
-	public final Set<Method> constrainedMethods = new LinkedHashSet<Method>();
+	public final Set<Method> constrainedMethods = new LinkedHashSet<>();
 
 	/**
 	 * all non-static fields that have value constraints.
 	 * Validator loops over this set during validation.
 	 */
-	public final Set<Field> constrainedStaticFields = new LinkedHashSet<Field>();
+	public final Set<Field> constrainedStaticFields = new LinkedHashSet<>();
 
 	/**
 	 * all static non-void, non-parameterized methods marked as invariant that have return value constraints.
 	 * Validator loops over this set during validation.
 	 */
-	public final Set<Method> constrainedStaticMethods = new LinkedHashSet<Method>();
+	public final Set<Method> constrainedStaticMethods = new LinkedHashSet<>();
 
 	public boolean isCheckInvariants;
 
@@ -250,7 +247,7 @@ public final class ClassChecks
 
         final ParameterChecks checksOfConstructorParameter = _getChecksOfConstructorParameter(constructor, parameterIndex);
 
-        for (final Check check : (Collection<Check>) checks)
+        for (final Check check : checks)
         {
             checksOfConstructorParameter.checks.add(check);
             if (check.getContext() == null) check.setContext(checksOfConstructorParameter.context);
@@ -379,11 +376,11 @@ public final class ClassChecks
             Set<PostCheck> postChecks = checksForMethodsPostExcecution.get(method);
             if (postChecks == null)
             {
-                postChecks = new LinkedHashSet<PostCheck>(2);
+                postChecks = new LinkedHashSet<>(2);
                 checksForMethodsPostExcecution.put(method, postChecks);
             }
 
-                for (final PostCheck check : (Collection<PostCheck>) checks)
+                for (final PostCheck check : checks)
                 {
                     postChecks.add(check);
                     if (check.getContext() == null) check.setContext(ContextCache.getMethodExitContext(method));

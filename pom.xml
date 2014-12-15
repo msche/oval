@@ -550,14 +550,15 @@ Besides field/property validation OVal implements Programming by Contract featur
 					<useExtensions>1</useExtensions>
 					<calloutsExtension>1</calloutsExtension>
 
+                    <imgSrcPath>${project.basedir}/src/site/resources/</imgSrcPath>
 					<graphicDefaultExtension>png</graphicDefaultExtension>
 					<tocSectionDepth>2</tocSectionDepth>
 
 					<!-- configure syntax highlighting -->
 					<highlightDefaultLanguage>java</highlightDefaultLanguage>
 					<highlightSource>1</highlightSource>
-					<htmlCustomization>${project.basedir}/src/site/docbook/highlight.xsl</htmlCustomization>
-					<xhtmlCustomization>${project.basedir}/src/site/docbook/highlight.xsl</xhtmlCustomization>
+					<!--<htmlCustomization>${project.basedir}/src/site/docbook/highlight.xsl</htmlCustomization>-->
+					<!--<xhtmlCustomization>${project.basedir}/src/site/docbook/highlight.xsl</xhtmlCustomization>-->
 
 					<!-- Enable auto numbering of section labels -->
 					<sectionAutolabel>1</sectionAutolabel>

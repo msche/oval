@@ -28,11 +28,11 @@ import net.sf.oval.context.MethodReturnValueContext;
  */
 public final class ContextCache
 {
-	private static final Map<Class< ? >, ClassContext> CLASS_CONTEXTS = new WeakHashMap<Class< ? >, ClassContext>();
-	private static final Map<Field, FieldContext> FIELD_CONTEXTS = new WeakHashMap<Field, FieldContext>();
-	private static final Map<Method, MethodEntryContext> METHOD_ENTRY_CONTEXTS = new WeakHashMap<Method, MethodEntryContext>();
-	private static final Map<Method, MethodExitContext> METHOD_EXIT_CONTEXTS = new WeakHashMap<Method, MethodExitContext>();
-	private static final Map<Method, MethodReturnValueContext> METHOD_RETURN_VALUE_CONTEXTS = new WeakHashMap<Method, MethodReturnValueContext>();
+	private static final Map<Class< ? >, ClassContext> CLASS_CONTEXTS = new WeakHashMap<>();
+	private static final Map<Field, FieldContext> FIELD_CONTEXTS = new WeakHashMap<>();
+	private static final Map<Method, MethodEntryContext> METHOD_ENTRY_CONTEXTS = new WeakHashMap<>();
+	private static final Map<Method, MethodExitContext> METHOD_EXIT_CONTEXTS = new WeakHashMap<>();
+	private static final Map<Method, MethodReturnValueContext> METHOD_RETURN_VALUE_CONTEXTS = new WeakHashMap<>();
 
 	public static ClassContext getClassContext(final Class< ? > clazz)
 	{

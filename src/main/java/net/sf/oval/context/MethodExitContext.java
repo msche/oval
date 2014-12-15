@@ -20,9 +20,9 @@ import net.sf.oval.internal.util.StringUtils;
 /**
  * @author Sebastian Thomschke
  */
-public class MethodExitContext extends OValContext
+public final class MethodExitContext extends OValContext
 {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = -1748895304697900095L;
 
 	private final SerializableMethod method;
 

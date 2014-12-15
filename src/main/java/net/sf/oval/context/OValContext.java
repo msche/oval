@@ -21,9 +21,25 @@ import java.io.Serializable;
  */
 public abstract class OValContext implements Serializable
 {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = -7514650057377148621L;
 
-	protected Class< ? > compileTimeType;
+	private final Class< ? > compileTimeType;
+
+    /**
+     * Default constructor
+     */
+    OValContext() {
+        this(null);
+    }
+
+    /**
+     * Constructor Oval Context
+     *
+     * @param
+     */
+    OValContext(Class<?> compileTimeType) {
+        this.compileTimeType = compileTimeType;
+    }
 
 	public Class< ? > getCompileTimeType()
 	{

@@ -21,9 +21,9 @@ import net.sf.oval.internal.util.StringUtils;
 /**
  * @author Sebastian Thomschke
  */
-public class ConstructorParameterContext extends OValContext
+public final class ConstructorParameterContext extends OValContext
 {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = -782861376799538876L;
 
 	private final SerializableConstructor constructor;
 	private final int parameterIndex;
@@ -37,10 +37,10 @@ public class ConstructorParameterContext extends OValContext
 	public ConstructorParameterContext(final Constructor< ? > constructor, final int parameterIndex,
 			final String parameterName)
 	{
+        super(constructor.getParameterTypes()[parameterIndex]);
 		this.constructor = SerializableConstructor.getInstance(constructor);
 		this.parameterIndex = parameterIndex;
 		this.parameterName = parameterName;
-		this.compileTimeType = constructor.getParameterTypes()[parameterIndex];
 	}
 
 	/**

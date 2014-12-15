@@ -13,21 +13,25 @@
 package net.sf.oval.context;
 
 /**
+ * Validation context for {@code Class}.
+ *
  * @author Sebastian Thomschke
  */
-public class ClassContext extends OValContext
+public final class ClassContext extends OValContext
 {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 8816732558933947341L;
 
 	private final Class< ? > clazz;
 
 	public ClassContext(final Class< ? > clazz)
 	{
+        super(clazz);
 		this.clazz = clazz;
-		this.compileTimeType = clazz;
 	}
 
 	/**
+     * {@code Class} at which this context applies.
+     *
 	 * @return the clazz
 	 */
 	public Class< ? > getClazz()

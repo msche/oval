@@ -20,9 +20,9 @@ import net.sf.oval.internal.util.SerializableField;
 /**
  * @author Sebastian Thomschke
  */
-public class FieldContext extends OValContext
+public final class FieldContext extends OValContext
 {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 4670700839313440381L;
 
 	private final SerializableField field;
 
@@ -32,9 +32,7 @@ public class FieldContext extends OValContext
 	 */
 	public FieldContext(final Class< ? > declaringClass, final String fieldName)
 	{
-		final Field field = ReflectionUtils.getField(declaringClass, fieldName);
-		this.field = SerializableField.getInstance(field);
-		compileTimeType = field.getType();
+        this(ReflectionUtils.getField(declaringClass, fieldName));
 	}
 
 	/**
@@ -42,8 +40,8 @@ public class FieldContext extends OValContext
 	 */
 	public FieldContext(final Field field)
 	{
+        super(field.getType());
 		this.field = SerializableField.getInstance(field);
-		compileTimeType = field.getType();
 	}
 
 	/**

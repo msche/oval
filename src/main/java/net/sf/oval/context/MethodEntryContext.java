@@ -20,9 +20,9 @@ import net.sf.oval.internal.util.StringUtils;
 /**
  * @author Sebastian Thomschke
  */
-public class MethodEntryContext extends OValContext
+public final class MethodEntryContext extends OValContext
 {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = -6838887180204383424L;
 
 	private final SerializableMethod method;
 

@@ -19,16 +19,17 @@ import net.sf.oval.internal.util.SerializableMethod;
 /**
  * @author Sebastian Thomschke
  */
-public class MethodReturnValueContext extends OValContext
+public final class MethodReturnValueContext extends OValContext
 {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 8459673050446818620L;
 
 	private final SerializableMethod method;
 
 	public MethodReturnValueContext(final Method method)
 	{
+        super(method.getReturnType());
 		this.method = SerializableMethod.getInstance(method);
-		this.compileTimeType = method.getReturnType();
+//		this.compileTimeType = method.getReturnType();
 	}
 
 	/**

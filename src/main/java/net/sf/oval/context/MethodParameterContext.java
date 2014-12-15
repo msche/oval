@@ -21,9 +21,9 @@ import net.sf.oval.internal.util.StringUtils;
 /**
  * @author Sebastian Thomschke
  */
-public class MethodParameterContext extends OValContext
+public final class MethodParameterContext extends OValContext
 {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = -8124156558479124325L;
 
 	private final SerializableMethod method;
 	private final int parameterIndex;
@@ -31,10 +31,11 @@ public class MethodParameterContext extends OValContext
 
 	public MethodParameterContext(final Method method, final int parameterIndex, final String parameterName)
 	{
+        super(method.getParameterTypes()[parameterIndex]);
 		this.method = SerializableMethod.getInstance(method);
 		this.parameterIndex = parameterIndex;
 		this.parameterName = parameterName == null ? "param" + parameterIndex : parameterName;
-		this.compileTimeType = method.getParameterTypes()[parameterIndex];
+//		this.compileTimeType = method.getParameterTypes()[parameterIndex];
 	}
 
 	/**
@@ -67,10 +68,10 @@ public class MethodParameterContext extends OValContext
 	@Override
 	public String toString()
 	{
-		return method.getDeclaringClass().getName() + "." + method.getName() + "("
-				+ StringUtils.implode(method.getParameterTypes(), ",") + ") "
-				+ Validator.getMessageResolver().getMessage("net.sf.oval.context.MethodParameterContext.parameter")
-				+ " " + parameterIndex
-				+ (parameterName == null || parameterName.length() == 0 ? "" : " (" + parameterName + ")");
+        return method.getDeclaringClass().getName()
+                + "." + method.getName() + "("
+                + StringUtils.implode(method.getParameterTypes(), ",")
+                + ") " + Validator.getMessageResolver().getMessage("net.sf.oval.context.MethodParameterContext.parameter")
+                + " " + parameterIndex + " (" + parameterName + ")";
 	}
 }
