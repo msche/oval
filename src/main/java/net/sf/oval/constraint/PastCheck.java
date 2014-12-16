@@ -27,15 +27,8 @@ import net.sf.oval.context.OValContext;
  *
  * @author Sebastian Thomschke
  */
-public class PastCheck extends AbstractAnnotationCheck<Past> {
+public class PastCheck extends AbstractDateCheck<Past> {
     private static final long serialVersionUID = 1L;
-
-    /**
-     * Contains {@code DateFormat} instance that will be used to parse date string.
-     */
-    private static final DateFormat FORMATTER = DateFormat.getDateTimeInstance();
-
-    private long tolerance;
 
     @Override
     public void configure(final Past constraintAnnotation) {
@@ -52,44 +45,12 @@ public class PastCheck extends AbstractAnnotationCheck<Past> {
     }
 
     /**
-     * @return the tolerance
-     */
-    public long getTolerance() {
-        return tolerance;
-    }
-
-    /**
      * {@inheritDoc}
      */
-    public boolean isSatisfied(final Object validatedObject, final Object valueToValidate, final OValContext context,
+    boolean isSatisfied(final Object validatedObject, final Date valueToValidate, final OValContext context,
                                final Validator validator) {
-        if (valueToValidate == null) {
-            return true;
-        } else {
-            Date date;
-
-            if (valueToValidate instanceof Date) {
-                date = (Date) valueToValidate;
-            } else if (valueToValidate instanceof Calendar) {
-                date = ((Calendar) valueToValidate).getTime();
-            } else {
-                // see if we can extract a date based on the object's String representation
-                final String stringValue = valueToValidate.toString();
-                try {
-                    date = FORMATTER.parse(stringValue);
-                } catch (final ParseException ex) {
-                    return false;
-                }
-            }
-            final long now = System.currentTimeMillis() + tolerance;
-            return date.getTime() < now;
-        }
+            final long now = System.currentTimeMillis() + getTolerance();
+            return valueToValidate.getTime() < now;
     }
 
-    /**
-     * @param tolerance the tolerance to set
-     */
-    public void setTolerance(final long tolerance) {
-        this.tolerance = tolerance;
-    }
 }

@@ -105,7 +105,13 @@ public @interface Past
 	 */
 	String target() default "";
 
-	/**
+    /**
+     * The format of the specified dates in a form understandable by the SimpleDateFormat class.
+     * Defaults to the default format style of the default locale.
+     */
+    String format() default "";
+
+    /**
 	 * Tolerance in milliseconds the validated value can be in the future. 
 	 * This is useful to compensate time differences in distributed environments where the clocks are not 100% in sync.
 	 */

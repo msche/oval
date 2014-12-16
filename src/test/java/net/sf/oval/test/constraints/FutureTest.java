@@ -47,11 +47,11 @@ public class FutureTest extends AbstractContraintsTest
 		final FutureCheck check = new FutureCheck();
 
 		final Calendar cal = Calendar.getInstance();
-		cal.roll(Calendar.SECOND, -2);
+		cal.roll(Calendar.SECOND, -10);
 		assertFalse(check.isSatisfied(null, cal, null, null));
 		check.setTolerance(1500);
 		assertFalse(check.isSatisfied(null, cal, null, null));
-		check.setTolerance(5000);
+		check.setTolerance(15000);
 		assertTrue(check.isSatisfied(null, cal, null, null));
 	}
 }

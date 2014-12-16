@@ -1,6 +1,6 @@
 package net.sf.oval.test.constraint;
 
-import net.sf.oval.constraint.Past;
+import net.sf.oval.constraint.Future;
 import net.sf.oval.exception.ConstraintsViolatedException;
 import net.sf.oval.guard.Guard;
 import net.sf.oval.guard.Guarded;
@@ -18,31 +18,31 @@ import java.util.Date;
 import java.util.Random;
 
 /**
- * Validates Performance {@code Past} constraint
+ * Validates performance {@code Future}.
  */
-public class PastPerformanceTest {
+public class FuturePerformanceTest {
 
     @Guarded
     protected static class TestSubject
     {
         TestSubject(){}
 
-        protected TestSubject(@Past final Date value)
+        protected TestSubject(@Future final Date value)
         {
             // nothing
         }
 
-        public void setValue(@Past final Calendar date)
+        public void setValue(@Future final Calendar date)
         {
             // nothing
         }
 
-        public void setValue(@Past final Date date)
+        public void setValue(@Future final Date date)
         {
             // nothing
         }
 
-        public void setValue(@Past final String date)
+        public void setValue(@Future final String date)
         {
             // nothing
         }
@@ -85,17 +85,17 @@ public class PastPerformanceTest {
     /**
      * Measures performance past constraint with tolerance when specified calendar is in future
      */
-    @Test(expected=ConstraintsViolatedException.class)
+    @Test
     @PerfTest(invocations=10000)
     @Required(average = 1)
     public void performanceTestSetValueCalendarFuture() {
-            testSubject.setValue(calendarFuture);
+        testSubject.setValue(calendarFuture);
     }
 
     /**
      * Measures performance past constraint with tolerance when specified date is in future
      */
-    @Test(expected=ConstraintsViolatedException.class)
+    @Test
     @PerfTest(invocations=10000)
     @Required(average = 1)
     public void performanceTestSetValueDateFuture() {
@@ -105,7 +105,7 @@ public class PastPerformanceTest {
     /**
      * Measures performance past constraint with tolerance when specified date string is in future
      */
-    @Test(expected=ConstraintsViolatedException.class)
+    @Test
     @PerfTest(invocations=10000)
     @Required(average = 1)
     public void performanceTestSetValueDateStringFuture() {
@@ -115,7 +115,7 @@ public class PastPerformanceTest {
     /**
      * Measures performance past constraint with tolerance when specified calendar is in past
      */
-    @Test
+    @Test(expected=ConstraintsViolatedException.class)
     @PerfTest(invocations=10000)
     @Required(average = 1)
     public void performanceTestSetValueCalendarPast() {
@@ -125,7 +125,7 @@ public class PastPerformanceTest {
     /**
      * Measures performance past constraint with tolerance when specified date is in past
      */
-    @Test
+    @Test(expected=ConstraintsViolatedException.class)
     @PerfTest(invocations=10000)
     @Required(average = 1)
     public void performanceTestSetValueDatePast() {
@@ -135,7 +135,7 @@ public class PastPerformanceTest {
     /**
      * Measures performance past constraint with tolerance when specified date is in past
      */
-    @Test
+    @Test(expected=ConstraintsViolatedException.class)
     @PerfTest(invocations=10000)
     @Required(average = 1)
     public void performanceTestSetValueDateStringPast() {

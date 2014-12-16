@@ -21,15 +21,14 @@ import net.sf.oval.ConstraintTarget;
 import net.sf.oval.Validator;
 import net.sf.oval.configuration.annotation.AbstractAnnotationCheck;
 import net.sf.oval.context.OValContext;
+import net.sf.oval.internal.util.*;
 
 /**
  * @author Sebastian Thomschke
  */
-public class FutureCheck extends AbstractAnnotationCheck<Future>
+public final class FutureCheck extends AbstractDateCheck<Future>
 {
 	private static final long serialVersionUID = 1L;
-
-	private long tolerance;
 
 	@Override
 	public void configure(final Future constraintAnnotation)
@@ -48,48 +47,14 @@ public class FutureCheck extends AbstractAnnotationCheck<Future>
 	}
 
 	/**
-	 * @return the tolerance
-	 */
-	public long getTolerance()
-	{
-		return tolerance;
-	}
-
-	/**
 	 * {@inheritDoc}
 	 */
-	public boolean isSatisfied(final Object validatedObject, final Object valueToValidate, final OValContext context,
+	boolean isSatisfied(final Object validatedObject, final Date valueToValidate, final OValContext context,
 			final Validator validator)
 	{
-		if (valueToValidate == null) return true;
 
-		final long now = System.currentTimeMillis() - tolerance;
-
-		// check if the value is a Date
-		if (valueToValidate instanceof Date) // return ((Date) value).after(new Date());
-			return ((Date) valueToValidate).getTime() > now;
-
-		// check if the value is a Calendar
-		if (valueToValidate instanceof Calendar) return ((Calendar) valueToValidate).getTime().getTime() > now;
-
-		// see if we can extract a date based on the object's String representation
-		final String stringValue = valueToValidate.toString();
-		try
-		{
-			// return DateFormat.getDateTimeInstance().parse(stringValue).after(new Date());
-			return DateFormat.getDateTimeInstance().parse(stringValue).getTime() > now;
-		}
-		catch (final ParseException ex)
-		{
-			return false;
-		}
+            final long now = System.currentTimeMillis() + getTolerance();
+            return valueToValidate.getTime() > now;
 	}
 
-	/**
-	 * @param tolerance the tolerance to set
-	 */
-	public void setTolerance(final long tolerance)
-	{
-		this.tolerance = tolerance;
-	}
 }

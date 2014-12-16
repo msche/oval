@@ -31,7 +31,7 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Sebastian Thomschke
  */
-public class DateRangeCheck extends AbstractAnnotationCheck<DateRange>
+public class DateRangeCheck extends AbstractDateCheck<DateRange>
 {
 	private static final Logger LOG = LoggerFactory.getLogger(DateRangeCheck.class);
 
@@ -43,7 +43,6 @@ public class DateRangeCheck extends AbstractAnnotationCheck<DateRange>
 
 	private transient Long maxMillis;
 	private transient Long minMillis;
-	private long tolerance;
 
 	/**
 	 * {@inheritDoc}
@@ -58,6 +57,19 @@ public class DateRangeCheck extends AbstractAnnotationCheck<DateRange>
 		setTolerance(constraintAnnotation.tolerance());
 	}
 
+    /**
+     * @param format the format to set
+     */
+    public void setFormat(final String format)
+    {
+        if ((format != null ) && (format.trim().length() > 0)) {
+            setFormatter(new SimpleDateFormat(format));
+        } else {
+            setFormatter(DateFormat.getDateTimeInstance());
+        }
+        this.format = format;
+        requireMessageVariablesRecreation();
+    }
 	/**
 	 * {@inheritDoc}
 	 */
@@ -81,14 +93,6 @@ public class DateRangeCheck extends AbstractAnnotationCheck<DateRange>
 	}
 
 	/**
-	 * @return the format
-	 */
-	public String getFormat()
-	{
-		return format;
-	}
-
-	/**
 	 * @return the max
 	 */
 	public String getMax()
@@ -102,7 +106,7 @@ public class DateRangeCheck extends AbstractAnnotationCheck<DateRange>
 		{
 			if (max == null || max.length() == 0) return Long.MAX_VALUE;
 
-			if ("now".equals(max)) return System.currentTimeMillis() + tolerance;
+			if ("now".equals(max)) return System.currentTimeMillis() + getTolerance();
 
 			if ("today".equals(max))
 			{
@@ -113,7 +117,7 @@ public class DateRangeCheck extends AbstractAnnotationCheck<DateRange>
 				cal.set(Calendar.MILLISECOND, 0);
 				cal.add(Calendar.DAY_OF_YEAR, 1);
 				cal.add(Calendar.MILLISECOND, -1);
-				return cal.getTimeInMillis() + tolerance;
+				return cal.getTimeInMillis() + getTolerance();
 			}
 
 			if ("tomorrow".equals(max))
@@ -125,7 +129,7 @@ public class DateRangeCheck extends AbstractAnnotationCheck<DateRange>
 				cal.set(Calendar.MILLISECOND, 0);
 				cal.add(Calendar.DAY_OF_YEAR, 2);
 				cal.add(Calendar.MILLISECOND, -1);
-				return cal.getTimeInMillis() + tolerance;
+				return cal.getTimeInMillis() + getTolerance();
 			}
 
 			if ("yesterday".equals(max))
@@ -136,31 +140,38 @@ public class DateRangeCheck extends AbstractAnnotationCheck<DateRange>
 				cal.set(Calendar.SECOND, 0);
 				cal.set(Calendar.MILLISECOND, 0);
 				cal.add(Calendar.MILLISECOND, -1);
-				return cal.getTimeInMillis() + tolerance;
+				return cal.getTimeInMillis() + getTolerance();
 			}
 
-			if (format != null && format.length() > 0)
-			{
-				final SimpleDateFormat sdf = new SimpleDateFormat(format);
-				try
-				{
-					maxMillis = sdf.parse(max).getTime() + tolerance;
-				}
-				catch (final ParseException e)
+//			if (format != null && format.length() > 0)
+//			{
+//				final SimpleDateFormat sdf = new SimpleDateFormat(format);
+//				try
+//				{
+//					maxMillis = sdf.parse(max).getTime() + tolerance;
+//				}
+//				catch (final ParseException e)
+//				{
+//					throw new InvalidConfigurationException("Unable to parse the max Date String", e);
+//				}
+//			}
+//			else
+//				try
+//				{
+//					maxMillis = DateFormat.getDateTimeInstance().parse(max).getTime() + tolerance;
+//				}
+//				catch (final ParseException e)
+//				{
+//					throw new InvalidConfigurationException("Unable to parse the max Date String", e);
+//				}
+            try {
+                maxMillis = getFormatter().parse(max).getTime() + getTolerance();
+            } catch (final ParseException e)
 				{
 					throw new InvalidConfigurationException("Unable to parse the max Date String", e);
 				}
-			}
-			else
-				try
-				{
-					maxMillis = DateFormat.getDateTimeInstance().parse(max).getTime() + tolerance;
-				}
-				catch (final ParseException e)
-				{
-					throw new InvalidConfigurationException("Unable to parse the max Date String", e);
-				}
-		}
+
+            }
 		return maxMillis;
 	}
 
@@ -178,7 +189,7 @@ public class DateRangeCheck extends AbstractAnnotationCheck<DateRange>
 		{
 			if (min == null || min.length() == 0) return 0L;
 
-			if ("now".equals(min)) return System.currentTimeMillis() - tolerance;
+			if ("now".equals(min)) return System.currentTimeMillis() - getTolerance();
 
 			if ("today".equals(min))
 			{
@@ -187,7 +198,7 @@ public class DateRangeCheck extends AbstractAnnotationCheck<DateRange>
 				cal.set(Calendar.MINUTE, 0);
 				cal.set(Calendar.SECOND, 0);
 				cal.set(Calendar.MILLISECOND, 0);
-				return cal.getTimeInMillis() - tolerance;
+				return cal.getTimeInMillis() - getTolerance();
 			}
 
 			if ("tomorrow".equals(min))
@@ -198,7 +209,7 @@ public class DateRangeCheck extends AbstractAnnotationCheck<DateRange>
 				cal.set(Calendar.SECOND, 0);
 				cal.set(Calendar.MILLISECOND, 0);
 				cal.add(Calendar.DAY_OF_YEAR, 1);
-				return cal.getTimeInMillis() - tolerance;
+				return cal.getTimeInMillis() - getTolerance();
 			}
 
 			if ("yesterday".equals(min))
@@ -209,88 +220,77 @@ public class DateRangeCheck extends AbstractAnnotationCheck<DateRange>
 				cal.set(Calendar.SECOND, 0);
 				cal.set(Calendar.MILLISECOND, 0);
 				cal.add(Calendar.DAY_OF_YEAR, -1);
-				return cal.getTimeInMillis() - tolerance;
+				return cal.getTimeInMillis() - getTolerance();
 			}
 
-			if (format != null && format.length() > 0)
-			{
-				final SimpleDateFormat sdf = new SimpleDateFormat(format);
+//			if (format != null && format.length() > 0)
+//			{
+//				final SimpleDateFormat sdf = new SimpleDateFormat(format);
 				try
 				{
-					minMillis = sdf.parse(min).getTime() - tolerance;
+					minMillis = getFormatter().parse(min).getTime() - getTolerance();
 				}
 				catch (final ParseException e)
 				{
 					throw new InvalidConfigurationException("Unable to parse the min Date String", e);
 				}
-			}
-			else
-				try
-				{
-					minMillis = DateFormat.getDateTimeInstance().parse(min).getTime() - tolerance;
-				}
-				catch (final ParseException e)
-				{
-					throw new InvalidConfigurationException("Unable to parse the min Date String", e);
-				}
+//			}
+//			else
+//				try
+//				{
+//					minMillis = DateFormat.getDateTimeInstance().parse(min).getTime() - tolerance;
+//				}
+//				catch (final ParseException e)
+//				{
+//					throw new InvalidConfigurationException("Unable to parse the min Date String", e);
+//				}
 		}
 		return minMillis;
 	}
 
-	/**
-	 * @return the tolerance
-	 */
-	public long getTolerance()
-	{
-		return tolerance;
-	}
+//	/**
+//	 * @return the tolerance
+//	 */
+//	public long getTolerance()
+//	{
+//		return tolerance;
+//	}
 
-	public boolean isSatisfied(final Object validatedObject, final Object valueToValidate, final OValContext context,
+	boolean isSatisfied(final Object validatedObject, Date valueToValidate, final OValContext context,
 			final Validator validator)
 	{
-		if (valueToValidate == null) return true;
+		long valueInMillis = valueToValidate.getTime();
 
-		long valueInMillis = -1;
-
-		// check if the value is a Date
-		if (valueToValidate instanceof Date)
-			valueInMillis = ((Date) valueToValidate).getTime();
-		else if (valueToValidate instanceof Calendar)
-			valueInMillis = ((Calendar) valueToValidate).getTime().getTime();
-		else
-		{
-			// see if we can extract a date based on the object's String representation
-			final String stringValue = valueToValidate.toString();
-			try
-			{
-				if (format != null) try
-				{
-					valueInMillis = new SimpleDateFormat(format).parse(stringValue).getTime();
-				}
-				catch (final ParseException ex)
-				{
-					LOG.debug("valueToValidate not parsable with specified format {}", format, ex);
-				}
-
-				if (valueInMillis == -1) valueInMillis = DateFormat.getDateTimeInstance().parse(stringValue).getTime();
-			}
-			catch (final ParseException ex)
-			{
-				LOG.debug("valueToValidate is not parsable.", ex);
-				return false;
-			}
-		}
-
+//		// check if the value is a Date
+//		if (valueToValidate instanceof Date)
+//			valueInMillis = ((Date) valueToValidate).getTime();
+//		else if (valueToValidate instanceof Calendar)
+//			valueInMillis = ((Calendar) valueToValidate).getTime().getTime();
+//		else
+//		{
+//			// see if we can extract a date based on the object's String representation
+//			final String stringValue = valueToValidate.toString();
+//			try
+//			{
+//				if (format != null) try
+//				{
+//					valueInMillis = new SimpleDateFormat(format).parse(stringValue).getTime();
+//				}
+//				catch (final ParseException ex)
+//				{
+//					LOG.debug("valueToValidate not parsable with specified format {}", format, ex);
+//				}
+//
+//				if (valueInMillis == -1) valueInMillis = DateFormat.getDateTimeInstance().parse(stringValue).getTime();
+//			}
+//			catch (final ParseException ex)
+//			{
+//				LOG.debug("valueToValidate is not parsable.", ex);
+//				return false;
+//			}
+//		}
+//
 		return valueInMillis >= getMinMillis() && valueInMillis <= getMaxMillis();
-	}
-
-	/**
-	 * @param format the format to set
-	 */
-	public void setFormat(final String format)
-	{
-		this.format = format;
-		requireMessageVariablesRecreation();
 	}
 
 	/**
@@ -318,7 +318,7 @@ public class DateRangeCheck extends AbstractAnnotationCheck<DateRange>
 	 */
 	public void setTolerance(final long tolerance)
 	{
-		this.tolerance = tolerance;
+		super.setTolerance(tolerance);
 		minMillis = null;
 		maxMillis = null;
 	}
