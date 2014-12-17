@@ -53,7 +53,7 @@ public final class FutureCheck extends AbstractDateCheck<Future>
 			final Validator validator)
 	{
 
-            final long now = System.currentTimeMillis() + getTolerance();
+            final long now = System.currentTimeMillis() - getTolerance();
             return valueToValidate.getTime() > now;
 	}
 

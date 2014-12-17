@@ -13,6 +13,7 @@
 package net.sf.oval.test.constraints;
 
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -44,17 +45,17 @@ public class DateRangeTest extends AbstractContraintsTest
 		final Calendar cal = Calendar.getInstance();
 		assertTrue(check.isSatisfied(null, cal, null, null));
 		assertTrue(check.isSatisfied(null, cal.getTime(), null, null));
-		assertTrue(check.isSatisfied(null, DateFormat.getDateTimeInstance().format(cal.getTime()), null, null));
+		assertTrue(check.isSatisfied(null, new SimpleDateFormat(check.getFormat()).format(cal.getTime()), null, null));
 
 		cal.add(Calendar.YEAR, -100);
 		assertFalse(check.isSatisfied(null, cal, null, null));
 		assertFalse(check.isSatisfied(null, cal.getTime(), null, null));
-		assertFalse(check.isSatisfied(null, DateFormat.getDateTimeInstance().format(cal.getTime()), null, null));
+		assertFalse(check.isSatisfied(null, new SimpleDateFormat(check.getFormat()).format(cal.getTime()), null, null));
 
 		cal.add(Calendar.YEAR, 200);
 		assertFalse(check.isSatisfied(null, cal, null, null));
 		assertFalse(check.isSatisfied(null, cal.getTime(), null, null));
-		assertFalse(check.isSatisfied(null, DateFormat.getDateTimeInstance().format(cal.getTime()), null, null));
+		assertFalse(check.isSatisfied(null, new SimpleDateFormat(check.getFormat()).format(cal.getTime()), null, null));
 
 		assertFalse(check.isSatisfied(null, "bla", null, null));
 	}

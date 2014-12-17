@@ -70,6 +70,16 @@ public class DateRangeCheck extends AbstractDateCheck<DateRange>
         this.format = format;
         requireMessageVariablesRecreation();
     }
+
+    /**
+     * Returns date format. If no date format is specified the returned value will be null.
+     *
+     * @return
+     */
+    public String getFormat() {
+        return format;
+    }
+
 	/**
 	 * {@inheritDoc}
 	 */
