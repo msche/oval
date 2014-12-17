@@ -27,7 +27,7 @@ import net.sf.oval.context.OValContext;
  *
  * @author Sebastian Thomschke
  */
-public class PastCheck extends AbstractDateCheck<Past> {
+public final class PastCheck extends AbstractDateCheck<Past> {
     private static final long serialVersionUID = 1L;
 
     @Override
@@ -50,7 +50,7 @@ public class PastCheck extends AbstractDateCheck<Past> {
     boolean isSatisfied(final Object validatedObject, final Date valueToValidate, final OValContext context,
                                final Validator validator) {
             final long now = System.currentTimeMillis() + getTolerance();
-            return valueToValidate.getTime() < now;
+        return valueToValidate.getTime() < now;
     }
 
 }

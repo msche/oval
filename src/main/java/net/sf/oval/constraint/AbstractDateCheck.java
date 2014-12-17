@@ -4,8 +4,6 @@ import net.sf.oval.Validator;
 import net.sf.oval.configuration.annotation.AbstractAnnotationCheck;
 import net.sf.oval.context.OValContext;
 import net.sf.oval.exception.OValException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.lang.annotation.Annotation;
 import java.text.DateFormat;
@@ -13,20 +11,39 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
-import java.util.zip.DataFormatException;
 
 /**
- * Created by mase on 16-12-14.
+ * Root class for date checks.
  */
 public abstract class AbstractDateCheck<ConstraintAnnotation extends Annotation> extends AbstractAnnotationCheck<ConstraintAnnotation> {
 
     /**
      * Contains {@code DateFormat} instance that will be used to parse date string.
      */
-    private DateFormat formatter = DateFormat.getDateTimeInstance();
+    private SimpleDateFormat formatter = (SimpleDateFormat) DateFormat.getDateTimeInstance();
 
     private long tolerance;
+
+    /**
+     * @param format the format to set
+     */
+    public void setFormat(final String format) {
+        if ((format != null) && (format.trim().length() > 0)) {
+            setFormatter(new SimpleDateFormat(format));
+        } else {
+            setFormatter((SimpleDateFormat) DateFormat.getDateTimeInstance());
+        }
+        requireMessageVariablesRecreation();
+    }
+
+    /**
+     * Returns date format. If no date format is specified the returned value will be null.
+     *
+     * @return Format to which the date strings must apply.
+     */
+    public String getFormat() {
+        return formatter.toLocalizedPattern();
+    }
 
     /**
      * @return the format
@@ -36,7 +53,7 @@ public abstract class AbstractDateCheck<ConstraintAnnotation extends Annotation>
         return formatter;
     }
 
-    void setFormatter(DateFormat formatter) {
+    void setFormatter(SimpleDateFormat formatter) {
         net.sf.oval.internal.util.Assert.argumentNotNull("formatter", formatter);
         this.formatter = formatter;
 

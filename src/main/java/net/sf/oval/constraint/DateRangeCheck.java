@@ -1,20 +1,18 @@
 /*******************************************************************************
  * Portions created by Sebastian Thomschke are copyright (c) 2005-2011 Sebastian
  * Thomschke.
- * 
+ *
  * All Rights Reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *     Sebastian Thomschke - initial implementation.
  *******************************************************************************/
 package net.sf.oval.constraint;
 
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedHashMap;
@@ -22,314 +20,171 @@ import java.util.Map;
 
 import net.sf.oval.ConstraintTarget;
 import net.sf.oval.Validator;
-import net.sf.oval.configuration.annotation.AbstractAnnotationCheck;
 import net.sf.oval.context.OValContext;
 import net.sf.oval.exception.InvalidConfigurationException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * @author Sebastian Thomschke
  */
-public class DateRangeCheck extends AbstractDateCheck<DateRange>
-{
-	private static final Logger LOG = LoggerFactory.getLogger(DateRangeCheck.class);
+public final class DateRangeCheck extends AbstractDateCheck<DateRange> {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private String format;
-	private String max;
-	private String min;
+    private String max;
+    private String min;
 
-	private transient Long maxMillis;
-	private transient Long minMillis;
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void configure(final DateRange constraintAnnotation)
-	{
-		super.configure(constraintAnnotation);
-		setMin(constraintAnnotation.min());
-		setMax(constraintAnnotation.max());
-		setFormat(constraintAnnotation.format());
-		setTolerance(constraintAnnotation.tolerance());
-	}
+    private transient Long maxMillis;
+    private transient Long minMillis;
 
     /**
-     * @param format the format to set
+     * {@inheritDoc}
      */
-    public void setFormat(final String format)
-    {
-        if ((format != null ) && (format.trim().length() > 0)) {
-            setFormatter(new SimpleDateFormat(format));
-        } else {
-            setFormatter(DateFormat.getDateTimeInstance());
+    @Override
+    public void configure(final DateRange constraintAnnotation) {
+        super.configure(constraintAnnotation);
+        setMin(constraintAnnotation.min());
+        setMax(constraintAnnotation.max());
+        setFormat(constraintAnnotation.format());
+        setTolerance(constraintAnnotation.tolerance());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected Map<String, String> createMessageVariables() {
+        final Map<String, String> messageVariables = new LinkedHashMap<>(3);
+        messageVariables.put("min", min == null ? ".." : min);
+        messageVariables.put("max", max == null ? ".." : max);
+        messageVariables.put("format", getFormat());
+        return messageVariables;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected ConstraintTarget[] getAppliesToDefault() {
+        return new ConstraintTarget[]{ConstraintTarget.VALUES};
+    }
+
+    /**
+     * @return the max
+     */
+    public String getMax() {
+        return max;
+    }
+
+    private long getMaxMillis() throws InvalidConfigurationException {
+        if (maxMillis == null) {
+            if (max == null || max.length() == 0) {
+                return Long.MAX_VALUE;
+            } else if ("now".equals(max)) {
+                return System.currentTimeMillis() + getTolerance();
+            } else {
+                final Calendar cal = Calendar.getInstance();
+                cal.set(Calendar.HOUR_OF_DAY, 23);
+                cal.set(Calendar.MINUTE, 59);
+                cal.set(Calendar.SECOND, 59);
+                cal.set(Calendar.MILLISECOND, 999);
+
+                switch (max) {
+                    case "today":
+                        return cal.getTimeInMillis() + getTolerance();
+
+                    case "tomorrow":
+                        cal.add(Calendar.DAY_OF_YEAR, 1);
+                        return cal.getTimeInMillis() + getTolerance();
+                    case "yesterday":
+                        cal.add(Calendar.DAY_OF_YEAR, -1);
+                        return cal.getTimeInMillis() + getTolerance();
+                    default:
+                        try {
+                            maxMillis = getFormatter().parse(max).getTime() + getTolerance();
+                        } catch (final ParseException e) {
+                            throw new InvalidConfigurationException("Unable to parse the max Date String", e);
+                        }
+                }
+            }
         }
-        this.format = format;
+        return maxMillis;
+    }
+
+    /**
+     * @return the min
+     */
+    public String getMin() {
+        return min;
+    }
+
+    private long getMinMillis() throws InvalidConfigurationException {
+        if (minMillis == null) {
+            if (min == null || min.length() == 0) {
+                return 0L;
+            } else if ("now".equals(min)) {
+                return System.currentTimeMillis() - getTolerance();
+            }else {
+                final Calendar cal = Calendar.getInstance();
+                cal.set(Calendar.HOUR_OF_DAY, 0);
+                cal.set(Calendar.MINUTE, 0);
+                cal.set(Calendar.SECOND, 0);
+                cal.set(Calendar.MILLISECOND, 0);
+
+                switch(min) {
+
+                    case "today":
+                        return cal.getTimeInMillis() - getTolerance();
+
+                    case "tomorrow":
+                        cal.add(Calendar.DAY_OF_YEAR, 1);
+                        return cal.getTimeInMillis() - getTolerance();
+
+                    case "yesterday":
+                        cal.add(Calendar.DAY_OF_YEAR, -1);
+                        return cal.getTimeInMillis() - getTolerance();
+
+                    default:
+                        try {
+                            minMillis = getFormatter().parse(min).getTime() - getTolerance();
+                        } catch (final ParseException e) {
+                            throw new InvalidConfigurationException("Unable to parse the min Date String", e);
+                        }
+                }
+            }
+        }
+        return minMillis;
+    }
+
+    boolean isSatisfied(final Object validatedObject, Date valueToValidate, final OValContext context,
+                        final Validator validator) {
+        long valueInMillis = valueToValidate.getTime();
+        return valueInMillis >= getMinMillis() && valueInMillis <= getMaxMillis();
+    }
+
+    /**
+     * @param max the max to set
+     */
+    public void setMax(final String max) {
+        this.max = max;
+        maxMillis = null;
         requireMessageVariablesRecreation();
     }
 
     /**
-     * Returns date format. If no date format is specified the returned value will be null.
-     *
-     * @return
+     * @param min the min to set
      */
-    public String getFormat() {
-        return format;
+    public void setMin(final String min) {
+        this.min = min;
+        minMillis = null;
+        requireMessageVariablesRecreation();
     }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected Map<String, String> createMessageVariables()
-	{
-		final Map<String, String> messageVariables = new LinkedHashMap<>(3);
-		messageVariables.put("min", min == null ? ".." : min);
-		messageVariables.put("max", max == null ? ".." : max);
-		messageVariables.put("format", format);
-		return messageVariables;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected ConstraintTarget[] getAppliesToDefault()
-	{
-		return new ConstraintTarget[]{ConstraintTarget.VALUES};
-	}
-
-	/**
-	 * @return the max
-	 */
-	public String getMax()
-	{
-		return max;
-	}
-
-	private long getMaxMillis() throws InvalidConfigurationException
-	{
-		if (maxMillis == null)
-		{
-			if (max == null || max.length() == 0) return Long.MAX_VALUE;
-
-			if ("now".equals(max)) return System.currentTimeMillis() + getTolerance();
-
-			if ("today".equals(max))
-			{
-				final Calendar cal = Calendar.getInstance();
-				cal.set(Calendar.HOUR_OF_DAY, 0);
-				cal.set(Calendar.MINUTE, 0);
-				cal.set(Calendar.SECOND, 0);
-				cal.set(Calendar.MILLISECOND, 0);
-				cal.add(Calendar.DAY_OF_YEAR, 1);
-				cal.add(Calendar.MILLISECOND, -1);
-				return cal.getTimeInMillis() + getTolerance();
-			}
-
-			if ("tomorrow".equals(max))
-			{
-				final Calendar cal = Calendar.getInstance();
-				cal.set(Calendar.HOUR_OF_DAY, 0);
-				cal.set(Calendar.MINUTE, 0);
-				cal.set(Calendar.SECOND, 0);
-				cal.set(Calendar.MILLISECOND, 0);
-				cal.add(Calendar.DAY_OF_YEAR, 2);
-				cal.add(Calendar.MILLISECOND, -1);
-				return cal.getTimeInMillis() + getTolerance();
-			}
-
-			if ("yesterday".equals(max))
-			{
-				final Calendar cal = Calendar.getInstance();
-				cal.set(Calendar.HOUR_OF_DAY, 0);
-				cal.set(Calendar.MINUTE, 0);
-				cal.set(Calendar.SECOND, 0);
-				cal.set(Calendar.MILLISECOND, 0);
-				cal.add(Calendar.MILLISECOND, -1);
-				return cal.getTimeInMillis() + getTolerance();
-			}
-
-//			if (format != null && format.length() > 0)
-//			{
-//				final SimpleDateFormat sdf = new SimpleDateFormat(format);
-//				try
-//				{
-//					maxMillis = sdf.parse(max).getTime() + tolerance;
-//				}
-//				catch (final ParseException e)
-//				{
-//					throw new InvalidConfigurationException("Unable to parse the max Date String", e);
-//				}
-//			}
-//			else
-//				try
-//				{
-//					maxMillis = DateFormat.getDateTimeInstance().parse(max).getTime() + tolerance;
-//				}
-//				catch (final ParseException e)
-//				{
-//					throw new InvalidConfigurationException("Unable to parse the max Date String", e);
-//				}
-            try {
-                maxMillis = getFormatter().parse(max).getTime() + getTolerance();
-            } catch (final ParseException e)
-				{
-					throw new InvalidConfigurationException("Unable to parse the max Date String", e);
-				}
-
-            }
-		return maxMillis;
-	}
-
-	/**
-	 * @return the min
-	 */
-	public String getMin()
-	{
-		return min;
-	}
-
-	private long getMinMillis() throws InvalidConfigurationException
-	{
-		if (minMillis == null)
-		{
-			if (min == null || min.length() == 0) return 0L;
-
-			if ("now".equals(min)) return System.currentTimeMillis() - getTolerance();
-
-			if ("today".equals(min))
-			{
-				final Calendar cal = Calendar.getInstance();
-				cal.set(Calendar.HOUR_OF_DAY, 0);
-				cal.set(Calendar.MINUTE, 0);
-				cal.set(Calendar.SECOND, 0);
-				cal.set(Calendar.MILLISECOND, 0);
-				return cal.getTimeInMillis() - getTolerance();
-			}
-
-			if ("tomorrow".equals(min))
-			{
-				final Calendar cal = Calendar.getInstance();
-				cal.set(Calendar.HOUR_OF_DAY, 0);
-				cal.set(Calendar.MINUTE, 0);
-				cal.set(Calendar.SECOND, 0);
-				cal.set(Calendar.MILLISECOND, 0);
-				cal.add(Calendar.DAY_OF_YEAR, 1);
-				return cal.getTimeInMillis() - getTolerance();
-			}
-
-			if ("yesterday".equals(min))
-			{
-				final Calendar cal = Calendar.getInstance();
-				cal.set(Calendar.HOUR_OF_DAY, 0);
-				cal.set(Calendar.MINUTE, 0);
-				cal.set(Calendar.SECOND, 0);
-				cal.set(Calendar.MILLISECOND, 0);
-				cal.add(Calendar.DAY_OF_YEAR, -1);
-				return cal.getTimeInMillis() - getTolerance();
-			}
-
-//			if (format != null && format.length() > 0)
-//			{
-//				final SimpleDateFormat sdf = new SimpleDateFormat(format);
-				try
-				{
-					minMillis = getFormatter().parse(min).getTime() - getTolerance();
-				}
-				catch (final ParseException e)
-				{
-					throw new InvalidConfigurationException("Unable to parse the min Date String", e);
-				}
-//			}
-//			else
-//				try
-//				{
-//					minMillis = DateFormat.getDateTimeInstance().parse(min).getTime() - tolerance;
-//				}
-//				catch (final ParseException e)
-//				{
-//					throw new InvalidConfigurationException("Unable to parse the min Date String", e);
-//				}
-		}
-		return minMillis;
-	}
-
-//	/**
-//	 * @return the tolerance
-//	 */
-//	public long getTolerance()
-//	{
-//		return tolerance;
-//	}
-
-	boolean isSatisfied(final Object validatedObject, Date valueToValidate, final OValContext context,
-			final Validator validator)
-	{
-		long valueInMillis = valueToValidate.getTime();
-
-//		// check if the value is a Date
-//		if (valueToValidate instanceof Date)
-//			valueInMillis = ((Date) valueToValidate).getTime();
-//		else if (valueToValidate instanceof Calendar)
-//			valueInMillis = ((Calendar) valueToValidate).getTime().getTime();
-//		else
-//		{
-//			// see if we can extract a date based on the object's String representation
-//			final String stringValue = valueToValidate.toString();
-//			try
-//			{
-//				if (format != null) try
-//				{
-//					valueInMillis = new SimpleDateFormat(format).parse(stringValue).getTime();
-//				}
-//				catch (final ParseException ex)
-//				{
-//					LOG.debug("valueToValidate not parsable with specified format {}", format, ex);
-//				}
-//
-//				if (valueInMillis == -1) valueInMillis = DateFormat.getDateTimeInstance().parse(stringValue).getTime();
-//			}
-//			catch (final ParseException ex)
-//			{
-//				LOG.debug("valueToValidate is not parsable.", ex);
-//				return false;
-//			}
-//		}
-//
-		return valueInMillis >= getMinMillis() && valueInMillis <= getMaxMillis();
-	}
-
-	/**
-	 * @param max the max to set
-	 */
-	public void setMax(final String max)
-	{
-		this.max = max;
-		maxMillis = null;
-		requireMessageVariablesRecreation();
-	}
-
-	/**
-	 * @param min the min to set
-	 */
-	public void setMin(final String min)
-	{
-		this.min = min;
-		minMillis = null;
-		requireMessageVariablesRecreation();
-	}
-
-	/**
-	 * @param tolerance the tolerance to set
-	 */
-	public void setTolerance(final long tolerance)
-	{
-		super.setTolerance(tolerance);
-		minMillis = null;
-		maxMillis = null;
-	}
+    /**
+     * @param tolerance the tolerance to set
+     */
+    public void setTolerance(final long tolerance) {
+        super.setTolerance(tolerance);
+        minMillis = null;
+        maxMillis = null;
+    }
 }
