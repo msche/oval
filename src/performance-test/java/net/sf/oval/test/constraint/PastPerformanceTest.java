@@ -32,6 +32,17 @@ public class PastPerformanceTest {
             // nothing
         }
 
+        protected TestSubject(@Past final Calendar value)
+        {
+            // nothing
+        }
+
+        protected TestSubject(@Past final String value)
+        {
+            // nothing
+        }
+
+
         public void setValue(@Past final Calendar date)
         {
             // nothing
@@ -113,6 +124,36 @@ public class PastPerformanceTest {
     }
 
     /**
+     * Measures performance past constraint with tolerance when specified calendar is in future
+     */
+    @Test(expected=ConstraintsViolatedException.class)
+    @PerfTest(invocations=10000)
+    @Required(average = 1)
+    public void performanceTestConstructorCalendarFuture() {
+        new TestSubject(calendarFuture);
+    }
+
+    /**
+     * Measures performance past constraint with tolerance when specified date is in future
+     */
+    @Test(expected=ConstraintsViolatedException.class)
+    @PerfTest(invocations=10000)
+    @Required(average = 1)
+    public void performanceTestConstructorDateFuture() {
+        new TestSubject(dateFuture);
+    }
+
+    /**
+     * Measures performance past constraint with tolerance when specified date string is in future
+     */
+    @Test(expected=ConstraintsViolatedException.class)
+    @PerfTest(invocations=10000)
+    @Required(average = 1)
+    public void performanceTestConstructorDateStringFuture() {
+        new TestSubject(dateStringFuture);
+    }
+
+    /**
      * Measures performance past constraint with tolerance when specified calendar is in past
      */
     @Test
@@ -140,6 +181,36 @@ public class PastPerformanceTest {
     @Required(average = 1)
     public void performanceTestSetValueDateStringPast() {
         testSubject.setValue(dateStringPast);
+    }
+
+    /**
+     * Measures performance past constraint with tolerance when specified calendar is in past
+     */
+    @Test
+    @PerfTest(invocations=10000)
+    @Required(average = 1)
+    public void performanceTestConstructorCalendarPast() {
+        new TestSubject(calendarPast);
+    }
+
+    /**
+     * Measures performance past constraint with tolerance when specified date is in past
+     */
+    @Test
+    @PerfTest(invocations=10000)
+    @Required(average = 1)
+    public void performanceTestConstructorDatePast() {
+        new TestSubject(datePast);
+    }
+
+    /**
+     * Measures performance past constraint with tolerance when specified date is in past
+     */
+    @Test
+    @PerfTest(invocations=10000)
+    @Required(average = 1)
+    public void performanceTestConstructorDateStringPast() {
+        new TestSubject(dateStringPast);
     }
 
 }

@@ -27,6 +27,7 @@ public class EmailTest extends AbstractContraintsTest
 
 		super.testCheck(check);
 		assertTrue(check.isSatisfied(null, null, null, null));
+        assertFalse(check.isSatisfied(null, new Object(), null, null));
 
 		assertTrue(check.isSatisfied(null, "testjee@yahoo.com", null, null));
 		assertTrue(check.isSatisfied(null, "test_jee@yahoo.co", null, null));

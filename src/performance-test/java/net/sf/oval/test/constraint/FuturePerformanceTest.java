@@ -32,6 +32,16 @@ public class FuturePerformanceTest {
             // nothing
         }
 
+        protected TestSubject(@Future final Calendar value)
+        {
+            // nothing
+        }
+
+        protected TestSubject(@Future final String value)
+        {
+            // nothing
+        }
+
         public void setValue(@Future final Calendar date)
         {
             // nothing
@@ -113,6 +123,36 @@ public class FuturePerformanceTest {
     }
 
     /**
+     * Measures performance past constraint with tolerance when specified calendar is in future
+     */
+    @Test
+    @PerfTest(invocations=10000)
+    @Required(average = 1)
+    public void performanceTestConstructorCalendarFuture() {
+        new TestSubject(calendarFuture);
+    }
+
+    /**
+     * Measures performance past constraint with tolerance when specified date is in future
+     */
+    @Test
+    @PerfTest(invocations=10000)
+    @Required(average = 1)
+    public void performanceTestConstructorDateFuture() {
+        new TestSubject(dateFuture);
+    }
+
+    /**
+     * Measures performance past constraint with tolerance when specified date string is in future
+     */
+    @Test
+    @PerfTest(invocations=10000)
+    @Required(average = 1)
+    public void performanceTestConstructorDateStringFuture() {
+        new TestSubject(dateStringFuture);
+    }
+
+    /**
      * Measures performance past constraint with tolerance when specified calendar is in past
      */
     @Test(expected=ConstraintsViolatedException.class)
@@ -133,13 +173,43 @@ public class FuturePerformanceTest {
     }
 
     /**
-     * Measures performance past constraint with tolerance when specified date is in past
+     * Measures performance past constraint with tolerance when specified date string is in past
      */
     @Test(expected=ConstraintsViolatedException.class)
     @PerfTest(invocations=10000)
     @Required(average = 1)
     public void performanceTestSetValueDateStringPast() {
         testSubject.setValue(dateStringPast);
+    }
+
+    /**
+     * Measures performance past constraint with tolerance when specified calendar is in future
+     */
+    @Test(expected=ConstraintsViolatedException.class)
+    @PerfTest(invocations=10000)
+    @Required(average = 1)
+    public void performanceTestConstructorCalendarPast() {
+        new TestSubject(calendarPast);
+    }
+
+    /**
+     * Measures performance past constraint with tolerance when specified date is in past
+     */
+    @Test(expected=ConstraintsViolatedException.class)
+    @PerfTest(invocations=10000)
+    @Required(average = 1)
+    public void performanceTestConstructorDatePast() {
+        new TestSubject(datePast);
+    }
+
+    /**
+     * Measures performance past constraint with tolerance when specified date string is in past
+     */
+    @Test(expected=ConstraintsViolatedException.class)
+    @PerfTest(invocations=10000)
+    @Required(average = 1)
+    public void performanceTestConstructorDateStringPast() {
+        new TestSubject(dateStringPast);
     }
 
 }
