@@ -20,7 +20,7 @@ import net.sf.oval.context.OValContext;
 /**
  * @author Sebastian Thomschke
  */
-public class AssertConstraintSetCheck extends AbstractAnnotationCheck<AssertConstraintSet>
+public final class AssertConstraintSetCheck extends AbstractAnnotationCheck<AssertConstraintSet>
 {
 	private static final long serialVersionUID = 1L;
 
@@ -37,13 +37,13 @@ public class AssertConstraintSetCheck extends AbstractAnnotationCheck<AssertCons
 	}
 
     /**
-     * Returns value object {@code ConstraintAnnotationSettings} containing the basic settings of the constraint settings
+     * Returns value object {@code ConstraintAnnotationSettings} containing the basic settings of the constraint annotations
      *
      * @param constraintAnnotation Annotation from which the settings will be extracted
      *
      * @return Value object {@code ConstraintAnnotationSettings}.
      */
-    protected final ConstraintAnnotationSettings getSettings(final  AssertConstraintSet constraintAnnotation) {
+    protected ConstraintAnnotationSettings getSettings(final  AssertConstraintSet constraintAnnotation) {
 
         ConstraintAnnotationSettings settings = new ConstraintAnnotationSettings.Builder()
                 .appliesTo(constraintAnnotation.appliesTo())

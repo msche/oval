@@ -30,7 +30,7 @@ import java.util.Map;
 /**
  * @author Sebastian Thomschke
  */
-public class EqualToFieldCheck extends AbstractAnnotationCheck<EqualToField>
+public final class EqualToFieldCheck extends AbstractAnnotationCheck<EqualToField>
 {
 	private static final long serialVersionUID = 1L;
 
@@ -53,13 +53,13 @@ public class EqualToFieldCheck extends AbstractAnnotationCheck<EqualToField>
 	}
 
     /**
-     * Returns value object {@code ConstraintAnnotationSettings} containing the basic settings of the constraint settings
+     * Returns value object {@code ConstraintAnnotationSettings} containing the basic settings of the constraint annotations
      *
      * @param constraintAnnotation Annotation from which the settings will be extracted
      *
      * @return Value object {@code ConstraintAnnotationSettings}.
      */
-    protected final ConstraintAnnotationSettings getSettings(final  EqualToField constraintAnnotation) {
+    protected ConstraintAnnotationSettings getSettings(final  EqualToField constraintAnnotation) {
 
         ConstraintAnnotationSettings settings = new ConstraintAnnotationSettings.Builder()
                 .message(constraintAnnotation.message())

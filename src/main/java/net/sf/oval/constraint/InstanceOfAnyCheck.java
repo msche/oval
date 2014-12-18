@@ -24,7 +24,7 @@ import java.util.Map;
 /**
  * @author Sebastian Thomschke
  */
-public class InstanceOfAnyCheck extends AbstractAnnotationCheck<InstanceOfAny>
+public final class InstanceOfAnyCheck extends AbstractAnnotationCheck<InstanceOfAny>
 {
 	private static final long serialVersionUID = 1L;
 
@@ -41,13 +41,13 @@ public class InstanceOfAnyCheck extends AbstractAnnotationCheck<InstanceOfAny>
 	}
 
     /**
-     * Returns value object {@code ConstraintAnnotationSettings} containing the basic settings of the constraint settings
+     * Returns value object {@code ConstraintAnnotationSettings} containing the basic settings of the constraint annotations
      *
      * @param constraintAnnotation Annotation from which the settings will be extracted
      *
      * @return Value object {@code ConstraintAnnotationSettings}.
      */
-    protected final ConstraintAnnotationSettings getSettings(final  InstanceOfAny constraintAnnotation) {
+    protected ConstraintAnnotationSettings getSettings(final  InstanceOfAny constraintAnnotation) {
 
         ConstraintAnnotationSettings settings = new ConstraintAnnotationSettings.Builder()
                 .message(constraintAnnotation.message())

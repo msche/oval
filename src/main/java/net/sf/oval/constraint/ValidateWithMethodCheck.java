@@ -28,7 +28,7 @@ import java.util.Map;
 /**
  * @author Sebastian Thomschke
  */
-public class ValidateWithMethodCheck extends AbstractAnnotationCheck<ValidateWithMethod>
+public final class ValidateWithMethodCheck extends AbstractAnnotationCheck<ValidateWithMethod>
 {
 	private static final long serialVersionUID = 1L;
 
@@ -49,13 +49,13 @@ public class ValidateWithMethodCheck extends AbstractAnnotationCheck<ValidateWit
 	}
 
     /**
-     * Returns value object {@code ConstraintAnnotationSettings} containing the basic settings of the constraint settings
+     * Returns value object {@code ConstraintAnnotationSettings} containing the basic settings of the constraint annotation.
      *
      * @param constraintAnnotation Annotation from which the settings will be extracted
      *
      * @return Value object {@code ConstraintAnnotationSettings}.
      */
-    protected final ConstraintAnnotationSettings getSettings(final  ValidateWithMethod constraintAnnotation) {
+    protected ConstraintAnnotationSettings getSettings(final  ValidateWithMethod constraintAnnotation) {
 
         ConstraintAnnotationSettings settings = new ConstraintAnnotationSettings.Builder()
                 .message(constraintAnnotation.message())

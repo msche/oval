@@ -27,7 +27,7 @@ import java.util.Map;
 /**
  * @author Sebastian Thomschke
  */
-public class CheckWithCheck extends AbstractAnnotationCheck<CheckWith>
+public final class CheckWithCheck extends AbstractAnnotationCheck<CheckWith>
 {
 	public interface SimpleCheck extends Serializable
 	{
@@ -56,13 +56,13 @@ public class CheckWithCheck extends AbstractAnnotationCheck<CheckWith>
 	}
 
     /**
-     * Returns value object {@code ConstraintAnnotationSettings} containing the basic settings of the constraint settings
+     * Returns value object {@code ConstraintAnnotationSettings} containing the basic settings of the constraint annotations
      *
      * @param constraintAnnotation Annotation from which the settings will be extracted
      *
      * @return Value object {@code ConstraintAnnotationSettings}.
      */
-    protected final ConstraintAnnotationSettings getSettings(final CheckWith constraintAnnotation) {
+    protected ConstraintAnnotationSettings getSettings(final CheckWith constraintAnnotation) {
 
         ConstraintAnnotationSettings settings = new ConstraintAnnotationSettings.Builder()
                 .message(constraintAnnotation.message())

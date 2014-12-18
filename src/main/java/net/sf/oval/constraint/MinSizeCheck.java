@@ -25,7 +25,7 @@ import java.util.Map;
 /**
  * @author Sebastian Thomschke
  */
-public class MinSizeCheck extends AbstractAnnotationCheck<MinSize>
+public final class MinSizeCheck extends AbstractAnnotationCheck<MinSize>
 {
 	private static final long serialVersionUID = 1L;
 
@@ -42,13 +42,13 @@ public class MinSizeCheck extends AbstractAnnotationCheck<MinSize>
 	}
 
     /**
-     * Returns value object {@code ConstraintAnnotationSettings} containing the basic settings of the constraint settings
+     * Returns value object {@code ConstraintAnnotationSettings} containing the basic settings of the constraint annotation
      *
      * @param constraintAnnotation Annotation from which the settings will be extracted
      *
      * @return Value object {@code ConstraintAnnotationSettings}.
      */
-    protected final ConstraintAnnotationSettings getSettings(final  MinSize constraintAnnotation) {
+    protected ConstraintAnnotationSettings getSettings(final  MinSize constraintAnnotation) {
 
         ConstraintAnnotationSettings settings = new ConstraintAnnotationSettings.Builder()
                 .message(constraintAnnotation.message())

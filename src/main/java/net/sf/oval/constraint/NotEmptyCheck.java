@@ -21,7 +21,7 @@ import net.sf.oval.context.OValContext;
 /**
  * @author Sebastian Thomschke
  */
-public class NotEmptyCheck extends AbstractAnnotationCheck<NotEmpty>
+public final class NotEmptyCheck extends AbstractAnnotationCheck<NotEmpty>
 {
 	private static final long serialVersionUID = 1L;
 
@@ -46,13 +46,13 @@ public class NotEmptyCheck extends AbstractAnnotationCheck<NotEmpty>
 	}
 
     /**
-     * Returns value object {@code ConstraintAnnotationSettings} containing the basic settings of the constraint settings
+     * Returns value object {@code ConstraintAnnotationSettings} containing the basic settings of the constraint annotation
      *
      * @param constraintAnnotation Annotation from which the settings will be extracted
      *
      * @return Value object {@code ConstraintAnnotationSettings}.
      */
-    protected final ConstraintAnnotationSettings getSettings(final  NotEmpty constraintAnnotation) {
+    protected ConstraintAnnotationSettings getSettings(final  NotEmpty constraintAnnotation) {
 
         ConstraintAnnotationSettings settings = new ConstraintAnnotationSettings.Builder()
                 .message(constraintAnnotation.message())

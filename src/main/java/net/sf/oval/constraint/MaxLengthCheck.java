@@ -24,7 +24,7 @@ import java.util.Map;
 /**
  * @author Sebastian Thomschke
  */
-public class MaxLengthCheck extends AbstractAnnotationCheck<MaxLength>
+public final class MaxLengthCheck extends AbstractAnnotationCheck<MaxLength>
 {
 	private static final long serialVersionUID = 1L;
 
@@ -41,13 +41,13 @@ public class MaxLengthCheck extends AbstractAnnotationCheck<MaxLength>
 	}
 
     /**
-     * Returns value object {@code ConstraintAnnotationSettings} containing the basic settings of the constraint settings
+     * Returns value object {@code ConstraintAnnotationSettings} containing the basic settings of the constraint annotation
      *
      * @param constraintAnnotation Annotation from which the settings will be extracted
      *
      * @return Value object {@code ConstraintAnnotationSettings}.
      */
-    protected final ConstraintAnnotationSettings getSettings(final  MaxLength constraintAnnotation) {
+    protected ConstraintAnnotationSettings getSettings(final  MaxLength constraintAnnotation) {
 
         ConstraintAnnotationSettings settings = new ConstraintAnnotationSettings.Builder()
                 .message(constraintAnnotation.message())

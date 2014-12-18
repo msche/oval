@@ -21,7 +21,7 @@ import net.sf.oval.context.OValContext;
 /**
  * @author Sebastian Thomschke
  */
-public class AssertFieldConstraintsCheck extends AbstractAnnotationCheck<AssertFieldConstraints>
+public final class AssertFieldConstraintsCheck extends AbstractAnnotationCheck<AssertFieldConstraints>
 {
 	private static final long serialVersionUID = 1L;
 
@@ -41,7 +41,7 @@ public class AssertFieldConstraintsCheck extends AbstractAnnotationCheck<AssertF
 	}
 
     /**
-     * Returns value object {@code ConstraintAnnotationSettings} containing the basic settings of the constraint settings
+     * Returns value object {@code ConstraintAnnotationSettings} containing the basic settings of the constraint annotations
      *
      * @param constraintAnnotation Annotation from which the settings will be extracted
      *

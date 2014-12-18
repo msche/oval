@@ -23,7 +23,7 @@ import java.math.BigDecimal;
 /**
  * @author Sebastian Thomschke
  */
-public class NotNegativeCheck extends AbstractAnnotationCheck<NotNegative>
+public final class NotNegativeCheck extends AbstractAnnotationCheck<NotNegative>
 {
 	private static final BigDecimal ZERO = BigDecimal.valueOf(0);
 
@@ -39,13 +39,13 @@ public class NotNegativeCheck extends AbstractAnnotationCheck<NotNegative>
 	}
 
     /**
-     * Returns value object {@code ConstraintAnnotationSettings} containing the basic settings of the constraint settings
+     * Returns value object {@code ConstraintAnnotationSettings} containing the basic settings of the constraint annotation
      *
      * @param constraintAnnotation Annotation from which the settings will be extracted
      *
      * @return Value object {@code ConstraintAnnotationSettings}.
      */
-    protected final ConstraintAnnotationSettings getSettings(final  NotNegative constraintAnnotation) {
+    protected ConstraintAnnotationSettings getSettings(final  NotNegative constraintAnnotation) {
 
         ConstraintAnnotationSettings settings = new ConstraintAnnotationSettings.Builder()
                 .message(constraintAnnotation.message())

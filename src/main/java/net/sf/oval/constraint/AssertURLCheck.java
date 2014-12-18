@@ -34,7 +34,7 @@ import java.util.Locale;
 /**
  * @author Sebastian Thomschke
  */
-public class AssertURLCheck extends AbstractAnnotationCheck<AssertURL>
+public final class AssertURLCheck extends AbstractAnnotationCheck<AssertURL>
 {
 	/**
 	 * http://en.wikipedia.org/wiki/URI_scheme
@@ -122,13 +122,13 @@ public class AssertURLCheck extends AbstractAnnotationCheck<AssertURL>
 	}
 
     /**
-     * Returns value object {@code ConstraintAnnotationSettings} containing the basic settings of the constraint settings
+     * Returns value object {@code ConstraintAnnotationSettings} containing the basic settings of the constraint annotations
      *
      * @param constraintAnnotation Annotation from which the settings will be extracted
      *
      * @return Value object {@code ConstraintAnnotationSettings}.
      */
-    protected final ConstraintAnnotationSettings getSettings(final  AssertURL constraintAnnotation) {
+    protected ConstraintAnnotationSettings getSettings(final  AssertURL constraintAnnotation) {
 
         ConstraintAnnotationSettings settings = new ConstraintAnnotationSettings.Builder()
                 .message(constraintAnnotation.message())

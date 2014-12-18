@@ -30,7 +30,7 @@ import java.util.Map;
 /**
  * @author Sebastian Thomschke
  */
-public class NotEqualToFieldCheck extends AbstractAnnotationCheck<NotEqualToField>
+public final class NotEqualToFieldCheck extends AbstractAnnotationCheck<NotEqualToField>
 {
 	private static final long serialVersionUID = 1L;
 
@@ -53,13 +53,13 @@ public class NotEqualToFieldCheck extends AbstractAnnotationCheck<NotEqualToFiel
 	}
 
     /**
-     * Returns value object {@code ConstraintAnnotationSettings} containing the basic settings of the constraint settings
+     * Returns value object {@code ConstraintAnnotationSettings} containing the basic settings of the constraint annotation
      *
      * @param constraintAnnotation Annotation from which the settings will be extracted
      *
      * @return Value object {@code ConstraintAnnotationSettings}.
      */
-    protected final ConstraintAnnotationSettings getSettings(final  NotEqualToField constraintAnnotation) {
+    protected ConstraintAnnotationSettings getSettings(final  NotEqualToField constraintAnnotation) {
 
         ConstraintAnnotationSettings settings = new ConstraintAnnotationSettings.Builder()
                 .message(constraintAnnotation.message())

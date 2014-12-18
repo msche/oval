@@ -29,7 +29,7 @@ import java.util.Map;
 /**
  * @author Sebastian Thomschke
  */
-public class NotMemberOfCheck extends AbstractAnnotationCheck<NotMemberOf>
+public final class NotMemberOfCheck extends AbstractAnnotationCheck<NotMemberOf>
 {
 	private static final long serialVersionUID = 1L;
 
@@ -49,13 +49,13 @@ public class NotMemberOfCheck extends AbstractAnnotationCheck<NotMemberOf>
 	}
 
     /**
-     * Returns value object {@code ConstraintAnnotationSettings} containing the basic settings of the constraint settings
+     * Returns value object {@code ConstraintAnnotationSettings} containing the basic settings of the constraint annotation
      *
      * @param constraintAnnotation Annotation from which the settings will be extracted
      *
      * @return Value object {@code ConstraintAnnotationSettings}.
      */
-    protected final ConstraintAnnotationSettings getSettings(final  NotMemberOf constraintAnnotation) {
+    protected ConstraintAnnotationSettings getSettings(final  NotMemberOf constraintAnnotation) {
 
         ConstraintAnnotationSettings settings = new ConstraintAnnotationSettings.Builder()
                 .message(constraintAnnotation.message())

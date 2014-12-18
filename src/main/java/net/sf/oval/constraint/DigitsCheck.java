@@ -28,7 +28,7 @@ import java.util.Map;
 /**
  * @author Sebastian Thomschke
  */
-public class DigitsCheck extends AbstractAnnotationCheck<Digits>
+public final class DigitsCheck extends AbstractAnnotationCheck<Digits>
 {
 	private static final Logger LOG = LoggerFactory.getLogger(DigitsCheck.class);
 
@@ -53,13 +53,13 @@ public class DigitsCheck extends AbstractAnnotationCheck<Digits>
 	}
 
     /**
-     * Returns value object {@code ConstraintAnnotationSettings} containing the basic settings of the constraint settings
+     * Returns value object {@code ConstraintAnnotationSettings} containing the basic settings of the constraint annotations
      *
      * @param constraintAnnotation Annotation from which the settings will be extracted
      *
      * @return Value object {@code ConstraintAnnotationSettings}.
      */
-    protected final ConstraintAnnotationSettings getSettings(final  Digits constraintAnnotation) {
+    protected ConstraintAnnotationSettings getSettings(final  Digits constraintAnnotation) {
 
         ConstraintAnnotationSettings settings = new ConstraintAnnotationSettings.Builder()
                 .message(constraintAnnotation.message())

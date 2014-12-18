@@ -29,7 +29,7 @@ import java.util.regex.Pattern;
 /**
  * @author Sebastian Thomschke
  */
-public class NotMatchPatternCheck extends AbstractAnnotationCheck<NotMatchPattern>
+public final class NotMatchPatternCheck extends AbstractAnnotationCheck<NotMatchPattern>
 {
 	private static final long serialVersionUID = 1L;
 
@@ -59,13 +59,13 @@ public class NotMatchPatternCheck extends AbstractAnnotationCheck<NotMatchPatter
 	}
 
     /**
-     * Returns value object {@code ConstraintAnnotationSettings} containing the basic settings of the constraint settings
+     * Returns value object {@code ConstraintAnnotationSettings} containing the basic settings of the constraint annotation
      *
      * @param constraintAnnotation Annotation from which the settings will be extracted
      *
      * @return Value object {@code ConstraintAnnotationSettings}.
      */
-    protected final ConstraintAnnotationSettings getSettings(final  NotMatchPattern constraintAnnotation) {
+    protected ConstraintAnnotationSettings getSettings(final  NotMatchPattern constraintAnnotation) {
 
         ConstraintAnnotationSettings settings = new ConstraintAnnotationSettings.Builder()
                 .message(constraintAnnotation.message())
