@@ -12,6 +12,11 @@
  *******************************************************************************/
 package net.sf.oval.test.validator;
 
+import junit.framework.TestCase;
+import net.sf.oval.ConstraintViolation;
+import net.sf.oval.Validator;
+import net.sf.oval.constraint.Length;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -19,11 +24,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.List;
-
-import junit.framework.TestCase;
-import net.sf.oval.ConstraintViolation;
-import net.sf.oval.Validator;
-import net.sf.oval.constraint.Length;
 
 /**
  * @author Sebastian Thomschke

@@ -12,15 +12,11 @@
  *******************************************************************************/
 package net.sf.oval.configuration.annotation;
 
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Method;
-
 import net.sf.oval.AbstractCheck;
-import net.sf.oval.ConstraintTarget;
-import net.sf.oval.constraint.AssertFieldConstraints;
-import net.sf.oval.internal.util.ReflectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.lang.annotation.Annotation;
 
 /**
  * Partial implementation of check classes configurable via annotations.
@@ -40,7 +36,7 @@ public abstract class AbstractAnnotationCheck<ConstraintAnnotation extends Annot
     }
 
     /**
-     * Returns value object {@code ConstraintAnnotationSettings} containing the basic settings of the constraint settings
+     * Returns value object {@code ConstraintAnnotationSettings} containing the basic settings of the constraint annotation
      *
      * @param constraintAnnotation Annotation from which the settings will be extracted
      *

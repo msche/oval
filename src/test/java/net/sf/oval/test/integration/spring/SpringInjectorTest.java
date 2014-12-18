@@ -12,11 +12,6 @@
  *******************************************************************************/
 package net.sf.oval.test.integration.spring;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-
 import junit.framework.TestCase;
 import net.sf.oval.Validator;
 import net.sf.oval.configuration.annotation.AbstractAnnotationCheck;
@@ -26,10 +21,14 @@ import net.sf.oval.configuration.annotation.ConstraintAnnotationSettings;
 import net.sf.oval.context.OValContext;
 import net.sf.oval.exception.OValException;
 import net.sf.oval.integration.spring.SpringCheckInitializationListener;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
 * @author Sebastian Thomschke

@@ -12,11 +12,10 @@
  *******************************************************************************/
 package net.sf.oval.integration.guice;
 
+import com.google.inject.Injector;
 import net.sf.oval.Check;
 import net.sf.oval.configuration.CheckInitializationListener;
 import net.sf.oval.constraint.CheckWithCheck;
-
-import com.google.inject.Injector;
 
 /**
  * Injects Guice bean dependencies into {@link Check} instances.

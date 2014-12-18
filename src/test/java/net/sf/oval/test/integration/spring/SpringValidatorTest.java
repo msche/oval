@@ -17,7 +17,6 @@ import net.sf.oval.Validator;
 import net.sf.oval.constraint.NotNegative;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.integration.spring.SpringValidator;
-
 import org.springframework.validation.BindException;
 
 /**

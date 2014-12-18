@@ -12,9 +12,9 @@
  *******************************************************************************/
 package net.sf.oval.exception;
 
-import java.util.List;
-
 import net.sf.oval.ConstraintViolation;
+
+import java.util.List;
 
 /**
  * This exception is thrown if one or more constraints are not satisfied during validation.

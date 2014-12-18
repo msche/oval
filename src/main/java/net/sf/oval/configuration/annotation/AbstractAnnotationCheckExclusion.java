@@ -12,12 +12,12 @@
  *******************************************************************************/
 package net.sf.oval.configuration.annotation;
 
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Method;
-
 import net.sf.oval.AbstractCheckExclusion;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
 
 /**
  * Partial implementation of check exclusion classes configurable via annotations.

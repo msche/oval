@@ -12,12 +12,11 @@
  *******************************************************************************/
 package net.sf.oval.test.constraints;
 
-import java.text.DateFormat;
+import net.sf.oval.constraint.DateRangeCheck;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-
-import net.sf.oval.constraint.DateRangeCheck;
 
 /**
  * @author Sebastian Thomschke

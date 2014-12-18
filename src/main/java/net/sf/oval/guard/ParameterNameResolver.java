@@ -12,10 +12,10 @@
  *******************************************************************************/
 package net.sf.oval.guard;
 
+import net.sf.oval.exception.ReflectionException;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
-
-import net.sf.oval.exception.ReflectionException;
 
 /**
  * @author Sebastian Thomschke

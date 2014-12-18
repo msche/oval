@@ -12,13 +12,13 @@
  *******************************************************************************/
 package net.sf.oval;
 
+import net.sf.oval.context.OValContext;
+import net.sf.oval.expression.ExpressionLanguage;
+
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
-
-import net.sf.oval.context.OValContext;
-import net.sf.oval.expression.ExpressionLanguage;
 
 /**
  * Partial implementation of check classes.

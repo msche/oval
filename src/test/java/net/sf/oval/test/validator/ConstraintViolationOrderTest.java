@@ -12,14 +12,14 @@
  *******************************************************************************/
 package net.sf.oval.test.validator;
 
-import java.util.List;
-
 import junit.framework.TestCase;
 import net.sf.oval.ConstraintViolation;
 import net.sf.oval.Validator;
 import net.sf.oval.constraint.EqualToField;
 import net.sf.oval.constraint.HasSubstring;
 import net.sf.oval.constraint.MaxLength;
+
+import java.util.List;
 
 /**
  * @author Sebastian Thomschke

@@ -12,10 +12,6 @@
  *******************************************************************************/
 package net.sf.oval.constraint;
 
-import java.lang.annotation.Annotation;
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 import net.sf.oval.Validator;
 import net.sf.oval.configuration.annotation.AbstractAnnotationCheck;
 import net.sf.oval.configuration.annotation.ConstraintAnnotationSettings;
@@ -23,6 +19,9 @@ import net.sf.oval.context.OValContext;
 import net.sf.oval.exception.ExpressionEvaluationException;
 import net.sf.oval.exception.ExpressionLanguageNotAvailableException;
 import net.sf.oval.expression.ExpressionLanguage;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * @author Sebastian Thomschke

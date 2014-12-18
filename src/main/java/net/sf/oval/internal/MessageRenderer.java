@@ -12,12 +12,12 @@
  *******************************************************************************/
 package net.sf.oval.internal;
 
-import java.util.Map;
-import java.util.Map.Entry;
-
 import net.sf.oval.Validator;
 import net.sf.oval.internal.util.StringUtils;
 import net.sf.oval.localization.value.MessageValueFormatter;
+
+import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * @author Sebastian Thomschke

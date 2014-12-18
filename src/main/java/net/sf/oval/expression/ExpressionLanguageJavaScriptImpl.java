@@ -12,12 +12,8 @@
  *******************************************************************************/
 package net.sf.oval.expression;
 
-import java.util.Map;
-import java.util.Map.Entry;
-
 import net.sf.oval.exception.ExpressionEvaluationException;
 import net.sf.oval.internal.util.ObjectCache;
-
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.ContextFactory;
 import org.mozilla.javascript.EvaluatorException;
@@ -25,6 +21,9 @@ import org.mozilla.javascript.Script;
 import org.mozilla.javascript.Scriptable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * @author Sebastian Thomschke

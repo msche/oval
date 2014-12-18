@@ -12,13 +12,13 @@
  *******************************************************************************/
 package net.sf.oval.constraint;
 
-import java.math.BigDecimal;
-
 import net.sf.oval.ConstraintTarget;
 import net.sf.oval.Validator;
 import net.sf.oval.configuration.annotation.AbstractAnnotationCheck;
 import net.sf.oval.configuration.annotation.ConstraintAnnotationSettings;
 import net.sf.oval.context.OValContext;
+
+import java.math.BigDecimal;
 
 /**
  * @author Sebastian Thomschke

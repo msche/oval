@@ -12,9 +12,9 @@
  *******************************************************************************/
 package net.sf.oval.context;
 
-import java.lang.reflect.Method;
-
 import net.sf.oval.internal.util.SerializableMethod;
+
+import java.lang.reflect.Method;
 
 /**
  * @author Sebastian Thomschke

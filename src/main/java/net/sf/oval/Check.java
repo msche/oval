@@ -12,11 +12,11 @@
  *******************************************************************************/
 package net.sf.oval;
 
-import java.io.Serializable;
-import java.util.Map;
-
 import net.sf.oval.context.OValContext;
 import net.sf.oval.exception.OValException;
+
+import java.io.Serializable;
+import java.util.Map;
 
 /**
  * interface for classes that can check/validate if a constraint is satisfied

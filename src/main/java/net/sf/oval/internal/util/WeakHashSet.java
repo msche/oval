@@ -12,8 +12,6 @@
  *******************************************************************************/
 package net.sf.oval.internal.util;
 
-import static java.lang.Boolean.TRUE;
-
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
@@ -21,6 +19,8 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.WeakHashMap;
+
+import static java.lang.Boolean.TRUE;
 
 /**
  * @author Sebastian Thomschke

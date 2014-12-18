@@ -2,11 +2,11 @@ package net.sf.oval.test.constraint;
 
 import net.sf.oval.constraint.MinSize;
 import net.sf.oval.exception.ConstraintsViolatedException;
-import net.sf.oval.test.guard.TestGuardAspect;
-import org.databene.contiperf.Required;
 import net.sf.oval.guard.Guard;
 import net.sf.oval.guard.Guarded;
+import net.sf.oval.test.guard.TestGuardAspect;
 import org.databene.contiperf.PerfTest;
+import org.databene.contiperf.Required;
 import org.databene.contiperf.junit.ContiPerfRule;
 import org.junit.Before;
 import org.junit.Rule;

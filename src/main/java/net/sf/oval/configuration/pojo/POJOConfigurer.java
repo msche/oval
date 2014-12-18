@@ -12,12 +12,12 @@
  *******************************************************************************/
 package net.sf.oval.configuration.pojo;
 
-import java.io.Serializable;
-import java.util.Set;
-
 import net.sf.oval.configuration.Configurer;
 import net.sf.oval.configuration.pojo.elements.ClassConfiguration;
 import net.sf.oval.configuration.pojo.elements.ConstraintSetConfiguration;
+
+import java.io.Serializable;
+import java.util.Set;
 
 /**
  * @author Sebastian Thomschke

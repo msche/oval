@@ -12,9 +12,9 @@
  *******************************************************************************/
 package net.sf.oval.test.constraints;
 
-import java.math.BigDecimal;
-
 import net.sf.oval.constraint.DigitsCheck;
+
+import java.math.BigDecimal;
 
 /**
  * @author Sebastian Thomschke

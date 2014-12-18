@@ -12,13 +12,13 @@
  *******************************************************************************/
 package net.sf.oval.test.validator;
 
-import java.lang.annotation.Annotation;
-import java.util.Enumeration;
-import java.util.ResourceBundle;
-
 import junit.framework.TestCase;
 import net.sf.oval.Check;
 import net.sf.oval.internal.util.ReflectionUtils;
+
+import java.lang.annotation.Annotation;
+import java.util.Enumeration;
+import java.util.ResourceBundle;
 
 /**
  * @author Sebastian Thomschke

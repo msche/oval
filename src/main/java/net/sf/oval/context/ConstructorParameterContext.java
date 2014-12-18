@@ -12,11 +12,11 @@
  *******************************************************************************/
 package net.sf.oval.context;
 
-import java.lang.reflect.Constructor;
-
 import net.sf.oval.Validator;
 import net.sf.oval.internal.util.SerializableConstructor;
 import net.sf.oval.internal.util.StringUtils;
+
+import java.lang.reflect.Constructor;
 
 /**
  * @author Sebastian Thomschke

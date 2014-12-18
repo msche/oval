@@ -12,28 +12,6 @@
  *******************************************************************************/
 package net.sf.oval.configuration.annotation;
 
-import static net.sf.oval.Validator.*;
-
-import java.lang.annotation.Annotation;
-import java.lang.reflect.AccessibleObject;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.LinkedHashSet;
-import java.util.List;
-
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Lob;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Version;
-
 import net.sf.oval.Check;
 import net.sf.oval.configuration.Configurer;
 import net.sf.oval.configuration.pojo.elements.ClassConfiguration;
@@ -49,6 +27,25 @@ import net.sf.oval.constraint.NotNullCheck;
 import net.sf.oval.constraint.Range;
 import net.sf.oval.constraint.RangeCheck;
 import net.sf.oval.internal.util.ReflectionUtils;
+
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Version;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.AccessibleObject;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedHashSet;
+import java.util.List;
 
 /**
  * Constraints configurer that interprets certain EJB3 JPA annotations:

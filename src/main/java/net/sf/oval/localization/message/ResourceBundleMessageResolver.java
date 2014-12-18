@@ -12,7 +12,10 @@
  *******************************************************************************/
 package net.sf.oval.localization.message;
 
-import static net.sf.oval.Validator.*;
+import net.sf.oval.Validator;
+import net.sf.oval.internal.util.Assert;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -22,10 +25,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
-import net.sf.oval.Validator;
-import net.sf.oval.internal.util.Assert;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Default implementation that resolves messages based

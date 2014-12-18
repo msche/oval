@@ -12,10 +12,10 @@
  *******************************************************************************/
 package net.sf.oval.test.constraints;
 
+import net.sf.oval.constraint.MinCheck;
+
 import java.math.BigDecimal;
 import java.math.BigInteger;
-
-import net.sf.oval.constraint.MinCheck;
 
 /**
  * @author Sebastian Thomschke

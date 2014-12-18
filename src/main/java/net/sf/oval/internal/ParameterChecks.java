@@ -12,16 +12,16 @@
  *******************************************************************************/
 package net.sf.oval.internal;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
-import java.util.LinkedHashSet;
-import java.util.Set;
-
 import net.sf.oval.Check;
 import net.sf.oval.CheckExclusion;
 import net.sf.oval.context.ConstructorParameterContext;
 import net.sf.oval.context.MethodParameterContext;
 import net.sf.oval.context.OValContext;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 /**
  * @author Sebastian Thomschke

@@ -12,11 +12,11 @@
  *******************************************************************************/
 package net.sf.oval;
 
-import java.lang.reflect.Field;
-import java.util.List;
-
 import net.sf.oval.exception.ConstraintsViolatedException;
 import net.sf.oval.exception.ValidationFailedException;
+
+import java.lang.reflect.Field;
+import java.util.List;
 
 /**
  * An interface implemented by Validator for easier mocking.

@@ -12,8 +12,6 @@
  *******************************************************************************/
 package net.sf.oval.test.guard;
 
-import java.util.List;
-
 import junit.framework.TestCase;
 import net.sf.oval.ConstraintViolation;
 import net.sf.oval.constraint.Length;
@@ -24,6 +22,8 @@ import net.sf.oval.exception.ConstraintsViolatedException;
 import net.sf.oval.guard.ConstraintsViolatedAdapter;
 import net.sf.oval.guard.Guard;
 import net.sf.oval.guard.Guarded;
+
+import java.util.List;
 
 /**
  * @author Sebastian Thomschke

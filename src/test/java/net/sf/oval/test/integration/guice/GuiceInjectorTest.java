@@ -12,11 +12,13 @@
  *******************************************************************************/
 package net.sf.oval.test.integration.guice;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-
+import com.google.inject.Binder;
+import com.google.inject.Guice;
+import com.google.inject.Inject;
+import com.google.inject.Injector;
+import com.google.inject.Module;
+import com.google.inject.name.Named;
+import com.google.inject.name.Names;
 import junit.framework.TestCase;
 import net.sf.oval.Validator;
 import net.sf.oval.configuration.annotation.AbstractAnnotationCheck;
@@ -27,13 +29,10 @@ import net.sf.oval.context.OValContext;
 import net.sf.oval.exception.OValException;
 import net.sf.oval.integration.guice.GuiceCheckInitializationListener;
 
-import com.google.inject.Binder;
-import com.google.inject.Guice;
-import com.google.inject.Inject;
-import com.google.inject.Injector;
-import com.google.inject.Module;
-import com.google.inject.name.Named;
-import com.google.inject.name.Names;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
 * @author Sebastian Thomschke

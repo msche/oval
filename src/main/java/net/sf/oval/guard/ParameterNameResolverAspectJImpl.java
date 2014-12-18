@@ -12,18 +12,17 @@
  *******************************************************************************/
 package net.sf.oval.guard;
 
+import net.sf.oval.exception.ReflectionException;
+import net.sf.oval.internal.util.ReflectionUtils;
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.reflect.ConstructorSignature;
+import org.aspectj.lang.reflect.MethodSignature;
+
 import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.WeakHashMap;
-
-import net.sf.oval.exception.ReflectionException;
-import net.sf.oval.internal.util.ReflectionUtils;
-
-import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.reflect.ConstructorSignature;
-import org.aspectj.lang.reflect.MethodSignature;
 
 /**
  * This class determines the names of constructor and method parameters based on the static 

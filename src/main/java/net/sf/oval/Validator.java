@@ -12,21 +12,6 @@
  *******************************************************************************/
 package net.sf.oval;
 
-import static java.lang.Boolean.*;
-
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.WeakHashMap;
-
 import net.sf.oval.configuration.Configurer;
 import net.sf.oval.configuration.annotation.AnnotationsConfigurer;
 import net.sf.oval.configuration.annotation.JPAAnnotationsConfigurer;
@@ -80,6 +65,21 @@ import net.sf.oval.localization.value.MessageValueFormatter;
 import net.sf.oval.localization.value.ToStringMessageValueFormatter;
 import net.sf.oval.ogn.ObjectGraphNavigationResult;
 import net.sf.oval.ogn.ObjectGraphNavigatorRegistry;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.WeakHashMap;
+
+import static java.lang.Boolean.TRUE;
 
 /**
  * <p>Instances of this class can validate objects based on declared constraints.

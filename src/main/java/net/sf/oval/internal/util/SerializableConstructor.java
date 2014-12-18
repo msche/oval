@@ -12,13 +12,13 @@
  *******************************************************************************/
 package net.sf.oval.internal.util;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.util.WeakHashMap;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Serializable Wrapper for java.lang.reflect.Constructor objects since they do not implement Serializable

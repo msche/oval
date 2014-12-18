@@ -12,9 +12,10 @@
  *******************************************************************************/
 package net.sf.oval.test.validator;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import junit.framework.TestCase;
+import net.sf.oval.ConstraintViolation;
+import net.sf.oval.Validator;
+import net.sf.oval.configuration.annotation.JPAAnnotationsConfigurer;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -22,11 +23,9 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-
-import junit.framework.TestCase;
-import net.sf.oval.ConstraintViolation;
-import net.sf.oval.Validator;
-import net.sf.oval.configuration.annotation.JPAAnnotationsConfigurer;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * @author Sebastian Thomschke

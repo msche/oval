@@ -12,15 +12,15 @@
  *******************************************************************************/
 package net.sf.oval.test.validator;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.util.List;
-
 import junit.framework.TestCase;
 import net.sf.oval.ConstraintViolation;
 import net.sf.oval.Validator;
 import net.sf.oval.constraint.NotNullCheck;
 import net.sf.oval.exception.InvalidConfigurationException;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.List;
 
 /**
  * @author Sebastian Thomschke

@@ -12,14 +12,13 @@
  *******************************************************************************/
 package net.sf.oval.expression;
 
-import java.util.Map;
-
 import net.sf.oval.exception.ExpressionEvaluationException;
 import net.sf.oval.internal.util.ObjectCache;
-
 import org.mvel2.MVEL;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Map;
 
 /**
  * @author Sebastian Thomschke

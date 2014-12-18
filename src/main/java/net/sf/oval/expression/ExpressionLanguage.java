@@ -12,9 +12,9 @@
  *******************************************************************************/
 package net.sf.oval.expression;
 
-import java.util.Map;
-
 import net.sf.oval.exception.ExpressionEvaluationException;
+
+import java.util.Map;
 
 /**
  * @author Sebastian Thomschke

@@ -12,10 +12,10 @@
  *******************************************************************************/
 package net.sf.oval;
 
-import java.io.Serializable;
-
 import net.sf.oval.context.OValContext;
 import net.sf.oval.exception.OValException;
+
+import java.io.Serializable;
 
 /**
  * interface for classes that can exclude the checking of constraints

@@ -1,21 +1,16 @@
 package net.sf.oval.test.constraint;
 
 import net.sf.oval.constraint.Email;
-import net.sf.oval.constraint.Future;
 import net.sf.oval.exception.ConstraintsViolatedException;
 import net.sf.oval.guard.Guard;
-import net.sf.oval.test.guard.TestGuardAspect;
 import net.sf.oval.guard.Guarded;
+import net.sf.oval.test.guard.TestGuardAspect;
 import org.databene.contiperf.PerfTest;
 import org.databene.contiperf.Required;
 import org.databene.contiperf.junit.ContiPerfRule;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Random;
 
 /**
  * Validates performance of {@code Email}.

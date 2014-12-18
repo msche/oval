@@ -12,14 +12,14 @@
  *******************************************************************************/
 package net.sf.oval;
 
+import net.sf.oval.context.OValContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
-
-import net.sf.oval.context.OValContext;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * An instance of this class provides detailed information about a single constraint

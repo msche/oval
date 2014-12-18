@@ -12,17 +12,12 @@
  *******************************************************************************/
 package net.sf.oval.constraint;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.util.Calendar;
-import java.util.Date;
-
 import net.sf.oval.ConstraintTarget;
 import net.sf.oval.Validator;
-import net.sf.oval.configuration.annotation.AbstractAnnotationCheck;
 import net.sf.oval.configuration.annotation.ConstraintAnnotationSettings;
 import net.sf.oval.context.OValContext;
-import net.sf.oval.internal.util.*;
+
+import java.util.Date;
 
 /**
  * @author Sebastian Thomschke

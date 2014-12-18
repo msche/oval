@@ -17,7 +17,6 @@ import net.sf.oval.Validator;
 import net.sf.oval.context.FieldContext;
 import net.sf.oval.context.OValContext;
 import net.sf.oval.exception.ValidationFailedException;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;

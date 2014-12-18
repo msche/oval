@@ -12,10 +12,10 @@
  *******************************************************************************/
 package net.sf.oval.expression;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
+import net.sf.oval.exception.ExpressionEvaluationException;
+import net.sf.oval.internal.util.ObjectCache;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.script.Bindings;
 import javax.script.Compilable;
@@ -24,12 +24,10 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineFactory;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
-
-import net.sf.oval.Validator;
-import net.sf.oval.exception.ExpressionEvaluationException;
-import net.sf.oval.internal.util.ObjectCache;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * JSR223 Support

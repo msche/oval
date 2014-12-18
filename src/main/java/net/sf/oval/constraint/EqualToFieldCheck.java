@@ -12,11 +12,6 @@
  *******************************************************************************/
 package net.sf.oval.constraint;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 import net.sf.oval.Validator;
 import net.sf.oval.configuration.annotation.AbstractAnnotationCheck;
 import net.sf.oval.configuration.annotation.ConstraintAnnotationSettings;
@@ -26,6 +21,11 @@ import net.sf.oval.exception.InvokingMethodFailedException;
 import net.sf.oval.exception.MethodNotFoundException;
 import net.sf.oval.internal.ContextCache;
 import net.sf.oval.internal.util.ReflectionUtils;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * @author Sebastian Thomschke

@@ -12,17 +12,17 @@
  *******************************************************************************/
 package net.sf.oval.constraint;
 
-import java.text.ParseException;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 import net.sf.oval.ConstraintTarget;
 import net.sf.oval.Validator;
 import net.sf.oval.configuration.annotation.ConstraintAnnotationSettings;
 import net.sf.oval.context.OValContext;
 import net.sf.oval.exception.InvalidConfigurationException;
+
+import java.text.ParseException;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * @author Sebastian Thomschke

@@ -12,15 +12,14 @@
  *******************************************************************************/
 package net.sf.oval.ogn;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
-import net.sf.oval.Validator;
 import net.sf.oval.exception.ObjectGraphNavigatorNotAvailableException;
 import net.sf.oval.internal.util.Assert;
 import net.sf.oval.internal.util.ReflectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * @author Sebastian Thomschke

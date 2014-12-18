@@ -12,11 +12,6 @@
  *******************************************************************************/
 package net.sf.oval.localization.context;
 
-import java.util.Enumeration;
-import java.util.Locale;
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
-
 import net.sf.oval.Validator;
 import net.sf.oval.context.ClassContext;
 import net.sf.oval.context.ConstructorParameterContext;
@@ -28,6 +23,11 @@ import net.sf.oval.context.MethodReturnValueContext;
 import net.sf.oval.context.OValContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Enumeration;
+import java.util.Locale;
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
 
 /**
  * This renderer searches for a resource file that is in the same package and has the same name as the validated class.

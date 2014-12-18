@@ -12,16 +12,6 @@
  *******************************************************************************/
 package net.sf.oval.test.validator;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.regex.Pattern;
-
 import junit.framework.TestCase;
 import net.sf.oval.Check;
 import net.sf.oval.ConstraintTarget;
@@ -41,6 +31,16 @@ import net.sf.oval.constraint.Length;
 import net.sf.oval.constraint.LengthCheck;
 import net.sf.oval.constraint.MatchPatternCheck;
 import net.sf.oval.constraint.NotNullCheck;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.regex.Pattern;
 
 /**
  * @author Sebastian Thomschke

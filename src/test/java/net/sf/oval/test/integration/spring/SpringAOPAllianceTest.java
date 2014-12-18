@@ -18,7 +18,6 @@ import net.sf.oval.constraint.NotNull;
 import net.sf.oval.exception.ConstraintsViolatedException;
 import net.sf.oval.guard.Guarded;
 import net.sf.oval.guard.SuppressOValWarnings;
-
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**

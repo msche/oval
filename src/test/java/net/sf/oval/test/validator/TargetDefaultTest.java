@@ -12,8 +12,6 @@
  *******************************************************************************/
 package net.sf.oval.test.validator;
 
-import java.util.List;
-
 import junit.framework.TestCase;
 import net.sf.oval.ConstraintTarget;
 import net.sf.oval.ConstraintViolation;
@@ -24,6 +22,8 @@ import net.sf.oval.constraint.NotNull;
 import net.sf.oval.context.FieldContext;
 import net.sf.oval.exception.InvalidConfigurationException;
 import net.sf.oval.exception.ValidationFailedException;
+
+import java.util.List;
 
 /**
  * @author Sebastian Thomschke

@@ -12,17 +12,17 @@
  *******************************************************************************/
 package net.sf.oval.constraint;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-
 import net.sf.oval.ConstraintTarget;
 import net.sf.oval.ConstraintViolation;
 import net.sf.oval.configuration.annotation.Constraint;
 import net.sf.oval.configuration.annotation.Constraints;
 import net.sf.oval.constraint.CheckWithCheck.SimpleCheck;
+
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
  * Check the value by a method of the same class that takes the value as argument and returns true if valid

@@ -12,10 +12,10 @@
  *******************************************************************************/
 package net.sf.oval.configuration.annotation;
 
-import java.lang.annotation.Annotation;
-
 import net.sf.oval.Check;
 import net.sf.oval.exception.InvalidConfigurationException;
+
+import java.lang.annotation.Annotation;
 
 /**
  * Interface for constraint checks that are configurable via annotations.

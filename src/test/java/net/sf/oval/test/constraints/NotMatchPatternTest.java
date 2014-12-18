@@ -1,8 +1,8 @@
 package net.sf.oval.test.constraints;
 
-import java.util.regex.Pattern;
-
 import net.sf.oval.constraint.NotMatchPatternCheck;
+
+import java.util.regex.Pattern;
 
 public class NotMatchPatternTest extends AbstractContraintsTest
 {

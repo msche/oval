@@ -12,9 +12,6 @@
  *******************************************************************************/
 package net.sf.oval.test.guard;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import junit.framework.TestCase;
 import net.sf.oval.Check;
 import net.sf.oval.ConstraintSet;
@@ -26,6 +23,9 @@ import net.sf.oval.constraint.NotNullCheck;
 import net.sf.oval.guard.ConstraintsViolatedAdapter;
 import net.sf.oval.guard.Guard;
 import net.sf.oval.guard.Guarded;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Sebastian Thomschke

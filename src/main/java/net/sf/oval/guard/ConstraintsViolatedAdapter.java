@@ -12,16 +12,12 @@
  *******************************************************************************/
 package net.sf.oval.guard;
 
-import static net.sf.oval.Validator.*;
+import net.sf.oval.ConstraintViolation;
+import net.sf.oval.exception.ConstraintsViolatedException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-
-import net.sf.oval.ConstraintViolation;
-import net.sf.oval.exception.ConstraintsViolatedException;
-import net.sf.oval.internal.util.ArrayUtils;
 
 /**
  * @author Sebastian Thomschke

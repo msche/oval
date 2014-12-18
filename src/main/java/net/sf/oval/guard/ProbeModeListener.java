@@ -12,12 +12,12 @@
  *******************************************************************************/
 package net.sf.oval.guard;
 
-import java.lang.reflect.Method;
-import java.util.LinkedList;
-
 import net.sf.oval.exception.ConstraintsViolatedException;
 import net.sf.oval.exception.InvokingMethodFailedException;
 import net.sf.oval.internal.util.MethodInvocationCommand;
+
+import java.lang.reflect.Method;
+import java.util.LinkedList;
 
 /**
  * 

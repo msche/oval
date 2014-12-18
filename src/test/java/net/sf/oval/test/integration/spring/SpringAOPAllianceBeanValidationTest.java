@@ -12,9 +12,6 @@
  *******************************************************************************/
 package net.sf.oval.test.integration.spring;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-
 import junit.framework.TestCase;
 import net.sf.oval.configuration.annotation.BeanValidationAnnotationsConfigurer;
 import net.sf.oval.exception.ConstraintsViolatedException;
@@ -22,8 +19,10 @@ import net.sf.oval.guard.Guard;
 import net.sf.oval.guard.GuardInterceptor;
 import net.sf.oval.guard.Guarded;
 import net.sf.oval.guard.SuppressOValWarnings;
-
 import org.springframework.aop.framework.ProxyFactory;
+
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
 * @author Sebastian Thomschke

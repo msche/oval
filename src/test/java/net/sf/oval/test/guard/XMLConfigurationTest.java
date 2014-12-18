@@ -12,12 +12,6 @@
  *******************************************************************************/
 package net.sf.oval.test.guard;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Locale;
-import java.util.Set;
-import java.util.regex.Pattern;
-
 import junit.framework.TestCase;
 import net.sf.oval.Check;
 import net.sf.oval.ConstraintViolation;
@@ -41,6 +35,12 @@ import net.sf.oval.guard.ConstraintsViolatedAdapter;
 import net.sf.oval.guard.Guard;
 import net.sf.oval.guard.Guarded;
 import net.sf.oval.localization.locale.ThreadLocalLocaleProvider;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Locale;
+import java.util.Set;
+import java.util.regex.Pattern;
 
 /**
  * @author Sebastian Thomschke

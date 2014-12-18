@@ -13,8 +13,11 @@
 package net.sf.oval.internal.util;
 
 import java.lang.reflect.Array;
-import java.lang.reflect.Method;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * @author Sebastian Thomschke

@@ -12,16 +12,15 @@
  *******************************************************************************/
 package net.sf.oval.expression;
 
-import java.util.Map;
-
 import net.sf.oval.exception.ExpressionEvaluationException;
 import net.sf.oval.internal.util.ObjectCache;
-
 import org.apache.commons.jexl2.Expression;
 import org.apache.commons.jexl2.JexlEngine;
 import org.apache.commons.jexl2.MapContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Map;
 
 /**
  * @author Sebastian Thomschke

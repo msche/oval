@@ -12,10 +12,10 @@
  *******************************************************************************/
 package net.sf.oval.configuration.pojo.elements;
 
-import java.util.List;
-
 import net.sf.oval.Check;
 import net.sf.oval.CheckExclusion;
+
+import java.util.List;
 
 /**
  * @author Sebastian Thomschke

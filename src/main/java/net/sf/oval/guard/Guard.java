@@ -12,19 +12,6 @@
  *******************************************************************************/
 package net.sf.oval.guard;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.WeakHashMap;
-
 import net.sf.oval.Check;
 import net.sf.oval.CheckExclusion;
 import net.sf.oval.ConstraintViolation;
@@ -53,6 +40,19 @@ import net.sf.oval.internal.util.ThreadLocalList;
 import net.sf.oval.internal.util.ThreadLocalWeakHashMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.WeakHashMap;
 
 /**
  * Extended version of the validator to realize programming by contract.

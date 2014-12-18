@@ -12,14 +12,14 @@
  *******************************************************************************/
 package net.sf.oval.constraint;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 import net.sf.oval.Validator;
 import net.sf.oval.configuration.annotation.AbstractAnnotationCheck;
 import net.sf.oval.configuration.annotation.ConstraintAnnotationSettings;
 import net.sf.oval.context.OValContext;
 import net.sf.oval.internal.util.StringUtils;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * @author Sebastian Thomschke

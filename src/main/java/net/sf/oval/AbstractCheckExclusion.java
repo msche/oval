@@ -12,10 +12,10 @@
  *******************************************************************************/
 package net.sf.oval;
 
+import net.sf.oval.expression.ExpressionLanguage;
+
 import java.util.LinkedHashMap;
 import java.util.Map;
-
-import net.sf.oval.expression.ExpressionLanguage;
 
 /**
  * Partial implementation of exclusion classes.

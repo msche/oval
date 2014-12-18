@@ -12,13 +12,13 @@
  *******************************************************************************/
 package net.sf.oval.ogn;
 
-import java.lang.reflect.AccessibleObject;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-
 import net.sf.oval.exception.InvalidConfigurationException;
 import net.sf.oval.internal.util.Assert;
 import net.sf.oval.internal.util.ReflectionUtils;
+
+import java.lang.reflect.AccessibleObject;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 /**
  * Default object graph navigator implementation.

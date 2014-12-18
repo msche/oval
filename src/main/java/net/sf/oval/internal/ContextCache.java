@@ -12,16 +12,16 @@
  *******************************************************************************/
 package net.sf.oval.internal;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.util.Map;
-import java.util.WeakHashMap;
-
 import net.sf.oval.context.ClassContext;
 import net.sf.oval.context.FieldContext;
 import net.sf.oval.context.MethodEntryContext;
 import net.sf.oval.context.MethodExitContext;
 import net.sf.oval.context.MethodReturnValueContext;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.Map;
+import java.util.WeakHashMap;
 
 /**
  * @author Sebastian Thomschke

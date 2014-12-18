@@ -12,13 +12,6 @@
  *******************************************************************************/
 package net.sf.oval.constraint;
 
-import static net.sf.oval.Validator.*;
-
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 import net.sf.oval.ConstraintTarget;
 import net.sf.oval.Validator;
 import net.sf.oval.configuration.annotation.AbstractAnnotationCheck;
@@ -26,6 +19,11 @@ import net.sf.oval.configuration.annotation.ConstraintAnnotationSettings;
 import net.sf.oval.context.OValContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * @author Sebastian Thomschke

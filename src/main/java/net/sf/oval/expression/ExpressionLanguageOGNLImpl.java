@@ -12,9 +12,6 @@
  *******************************************************************************/
 package net.sf.oval.expression;
 
-import java.util.Map;
-import java.util.Map.Entry;
-
 import net.sf.oval.exception.ExpressionEvaluationException;
 import net.sf.oval.internal.util.ObjectCache;
 import ognl.Ognl;
@@ -22,6 +19,9 @@ import ognl.OgnlContext;
 import ognl.OgnlException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * @author Sebastian Thomschke

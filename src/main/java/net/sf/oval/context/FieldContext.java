@@ -12,10 +12,10 @@
  *******************************************************************************/
 package net.sf.oval.context;
 
-import java.lang.reflect.Field;
-
 import net.sf.oval.internal.util.ReflectionUtils;
 import net.sf.oval.internal.util.SerializableField;
+
+import java.lang.reflect.Field;
 
 /**
  * @author Sebastian Thomschke

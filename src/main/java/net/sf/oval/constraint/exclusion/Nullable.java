@@ -12,13 +12,13 @@
  *******************************************************************************/
 package net.sf.oval.constraint.exclusion;
 
+import net.sf.oval.configuration.annotation.Exclusion;
+
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-
-import net.sf.oval.configuration.annotation.Exclusion;
 
 /**
  * Allows a value to be nullable.

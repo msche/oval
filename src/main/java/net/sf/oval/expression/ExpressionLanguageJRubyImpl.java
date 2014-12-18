@@ -12,12 +12,7 @@
  *******************************************************************************/
 package net.sf.oval.expression;
 
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import net.sf.oval.exception.ExpressionEvaluationException;
-
 import org.jruby.CompatVersion;
 import org.jruby.Ruby;
 import org.jruby.RubyInstanceConfig;
@@ -25,6 +20,10 @@ import org.jruby.javasupport.JavaEmbedUtils;
 import org.jruby.runtime.builtin.IRubyObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * @author Sebastian Thomschke

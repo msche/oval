@@ -12,10 +12,10 @@
  *******************************************************************************/
 package net.sf.oval.internal.util;
 
-import java.lang.reflect.Method;
-
 import net.sf.oval.exception.ConstraintsViolatedException;
 import net.sf.oval.exception.InvokingMethodFailedException;
+
+import java.lang.reflect.Method;
 
 /**
  * @author Sebastian Thomschke

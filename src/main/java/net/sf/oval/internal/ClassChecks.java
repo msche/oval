@@ -12,16 +12,6 @@
  *******************************************************************************/
 package net.sf.oval.internal;
 
-import java.lang.reflect.AccessibleObject;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.util.Collection;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.Map;
-import java.util.Set;
-
 import net.sf.oval.Check;
 import net.sf.oval.CheckExclusion;
 import net.sf.oval.exception.InvalidConfigurationException;
@@ -33,6 +23,16 @@ import net.sf.oval.internal.util.ArrayUtils;
 import net.sf.oval.internal.util.ReflectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.lang.reflect.AccessibleObject;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.Collection;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * This class holds the instantiated checks for a single class.

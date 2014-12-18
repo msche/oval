@@ -12,13 +12,9 @@
  *******************************************************************************/
 package net.sf.oval.ogn;
 
-import java.lang.reflect.AccessibleObject;
-import java.util.Locale;
-
 import net.sf.oval.exception.InvalidConfigurationException;
 import net.sf.oval.internal.util.Assert;
 import net.sf.oval.internal.util.ReflectionUtils;
-
 import org.apache.commons.jxpath.JXPathBeanInfo;
 import org.apache.commons.jxpath.JXPathContext;
 import org.apache.commons.jxpath.JXPathIntrospector;
@@ -32,6 +28,9 @@ import org.apache.commons.jxpath.ri.model.beans.BeanPointerFactory;
 import org.apache.commons.jxpath.ri.model.beans.NullPointer;
 import org.apache.commons.jxpath.ri.model.beans.NullPropertyPointer;
 import org.apache.commons.jxpath.ri.model.beans.PropertyPointer;
+
+import java.lang.reflect.AccessibleObject;
+import java.util.Locale;
 
 /**
  * JXPath {@link "http://commons.apache.org/jxpath/"} based object graph navigator implementation.

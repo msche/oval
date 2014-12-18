@@ -12,10 +12,10 @@
  *******************************************************************************/
 package net.sf.oval.test.constraints;
 
+import net.sf.oval.constraint.PastCheck;
+
 import java.text.DateFormat;
 import java.util.Calendar;
-
-import net.sf.oval.constraint.PastCheck;
 
 /**
  * @author Sebastian Thomschke

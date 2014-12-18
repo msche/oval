@@ -13,17 +13,6 @@
  *******************************************************************************/
 package net.sf.oval.configuration.annotation;
 
-import static net.sf.oval.Validator.*;
-
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
-
 import net.sf.oval.Check;
 import net.sf.oval.CheckExclusion;
 import net.sf.oval.configuration.CheckInitializationListener;
@@ -49,6 +38,15 @@ import net.sf.oval.guard.PreCheck;
 import net.sf.oval.guard.PreValidateThis;
 import net.sf.oval.internal.util.Assert;
 import net.sf.oval.internal.util.ReflectionUtils;
+
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Configurer that configures constraints based on annotations tagged with {@link Constraint}

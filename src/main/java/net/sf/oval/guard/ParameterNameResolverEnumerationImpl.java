@@ -12,12 +12,12 @@
  *******************************************************************************/
 package net.sf.oval.guard;
 
+import net.sf.oval.exception.ReflectionException;
+
 import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.WeakHashMap;
-
-import net.sf.oval.exception.ReflectionException;
 
 /**
  * This implementation determines the names of constructor and method parameters by simply enumerating them based on there index:

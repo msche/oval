@@ -12,9 +12,6 @@
  *******************************************************************************/
 package net.sf.oval.test.validator;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import junit.framework.TestCase;
 import net.sf.oval.ConstraintTarget;
 import net.sf.oval.ConstraintViolation;
@@ -23,6 +20,9 @@ import net.sf.oval.constraint.Length;
 import net.sf.oval.constraint.MaxSize;
 import net.sf.oval.constraint.MinSize;
 import net.sf.oval.constraint.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Sebastian Thomschke

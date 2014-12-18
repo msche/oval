@@ -12,8 +12,6 @@
  *******************************************************************************/
 package net.sf.oval.test.guard;
 
-import java.lang.reflect.Method;
-
 import junit.framework.TestCase;
 import net.sf.oval.constraint.AssertFieldConstraints;
 import net.sf.oval.constraint.AssertFieldConstraintsCheck;
@@ -28,6 +26,8 @@ import net.sf.oval.exception.ConstraintsViolatedException;
 import net.sf.oval.guard.ConstraintsViolatedAdapter;
 import net.sf.oval.guard.Guard;
 import net.sf.oval.guard.Guarded;
+
+import java.lang.reflect.Method;
 
 /**
  * @author Sebastian Thomschke

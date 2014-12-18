@@ -12,9 +12,9 @@
  *******************************************************************************/
 package net.sf.oval.configuration.pojo.elements;
 
-import java.util.List;
-
 import net.sf.oval.guard.PreCheck;
+
+import java.util.List;
 
 /**
  * @author Sebastian Thomschke

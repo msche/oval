@@ -12,16 +12,16 @@
  *******************************************************************************/
 package net.sf.oval.constraint;
 
+import net.sf.oval.ConstraintTarget;
+import net.sf.oval.ConstraintViolation;
+import net.sf.oval.configuration.annotation.Constraint;
+import net.sf.oval.configuration.annotation.Constraints;
+
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-
-import net.sf.oval.ConstraintTarget;
-import net.sf.oval.ConstraintViolation;
-import net.sf.oval.configuration.annotation.Constraint;
-import net.sf.oval.configuration.annotation.Constraints;
 
 /**
  * Check if the value is an instance of the specified class or implements <u>one</u> of the specified interfaces.

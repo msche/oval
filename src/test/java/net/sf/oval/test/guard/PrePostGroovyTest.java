@@ -12,9 +12,6 @@
  *******************************************************************************/
 package net.sf.oval.test.guard;
 
-import java.math.BigDecimal;
-import java.util.Date;
-
 import junit.framework.TestCase;
 import net.sf.oval.constraint.Assert;
 import net.sf.oval.exception.ConstraintsViolatedException;
@@ -22,6 +19,9 @@ import net.sf.oval.guard.Guard;
 import net.sf.oval.guard.Guarded;
 import net.sf.oval.guard.Post;
 import net.sf.oval.guard.Pre;
+
+import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * @author Sebastian Thomschke

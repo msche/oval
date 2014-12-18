@@ -12,14 +12,13 @@
  *******************************************************************************/
 package net.sf.oval.guard;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
-
-import net.sf.oval.exception.ReflectionException;
-
 import com.thoughtworks.paranamer.BytecodeReadingParanamer;
 import com.thoughtworks.paranamer.CachingParanamer;
 import com.thoughtworks.paranamer.Paranamer;
+import net.sf.oval.exception.ReflectionException;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
 
 /**
  * This implementation that uses com.thoughtworks.paranamer.Paranamer (http://paranamer.codehaus.org/)

@@ -12,10 +12,6 @@
  *******************************************************************************/
 package net.sf.oval.constraint;
 
-import java.lang.reflect.Method;
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 import net.sf.oval.ConstraintTarget;
 import net.sf.oval.Validator;
 import net.sf.oval.configuration.annotation.AbstractAnnotationCheck;
@@ -24,6 +20,10 @@ import net.sf.oval.context.OValContext;
 import net.sf.oval.exception.InvalidConfigurationException;
 import net.sf.oval.exception.ReflectionException;
 import net.sf.oval.internal.util.ReflectionUtils;
+
+import java.lang.reflect.Method;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * @author Sebastian Thomschke
