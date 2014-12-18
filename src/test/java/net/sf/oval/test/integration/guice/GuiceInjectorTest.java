@@ -22,6 +22,7 @@ import net.sf.oval.Validator;
 import net.sf.oval.configuration.annotation.AbstractAnnotationCheck;
 import net.sf.oval.configuration.annotation.AnnotationsConfigurer;
 import net.sf.oval.configuration.annotation.Constraint;
+import net.sf.oval.configuration.annotation.ConstraintAnnotationSettings;
 import net.sf.oval.context.OValContext;
 import net.sf.oval.exception.OValException;
 import net.sf.oval.integration.guice.GuiceCheckInitializationListener;
@@ -69,7 +70,18 @@ public class GuiceInjectorTest extends TestCase
 		{
 			return guiceManagedObject == 10 && valueToValidate != null;
 		}
-	}
+
+        /**
+         * Returns value object {@code ConstraintAnnotationSettings} containing the basic settings of the constraint settings
+         *
+         * @param guiceNullContraint Annotation from which the settings will be extracted
+         * @return Value object {@code ConstraintAnnotationSettings}.
+         */
+        @Override
+        protected ConstraintAnnotationSettings getSettings(GuiceNullContraint guiceNullContraint) {
+            return new ConstraintAnnotationSettings.Builder().build();
+        }
+    }
 
 	public void testWithGuiceInjector()
 	{

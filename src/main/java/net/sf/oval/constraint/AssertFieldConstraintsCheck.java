@@ -15,6 +15,7 @@ package net.sf.oval.constraint;
 import net.sf.oval.ConstraintTarget;
 import net.sf.oval.Validator;
 import net.sf.oval.configuration.annotation.AbstractAnnotationCheck;
+import net.sf.oval.configuration.annotation.ConstraintAnnotationSettings;
 import net.sf.oval.context.OValContext;
 
 /**
@@ -38,6 +39,23 @@ public class AssertFieldConstraintsCheck extends AbstractAnnotationCheck<AssertF
 		setFieldName(constraintAnnotation.value());
 		setDeclaringClass(constraintAnnotation.declaringClass());
 	}
+
+    /**
+     * Returns value object {@code ConstraintAnnotationSettings} containing the basic settings of the constraint settings
+     *
+     * @param constraintAnnotation Annotation from which the settings will be extracted
+     *
+     * @return Value object {@code ConstraintAnnotationSettings}.
+     */
+    protected final ConstraintAnnotationSettings getSettings(final  AssertFieldConstraints constraintAnnotation) {
+
+        ConstraintAnnotationSettings settings = new ConstraintAnnotationSettings.Builder()
+                .profiles(constraintAnnotation.profiles())
+                .when(constraintAnnotation.when())
+                .build();
+        return settings;
+    }
+
 
 	/**
 	 * {@inheritDoc}
@@ -114,9 +132,9 @@ public class AssertFieldConstraintsCheck extends AbstractAnnotationCheck<AssertF
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void setErrorCode(final String errorCode) throws UnsupportedOperationException
+	public void setErrorCode(final String errorCode)
 	{
-		throw new UnsupportedOperationException();
+		//throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -131,17 +149,17 @@ public class AssertFieldConstraintsCheck extends AbstractAnnotationCheck<AssertF
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void setMessage(final String message) throws UnsupportedOperationException
+	public void setMessage(final String message)
 	{
-		throw new UnsupportedOperationException();
+		//throw new UnsupportedOperationException();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void setSeverity(final int severity) throws UnsupportedOperationException
+	public void setSeverity(final int severity)
 	{
-		throw new UnsupportedOperationException();
+		//throw new UnsupportedOperationException();
 	}
 }

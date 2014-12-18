@@ -17,6 +17,7 @@ import java.util.Map;
 
 import net.sf.oval.Validator;
 import net.sf.oval.configuration.annotation.AbstractAnnotationCheck;
+import net.sf.oval.configuration.annotation.ConstraintAnnotationSettings;
 import net.sf.oval.context.OValContext;
 import net.sf.oval.internal.util.StringUtils;
 
@@ -36,7 +37,28 @@ public class InstanceOfCheck extends AbstractAnnotationCheck<InstanceOf>
 		setTypes(constraintAnnotation.value());
 	}
 
-	@Override
+    /**
+     * Returns value object {@code ConstraintAnnotationSettings} containing the basic settings of the constraint settings
+     *
+     * @param constraintAnnotation Annotation from which the settings will be extracted
+     *
+     * @return Value object {@code ConstraintAnnotationSettings}.
+     */
+    protected final ConstraintAnnotationSettings getSettings(final  InstanceOf constraintAnnotation) {
+
+        ConstraintAnnotationSettings settings = new ConstraintAnnotationSettings.Builder()
+                .message(constraintAnnotation.message())
+                .appliesTo(constraintAnnotation.appliesTo())
+                .errorCode(constraintAnnotation.errorCode())
+                .severity(constraintAnnotation.severity())
+                .profiles(constraintAnnotation.profiles())
+                .target(constraintAnnotation.target())
+                .when(constraintAnnotation.when())
+                .build();
+        return settings;
+    }
+
+    @Override
 	protected Map<String, String> createMessageVariables()
 	{
 		final Map<String, String> messageVariables = new LinkedHashMap<>(2);

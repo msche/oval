@@ -14,6 +14,7 @@ package net.sf.oval.constraint;
 
 import net.sf.oval.Validator;
 import net.sf.oval.configuration.annotation.AbstractAnnotationCheck;
+import net.sf.oval.configuration.annotation.ConstraintAnnotationSettings;
 import net.sf.oval.context.OValContext;
 
 /**
@@ -34,6 +35,23 @@ public class AssertConstraintSetCheck extends AbstractAnnotationCheck<AssertCons
 		super.configure(constraintAnnotation);
 		setId(constraintAnnotation.id());
 	}
+
+    /**
+     * Returns value object {@code ConstraintAnnotationSettings} containing the basic settings of the constraint settings
+     *
+     * @param constraintAnnotation Annotation from which the settings will be extracted
+     *
+     * @return Value object {@code ConstraintAnnotationSettings}.
+     */
+    protected final ConstraintAnnotationSettings getSettings(final  AssertConstraintSet constraintAnnotation) {
+
+        ConstraintAnnotationSettings settings = new ConstraintAnnotationSettings.Builder()
+                .appliesTo(constraintAnnotation.appliesTo())
+                .profiles(constraintAnnotation.profiles())
+                .when(constraintAnnotation.when())
+                .build();
+        return settings;
+    }
 
 	/**
 	 * {@inheritDoc}
@@ -84,7 +102,7 @@ public class AssertConstraintSetCheck extends AbstractAnnotationCheck<AssertCons
 	@Override
 	public void setErrorCode(final String errorCode) throws UnsupportedOperationException
 	{
-		throw new UnsupportedOperationException();
+        //throw new UnsupportedOperationException();
 	}
 
 	public void setId(final String id)
@@ -98,7 +116,7 @@ public class AssertConstraintSetCheck extends AbstractAnnotationCheck<AssertCons
 	@Override
 	public void setMessage(final String message) throws UnsupportedOperationException
 	{
-		throw new UnsupportedOperationException();
+        //throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -107,6 +125,6 @@ public class AssertConstraintSetCheck extends AbstractAnnotationCheck<AssertCons
 	@Override
 	public void setSeverity(final int severity) throws UnsupportedOperationException
 	{
-		throw new UnsupportedOperationException();
+        //throw new UnsupportedOperationException();
 	}
 }

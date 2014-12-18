@@ -17,6 +17,7 @@ import java.util.regex.Pattern;
 import net.sf.oval.ConstraintTarget;
 import net.sf.oval.Validator;
 import net.sf.oval.configuration.annotation.AbstractAnnotationCheck;
+import net.sf.oval.configuration.annotation.ConstraintAnnotationSettings;
 import net.sf.oval.context.OValContext;
 import net.sf.oval.exception.OValException;
 
@@ -27,7 +28,7 @@ import net.sf.oval.exception.OValException;
  * @author Sebastian Thomschke
  */
 public final class EmailCheck extends AbstractAnnotationCheck<Email> {
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1886290528792753052L;
 
     private static final String SPECIAL_CHARACTERS = "'\\(\\)\\-\\.`";
     private static final String ASCII = "\\w " + SPECIAL_CHARACTERS;
@@ -55,10 +56,31 @@ public final class EmailCheck extends AbstractAnnotationCheck<Email> {
      */
     @Override
     public void configure(final Email constraintAnnotation) {
-        super.configure(constraintAnnotation);
+        //super.configure(constraintAnnotation);
+        configure(getSettings(constraintAnnotation));
         setAllowPersonalName(constraintAnnotation.allowPersonalName());
     }
 
+    /**
+     * Returns value object {@code ConstraintAnnotationSettings} containing the basic settings of the constraint settings
+     *
+     * @param constraintAnnotation Annotation from which the settings will be extracted
+     *
+     * @return Value object {@code ConstraintAnnotationSettings}.
+     */
+    protected final ConstraintAnnotationSettings getSettings(final  Email constraintAnnotation) {
+
+        ConstraintAnnotationSettings settings = new ConstraintAnnotationSettings.Builder()
+                .message(constraintAnnotation.message())
+                .appliesTo(constraintAnnotation.appliesTo())
+                .errorCode(constraintAnnotation.errorCode())
+                .severity(constraintAnnotation.severity())
+                .profiles(constraintAnnotation.profiles())
+                .target(constraintAnnotation.target())
+                .when(constraintAnnotation.when())
+                .build();
+        return settings;
+    }
     /**
      * {@inheritDoc}
      */

@@ -19,6 +19,7 @@ import java.util.Map;
 
 import net.sf.oval.Validator;
 import net.sf.oval.configuration.annotation.AbstractAnnotationCheck;
+import net.sf.oval.configuration.annotation.ConstraintAnnotationSettings;
 import net.sf.oval.context.OValContext;
 import net.sf.oval.exception.FieldNotFoundException;
 import net.sf.oval.exception.InvokingMethodFailedException;
@@ -51,7 +52,27 @@ public class NotEqualToFieldCheck extends AbstractAnnotationCheck<NotEqualToFiel
 		setUseGetter(constraintAnnotation.useGetter());
 	}
 
-	/**
+    /**
+     * Returns value object {@code ConstraintAnnotationSettings} containing the basic settings of the constraint settings
+     *
+     * @param constraintAnnotation Annotation from which the settings will be extracted
+     *
+     * @return Value object {@code ConstraintAnnotationSettings}.
+     */
+    protected final ConstraintAnnotationSettings getSettings(final  NotEqualToField constraintAnnotation) {
+
+        ConstraintAnnotationSettings settings = new ConstraintAnnotationSettings.Builder()
+                .message(constraintAnnotation.message())
+                .appliesTo(constraintAnnotation.appliesTo())
+                .errorCode(constraintAnnotation.errorCode())
+                .severity(constraintAnnotation.severity())
+                .profiles(constraintAnnotation.profiles())
+                .target(constraintAnnotation.target())
+                .when(constraintAnnotation.when())
+                .build();
+        return settings;
+    }
+    /**
 	 * {@inheritDoc}
 	 */
 	@Override

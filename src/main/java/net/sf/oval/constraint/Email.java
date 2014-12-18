@@ -21,6 +21,7 @@ import java.lang.annotation.Target;
 import net.sf.oval.ConstraintTarget;
 import net.sf.oval.ConstraintViolation;
 import net.sf.oval.configuration.annotation.Constraint;
+import net.sf.oval.configuration.annotation.ConstraintAnnotationSettings;
 import net.sf.oval.configuration.annotation.Constraints;
 
 /**
@@ -123,4 +124,5 @@ public @interface Email
 	 *    or the validated bean for object level constraints)
 	 */
 	String when() default "";
+
 }

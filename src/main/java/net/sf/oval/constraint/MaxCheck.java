@@ -18,6 +18,7 @@ import java.util.Map;
 import net.sf.oval.ConstraintTarget;
 import net.sf.oval.Validator;
 import net.sf.oval.configuration.annotation.AbstractAnnotationCheck;
+import net.sf.oval.configuration.annotation.ConstraintAnnotationSettings;
 import net.sf.oval.context.OValContext;
 
 /**
@@ -60,7 +61,27 @@ public class MaxCheck extends AbstractAnnotationCheck<Max>
 		return new ConstraintTarget[]{ConstraintTarget.VALUES};
 	}
 
-	/**
+    /**
+     * Returns value object {@code ConstraintAnnotationSettings} containing the basic settings of the constraint settings
+     *
+     * @param constraintAnnotation Annotation from which the settings will be extracted
+     *
+     * @return Value object {@code ConstraintAnnotationSettings}.
+     */
+    protected final ConstraintAnnotationSettings getSettings(final  Max constraintAnnotation) {
+
+        ConstraintAnnotationSettings settings = new ConstraintAnnotationSettings.Builder()
+                .message(constraintAnnotation.message())
+                .appliesTo(constraintAnnotation.appliesTo())
+                .errorCode(constraintAnnotation.errorCode())
+                .severity(constraintAnnotation.severity())
+                .profiles(constraintAnnotation.profiles())
+                .target(constraintAnnotation.target())
+                .when(constraintAnnotation.when())
+                .build();
+        return settings;
+    }
+    /**
 	 * @return the max
 	 */
 	public double getMax()
