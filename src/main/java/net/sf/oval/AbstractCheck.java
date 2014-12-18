@@ -173,7 +173,7 @@ public abstract class AbstractCheck implements Check
 	/**
 	 * {@inheritDoc}
 	 */
-	public boolean isActive(final Object validatedObject, final Object valueToValidate, final Validator validator)
+	public synchronized boolean isActive(final Object validatedObject, final Object valueToValidate, final Validator validator)
 	{
 		if (when == null) return true;
 

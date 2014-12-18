@@ -110,7 +110,7 @@ public @interface AssertFalse
 	 * <code>false</code> if it shall be ignored for the current validation.
 	 * <p>
 	 * <b>Important:</b> The formula must be prefixed with the name of the scripting language that is used.
-	 * E.g. <code>groovy:_this.amount > 10</code>
+	 * E.g. <code>groovy:_this.amount &gt; 10</code>
 	 * <p>
 	 * Available context variables are:<br>
 	 * <b>_this</b> -&gt; the validated bean<br>

@@ -32,7 +32,7 @@ public final class ConstraintAnnotationSettings {
 
     public ConstraintTarget[] getAppliesTo() {
         return appliesTo;
-        }
+    }
 
     public String getErrorCode() {
         return errorCode;

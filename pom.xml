@@ -147,6 +147,7 @@ Besides field/property validation OVal implements Programming by Contract featur
         <!-- Versions of dependencies -->
 		<java.version>1.7</java.version>
 		<aspectj.version>1.8.2</aspectj.version>
+        <jacoco.version>0.7.1.201405082137</jacoco.version>
         <slf4j.version>1.7.7</slf4j.version>
 
         <!-- Determines whether unit tests are skipped or not -->
@@ -716,8 +717,11 @@ Besides field/property validation OVal implements Programming by Contract featur
 				<version>2.16</version>
 				<configuration>
                     <skipTests>${skip.unit.tests}</skipTests>
-					<argLine>-Duser.language=en -Duser.region=US</argLine>
-					<excludes>
+                    <argLine>
+                        -Duser.language=en -Duser.region=US -javaagent:${settings.localRepository}/org/jacoco/org.jacoco.agent/${jacoco.version}/org.jacoco.agent-${jacoco.version}-runtime.jar=destfile=${project.build.directory}/jacoco.exec
+                    </argLine>
+
+                    <excludes>
 						<exclude>**/TestGuardAspect*</exclude>
 						<exclude>**/Abstract*</exclude>
 					</excludes>
@@ -924,8 +928,9 @@ Besides field/property validation OVal implements Programming by Contract featur
 				<version>1.0.0-beta-1</version>
 			</plugin>
 
+            <!-- Generate Javadoc for the project. -->
+            <!--
 			<plugin>
-				<!-- Generate Javadoc for the project. -->
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<version>2.9.1</version>
 				<configuration>
@@ -938,6 +943,7 @@ Besides field/property validation OVal implements Programming by Contract featur
 					</links>
 					<source>${java.version}</source>
 					<destDir>api</destDir>
+                    <failOnError>false</failOnError>
 				</configuration>
 				<reportSets>
 					<reportSet>
@@ -948,6 +954,7 @@ Besides field/property validation OVal implements Programming by Contract featur
 					</reportSet>
 				</reportSets>
 			</plugin>
+            -->
 
 			<plugin>
 				<!-- Creates an html-based, cross referenced version of Java source code for a project. -->
@@ -978,7 +985,18 @@ Besides field/property validation OVal implements Programming by Contract featur
 				<artifactId>taglist-maven-plugin</artifactId>
 				<version>2.4</version>
 			</plugin>
+
+            <!--
+            Plugin to measure code coverage
+            -->
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>${jacoco.version}</version>
+            </plugin>
+
 			<!-- JUnit Code Coverage report -->
+            <!--
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>cobertura-maven-plugin</artifactId>
@@ -994,6 +1012,7 @@ Besides field/property validation OVal implements Programming by Contract featur
 					</check>
 				</configuration>
 			</plugin>
+            -->
 
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>

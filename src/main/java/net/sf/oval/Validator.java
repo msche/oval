@@ -54,7 +54,6 @@ import net.sf.oval.internal.util.Assert;
 import net.sf.oval.internal.util.IdentitySet;
 import net.sf.oval.internal.util.ReflectionUtils;
 import net.sf.oval.internal.util.StringUtils;
-import net.sf.oval.internal.util.ThreadLocalLinkedList;
 import net.sf.oval.localization.context.OValContextRenderer;
 import net.sf.oval.localization.context.ToStringValidationContextRenderer;
 import net.sf.oval.localization.locale.LocaleProvider;
@@ -74,6 +73,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -227,9 +227,9 @@ public class Validator implements IValidator
 
 	private final Map<String, ConstraintSet> constraintSetsById = new LinkedHashMap<>(4);
 
-	protected final ThreadLocalLinkedList<Set<Object>> currentlyValidatedObjects = new ThreadLocalLinkedList<Set<Object>>();
+	protected final LinkedList<Set<Object>> currentlyValidatedObjects = new LinkedList<Set<Object>>();
 
-	protected final ThreadLocalLinkedList<List<ConstraintViolation>> currentViolations = new ThreadLocalLinkedList<List<ConstraintViolation>>();
+	protected final LinkedList<List<ConstraintViolation>> currentViolations = new LinkedList<List<ConstraintViolation>>();
 
 	private final Set<String> disabledProfiles = new LinkedHashSet<>();
 
@@ -1290,7 +1290,7 @@ public class Validator implements IValidator
 	protected boolean isCurrentlyValidated(final Object object)
 	{
 		Assert.argumentNotNull("object", object);
-		return currentlyValidatedObjects.get().getLast().contains(object);
+		return currentlyValidatedObjects.getLast().contains(object);
 	}
 
 	/**
@@ -1410,9 +1410,9 @@ public class Validator implements IValidator
 	public void reportConstraintViolation(final ConstraintViolation constraintViolation)
 	{
 		Assert.argumentNotNull("constraintViolation", constraintViolation);
-		if (currentViolations.get().size() == 0)
+		if (currentViolations.size() == 0)
 			throw new IllegalStateException("No active validation cycle found for the current thread.");
-		currentViolations.get().getLast().add(constraintViolation);
+		currentViolations.getLast().add(constraintViolation);
 	}
 
 	/**
@@ -1451,15 +1451,17 @@ public class Validator implements IValidator
 
 	/**
 	 * {@inheritDoc}
+     * MASE!
+     * @TODO: Check why this method must be synchronized. Problems when removeLast() -> Use vector
 	 */
-	public List<ConstraintViolation> validate(final Object validatedObject) throws IllegalArgumentException, ValidationFailedException
+	public synchronized  List<ConstraintViolation> validate(final Object validatedObject) throws IllegalArgumentException, ValidationFailedException
 	{
 		Assert.argumentNotNull("validatedObject", validatedObject);
 
 		// create required objects for this validation cycle
 		final List<ConstraintViolation> violations = new ArrayList<>();
-		currentViolations.get().add(violations);
-		currentlyValidatedObjects.get().add(new IdentitySet<Object>(4));
+		currentViolations.add(violations);
+		currentlyValidatedObjects.add(new IdentitySet<Object>(4));
 
 		try
 		{
@@ -1469,8 +1471,8 @@ public class Validator implements IValidator
 		finally
 		{
 			// remove the validation cycle related objects
-			currentViolations.get().removeLast();
-			currentlyValidatedObjects.get().removeLast();
+			currentViolations.removeLast();
+			currentlyValidatedObjects.removeLast();
 		}
 	}
 
@@ -1484,8 +1486,8 @@ public class Validator implements IValidator
 
 		// create required objects for this validation cycle
 		final List<ConstraintViolation> violations = new ArrayList<>();
-		currentViolations.get().add(violations);
-		currentlyValidatedObjects.get().add(new IdentitySet<Object>(4));
+		currentViolations.add(violations);
+		currentlyValidatedObjects.add(new IdentitySet<Object>(4));
 
 		try
 		{
@@ -1495,8 +1497,8 @@ public class Validator implements IValidator
 		finally
 		{
 			// remove the validation cycle related objects
-			currentViolations.get().removeLast();
-			currentlyValidatedObjects.get().removeLast();
+			currentViolations.removeLast();
+			currentlyValidatedObjects.removeLast();
 		}
 	}
 
@@ -1511,8 +1513,8 @@ public class Validator implements IValidator
 
 		// create required objects for this validation cycle
 		final List<ConstraintViolation> violations = new ArrayList<>();
-		currentViolations.get().add(violations);
-		currentlyValidatedObjects.get().add(new IdentitySet<Object>(4));
+		currentViolations.add(violations);
+		currentlyValidatedObjects.add(new IdentitySet<Object>(4));
 
 		try
 		{
@@ -1537,8 +1539,8 @@ public class Validator implements IValidator
 		finally
 		{
 			// remove the validation cycle related objects
-			currentViolations.get().removeLast();
-			currentlyValidatedObjects.get().removeLast();
+			currentViolations.removeLast();
+			currentlyValidatedObjects.removeLast();
 		}
 			}
 
@@ -1556,7 +1558,7 @@ public class Validator implements IValidator
 	{
 		Assert.argumentNotNull("validatedObject", validatedObject);
 
-		currentlyValidatedObjects.get().getLast().add(validatedObject);
+		currentlyValidatedObjects.getLast().add(validatedObject);
 		if (validatedObject instanceof Class< ? >)
 		{
 			_validateStaticInvariants((Class< ? >) validatedObject, violations, profiles);

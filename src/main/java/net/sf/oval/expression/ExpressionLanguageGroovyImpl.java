@@ -17,7 +17,6 @@ import groovy.lang.GroovyShell;
 import groovy.lang.Script;
 import net.sf.oval.exception.ExpressionEvaluationException;
 import net.sf.oval.internal.util.ObjectCache;
-import net.sf.oval.internal.util.ThreadLocalObjectCache;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,7 +32,7 @@ public class ExpressionLanguageGroovyImpl implements ExpressionLanguage
 
 	private static final GroovyShell GROOVY_SHELL = new GroovyShell();
 
-	private final ThreadLocalObjectCache<String, Script> threadScriptCache = new ThreadLocalObjectCache<String, Script>();
+	private final ObjectCache<String, Script> scriptCache = new ObjectCache<String, Script>();
 
 	/**
 	 * {@inheritDoc}
@@ -43,7 +42,7 @@ public class ExpressionLanguageGroovyImpl implements ExpressionLanguage
 		LOG.debug("Evaluating Groovy expression: {}", expression);
 		try
 		{
-			final ObjectCache<String, Script> scriptCache = threadScriptCache.get();
+			//final ObjectCache<String, Script> scriptCache = threadScriptCache.get();
 			Script script = scriptCache.get(expression);
 			if (script == null)
 			{

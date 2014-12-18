@@ -36,8 +36,6 @@ import net.sf.oval.internal.util.Assert;
 import net.sf.oval.internal.util.IdentitySet;
 import net.sf.oval.internal.util.Invocable;
 import net.sf.oval.internal.util.ReflectionUtils;
-import net.sf.oval.internal.util.ThreadLocalList;
-import net.sf.oval.internal.util.ThreadLocalWeakHashMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,6 +43,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
@@ -97,17 +96,17 @@ public class Guard extends Validator
 	/**
 	 * string based on validated object hashcode + method hashcode for currently validated method return values
 	 */
-	private static final ThreadLocalList<String> currentlyCheckingMethodReturnValues = new ThreadLocalList<String>();
+	private static final List<String> currentlyCheckingMethodReturnValues = new ArrayList<>();
 
 	/**
 	 * string based on validated object hashcode + method hashcode for currently validated method pre-conditions
 	 */
-	private static final ThreadLocalList<String> currentlyCheckingPreConditions = new ThreadLocalList<String>();
+	private static final List<String> currentlyCheckingPreConditions = new ArrayList<>();
 
 	/**
 	 * string based on validated object hashcode + method hashcode for currently validated method post-conditions
 	 */
-	private static final ThreadLocalList<String> currentlyCheckingPostConditions = new ThreadLocalList<String>();
+	private static final List<String> currentlyCheckingPostConditions = new ArrayList<>();
 
 	private boolean isActivated = true;
 	private boolean isInvariantsEnabled = true;
@@ -135,7 +134,8 @@ public class Guard extends Validator
 	 * Objects for OVal suppresses occurring ConstraintViolationExceptions for pre condition violations on setter methods
 	 * for the current thread.
 	 */
-	private final ThreadLocalWeakHashMap<Object, ProbeModeListener> objectsInProbeMode = new ThreadLocalWeakHashMap<Object, ProbeModeListener>();
+//	private final ThreadLocalWeakHashMap<Object, ProbeModeListener> objectsInProbeMode = new ThreadLocalWeakHashMap<Object, ProbeModeListener>();
+    private final Map<Object, ProbeModeListener> objectsInProbeMode = new HashMap<>();
 
 	/**
 	 * Constructs a new guard object and uses a new instance of AnnotationsConfigurer
@@ -447,7 +447,7 @@ public class Guard extends Validator
 	{
 		Assert.argumentNotNull("guardedObject", guardedObject);
 
-		return objectsInProbeMode.get().remove(guardedObject);
+		return objectsInProbeMode.remove(guardedObject);
 	}
 
 	/**
@@ -468,9 +468,9 @@ public class Guard extends Validator
 			LOG.warn("Enabling probe mode for a class looks like a programming error. Class: {}", guardedObject);
 		isProbeModeFeatureUsed = true;
 
-		if (objectsInProbeMode.get().get(guardedObject) != null) throw new IllegalStateException("The object is already in probe mode.");
+		if (objectsInProbeMode.get(guardedObject) != null) throw new IllegalStateException("The object is already in probe mode.");
 
-		objectsInProbeMode.get().put(guardedObject, new ProbeModeListener(guardedObject));
+		objectsInProbeMode.put(guardedObject, new ProbeModeListener(guardedObject));
 	}
 
 	/**
@@ -550,7 +550,7 @@ public class Guard extends Validator
 		if (isInvariantsEnabled && cc.isCheckInvariants || cc.methodsWithCheckInvariantsPost.contains(ctor))
 		{
 			final List<ConstraintViolation> violations = new ArrayList<>();
-			currentViolations.get().add(violations);
+			currentViolations.add(violations);
 			try
 			{
 				validateInvariants(guardedObject, violations, null);
@@ -561,7 +561,7 @@ public class Guard extends Validator
 			}
 			finally
 			{
-				currentViolations.get().removeLast();
+				currentViolations.removeLast();
 			}
 
 			if (violations.size() > 0)
@@ -633,7 +633,7 @@ public class Guard extends Validator
 		if (guardedObject == null && ReflectionUtils.isStatic(method)) guardedObject = method.getDeclaringClass();
 
 		final List<ConstraintViolation> violations = new ArrayList<>();
-		currentViolations.get().add(violations);
+		currentViolations.add(violations);
 
 		try
 		{
@@ -655,10 +655,10 @@ public class Guard extends Validator
 		}
 		finally
 		{
-			currentViolations.get().removeLast();
+			currentViolations.removeLast();
 		}
 
-		final ProbeModeListener pml = isProbeModeFeatureUsed ? objectsInProbeMode.get().get(guardedObject) : null;
+		final ProbeModeListener pml = isProbeModeFeatureUsed ? objectsInProbeMode.get(guardedObject) : null;
 		if (pml != null) pml.onMethodCall(method, args);
 
 		if (violations.size() > 0)
@@ -683,7 +683,7 @@ public class Guard extends Validator
 
 		final Object returnValue = invocable.invoke();
 
-		currentViolations.get().add(violations);
+		currentViolations.add(violations);
 
 		try
 		{
@@ -706,7 +706,7 @@ public class Guard extends Validator
 		}
 		finally
 		{
-			currentViolations.get().removeLast();
+			currentViolations.removeLast();
 		}
 
 		if (violations.size() > 0)
@@ -795,7 +795,7 @@ public class Guard extends Validator
 		if (guardedObject == null && ReflectionUtils.isStatic(method)) guardedObject = method.getDeclaringClass();
 
 		final List<ConstraintViolation> violations = new ArrayList<>();
-		currentViolations.get().add(violations);
+		currentViolations.add(violations);
 
 		try
 		{
@@ -817,10 +817,10 @@ public class Guard extends Validator
 		}
 		finally
 		{
-			currentViolations.get().removeLast();
+			currentViolations.removeLast();
 		}
 
-		final ProbeModeListener pml = isProbeModeFeatureUsed ? objectsInProbeMode.get().get(guardedObject) : null;
+		final ProbeModeListener pml = isProbeModeFeatureUsed ? objectsInProbeMode.get(guardedObject) : null;
 		if (pml != null) pml.onMethodCall(method, args);
 
 		if (violations.size() > 0)
@@ -916,7 +916,7 @@ public class Guard extends Validator
 		// guardedObject may be null if isInProbeMode is called when validating pre conditions of a static method
 		if (guardedObject == null) return false;
 
-		return objectsInProbeMode.get().containsKey(guardedObject);
+		return objectsInProbeMode.containsKey(guardedObject);
 	}
 
 	/**
@@ -1224,8 +1224,8 @@ public class Guard extends Validator
 	{
 		// create required objects for this validation cycle
 		final List<ConstraintViolation> violations = new ArrayList<>();
-		currentViolations.get().add(violations);
-		currentlyValidatedObjects.get().add(new IdentitySet<Object>(4));
+		currentViolations.add(violations);
+		currentlyValidatedObjects.add(new IdentitySet<Object>(4));
 
 		try
 		{
@@ -1260,8 +1260,8 @@ public class Guard extends Validator
 		finally
 		{
 			// remove the validation cycle related objects
-			currentViolations.get().removeLast();
-			currentlyValidatedObjects.get().removeLast();
+			currentViolations.removeLast();
+			currentlyValidatedObjects.removeLast();
 		}
 	}
 
@@ -1273,7 +1273,7 @@ public class Guard extends Validator
 			throws IllegalArgumentException, ValidationFailedException
 	{
 		// create a new set for this validation cycle
-		currentlyValidatedObjects.get().add(new IdentitySet<Object>(4));
+		currentlyValidatedObjects.add(new IdentitySet<Object>(4));
 		try
 		{
 			super.validateInvariants(guardedObject, violations, profiles);
@@ -1281,7 +1281,7 @@ public class Guard extends Validator
 		finally
 		{
 			// remove the set
-			currentlyValidatedObjects.get().removeLast();
+			currentlyValidatedObjects.removeLast();
 		}
 	}
 
@@ -1294,7 +1294,7 @@ public class Guard extends Validator
 			final List<ConstraintViolation> violations) throws ValidationFailedException
 	{
 		// create a new set for this validation cycle
-		currentlyValidatedObjects.get().add(new IdentitySet<Object>(4));
+		currentlyValidatedObjects.add(new IdentitySet<Object>(4));
 		try
 		{
 			final ClassChecks cc = getClassChecks(method.getDeclaringClass());
@@ -1328,7 +1328,7 @@ public class Guard extends Validator
 		finally
 		{
 			// remove the set
-			currentlyValidatedObjects.get().removeLast();
+			currentlyValidatedObjects.removeLast();
 		}
 	}
 
@@ -1345,9 +1345,9 @@ public class Guard extends Validator
 		/*
 		 *  avoid circular references
 		 */
-		if (currentlyCheckingPostConditions.get().contains(key)) return;
+		if (currentlyCheckingPostConditions.contains(key)) return;
 
-		currentlyCheckingPostConditions.get().add(key);
+		currentlyCheckingPostConditions.add(key);
 		try
 		{
 			final ClassChecks cc = getClassChecks(method.getDeclaringClass());
@@ -1395,7 +1395,7 @@ public class Guard extends Validator
 		}
 		finally
 		{
-			currentlyCheckingPostConditions.get().remove(key);
+			currentlyCheckingPostConditions.remove(key);
 		}
 	}
 
@@ -1412,9 +1412,9 @@ public class Guard extends Validator
 		/*
 		 *  avoid circular references
 		 */
-		if (currentlyCheckingPreConditions.get().contains(key)) return;
+		if (currentlyCheckingPreConditions.contains(key)) return;
 
-		currentlyCheckingPreConditions.get().add(key);
+		currentlyCheckingPreConditions.add(key);
 		try
 		{
 			final ClassChecks cc = getClassChecks(method.getDeclaringClass());
@@ -1460,7 +1460,7 @@ public class Guard extends Validator
 		}
 		finally
 		{
-			currentlyCheckingPreConditions.get().remove(key);
+			currentlyCheckingPreConditions.remove(key);
 		}
 	}
 
@@ -1484,11 +1484,11 @@ public class Guard extends Validator
 		 *
 		 *  => Groovy will invoke the getter to return the value, invocations of the getter will trigger the validation of the method return values again, including the @Assert constraint
 		 */
-		if (currentlyCheckingMethodReturnValues.get().contains(key)) return;
+		if (currentlyCheckingMethodReturnValues.contains(key)) return;
 
-		currentlyCheckingMethodReturnValues.get().add(key);
+		currentlyCheckingMethodReturnValues.add(key);
 		// create a new set for this validation cycle
-		currentlyValidatedObjects.get().add(new IdentitySet<Object>(4));
+		currentlyValidatedObjects.add(new IdentitySet<Object>(4));
 		try
 		{
 			final ClassChecks cc = getClassChecks(method.getDeclaringClass());
@@ -1508,10 +1508,10 @@ public class Guard extends Validator
 		}
 		finally
 		{
-			currentlyCheckingMethodReturnValues.get().remove(key);
+			currentlyCheckingMethodReturnValues.remove(key);
 
 			// remove the set
-			currentlyValidatedObjects.get().removeLast();
+			currentlyValidatedObjects.removeLast();
 		}
 	}
 }
