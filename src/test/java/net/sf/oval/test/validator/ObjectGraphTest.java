@@ -59,7 +59,7 @@ public class ObjectGraphTest extends TestCase
 
 		final Validator validator = new Validator();
 		final List<ConstraintViolation> violations = validator.validate(classA);
-		assertEquals(1, violations.size());
+		assertEquals(2, violations.size());
 	}
 
 }

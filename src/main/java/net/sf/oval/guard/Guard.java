@@ -1203,7 +1203,6 @@ public class Guard extends Validator
 	{
 		// create required objects for this validation cycle
 		final List<ConstraintViolation> violations = new ArrayList<>();
-		currentlyValidatedObjects.add(new IdentitySet<Object>(4));
 
 		try
 		{
@@ -1235,32 +1234,17 @@ public class Guard extends Validator
 					+ " Validated object: " + validatedObject.getClass().getName() + "@" + Integer.toHexString(validatedObject.hashCode()),
 					ex);
 		}
-		finally
-		{
-			// remove the validation cycle related objects
-			currentlyValidatedObjects.removeLast();
-		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void validateInvariants(final Object guardedObject, final List<ConstraintViolation> violations, final String[] profiles)
-			throws IllegalArgumentException, ValidationFailedException
-	{
-		// create a new set for this validation cycle
-		currentlyValidatedObjects.add(new IdentitySet<Object>(4));
-		try
-		{
-			super.validateInvariants(guardedObject, violations, profiles);
-		}
-		finally
-		{
-			// remove the set
-			currentlyValidatedObjects.removeLast();
-		}
-	}
+//	/**
+//	 * {@inheritDoc}
+//	 */
+//	@Override
+//	protected void validateInvariants(final Object guardedObject, final List<ConstraintViolation> violations, final String[] profiles)
+//			throws IllegalArgumentException, ValidationFailedException
+//	{
+//			super.validateInvariants(guardedObject, violations, profiles);
+//	}
 
 	/**
 	 * Validates the pre conditions for a method call.<br>
@@ -1271,7 +1255,6 @@ public class Guard extends Validator
 			final List<ConstraintViolation> violations) throws ValidationFailedException
 	{
 		// create a new set for this validation cycle
-		currentlyValidatedObjects.add(new IdentitySet<Object>(4));
 		try
 		{
 			final ClassChecks cc = getClassChecks(method.getDeclaringClass());
@@ -1301,11 +1284,6 @@ public class Guard extends Validator
 		{
 			throw new ValidationFailedException("Method pre conditions validation failed. Method: " + method + " Validated object: "
 					+ validatedObject, ex);
-		}
-		finally
-		{
-			// remove the set
-			currentlyValidatedObjects.removeLast();
 		}
 	}
 
@@ -1464,8 +1442,7 @@ public class Guard extends Validator
 		if (currentlyCheckingMethodReturnValues.contains(key)) return;
 
 		currentlyCheckingMethodReturnValues.add(key);
-		// create a new set for this validation cycle
-		currentlyValidatedObjects.add(new IdentitySet<Object>(4));
+
 		try
 		{
 			final ClassChecks cc = getClassChecks(method.getDeclaringClass());
@@ -1486,9 +1463,6 @@ public class Guard extends Validator
 		finally
 		{
 			currentlyCheckingMethodReturnValues.remove(key);
-
-			// remove the set
-			currentlyValidatedObjects.removeLast();
 		}
 	}
 }
