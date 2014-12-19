@@ -550,7 +550,6 @@ public class Guard extends Validator
 		if (isInvariantsEnabled && cc.isCheckInvariants || cc.methodsWithCheckInvariantsPost.contains(ctor))
 		{
 			final List<ConstraintViolation> violations = new ArrayList<>();
-			currentViolations.add(violations);
 			try
 			{
 				validateInvariants(guardedObject, violations, null);
@@ -558,10 +557,6 @@ public class Guard extends Validator
 			catch (final ValidationFailedException ex)
 			{
 				throw translateException(ex);
-			}
-			finally
-			{
-				currentViolations.removeLast();
 			}
 
 			if (violations.size() > 0)
@@ -633,7 +628,6 @@ public class Guard extends Validator
 		if (guardedObject == null && ReflectionUtils.isStatic(method)) guardedObject = method.getDeclaringClass();
 
 		final List<ConstraintViolation> violations = new ArrayList<>();
-		currentViolations.add(violations);
 
 		try
 		{
@@ -652,10 +646,6 @@ public class Guard extends Validator
 		catch (final ValidationFailedException ex)
 		{
 			throw translateException(ex);
-		}
-		finally
-		{
-			currentViolations.removeLast();
 		}
 
 		final ProbeModeListener pml = isProbeModeFeatureUsed ? objectsInProbeMode.get(guardedObject) : null;
@@ -683,8 +673,6 @@ public class Guard extends Validator
 
 		final Object returnValue = invocable.invoke();
 
-		currentViolations.add(violations);
-
 		try
 		{
 			// check invariants if executed method is not private
@@ -703,10 +691,6 @@ public class Guard extends Validator
 		catch (final ValidationFailedException ex)
 		{
 			throw translateException(ex);
-		}
-		finally
-		{
-			currentViolations.removeLast();
 		}
 
 		if (violations.size() > 0)
@@ -795,7 +779,6 @@ public class Guard extends Validator
 		if (guardedObject == null && ReflectionUtils.isStatic(method)) guardedObject = method.getDeclaringClass();
 
 		final List<ConstraintViolation> violations = new ArrayList<>();
-		currentViolations.add(violations);
 
 		try
 		{
@@ -814,10 +797,6 @@ public class Guard extends Validator
 		catch (final ValidationFailedException ex)
 		{
 			throw translateException(ex);
-		}
-		finally
-		{
-			currentViolations.removeLast();
 		}
 
 		final ProbeModeListener pml = isProbeModeFeatureUsed ? objectsInProbeMode.get(guardedObject) : null;
@@ -1224,7 +1203,6 @@ public class Guard extends Validator
 	{
 		// create required objects for this validation cycle
 		final List<ConstraintViolation> violations = new ArrayList<>();
-		currentViolations.add(violations);
 		currentlyValidatedObjects.add(new IdentitySet<Object>(4));
 
 		try
@@ -1260,7 +1238,6 @@ public class Guard extends Validator
 		finally
 		{
 			// remove the validation cycle related objects
-			currentViolations.removeLast();
 			currentlyValidatedObjects.removeLast();
 		}
 	}

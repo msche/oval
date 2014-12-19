@@ -229,8 +229,6 @@ public class Validator implements IValidator
 
 	protected final LinkedList<Set<Object>> currentlyValidatedObjects = new LinkedList<Set<Object>>();
 
-	protected final LinkedList<List<ConstraintViolation>> currentViolations = new LinkedList<List<ConstraintViolation>>();
-
 	private final Set<String> disabledProfiles = new LinkedHashSet<>();
 
 	private final Set<String> enabledProfiles = new LinkedHashSet<>();
@@ -1403,19 +1401,6 @@ public class Validator implements IValidator
 	}
 
 	/**
-	 * Reports an additional constraint violation for the current validation cycle.
-	 * This method is intended to be executed by check implementations only.
-	 * @param constraintViolation the constraint violation
-	 */
-	public void reportConstraintViolation(final ConstraintViolation constraintViolation)
-	{
-		Assert.argumentNotNull("constraintViolation", constraintViolation);
-		if (currentViolations.size() == 0)
-			throw new IllegalStateException("No active validation cycle found for the current thread.");
-		currentViolations.getLast().add(constraintViolation);
-	}
-
-	/**
 	 * @param validatedObject may be null for static fields
 	 */
 	protected Object resolveValue(final FieldContext ctx, final Object validatedObject)
@@ -1460,7 +1445,6 @@ public class Validator implements IValidator
 
 		// create required objects for this validation cycle
 		final List<ConstraintViolation> violations = new ArrayList<>();
-		currentViolations.add(violations);
 		currentlyValidatedObjects.add(new IdentitySet<Object>(4));
 
 		try
@@ -1471,7 +1455,6 @@ public class Validator implements IValidator
 		finally
 		{
 			// remove the validation cycle related objects
-			currentViolations.removeLast();
 			currentlyValidatedObjects.removeLast();
 		}
 	}
@@ -1486,7 +1469,6 @@ public class Validator implements IValidator
 
 		// create required objects for this validation cycle
 		final List<ConstraintViolation> violations = new ArrayList<>();
-		currentViolations.add(violations);
 		currentlyValidatedObjects.add(new IdentitySet<Object>(4));
 
 		try
@@ -1497,7 +1479,6 @@ public class Validator implements IValidator
 		finally
 		{
 			// remove the validation cycle related objects
-			currentViolations.removeLast();
 			currentlyValidatedObjects.removeLast();
 		}
 	}
@@ -1513,7 +1494,6 @@ public class Validator implements IValidator
 
 		// create required objects for this validation cycle
 		final List<ConstraintViolation> violations = new ArrayList<>();
-		currentViolations.add(violations);
 		currentlyValidatedObjects.add(new IdentitySet<Object>(4));
 
 		try
@@ -1539,7 +1519,6 @@ public class Validator implements IValidator
 		finally
 		{
 			// remove the validation cycle related objects
-			currentViolations.removeLast();
 			currentlyValidatedObjects.removeLast();
 		}
 			}
