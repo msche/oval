@@ -17,6 +17,7 @@ import net.sf.oval.constraint.Assert;
 import net.sf.oval.constraint.Length;
 import net.sf.oval.exception.ConstraintsViolatedException;
 import net.sf.oval.guard.Guard;
+import net.sf.oval.guard.GuardAspect2;
 import net.sf.oval.guard.Guarded;
 
 /**
@@ -43,9 +44,9 @@ public class MethodReturnValueConstraintsValidationTest extends TestCase
 
 	public void testMethodReturnValueConstraintValidation()
 	{
-		final Guard guard = new Guard();
-
-		TestGuardAspect.aspectOf().setGuard(guard);
+		//final Guard guard = new Guard();
+		//TestGuardAspect.aspectOf().setGuard(guard);
+		Guard guard = new GuardAspect2().getGuard();
 
 		final TestEntity t = new TestEntity();
 

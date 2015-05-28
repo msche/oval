@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Portions created by Sebastian Thomschke are copyright (c) 2005-2010 Sebastian
  * Thomschke.
- * 
+ *
  * All Rights Reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *     Sebastian Thomschke - initial implementation.
  *******************************************************************************/
@@ -20,16 +20,17 @@ import net.sf.oval.guard.GuardAspect2;
 /**
  * @author Sebastian Thomschke
  */
-@Aspect
-public class TestGuardAspect extends GuardAspect2
-{
-	public TestGuardAspect()
-	{
-		super();
-	}
-
-	public static TestGuardAspect aspectOf()
-	{
-		return Aspects.aspectOf(TestGuardAspect.class);
-	}
-}
+//@Aspect
+public class TestGuardAspect {}
+//        extends GuardAspect2
+//{
+//    public TestGuardAspect()
+//    {
+//        super();
+//    }
+//
+//    public static GuardAspect2 aspectOf()
+//    {
+//        return Aspects.aspectOf(GuardAspect2.class);
+//    }
+//}

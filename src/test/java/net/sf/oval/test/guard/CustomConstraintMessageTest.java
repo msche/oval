@@ -18,6 +18,7 @@ import net.sf.oval.constraint.NotNull;
 import net.sf.oval.constraint.Range;
 import net.sf.oval.exception.ConstraintsViolatedException;
 import net.sf.oval.guard.Guard;
+import net.sf.oval.guard.GuardAspect2;
 import net.sf.oval.guard.Guarded;
 
 /**
@@ -75,8 +76,9 @@ public class CustomConstraintMessageTest extends TestCase
 	 */
 	public void testCustomConstraintMessage()
 	{
-		final Guard guard = new Guard();
-		TestGuardAspect.aspectOf().setGuard(guard);
+		//final Guard guard = new Guard();
+		//TestGuardAspect.aspectOf().setGuard(guard);
+		Guard guard = new GuardAspect2().getGuard();
 
 		final TestEntity e = new TestEntity();
 

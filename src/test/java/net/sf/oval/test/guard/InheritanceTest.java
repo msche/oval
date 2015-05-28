@@ -17,6 +17,7 @@ import net.sf.oval.constraint.AssertFieldConstraints;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.exception.ConstraintsViolatedException;
 import net.sf.oval.guard.Guard;
+import net.sf.oval.guard.GuardAspect2;
 import net.sf.oval.guard.Guarded;
 
 /**
@@ -110,8 +111,9 @@ public class InheritanceTest extends TestCase
 
 	public void testInheritance()
 	{
-		final Guard guard = new Guard();
-		TestGuardAspect.aspectOf().setGuard(guard);
+		//final Guard guard = new Guard();
+		//TestGuardAspect.aspectOf().setGuard(guard);
+		Guard guard = new GuardAspect2().getGuard();
 
 		final Entity e = new Entity();
 
@@ -138,8 +140,9 @@ public class InheritanceTest extends TestCase
 
 	public void testInterface()
 	{
-		final Guard guard = new Guard();
-		TestGuardAspect.aspectOf().setGuard(guard);
+		//final Guard guard = new Guard();
+		//TestGuardAspect.aspectOf().setGuard(guard);
+		Guard guard = new GuardAspect2().getGuard();
 
 		final EntityWithInterface e = new EntityWithInterface();
 
@@ -156,8 +159,9 @@ public class InheritanceTest extends TestCase
 
 	public void testInterfaceNotApplied()
 	{
-		final Guard guard = new Guard();
-		TestGuardAspect.aspectOf().setGuard(guard);
+		//final Guard guard = new Guard();
+		//TestGuardAspect.aspectOf().setGuard(guard);
+		Guard guard = new GuardAspect2().getGuard();
 
 		final EntityWithInterfaceButUnapplied e = new EntityWithInterfaceButUnapplied();
 

@@ -16,6 +16,7 @@ import junit.framework.TestCase;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.exception.ConstraintsViolatedException;
 import net.sf.oval.guard.Guard;
+import net.sf.oval.guard.GuardAspect2;
 import net.sf.oval.guard.Guarded;
 
 /**
@@ -73,8 +74,10 @@ public class InnerClassTest extends TestCase
 	@SuppressWarnings("unused")
 	public void testInnerClassGuarded()
 	{
-		final Guard guard = new Guard();
-		TestGuardAspect.aspectOf().setGuard(guard);
+		//final Guard guard = new Guard();
+		//TestGuardAspect.aspectOf().setGuard(guard);
+		Guard guard = new GuardAspect2().getGuard();
+
 		guard.setInvariantsEnabled(true);
 
 		try
@@ -108,8 +111,9 @@ public class InnerClassTest extends TestCase
 	 */
 	public void testInnerClassNotGuarded()
 	{
-		final Guard guard = new Guard();
-		TestGuardAspect.aspectOf().setGuard(guard);
+		//final Guard guard = new Guard();
+		//TestGuardAspect.aspectOf().setGuard(guard);
+		Guard guard = new GuardAspect2().getGuard();
 
 		final TestEntity.InnerClassNotGuarded instance = new TestEntity.InnerClassNotGuarded(null);
 		instance.setName(null);

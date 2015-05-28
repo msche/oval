@@ -640,39 +640,7 @@ Besides field/property validation OVal implements Programming by Contract featur
 					<source>${java.version}</source>
 					<target>${java.version}</target>
 					<compilerVersion>${java.version}</compilerVersion>
-					<!-- disabled because of bug http://jira.codehaus.org/browse/MCOMPILER-208 -->
-					<!--
-						<compilerId>aspectj</compilerId>
-						<includes>
-						<include>**/*.java</include>
-						<include>**/*.aj</include>
-						</includes>
-					-->
 				</configuration>
-
-				<!--
-					<dependencies>
-					<dependency>
-					<groupId>org.codehaus.plexus</groupId>
-					<artifactId>plexus-compiler-aspectj</artifactId>
-					<version>2.2</version>
-					<exclusions>
-					<exclusion>
-					<groupId>org.aspectj</groupId>
-					<artifactId>aspectjrt</artifactId>
-					</exclusion>
-					<exclusion>
-					<groupId>org.aspectj</groupId>
-					<artifactId>aspectjtools</artifactId>
-					</exclusion>
-					</exclusions>
-					</dependency>
-					<dependency>
-					<groupId>org.aspectj</groupId>
-					<artifactId>aspectjtools</artifactId>
-					<version>${aspectj.version}</version>
-					</dependency>
-					</dependencies> -->
 			</plugin>
 
 			<plugin>

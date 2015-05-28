@@ -65,8 +65,8 @@ public class MinSizePerformanceTest {
 
     @Before
     public void setup() {
-        final Guard guard = new Guard();
-        TestGuardAspect.aspectOf().setGuard(guard);
+        //final Guard guard = new Guard();
+        //TestGuardAspect.aspectOf().setGuard(guard);
 
         testSubject = new TestSubject();
 

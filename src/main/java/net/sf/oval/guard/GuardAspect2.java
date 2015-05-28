@@ -38,7 +38,7 @@ import java.lang.reflect.Method;
  * @author Sebastian Thomschke
  */
 @Aspect
-public abstract class GuardAspect2 extends ApiUsageAuditor2
+public class GuardAspect2 extends ApiUsageAuditor2
 {
 	private static final class ProceedInvocable implements Invocable
 	{

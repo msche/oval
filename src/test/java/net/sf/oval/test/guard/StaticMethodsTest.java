@@ -17,6 +17,7 @@ import net.sf.oval.constraint.AssertFieldConstraints;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.exception.ConstraintsViolatedException;
 import net.sf.oval.guard.Guard;
+import net.sf.oval.guard.GuardAspect2;
 import net.sf.oval.guard.Guarded;
 
 /**
@@ -48,8 +49,9 @@ public class StaticMethodsTest extends TestCase
 
 	public void testPostValidateThis() throws Exception
 	{
-		final Guard guard = new Guard();
-		TestGuardAspect.aspectOf().setGuard(guard);
+		//final Guard guard = new Guard();
+		//TestGuardAspect.aspectOf().setGuard(guard);
+		Guard guard = new GuardAspect2().getGuard();
 
 		TestEntity.value = null;
 
@@ -70,8 +72,9 @@ public class StaticMethodsTest extends TestCase
 
 	public void testPreValidateThis() throws Exception
 	{
-		final Guard guard = new Guard();
-		TestGuardAspect.aspectOf().setGuard(guard);
+		//final Guard guard = new Guard();
+		//TestGuardAspect.aspectOf().setGuard(guard);
+		Guard guard = new GuardAspect2().getGuard();
 
 		TestEntity.value = null;
 
@@ -92,8 +95,9 @@ public class StaticMethodsTest extends TestCase
 
 	public void testSetterValidation() throws Exception
 	{
-		final Guard guard = new Guard();
-		TestGuardAspect.aspectOf().setGuard(guard);
+		//final Guard guard = new Guard();
+		//TestGuardAspect.aspectOf().setGuard(guard);
+		Guard guard = new GuardAspect2().getGuard();
 
 		try
 		{

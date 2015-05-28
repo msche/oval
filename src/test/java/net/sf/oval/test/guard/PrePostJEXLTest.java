@@ -16,6 +16,7 @@ import junit.framework.TestCase;
 import net.sf.oval.constraint.Assert;
 import net.sf.oval.exception.ConstraintsViolatedException;
 import net.sf.oval.guard.Guard;
+import net.sf.oval.guard.GuardAspect2;
 import net.sf.oval.guard.Guarded;
 import net.sf.oval.guard.Post;
 import net.sf.oval.guard.Pre;
@@ -76,8 +77,9 @@ public class PrePostJEXLTest extends TestCase
 
 	public void test1Pre()
 	{
-		final Guard guard = new Guard();
-		TestGuardAspect.aspectOf().setGuard(guard);
+		//final Guard guard = new Guard();
+		//TestGuardAspect.aspectOf().setGuard(guard);
+		Guard guard = new GuardAspect2().getGuard();
 
 		final TestTransaction t = new TestTransaction();
 
@@ -107,8 +109,9 @@ public class PrePostJEXLTest extends TestCase
 
 	public void test2Post()
 	{
-		final Guard guard = new Guard();
-		TestGuardAspect.aspectOf().setGuard(guard);
+		//final Guard guard = new Guard();
+		//TestGuardAspect.aspectOf().setGuard(guard);
+		Guard guard = new GuardAspect2().getGuard();
 
 		final TestTransaction t = new TestTransaction();
 		t.value = new BigDecimal(-2);
@@ -129,8 +132,9 @@ public class PrePostJEXLTest extends TestCase
 
 	public void test3CircularConditions()
 	{
-		final Guard guard = new Guard();
-		TestGuardAspect.aspectOf().setGuard(guard);
+		//final Guard guard = new Guard();
+		//TestGuardAspect.aspectOf().setGuard(guard);
+		Guard guard = new GuardAspect2().getGuard();
 
 		final TestTransaction t = new TestTransaction();
 		try

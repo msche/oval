@@ -450,28 +450,28 @@ public class Guard extends Validator
 		return objectsInProbeMode.remove(guardedObject);
 	}
 
-	/**
-	 * Enables the probe mode for the given object in the current thread. In probe mode calls to methods of an
-	 * object are not actually executed. OVal only validates method pre-conditions and notifies
-	 * ConstraintViolationListeners but does not throw ConstraintViolationExceptions. Methods with return values will
-	 * return null.
-	 *
-	 * @param guardedObject the object to enable the probe mode for
-	 * @throws IllegalArgumentException if <code>guardedObject == null</code>
-	 * @throws IllegalStateException if the probe mode is already enabled
-	 */
-	public void enableProbeMode(final Object guardedObject) throws IllegalArgumentException, IllegalStateException
-	{
-		Assert.argumentNotNull("guardedObject", guardedObject);
-
-		if (guardedObject instanceof Class< ? >)
-			LOG.warn("Enabling probe mode for a class looks like a programming error. Class: {}", guardedObject);
-		isProbeModeFeatureUsed = true;
-
-		if (objectsInProbeMode.get(guardedObject) != null) throw new IllegalStateException("The object is already in probe mode.");
-
-		objectsInProbeMode.put(guardedObject, new ProbeModeListener(guardedObject));
-	}
+//	/**
+//	 * Enables the probe mode for the given object in the current thread. In probe mode calls to methods of an
+//	 * object are not actually executed. OVal only validates method pre-conditions and notifies
+//	 * ConstraintViolationListeners but does not throw ConstraintViolationExceptions. Methods with return values will
+//	 * return null.
+//	 *
+//	 * @param guardedObject the object to enable the probe mode for
+//	 * @throws IllegalArgumentException if <code>guardedObject == null</code>
+//	 * @throws IllegalStateException if the probe mode is already enabled
+//	 */
+//	public void enableProbeMode(final Object guardedObject) throws IllegalArgumentException, IllegalStateException
+//	{
+//		Assert.argumentNotNull("guardedObject", guardedObject);
+//
+//		if (guardedObject instanceof Class< ? >)
+//			LOG.warn("Enabling probe mode for a class looks like a programming error. Class: {}", guardedObject);
+//		isProbeModeFeatureUsed = true;
+//
+//		if (objectsInProbeMode.get(guardedObject) != null) throw new IllegalStateException("The object is already in probe mode.");
+//
+//		objectsInProbeMode.put(guardedObject, new ProbeModeListener(guardedObject));
+//	}
 
 	/**
 	 * Returns the registers constraint pre condition checks for the given method parameter

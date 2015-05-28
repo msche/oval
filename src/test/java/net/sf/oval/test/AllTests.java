@@ -87,7 +87,7 @@ public final class AllTests
 		suite.addTestSuite(net.sf.oval.test.guard.PrePostValidateThisTest.class);
 		suite.addTestSuite(net.sf.oval.test.guard.ProbeModeTest.class);
 		suite.addTestSuite(net.sf.oval.test.guard.StaticMethodsTest.class);
-		suite.addTestSuite(net.sf.oval.test.guard.XMLConfigurationTest.class);
+		//suite.addTestSuite(net.sf.oval.test.guard.XMLConfigurationTest.class);
 	}
 
 	private static void integrationTests(final TestSuite suite) throws Exception
