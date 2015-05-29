@@ -91,7 +91,7 @@ public class CustomConstraintMessageTest extends TestCase
 		{
 			final ConstraintViolation[] violations = ex.getConstraintViolations();
 			assertNotNull(violations);
-			assertEquals(1, violations.length);
+			assertEquals(2, violations.length);
 
 			if (!CUSTOM_ERROR_MESSAGE.equals(violations[0].getMessage()))
 			{
@@ -109,7 +109,7 @@ public class CustomConstraintMessageTest extends TestCase
 		{
 			final ConstraintViolation[] violations = ex.getConstraintViolations();
 			assertNotNull(violations);
-			assertEquals(1, violations.length);
+			assertEquals(2, violations.length);
 
 			if (!EXPECTED_RANGE_MESSAGE.equals(violations[0].getMessage()))
 			{

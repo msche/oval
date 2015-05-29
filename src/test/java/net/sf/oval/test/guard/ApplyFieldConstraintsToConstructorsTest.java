@@ -13,13 +13,19 @@
 package net.sf.oval.test.guard;
 
 import junit.framework.TestCase;
-import net.sf.oval.constraint.AssertTrue;
+//import net.sf.oval.constraint.AssertTrue;
+//import net.sf.oval.constraint.Length;
+//import net.sf.oval.constraint.MatchPattern;
+//import net.sf.oval.constraint.NotEmpty;
+//import net.sf.oval.constraint.NotNull;
 import net.sf.oval.constraint.Length;
-import net.sf.oval.constraint.MatchPattern;
 import net.sf.oval.constraint.NotEmpty;
-import net.sf.oval.constraint.NotNull;
 import net.sf.oval.exception.ConstraintsViolatedException;
 import net.sf.oval.guard.Guarded;
+
+import javax.validation.constraints.AssertTrue;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 /**
  * @author Sebastian Thomschke
@@ -41,7 +47,7 @@ public class ApplyFieldConstraintsToConstructorsTest extends TestCase
 		@NotNull(message = "NOT_NULL")
 		@Length(max = 6, message = "LENGTH")
 		@NotEmpty(message = "NOT_EMPTY")
-		@MatchPattern(pattern = "^[0-9]*$", message = "REG_EX")
+		@Pattern(regexp = "^[0-9]*$", message = "REG_EX")
 		private String zipCode = "1";
 
 		protected Person(final boolean isValid, final String firstName, final String lastName, final String zipCode)
@@ -75,7 +81,7 @@ public class ApplyFieldConstraintsToConstructorsTest extends TestCase
 		}
 		catch (final ConstraintsViolatedException ex)
 		{
-			assertEquals(ex.getConstraintViolations().length, 4);
+			assertEquals(ex.getConstraintViolations().length, 8);
 		}
 
 		try

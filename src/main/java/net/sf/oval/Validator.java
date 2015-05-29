@@ -14,6 +14,7 @@ package net.sf.oval;
 
 import net.sf.oval.configuration.Configurer;
 import net.sf.oval.configuration.annotation.AnnotationsConfigurer;
+import net.sf.oval.configuration.annotation.BeanValidationAnnotationsConfigurer;
 import net.sf.oval.configuration.pojo.elements.ClassConfiguration;
 import net.sf.oval.configuration.pojo.elements.ConstraintSetConfiguration;
 import net.sf.oval.configuration.pojo.elements.ConstructorConfiguration;
@@ -231,8 +232,7 @@ public class Validator implements IValidator {
      * Constructs a new validator instance and uses a new instance of AnnotationsConfigurer
      */
     public Validator() {
-        ReflectionUtils.assertPrivateAccessAllowed();
-        configurers.add(new AnnotationsConfigurer());
+        this(new AnnotationsConfigurer(), new BeanValidationAnnotationsConfigurer());
     }
 
     /**

@@ -688,7 +688,7 @@ Besides field/property validation OVal implements Programming by Contract featur
 				<configuration>
                     <skipTests>${skip.unit.tests}</skipTests>
                     <argLine>
-                        -Duser.language=en -Duser.region=US -javaagent:${settings.localRepository}/org/jacoco/org.jacoco.agent/${jacoco.version}/org.jacoco.agent-${jacoco.version}-runtime.jar=destfile=${project.build.directory}/jacoco.exec
+						-Duser.language=en -Duser.region=US -javaagent:${settings.localRepository}/org/jacoco/org.jacoco.agent/${jacoco.version}/org.jacoco.agent-${jacoco.version}-runtime.jar=destfile=${project.build.directory}/jacoco.exec
                     </argLine>
 
                     <excludes>
