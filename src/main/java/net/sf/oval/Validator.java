@@ -14,7 +14,6 @@ package net.sf.oval;
 
 import net.sf.oval.configuration.Configurer;
 import net.sf.oval.configuration.annotation.AnnotationsConfigurer;
-import net.sf.oval.configuration.annotation.JPAAnnotationsConfigurer;
 import net.sf.oval.configuration.pojo.elements.ClassConfiguration;
 import net.sf.oval.configuration.pojo.elements.ConstraintSetConfiguration;
 import net.sf.oval.configuration.pojo.elements.ConstructorConfiguration;
@@ -88,7 +87,6 @@ import static java.lang.Boolean.TRUE;
  *
  * @author Sebastian Thomschke
  * @see AnnotationsConfigurer
- * @see JPAAnnotationsConfigurer
  */
 public class Validator implements IValidator {
     protected static final class DelegatingParameterNameResolver implements ParameterNameResolver {

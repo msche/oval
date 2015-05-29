@@ -16,8 +16,8 @@ import junit.framework.TestCase;
 import net.sf.oval.ConstraintViolation;
 import net.sf.oval.Validator;
 import net.sf.oval.configuration.annotation.BeanValidationAnnotationsConfigurer;
+import net.sf.oval.guard.Guarded;
 
-import javax.persistence.Entity;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -31,7 +31,7 @@ import java.util.List;
  */
 public class BeanValidationAnnotationsConfigurerTest extends TestCase
 {
-	@Entity
+	@Guarded
 	protected static class TestEntity
 	{
 		@NotNull(message = "NOT_NULL")
