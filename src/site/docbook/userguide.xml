@@ -1534,12 +1534,7 @@ Validator myValidator = new Validator(myConfigurer);]]></programlisting>
         <para><ulink url="http://de.wikipedia.org/wiki/OVal_%28Framework%29">http://de.wikipedia.org/wiki/OVal_%28Framework%29</ulink></para>
 		<para><ulink url="http://translate.google.com/translate?sl=de&amp;tl=en&amp;u=http%3A%2F%2Fde.wikipedia.org%2Fwiki%2FOVal_%28Framework%29">English Translation</ulink></para>
 	  </listitem>
-	  
-	  <listitem>
-	    <para>OVal - Object Validation With POJO (2009)</para>
-        <para><ulink url="http://bitsofwizardry.wordpress.com/2009/04/14/oval-object-validation-with-pojo/">http://bitsofwizardry.wordpress.com/2009/04/14/oval-object-validation-with-pojo/</ulink></para>
-	  </listitem>
-	  
+
 	  <listitem>
 	    <para>The Developer Information Resource - OVal Learning Roadmap (2009)</para>
         <para><ulink url="http://www.thedevinfo.com/Home/validation-frameworks/oval/oval-learning-roadmap">http://www.thedevinfo.com/Home/validation-frameworks/oval/oval-learning-roadmap</ulink></para>
