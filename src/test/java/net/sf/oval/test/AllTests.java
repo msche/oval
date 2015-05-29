@@ -87,7 +87,6 @@ public final class AllTests
 		suite.addTestSuite(net.sf.oval.test.guard.PrePostValidateThisTest.class);
 		suite.addTestSuite(net.sf.oval.test.guard.ProbeModeTest.class);
 		suite.addTestSuite(net.sf.oval.test.guard.StaticMethodsTest.class);
-		//suite.addTestSuite(net.sf.oval.test.guard.XMLConfigurationTest.class);
 	}
 
 	private static void integrationTests(final TestSuite suite) throws Exception
@@ -159,7 +158,6 @@ public final class AllTests
 		suite.addTestSuite(net.sf.oval.test.validator.ValidateClassWithoutConstraintsTest.class);
 		suite.addTestSuite(net.sf.oval.test.validator.ValidateWithMethodConstraintTest.class);
 		suite.addTestSuite(net.sf.oval.test.validator.ValidatorAssertValidTest.class);
-		suite.addTestSuite(net.sf.oval.test.validator.XMLConfigurationTest.class);
 	}
 
 	private AllTests()

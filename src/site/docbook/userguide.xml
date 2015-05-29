@@ -1327,80 +1327,6 @@ resolver.addMessageBundle(ResourceBundle.getBundle("mypackage/CustomMessages"));
     </section>
   </section>
 
-  <section id="xml-configuration">
-    <title>XML based configuration</title>
-
-    <para>By default the constraints configuration is done by adding annotations representing the constraints to the
-    respective locations in the source code. Alternatively constraints can also be declared via XML - either for a
-    complete configuration or to overwrite the annotations based constraint configurations for specific classes, fields, etc.</para>
-
-    <para>You can used the <command>net.sf.oval.configuration.xml.XMLConfigurer</command> for loading constraint definitions from an XML file:</para>
-
-    <programlisting><![CDATA[XMLConfigurer xmlConfigurer = new XMLConfigurer(new File("oval-config.xml"));
-Guard guard = new Guard(xmlConfigurer);]]></programlisting>
-
-    <para>Here is an example XML configuration:</para>
-
-	<programlisting language="xml"><![CDATA[<?xml version="1.0" ?>
-<oval
-  xmlns="http://oval.sf.net/oval-configuration"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-  xsi:schemaLocation="http://oval.sf.net/oval-configuration http://oval.sourceforge.net/oval-configuration.xsd"
->
-  <!-- define a constraint set -->
-  <constraintSet id="user.userid">
-    <notNull />
-    <matchPattern>
-      <pattern pattern="^[a-z0-9]{8}$" flags="0" />
-    </matchPattern>
-  </constraintSet>
-
-  <!-- define checks for the acme.model.User class -->
-  <!-- overwrite=false means already defined checks for this class will not be removed -->
-  <class type="acme.model.User" overwrite="false" applyFieldConstraintsToSetter="true">
-
-    <field name="firstName">
-      <length min="0" max="3" />
-    </field>
-
-    <field name="lastName">
-      <length min="0" max="5" />
-    </field>
-
-    <!-- overwrite=true means previously defined checks for this field will be overwritten by the checks defined here -->
-    <field name="managerId" overwrite="true">
-      <!-- use the checks defined for the constaint set "user.userid" -->
-      <assertConstraint id="user.userid" />
-    </field>
-
-    <field name="userId" overwrite="true">
-      <!-- use the checks defined for the constaint set "user.userid" -->
-      <assertConstraintSet id="user.userid" />
-    </field>
-
-    <!-- define constructor parameter checks -->
-    <constructor>
-      <!-- parameter1 -->
-      <parameter type="java.lang.String">
-        <notNull />
-      </parameter>
-
-      <!-- parameter 2 -->
-      <!-- the types of all parameters must be listed, even if no checks are defined -->
-      <parameter type="java.lang.String" />
-    </constructor>
-
-    <!-- define method parameter checks -->
-    <method name="setPasswordExpirationDays">
-      <!-- parameter 1 -->
-      <parameter type="int">
-        <notNull />
-      </parameter>
-     </method>
-  </class>
-</oval>]]></programlisting>
-  </section>
-
   <section id="additional-configuration">
     <title>Additional configuration and customization options</title>
 
@@ -1532,21 +1458,8 @@ Validator myValidator = new Validator(myConfigurer);]]></programlisting>
       
         <title>Configuring OVal validator instances with Spring</title>
       
-        <para>You can instantiate OVal validators with Spring like any other Spring managed bean.
-        Here is an example setting up a validator with XML based constraint configuration:</para>
+        <para>TODO</para>
 
-        <programlisting language="xml"><![CDATA[<beans>        
-  <bean id="validator" class="net.sf.oval.Validator"> 
-    <constructor-arg>
-      <list>
-        <bean class="net.sf.oval.configuration.xml.XMLConfigurer">
-           <constructor-arg type="java.io.InputStream" value="classpath:com/acme/OValConfiguration.xml" />
-        </bean>
-      </list>
-    </constructor-arg>
-  </bean>
-
-</beans>]]></programlisting>
       </section>
       
     </section>

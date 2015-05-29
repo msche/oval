@@ -23,7 +23,6 @@ import net.sf.oval.configuration.pojo.elements.FieldConfiguration;
 import net.sf.oval.configuration.pojo.elements.MethodConfiguration;
 import net.sf.oval.configuration.pojo.elements.ObjectConfiguration;
 import net.sf.oval.configuration.pojo.elements.ParameterConfiguration;
-import net.sf.oval.configuration.xml.XMLConfigurer;
 import net.sf.oval.constraint.AssertConstraintSetCheck;
 import net.sf.oval.constraint.AssertFieldConstraintsCheck;
 import net.sf.oval.constraint.AssertValidCheck;
@@ -92,7 +91,6 @@ import static java.lang.Boolean.TRUE;
  * @see AnnotationsConfigurer
  * @see JPAAnnotationsConfigurer
  * @see POJOConfigurer
- * @see XMLConfigurer
  */
 public class Validator implements IValidator {
     protected static final class DelegatingParameterNameResolver implements ParameterNameResolver {
