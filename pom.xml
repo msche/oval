@@ -840,19 +840,19 @@ Besides field/property validation OVal implements Programming by Contract featur
 				</dependencies>
 			</plugin>
 
-			<plugin>
-				<artifactId>maven-changes-plugin</artifactId>
-				<version>2.9</version>
-				<executions>
-					<execution>
-						<id>check-changes</id>
-						<phase>verify</phase>
-						<goals>
-							<goal>changes-check</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
+			<!--<plugin>-->
+				<!--<artifactId>maven-changes-plugin</artifactId>-->
+				<!--<version>2.9</version>-->
+				<!--<executions>-->
+					<!--<execution>-->
+						<!--<id>check-changes</id>-->
+						<!--<phase>verify</phase>-->
+						<!--<goals>-->
+							<!--<goal>changes-check</goal>-->
+						<!--</goals>-->
+					<!--</execution>-->
+				<!--</executions>-->
+			<!--</plugin>-->
 
 			<!--*********************************************************************
 				phase: manual execution
@@ -1035,20 +1035,20 @@ Besides field/property validation OVal implements Programming by Contract featur
 				<version>2.6.1</version>
 			</plugin>
 
-			<plugin>
-				<artifactId>maven-changes-plugin</artifactId>
-				<version>2.9</version>
-				<configuration>
-					<xmlPath>${project.basedir}/src/site/changes.xml</xmlPath>
-				</configuration>
-				<reportSets>
-					<reportSet>
-						<reports>
-							<report>changes-report</report>
-						</reports>
-					</reportSet>
-				</reportSets>
-			</plugin>
+			<!--<plugin>-->
+				<!--<artifactId>maven-changes-plugin</artifactId>-->
+				<!--<version>2.9</version>-->
+				<!--<configuration>-->
+					<!--<xmlPath>${project.basedir}/src/site/changes.xml</xmlPath>-->
+				<!--</configuration>-->
+				<!--<reportSets>-->
+					<!--<reportSet>-->
+						<!--<reports>-->
+							<!--<report>changes-report</report>-->
+						<!--</reports>-->
+					<!--</reportSet>-->
+				<!--</reportSets>-->
+			<!--</plugin>-->
 		</plugins>
 	</reporting>
 
