@@ -17,11 +17,12 @@ import net.sf.oval.ConstraintTarget;
 import net.sf.oval.ConstraintViolation;
 import net.sf.oval.Validator;
 import net.sf.oval.constraint.Length;
-import net.sf.oval.constraint.MatchPattern;
 import net.sf.oval.constraint.NotEmpty;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+
 import net.sf.oval.context.FieldContext;
 
 import java.lang.reflect.Field;
@@ -49,7 +50,7 @@ public class ValidTest extends TestCase
 		@NotNull
 		@Length(max = 6)
 		@NotEmpty
-		@MatchPattern(pattern = "^[0-9]*$")
+		@Pattern(regexp = "^[0-9]*$")
 		public String zipCode;
 
 		@Valid

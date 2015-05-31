@@ -17,7 +17,7 @@ import net.sf.oval.Check;
 import net.sf.oval.ConstraintSet;
 import net.sf.oval.constraint.AssertConstraintSet;
 import net.sf.oval.constraint.LengthCheck;
-import net.sf.oval.constraint.MatchPatternCheck;
+import net.sf.oval.constraint.PatternCheck;
 import net.sf.oval.constraint.NotEmptyCheck;
 import net.sf.oval.constraint.NotNullCheck;
 import net.sf.oval.exception.OValException;
@@ -69,7 +69,7 @@ public class ConstraintSetTest extends TestCase
 		notEmpty.setMessage("NOT_EMPTY");
 		checks.add(notEmpty);
 
-		final MatchPatternCheck matchPattern = new MatchPatternCheck();
+		final PatternCheck matchPattern = new PatternCheck();
 		matchPattern.setMessage("MATCH_PATTERN");
 		matchPattern.setPattern("^[0-9]*$", 0);
 		checks.add(matchPattern);

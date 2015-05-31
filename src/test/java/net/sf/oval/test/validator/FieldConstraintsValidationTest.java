@@ -16,9 +16,9 @@ import junit.framework.TestCase;
 import net.sf.oval.ConstraintViolation;
 import net.sf.oval.Validator;
 import net.sf.oval.constraint.Length;
-import net.sf.oval.constraint.MatchPattern;
 import net.sf.oval.constraint.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 import java.util.List;
 
@@ -38,7 +38,7 @@ public class FieldConstraintsValidationTest extends TestCase
 		@NotNull
 		@Length(max = 6, message = "LENGTH")
 		@NotEmpty(message = "NOT_EMPTY")
-		@MatchPattern(pattern = PATTERN_ZIP_CODE, message = "MATCH_PATTERN")
+		@Pattern(regexp = PATTERN_ZIP_CODE, message = "MATCH_PATTERN")
 		public String zipCode;
 	}
 

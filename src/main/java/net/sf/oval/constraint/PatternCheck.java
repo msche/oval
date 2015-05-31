@@ -19,45 +19,46 @@ import net.sf.oval.configuration.annotation.ConstraintAnnotationSettings;
 import net.sf.oval.context.OValContext;
 import net.sf.oval.internal.util.ArrayUtils;
 
+import javax.validation.constraints.Pattern;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Pattern;
+
+
+
 
 /**
  * @author Sebastian Thomschke
  */
-public final class MatchPatternCheck extends AbstractAnnotationCheck<MatchPattern>
+public final class PatternCheck extends AbstractAnnotationCheck<Pattern>
 {
 	private static final long serialVersionUID = 1L;
 
-	private final List<Pattern> patterns = new ArrayList<>(2);
+	private final List<java.util.regex.Pattern> patterns = new ArrayList<>(2);
 	private boolean matchAll = true;
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void configure(final MatchPattern constraintAnnotation)
+	public void configure(final Pattern constraintAnnotation)
 	{
 		super.configure(constraintAnnotation);
-
-		setMatchAll(constraintAnnotation.matchAll());
 
 		synchronized (patterns)
 		{
 			patterns.clear();
-			final String[] stringPatterns = constraintAnnotation.pattern();
-			final int[] f = constraintAnnotation.flags();
-			for (int i = 0, l = stringPatterns.length; i < l; i++)
-			{
-				final int flag = f.length > i ? f[i] : 0;
-				final Pattern p = Pattern.compile(stringPatterns[i], flag);
-				patterns.add(p);
+			final String stringPatterns = constraintAnnotation.regexp();
+			final Pattern.Flag[] flags = constraintAnnotation.flags();
+
+			int f = 0;
+			for(int i=0; i<flags.length; i++) {
+				f = i | flags[i].getValue();
 			}
-			requireMessageVariablesRecreation();
+
+			patterns.add(java.util.regex.Pattern.compile(stringPatterns, f));
 		}
 	}
 
@@ -68,16 +69,11 @@ public final class MatchPatternCheck extends AbstractAnnotationCheck<MatchPatter
      *
      * @return Value object {@code ConstraintAnnotationSettings}.
      */
-    protected ConstraintAnnotationSettings getSettings(final  MatchPattern constraintAnnotation) {
+    protected ConstraintAnnotationSettings getSettings(final  Pattern constraintAnnotation) {
 
         ConstraintAnnotationSettings settings = new ConstraintAnnotationSettings.Builder()
                 .message(constraintAnnotation.message())
-                .appliesTo(constraintAnnotation.appliesTo())
-                .errorCode(constraintAnnotation.errorCode())
-                .severity(constraintAnnotation.severity())
-                .profiles(constraintAnnotation.profiles())
-                .target(constraintAnnotation.target())
-                .when(constraintAnnotation.when())
+                .profiles(constraintAnnotation.groups())
                 .build();
         return settings;
     }
@@ -128,7 +124,7 @@ public final class MatchPatternCheck extends AbstractAnnotationCheck<MatchPatter
 	{
 		if (valueToValidate == null) return true;
 
-		for (final Pattern p : patterns)
+		for (final java.util.regex.Pattern p : patterns)
 		{
 			final boolean matches = p.matcher(valueToValidate.toString()).matches();
 
@@ -142,18 +138,9 @@ public final class MatchPatternCheck extends AbstractAnnotationCheck<MatchPatter
 	}
 
 	/**
-	 * @param matchAll the matchAll to set
-	 */
-	public void setMatchAll(final boolean matchAll)
-	{
-		this.matchAll = matchAll;
-		requireMessageVariablesRecreation();
-	}
-
-	/**
 	 * @param pattern the pattern to set
 	 */
-	public void setPattern(final Pattern pattern)
+	public void setPattern(final java.util.regex.Pattern pattern)
 	{
 		synchronized (patterns)
 		{
@@ -171,7 +158,7 @@ public final class MatchPatternCheck extends AbstractAnnotationCheck<MatchPatter
 		synchronized (patterns)
 		{
 			patterns.clear();
-			patterns.add(Pattern.compile(pattern, flags));
+			patterns.add(java.util.regex.Pattern.compile(pattern, flags));
 		}
 		requireMessageVariablesRecreation();
 	}
@@ -179,7 +166,7 @@ public final class MatchPatternCheck extends AbstractAnnotationCheck<MatchPatter
 	/**
 	 * @param patterns the patterns to set
 	 */
-	public void setPatterns(final Collection<Pattern> patterns)
+	public void setPatterns(final Collection<java.util.regex.Pattern> patterns)
 	{
 		synchronized (this.patterns)
 		{
@@ -192,7 +179,7 @@ public final class MatchPatternCheck extends AbstractAnnotationCheck<MatchPatter
 	/**
 	 * @param patterns the patterns to set
 	 */
-	public void setPatterns(final Pattern... patterns)
+	public void setPatterns(final java.util.regex.Pattern... patterns)
 	{
 		synchronized (this.patterns)
 		{

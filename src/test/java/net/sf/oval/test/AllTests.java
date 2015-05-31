@@ -19,6 +19,7 @@ import junit.framework.TestSuite;
 import net.sf.oval.test.constraints.DecimalMaxTest;
 import net.sf.oval.test.constraints.DecimalMinTest;
 import net.sf.oval.test.constraints.NullTest;
+import net.sf.oval.test.constraints.PatternTest;
 import net.sf.oval.test.constraints.ValidTest;
 
 /**
@@ -42,7 +43,7 @@ public final class AllTests
 		suite.addTestSuite(net.sf.oval.test.constraints.InstanceOfAnyTest.class);
 		suite.addTestSuite(net.sf.oval.test.constraints.InstanceOfTest.class);
 		suite.addTestSuite(net.sf.oval.test.constraints.LengthTest.class);
-		suite.addTestSuite(net.sf.oval.test.constraints.MatchPatternTest.class);
+		suite.addTestSuite(PatternTest.class);
 		suite.addTestSuite(net.sf.oval.test.constraints.MaxLengthTest.class);
 		suite.addTestSuite(net.sf.oval.test.constraints.MaxSizeTest.class);
 		suite.addTestSuite(DecimalMaxTest.class);

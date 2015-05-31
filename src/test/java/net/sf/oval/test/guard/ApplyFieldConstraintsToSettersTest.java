@@ -14,7 +14,6 @@ package net.sf.oval.test.guard;
 
 import junit.framework.TestCase;
 import net.sf.oval.constraint.Length;
-import net.sf.oval.constraint.MatchPattern;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.exception.OValException;
 import net.sf.oval.guard.ConstraintsViolatedAdapter;
@@ -24,6 +23,7 @@ import net.sf.oval.guard.Guarded;
 
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 /**
  * @author Sebastian Thomschke
@@ -45,7 +45,7 @@ public class ApplyFieldConstraintsToSettersTest extends TestCase
 		@NotNull(message = "NOT_NULL")
 		@Length(max = 6, message = "LENGTH")
 		@NotEmpty(message = "NOT_EMPTY")
-		@MatchPattern(pattern = "^[0-9]*$", message = "REG_EX")
+		@Pattern(regexp = "^[0-9]*$", message = "REG_EX")
 		private String zipCode = "1";
 
 		public String getFirstName()

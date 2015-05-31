@@ -27,7 +27,7 @@ import net.sf.oval.constraint.AssertTrueCheck;
 import net.sf.oval.constraint.ValidCheck;
 import net.sf.oval.constraint.DigitsCheck;
 import net.sf.oval.constraint.FutureCheck;
-import net.sf.oval.constraint.MatchPatternCheck;
+import net.sf.oval.constraint.PatternCheck;
 import net.sf.oval.constraint.DecimalMaxCheck;
 import net.sf.oval.constraint.DecimalMinCheck;
 import net.sf.oval.constraint.NotNullCheck;
@@ -306,7 +306,7 @@ public class BeanValidationAnnotationsConfigurer implements Configurer
 		else if (annotation instanceof Pattern)
 		{
 			groups = ((Pattern) annotation).groups();
-			final MatchPatternCheck matchPatternCheck = new MatchPatternCheck();
+			final PatternCheck matchPatternCheck = new PatternCheck();
 			int iflag = 0;
 			for (final Flag flag : ((Pattern) annotation).flags())
 				iflag = iflag | flag.getValue();

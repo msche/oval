@@ -15,9 +15,10 @@ package net.sf.oval.test.guard;
 import junit.framework.TestCase;
 import net.sf.oval.constraint.AssertFieldConstraints;
 import net.sf.oval.constraint.Length;
-import net.sf.oval.constraint.MatchPattern;
 import net.sf.oval.constraint.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+
 import net.sf.oval.exception.ConstraintsViolatedException;
 import net.sf.oval.exception.OValException;
 import net.sf.oval.guard.Guard;
@@ -43,7 +44,7 @@ public class ProbeModeTest extends TestCase
 		@NotNull(message = "NOT_NULL")
 		@Length(max = 6, message = "LENGTH")
 		@NotEmpty(message = "NOT_EMPTY")
-		@MatchPattern(pattern = "^[0-9]*$", message = "REG_EX")
+		@Pattern(regexp = "^[0-9]*$", message = "REG_EX")
 		private String zipCode = "1";
 
 		public String getFirstName()

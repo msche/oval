@@ -16,7 +16,6 @@ import junit.framework.TestCase;
 import net.sf.oval.constraint.AssertFieldConstraints;
 import net.sf.oval.constraint.AssertFieldConstraintsCheck;
 import net.sf.oval.constraint.Length;
-import net.sf.oval.constraint.MatchPattern;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.context.FieldContext;
 import net.sf.oval.context.MethodParameterContext;
@@ -29,6 +28,7 @@ import net.sf.oval.guard.Guarded;
 
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.lang.reflect.Method;
 
 /**
@@ -51,7 +51,7 @@ public class ApplyFieldConstraintsToParametersTest extends TestCase
 		@NotNull(message = "NOT_NULL")
 		@Length(max = 6, message = "LENGTH")
 		@NotEmpty(message = "NOT_EMPTY")
-		@MatchPattern(pattern = "^[0-9]*$", message = "REG_EX")
+		@Pattern(regexp = "^[0-9]*$", message = "REG_EX")
 		private String zipCode = "1";
 
 		public String getFirstName()

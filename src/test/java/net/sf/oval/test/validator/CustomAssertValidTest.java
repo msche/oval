@@ -24,9 +24,10 @@ import net.sf.oval.configuration.annotation.Constraint;
 import net.sf.oval.configuration.annotation.ConstraintAnnotationSettings;
 import net.sf.oval.constraint.ValidCheck;
 import net.sf.oval.constraint.Length;
-import net.sf.oval.constraint.MatchPattern;
 import net.sf.oval.constraint.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+
 import net.sf.oval.context.OValContext;
 import net.sf.oval.exception.ReflectionException;
 
@@ -59,7 +60,7 @@ public class CustomAssertValidTest extends TestCase
 		@NotNull
 		@Length(max = 6)
 		@NotEmpty
-		@MatchPattern(pattern = "^[0-9]*$")
+		@Pattern(regexp = "^[0-9]*$")
 		public String zipCode;
 
 		@CustomAssertValid(message = "ASSERT_VALID")
