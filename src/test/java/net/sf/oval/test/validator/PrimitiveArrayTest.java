@@ -15,9 +15,10 @@ package net.sf.oval.test.validator;
 import junit.framework.TestCase;
 import net.sf.oval.ConstraintViolation;
 import net.sf.oval.Validator;
-import net.sf.oval.constraint.Max;
 import net.sf.oval.constraint.MaxSize;
 import net.sf.oval.constraint.MinSize;
+
+import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.NotNull;
 
 import java.util.List;
@@ -31,7 +32,7 @@ public class PrimitiveArrayTest extends TestCase
 	{
 		@MinSize(value = 1, message = "MIN_SIZE")
 		@MaxSize(value = 4, message = "MAX_SIZE")
-		@Max(value = 10, message = "MAX")
+		@DecimalMax(value = "10", message = "MAX")
 		@NotNull(message = "NOT_NULL")
 		public int[] items = new int[]{};
 

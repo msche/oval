@@ -28,7 +28,7 @@ import net.sf.oval.constraint.ValidCheck;
 import net.sf.oval.constraint.DigitsCheck;
 import net.sf.oval.constraint.FutureCheck;
 import net.sf.oval.constraint.MatchPatternCheck;
-import net.sf.oval.constraint.MaxCheck;
+import net.sf.oval.constraint.DecimalMaxCheck;
 import net.sf.oval.constraint.MinCheck;
 import net.sf.oval.constraint.NotNullCheck;
 import net.sf.oval.constraint.PastCheck;
@@ -268,7 +268,7 @@ public class BeanValidationAnnotationsConfigurer implements Configurer
 		else if (annotation instanceof DecimalMax)
 		{
 			groups = ((DecimalMax) annotation).groups();
-			final MaxCheck maxCheck = new MaxCheck();
+			final DecimalMaxCheck maxCheck = new DecimalMaxCheck();
 			maxCheck.setMax(Double.parseDouble(((DecimalMax) annotation).value()));
 			check = maxCheck;
 		}
@@ -282,7 +282,7 @@ public class BeanValidationAnnotationsConfigurer implements Configurer
 		else if (annotation instanceof Max)
 		{
 			groups = ((Max) annotation).groups();
-			final MaxCheck maxCheck = new MaxCheck();
+			final DecimalMaxCheck maxCheck = new DecimalMaxCheck();
 			maxCheck.setMax(((Max) annotation).value());
 			check = maxCheck;
 		}

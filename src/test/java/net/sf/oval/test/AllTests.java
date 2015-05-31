@@ -16,6 +16,7 @@ package net.sf.oval.test;
 import junit.extensions.TestSetup;
 import junit.framework.Test;
 import junit.framework.TestSuite;
+import net.sf.oval.test.constraints.DecimalMaxTest;
 import net.sf.oval.test.constraints.NullTest;
 import net.sf.oval.test.constraints.ValidTest;
 
@@ -43,7 +44,7 @@ public final class AllTests
 		suite.addTestSuite(net.sf.oval.test.constraints.MatchPatternTest.class);
 		suite.addTestSuite(net.sf.oval.test.constraints.MaxLengthTest.class);
 		suite.addTestSuite(net.sf.oval.test.constraints.MaxSizeTest.class);
-		suite.addTestSuite(net.sf.oval.test.constraints.MaxTest.class);
+		suite.addTestSuite(DecimalMaxTest.class);
 		suite.addTestSuite(net.sf.oval.test.constraints.MemberOfTest.class);
 		suite.addTestSuite(net.sf.oval.test.constraints.MinLengthTest.class);
 		suite.addTestSuite(net.sf.oval.test.constraints.MinSizeTest.class);

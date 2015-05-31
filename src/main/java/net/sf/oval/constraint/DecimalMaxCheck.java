@@ -18,13 +18,14 @@ import net.sf.oval.configuration.annotation.AbstractAnnotationCheck;
 import net.sf.oval.configuration.annotation.ConstraintAnnotationSettings;
 import net.sf.oval.context.OValContext;
 
+import javax.validation.constraints.DecimalMax;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
  * @author Sebastian Thomschke
  */
-public final class MaxCheck extends AbstractAnnotationCheck<Max>
+public final class DecimalMaxCheck extends AbstractAnnotationCheck<DecimalMax>
 {
 	private static final long serialVersionUID = 1L;
 
@@ -34,10 +35,10 @@ public final class MaxCheck extends AbstractAnnotationCheck<Max>
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void configure(final Max constraintAnnotation)
+	public void configure(final DecimalMax constraintAnnotation)
 	{
 		super.configure(constraintAnnotation);
-		setMax(constraintAnnotation.value());
+		setMax(Double.parseDouble(constraintAnnotation.value()));
 	}
 
 	/**
@@ -68,16 +69,11 @@ public final class MaxCheck extends AbstractAnnotationCheck<Max>
      *
      * @return Value object {@code ConstraintAnnotationSettings}.
      */
-    protected ConstraintAnnotationSettings getSettings(final  Max constraintAnnotation) {
+    protected ConstraintAnnotationSettings getSettings(final  DecimalMax constraintAnnotation) {
 
         ConstraintAnnotationSettings settings = new ConstraintAnnotationSettings.Builder()
                 .message(constraintAnnotation.message())
-                .appliesTo(constraintAnnotation.appliesTo())
-                .errorCode(constraintAnnotation.errorCode())
-                .severity(constraintAnnotation.severity())
-                .profiles(constraintAnnotation.profiles())
-                .target(constraintAnnotation.target())
-                .when(constraintAnnotation.when())
+                .profiles(constraintAnnotation.groups())
                 .build();
         return settings;
     }
