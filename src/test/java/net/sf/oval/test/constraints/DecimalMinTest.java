@@ -12,7 +12,7 @@
  *******************************************************************************/
 package net.sf.oval.test.constraints;
 
-import net.sf.oval.constraint.MinCheck;
+import net.sf.oval.constraint.DecimalMinCheck;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -20,11 +20,11 @@ import java.math.BigInteger;
 /**
  * @author Sebastian Thomschke
  */
-public class MinTest extends AbstractContraintsTest
+public class DecimalMinTest extends AbstractContraintsTest
 {
 	public void testMax()
 	{
-		final MinCheck check = new MinCheck();
+		final DecimalMinCheck check = new DecimalMinCheck();
 		super.testCheck(check);
 		assertTrue(check.isSatisfied(null, null, null, null));
 

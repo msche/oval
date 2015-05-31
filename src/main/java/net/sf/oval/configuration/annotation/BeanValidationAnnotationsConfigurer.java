@@ -29,7 +29,7 @@ import net.sf.oval.constraint.DigitsCheck;
 import net.sf.oval.constraint.FutureCheck;
 import net.sf.oval.constraint.MatchPatternCheck;
 import net.sf.oval.constraint.DecimalMaxCheck;
-import net.sf.oval.constraint.MinCheck;
+import net.sf.oval.constraint.DecimalMinCheck;
 import net.sf.oval.constraint.NotNullCheck;
 import net.sf.oval.constraint.PastCheck;
 import net.sf.oval.constraint.SizeCheck;
@@ -275,7 +275,7 @@ public class BeanValidationAnnotationsConfigurer implements Configurer
 		else if (annotation instanceof DecimalMin)
 		{
 			groups = ((DecimalMin) annotation).groups();
-			final MinCheck minCheck = new MinCheck();
+			final DecimalMinCheck minCheck = new DecimalMinCheck();
 			minCheck.setMin(Double.parseDouble(((DecimalMin) annotation).value()));
 			check = minCheck;
 		}
@@ -289,7 +289,7 @@ public class BeanValidationAnnotationsConfigurer implements Configurer
 		else if (annotation instanceof Min)
 		{
 			groups = ((Min) annotation).groups();
-			final MinCheck minCheck = new MinCheck();
+			final DecimalMinCheck minCheck = new DecimalMinCheck();
 			minCheck.setMin(((Min) annotation).value());
 			check = minCheck;
 		}

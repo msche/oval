@@ -18,13 +18,14 @@ import net.sf.oval.configuration.annotation.AbstractAnnotationCheck;
 import net.sf.oval.configuration.annotation.ConstraintAnnotationSettings;
 import net.sf.oval.context.OValContext;
 
+import javax.validation.constraints.DecimalMin;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
  * @author Sebastian Thomschke
  */
-public final class MinCheck extends AbstractAnnotationCheck<Min>
+public final class DecimalMinCheck extends AbstractAnnotationCheck<DecimalMin>
 {
 	private static final long serialVersionUID = 1L;
 
@@ -34,10 +35,10 @@ public final class MinCheck extends AbstractAnnotationCheck<Min>
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void configure(final Min constraintAnnotation)
+	public void configure(final DecimalMin constraintAnnotation)
 	{
 		super.configure(constraintAnnotation);
-		setMin(constraintAnnotation.value());
+		setMin(Double.parseDouble(constraintAnnotation.value()));
 	}
 
     /**
@@ -47,16 +48,11 @@ public final class MinCheck extends AbstractAnnotationCheck<Min>
      *
      * @return Value object {@code ConstraintAnnotationSettings}.
      */
-    protected ConstraintAnnotationSettings getSettings(final Min constraintAnnotation) {
+    protected ConstraintAnnotationSettings getSettings(final DecimalMin constraintAnnotation) {
 
         ConstraintAnnotationSettings settings = new ConstraintAnnotationSettings.Builder()
                 .message(constraintAnnotation.message())
-                .appliesTo(constraintAnnotation.appliesTo())
-                .errorCode(constraintAnnotation.errorCode())
-                .severity(constraintAnnotation.severity())
-                .profiles(constraintAnnotation.profiles())
-                .target(constraintAnnotation.target())
-                .when(constraintAnnotation.when())
+                .profiles(constraintAnnotation.groups())
                 .build();
         return settings;
     }
