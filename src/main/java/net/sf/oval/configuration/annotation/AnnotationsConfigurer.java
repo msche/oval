@@ -23,19 +23,12 @@ import net.sf.oval.configuration.pojo.elements.ConstructorConfiguration;
 import net.sf.oval.configuration.pojo.elements.FieldConfiguration;
 import net.sf.oval.configuration.pojo.elements.MethodConfiguration;
 import net.sf.oval.configuration.pojo.elements.MethodPostExecutionConfiguration;
-import net.sf.oval.configuration.pojo.elements.MethodPreExecutionConfiguration;
 import net.sf.oval.configuration.pojo.elements.MethodReturnValueConfiguration;
 import net.sf.oval.configuration.pojo.elements.ObjectConfiguration;
 import net.sf.oval.configuration.pojo.elements.ParameterConfiguration;
 import net.sf.oval.exception.OValException;
 import net.sf.oval.exception.ReflectionException;
 import net.sf.oval.guard.Guarded;
-import net.sf.oval.guard.Post;
-import net.sf.oval.guard.PostCheck;
-import net.sf.oval.guard.PostValidateThis;
-import net.sf.oval.guard.Pre;
-import net.sf.oval.guard.PreCheck;
-import net.sf.oval.guard.PreValidateThis;
 import net.sf.oval.internal.util.Assert;
 import net.sf.oval.internal.util.ReflectionUtils;
 
@@ -108,15 +101,12 @@ public class AnnotationsConfigurer implements Configurer
 			final List<ParameterConfiguration> paramCfg = _createParameterConfiguration(ctor.getParameterAnnotations(),
 					ctor.getParameterTypes());
 
-			final boolean postValidateThis = ctor.isAnnotationPresent(PostValidateThis.class);
-
-			if (paramCfg.size() > 0 || postValidateThis)
+			if (paramCfg.size() > 0)
 			{
 				if (classCfg.constructorConfigurations == null) classCfg.constructorConfigurations = new LinkedHashSet<>(2);
 
 				final ConstructorConfiguration cc = new ConstructorConfiguration();
 				cc.parameterConfigurations = paramCfg;
-				cc.postCheckInvariants = postValidateThis;
 				classCfg.constructorConfigurations.add(cc);
 			}
 		}
@@ -154,37 +144,13 @@ public class AnnotationsConfigurer implements Configurer
 	protected void configureMethodChecks(final ClassConfiguration classCfg)
 	{
 		List<Check> returnValueChecks = new ArrayList<>(2);
-		List<PreCheck> preChecks = new ArrayList<>(2);
-		List<PostCheck> postChecks = new ArrayList<>(2);
 
 		for (final Method method : classCfg.type.getDeclaredMethods())
 		{
-			/*
-			 * determine method return value checks and method pre/post
-			 * conditions
-			 */
-			boolean preValidateThis = false;
-			boolean postValidateThis = false;
 
 			// loop over all annotations
 			for (final Annotation annotation : ReflectionUtils.getAnnotations(method, classCfg.inspectInterfaces))
-				if (annotation instanceof Pre)
-				{
-					final PreCheck pc = new PreCheck();
-					pc.configure((Pre) annotation);
-					preChecks.add(pc);
-				}
-				else if (annotation instanceof PreValidateThis)
-					preValidateThis = true;
-				else if (annotation instanceof Post)
-				{
-					final PostCheck pc = new PostCheck();
-					pc.configure((Post) annotation);
-					postChecks.add(pc);
-				}
-				else if (annotation instanceof PostValidateThis)
-					postValidateThis = true;
-				else if (annotation.annotationType().isAnnotationPresent(Constraint.class))
+				if (annotation.annotationType().isAnnotationPresent(Constraint.class))
 					returnValueChecks.add(initializeCheck(annotation));
 				else if (annotation.annotationType().isAnnotationPresent(Constraints.class))
 					initializeChecks(annotation, returnValueChecks);
@@ -197,8 +163,7 @@ public class AnnotationsConfigurer implements Configurer
 					method.getParameterTypes());
 
 			// check if anything has been configured for this method at all
-			if (paramCfg.size() > 0 || returnValueChecks.size() > 0 || preChecks.size() > 0 || postChecks.size() > 0 || preValidateThis
-					|| postValidateThis)
+			if (paramCfg.size() > 0 || returnValueChecks.size() > 0)
 			{
 				if (classCfg.methodConfigurations == null) classCfg.methodConfigurations = new LinkedHashSet<>(2);
 
@@ -207,25 +172,11 @@ public class AnnotationsConfigurer implements Configurer
 				mc.parameterConfigurations = paramCfg;
 				mc.isInvariant = ReflectionUtils.isAnnotationPresent(method, IsInvariant.class,
 						classCfg.inspectInterfaces);
-				mc.preCheckInvariants = preValidateThis;
-				mc.postCheckInvariants = postValidateThis;
 				if (returnValueChecks.size() > 0)
 				{
 					mc.returnValueConfiguration = new MethodReturnValueConfiguration();
 					mc.returnValueConfiguration.checks = returnValueChecks;
 					returnValueChecks = new ArrayList<>(2); // create a new list for the next method having return value checks
-				}
-				if (preChecks.size() > 0)
-				{
-					mc.preExecutionConfiguration = new MethodPreExecutionConfiguration();
-					mc.preExecutionConfiguration.checks = preChecks;
-					preChecks = new ArrayList<>(2); // create a new list for the next method having pre checks
-				}
-				if (postChecks.size() > 0)
-				{
-					mc.postExecutionConfiguration = new MethodPostExecutionConfiguration();
-					mc.postExecutionConfiguration.checks = postChecks;
-					postChecks = new ArrayList<>(2); // create a new list for the next method having post checks
 				}
 				classCfg.methodConfigurations.add(mc);
 			}

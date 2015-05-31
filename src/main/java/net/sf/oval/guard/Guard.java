@@ -70,18 +70,16 @@ public class Guard extends Validator
 		protected final Object[] args;
 		protected final ClassChecks cc;
 		protected final List<ConstraintViolation> violations;
-		protected final Map<PostCheck, Object> postCheckOldValues;
 		protected final Object guardedObject;
 
 		public GuardMethodPreResult(final Object guardedObject, final Method method, final Object[] args, final ClassChecks cc,
-				final boolean checkInvariants, final Map<PostCheck, Object> postCheckOldValues, final List<ConstraintViolation> violations)
+				final boolean checkInvariants, final List<ConstraintViolation> violations)
 		{
 			this.guardedObject = guardedObject;
 			this.method = method;
 			this.args = args;
 			this.cc = cc;
 			this.checkInvariants = checkInvariants;
-			this.postCheckOldValues = postCheckOldValues;
 			this.violations = violations;
 		}
 	}
@@ -89,7 +87,7 @@ public class Guard extends Validator
 	/**
 	 * <b>Note:</b> Only required until AspectJ allows throwing of checked exceptions
 	 */
-	protected static final GuardMethodPreResult DO_NOT_PROCEED = new GuardMethodPreResult(null, null, null, null, false, null, null);
+	protected static final GuardMethodPreResult DO_NOT_PROCEED = new GuardMethodPreResult(null, null, null, null, false, null);
 
 	private static final Logger LOG = LoggerFactory.getLogger(Guard.class);
 
@@ -282,38 +280,6 @@ public class Guard extends Validator
 	}
 
 	/**
-	 * Registers post condition checks to a method's return value
-	 *
-	 * @param method
-	 * @param checks
-	 * @throws IllegalArgumentException if <code>method == null</code> or <code>checks == null</code> or checks is empty
-	 * @throws InvalidConfigurationException if the declaring class is not guarded
-	 */
-	public void addChecks(final Method method, final PostCheck... checks) throws IllegalArgumentException, InvalidConfigurationException
-	{
-		Assert.argumentNotNull("method", method);
-		Assert.argumentNotEmpty("checks", checks);
-
-		getClassChecks(method.getDeclaringClass()).addMethodPostChecks(method, checks);
-	}
-
-	/**
-	 * Registers pre condition checks to a method's return value
-	 *
-	 * @param method
-	 * @param checks
-	 * @throws IllegalArgumentException if <code>method == null</code> or <code>checks == null</code> or checks is empty
-	 * @throws InvalidConfigurationException if the declaring class is not guarded
-	 */
-	public void addChecks(final Method method, final PreCheck... checks) throws IllegalArgumentException, InvalidConfigurationException
-	{
-		Assert.argumentNotNull("method", method);
-		Assert.argumentNotEmpty("checks", checks);
-
-		getClassChecks(method.getDeclaringClass()).addMethodPreChecks(method, checks);
-	}
-
-	/**
 	 * Registers the given listener for <b>all</b> thrown ConstraintViolationExceptions
 	 *
 	 * @param listener the listener to register
@@ -385,58 +351,6 @@ public class Guard extends Validator
 	}
 
 	/**
-	 * Evaluates the old expression
-	 *
-	 * @param validatedObject
-	 * @param method
-	 * @param args
-	 * @return null if no violation, otherwise a list
-	 * @throws ValidationFailedException
-	 */
-	protected Map<PostCheck, Object> calculateMethodPostOldValues(final Object validatedObject, final Method method, final Object[] args)
-			throws ValidationFailedException
-	{
-		try
-		{
-			final ClassChecks cc = getClassChecks(method.getDeclaringClass());
-			final Set<PostCheck> postChecks = cc.checksForMethodsPostExcecution.get(method);
-
-			// shortcut: check if any post checks for this method exist
-			if (postChecks == null) return null;
-
-			final String[] parameterNames = parameterNameResolver.getParameterNames(method);
-			final boolean hasParameters = parameterNames.length > 0;
-
-			final Map<PostCheck, Object> oldValues = new LinkedHashMap<>(postChecks.size());
-
-			for (final PostCheck check : postChecks)
-				if (isAnyProfileEnabled(check.getProfiles(), null) && check.getOld() != null && check.getOld().length() > 0)
-				{
-					final ExpressionLanguage eng = expressionLanguageRegistry.getExpressionLanguage(check.getLanguage());
-					final Map<String, Object> values = new LinkedHashMap<>();
-					values.put("_this", validatedObject);
-					if (hasParameters)
-					{
-						values.put("_args", args);
-						for (int i = 0; i < args.length; i++)
-							values.put(parameterNames[i], args[i]);
-					}
-					else
-						values.put("_args", ArrayUtils.EMPTY_OBJECT_ARRAY);
-
-					oldValues.put(check, eng.evaluate(check.getOld(), values));
-				}
-
-			return oldValues;
-		}
-		catch (final OValException ex)
-		{
-			throw new ValidationFailedException("Method post conditions validation failed. Method: " + method + " Validated object: "
-					+ validatedObject, ex);
-		}
-	}
-
-	/**
 	 * Disables the probe mode for the given object in the current thread.
 	 *
 	 * @param guardedObject the object to disable the probe mode for
@@ -491,38 +405,6 @@ public class Guard extends Validator
 
 		final ParameterChecks paramChecks = checks.get(paramIndex);
 		return paramChecks == null ? null : paramChecks.checks.toArray(new Check[checks.size()]);
-	}
-
-	/**
-	 * Returns the registered post condition checks for the given method
-	 *
-	 * @param method
-	 * @throws IllegalArgumentException if <code>method == null</code>
-	 */
-	public PostCheck[] getChecksPost(final Method method) throws IllegalArgumentException
-	{
-		Assert.argumentNotNull("method", method);
-
-		final ClassChecks cc = getClassChecks(method.getDeclaringClass());
-
-		final Set<PostCheck> checks = cc.checksForMethodsPostExcecution.get(method);
-		return checks == null ? null : checks.toArray(new PostCheck[checks.size()]);
-	}
-
-	/**
-	 * Returns the registered pre condition checks for the given method.
-	 *
-	 * @param method
-	 * @throws IllegalArgumentException if <code>method == null</code>
-	 */
-	public PreCheck[] getChecksPre(final Method method) throws IllegalArgumentException
-	{
-		Assert.argumentNotNull("method", method);
-
-		final ClassChecks cc = getClassChecks(method.getDeclaringClass());
-
-		final Set<PreCheck> checks = cc.checksForMethodsPreExecution.get(method);
-		return checks == null ? null : checks.toArray(new PreCheck[checks.size()]);
 	}
 
 	/**
@@ -638,9 +520,6 @@ public class Guard extends Validator
 			{
 				// method parameter validation
 				if (violations.size() == 0 && args.length > 0) validateMethodParameters(guardedObject, method, args, violations);
-
-				// @Pre validation
-				if (violations.size() == 0) validateMethodPre(guardedObject, method, args, violations);
 			}
 		}
 		catch (final ValidationFailedException ex)
@@ -669,8 +548,6 @@ public class Guard extends Validator
 		// abort method execution if in probe mode
 		if (pml != null) return null;
 
-		final Map<PostCheck, Object> postCheckOldValues = calculateMethodPostOldValues(guardedObject, method, args);
-
 		final Object returnValue = invocable.invoke();
 
 		try
@@ -684,8 +561,6 @@ public class Guard extends Validator
 				// method return value
 				if (violations.size() == 0) validateMethodReturnValue(guardedObject, method, returnValue, violations);
 
-				// @Post
-				if (violations.size() == 0) validateMethodPost(guardedObject, method, args, returnValue, postCheckOldValues, violations);
 			}
 		}
 		catch (final ValidationFailedException ex)
@@ -733,10 +608,6 @@ public class Guard extends Validator
 				if (preResult.violations.size() == 0)
 					validateMethodReturnValue(preResult.guardedObject, preResult.method, returnValue, preResult.violations);
 
-				// @Post
-				if (preResult.violations.size() == 0)
-					validateMethodPost(preResult.guardedObject, preResult.method, preResult.args, returnValue,
-							preResult.postCheckOldValues, preResult.violations);
 			}
 		}
 		catch (final ValidationFailedException ex)
@@ -790,8 +661,6 @@ public class Guard extends Validator
 				// method parameter validation
 				if (violations.size() == 0 && args.length > 0) validateMethodParameters(guardedObject, method, args, violations);
 
-				// @Pre validation
-				if (violations.size() == 0) validateMethodPre(guardedObject, method, args, violations);
 			}
 		}
 		catch (final ValidationFailedException ex)
@@ -820,9 +689,7 @@ public class Guard extends Validator
 		// abort method execution if in probe mode
 		if (pml != null) return DO_NOT_PROCEED;
 
-		final Map<PostCheck, Object> postCheckOldValues = calculateMethodPostOldValues(guardedObject, method, args);
-
-		return new GuardMethodPreResult(guardedObject, method, args, cc, checkInvariants, postCheckOldValues, violations);
+		return new GuardMethodPreResult(guardedObject, method, args, cc, checkInvariants, violations);
 	}
 
 	/**
@@ -1051,38 +918,6 @@ public class Guard extends Validator
 	}
 
 	/**
-	 * Registers post condition checks to a method's return value
-	 *
-	 * @param method
-	 * @param checks
-	 * @throws IllegalArgumentException if <code>method == null</code> or <code>checks == null</code> or checks is empty
-	 * @throws InvalidConfigurationException if the declaring class is not guarded
-	 */
-	public void removeChecks(final Method method, final PostCheck... checks) throws InvalidConfigurationException
-	{
-		Assert.argumentNotNull("method", method);
-		Assert.argumentNotEmpty("checks", checks);
-
-		getClassChecks(method.getDeclaringClass()).removeMethodPostChecks(method, checks);
-	}
-
-	/**
-	 * Registers pre condition checks to a method's return value
-	 *
-	 * @param method
-	 * @param checks
-	 * @throws IllegalArgumentException if <code>method == null</code> or <code>checks == null</code> or checks is empty
-	 * @throws InvalidConfigurationException if the declaring class is not guarded
-	 */
-	public void removeChecks(final Method method, final PreCheck... checks) throws InvalidConfigurationException
-	{
-		Assert.argumentNotNull("method", method);
-		Assert.argumentNotEmpty("checks", checks);
-
-		getClassChecks(method.getDeclaringClass()).removeMethodPreChecks(method, checks);
-	}
-
-	/**
 	 * Removes the given listener
 	 *
 	 * @param listener
@@ -1284,138 +1119,6 @@ public class Guard extends Validator
 		{
 			throw new ValidationFailedException("Method pre conditions validation failed. Method: " + method + " Validated object: "
 					+ validatedObject, ex);
-		}
-	}
-
-	/**
-	 * Validates the post conditions for a method call.<br>
-	 *
-	 * @throws ValidationFailedException
-	 */
-	protected void validateMethodPost(final Object validatedObject, final Method method, final Object[] args, final Object returnValue,
-			final Map<PostCheck, Object> oldValues, final List<ConstraintViolation> violations) throws ValidationFailedException
-	{
-		final String key = System.identityHashCode(validatedObject) + " " + System.identityHashCode(method);
-
-		/*
-		 *  avoid circular references
-		 */
-		if (currentlyCheckingPostConditions.contains(key)) return;
-
-		currentlyCheckingPostConditions.add(key);
-		try
-		{
-			final ClassChecks cc = getClassChecks(method.getDeclaringClass());
-			final Set<PostCheck> postChecks = cc.checksForMethodsPostExcecution.get(method);
-
-			if (postChecks == null) return;
-
-			final String[] parameterNames = parameterNameResolver.getParameterNames(method);
-			final boolean hasParameters = parameterNames.length > 0;
-
-			final MethodExitContext context = ContextCache.getMethodExitContext(method);
-
-			for (final PostCheck check : postChecks)
-			{
-				if (!isAnyProfileEnabled(check.getProfiles(), null)) continue;
-
-				final ExpressionLanguage eng = expressionLanguageRegistry.getExpressionLanguage(check.getLanguage());
-				final Map<String, Object> values = new LinkedHashMap<>();
-				values.put("_this", validatedObject);
-				values.put("_returns", returnValue);
-				values.put("_old", oldValues.get(check));
-				if (hasParameters)
-				{
-					values.put("_args", args);
-					for (int i = 0; i < args.length; i++)
-						values.put(parameterNames[i], args[i]);
-				}
-				else
-					values.put("_args", ArrayUtils.EMPTY_OBJECT_ARRAY);
-
-				if (!eng.evaluateAsBoolean(check.getExpression(), values))
-				{
-					final Map<String, String> messageVariables = new LinkedHashMap<>(2);
-					messageVariables.put("expression", check.getExpression());
-					final String errorMessage = renderMessage(context, null, check.getMessage(), messageVariables);
-
-					violations.add(new ConstraintViolation(check, errorMessage, validatedObject, null, context));
-				}
-			}
-		}
-		catch (final OValException ex)
-		{
-			throw new ValidationFailedException("Method post conditions validation failed. Method: " + method + " Validated object: "
-					+ validatedObject, ex);
-		}
-		finally
-		{
-			currentlyCheckingPostConditions.remove(key);
-		}
-	}
-
-	/**
-	 * Validates the @Pre conditions for a method call.<br>
-	 *
-	 * @throws ValidationFailedException
-	 */
-	protected void validateMethodPre(final Object validatedObject, final Method method, final Object[] args,
-			final List<ConstraintViolation> violations) throws ValidationFailedException
-	{
-		final String key = System.identityHashCode(validatedObject) + " " + System.identityHashCode(method);
-
-		/*
-		 *  avoid circular references
-		 */
-		if (currentlyCheckingPreConditions.contains(key)) return;
-
-		currentlyCheckingPreConditions.add(key);
-		try
-		{
-			final ClassChecks cc = getClassChecks(method.getDeclaringClass());
-			final Set<PreCheck> preChecks = cc.checksForMethodsPreExecution.get(method);
-
-			if (preChecks == null) return;
-
-			final String[] parameterNames = parameterNameResolver.getParameterNames(method);
-			final boolean hasParameters = parameterNames.length > 0;
-
-			final MethodEntryContext context = ContextCache.getMethodEntryContext(method);
-
-			for (final PreCheck check : preChecks)
-			{
-				if (!isAnyProfileEnabled(check.getProfiles(), null)) continue;
-
-				final ExpressionLanguage eng = expressionLanguageRegistry.getExpressionLanguage(check.getLanguage());
-				final Map<String, Object> values = new LinkedHashMap<>();
-				values.put("_this", validatedObject);
-				if (hasParameters)
-				{
-					values.put("_args", args);
-					for (int i = 0; i < args.length; i++)
-						values.put(parameterNames[i], args[i]);
-				}
-				else
-					values.put("_args", ArrayUtils.EMPTY_OBJECT_ARRAY);
-
-				if (!eng.evaluateAsBoolean(check.getExpression(), values))
-				{
-					final Map<String, String> messageVariables = new LinkedHashMap<>(2);
-					messageVariables.put("expression", check.getExpression());
-					final String errorMessage = renderMessage(context, null, check.getMessage(), messageVariables);
-
-					violations.add(new ConstraintViolation(check, errorMessage, validatedObject, null, context));
-				}
-			}
-		}
-		catch (final OValException ex)
-		{
-			throw new ValidationFailedException("Method pre conditions validation failed. Method: " + method + " Validated object: "
-					+ validatedObject, ex);
-		}
-		finally
-		{
-			currentlyCheckingPreConditions.remove(key);
 		}
 	}
 

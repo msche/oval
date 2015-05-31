@@ -21,12 +21,12 @@ public final class ClassContext extends OValContext
 {
     private static final long serialVersionUID = 8816732558933947341L;
 
-	private final Class< ? > clazz;
+	//private final Class< ? > clazz;
 
 	public ClassContext(final Class< ? > clazz)
 	{
         super(clazz);
-		this.clazz = clazz;
+		//this.clazz = clazz;
 	}
 
 	/**
@@ -36,7 +36,7 @@ public final class ClassContext extends OValContext
 	 */
 	public Class< ? > getClazz()
 	{
-		return clazz;
+		return getCompileTimeType();
 	}
 
 	/**
@@ -45,6 +45,6 @@ public final class ClassContext extends OValContext
 	@Override
 	public String toString()
 	{
-		return clazz.getName();
+		return getCompileTimeType().getName();
 	}
 }

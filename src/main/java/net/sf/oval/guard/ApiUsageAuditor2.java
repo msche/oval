@@ -43,18 +43,6 @@ public abstract class ApiUsageAuditor2
 	public static final String RULE3 = "OVal API usage violation 3: Method return value constraints are only allowed if the method is annotated with @IsInvariant or the declaring class is guarded";
 
 	/*
-	 * Rule 4: Warn about the @PreValidateThis annotation used on methods in classes that are not guarded
-	 */
-	@DeclareWarning("execution (@net.sf.oval.guard.PreValidateThis * (!@net.sf.oval.guard.Guarded *).*(..))")
-	public static final String RULE4 = "OVal API usage violation 4: @PreValidateThis is only allowed in guarded classes";
-
-	/*
-	 * Rule 5: Warn about the @PostValidateObject annotation used on methods and constructors in classes not annotated with @Guarded
-	 */
-	@DeclareWarning("execution (@net.sf.oval.guard.PostValidateThis * (!@net.sf.oval.guard.Guarded *).*(..)) || execution (@net.sf.oval.guard.PostValidateThis (!@net.sf.oval.guard.Guarded *).new(..))")
-	public static final String RULE5 = "OVal API usage violation 5: @PostValidateThis is only allowed in guarded classes";
-
-	/*
 	 * Rule 6: Warn about method parameter constraints in classes that are not guarded
 	 */
 	@DeclareWarning("execution(* (!@net.sf.oval.guard.Guarded *).*(@(@net.sf.oval.configuration.annotation.Constraint..* (*)) *, ..)) || execution(* (!@net.sf.oval.guard.Guarded *).*(*, @(@net.sf.oval.configuration.annotation.Constraint..* (*)) *, ..)) || execution(* (!@net.sf.oval.guard.Guarded *).*(*, *, @(@net.sf.oval.configuration.annotation.Constraint..* (*)) *, ..)) || execution(* (!@net.sf.oval.guard.Guarded *).*(*, *, *, @(@net.sf.oval.configuration.annotation.Constraint..* (*)) *, ..)) || execution(* (!@net.sf.oval.guard.Guarded *).*(*, *, *, *, @(@net.sf.oval.configuration.annotation.Constraint..* (*)) *, ..)) || execution(* (!@net.sf.oval.guard.Guarded *).*(*, *, *, *, *, @(@net.sf.oval.configuration.annotation.Constraint..* (*)) *, ..))")

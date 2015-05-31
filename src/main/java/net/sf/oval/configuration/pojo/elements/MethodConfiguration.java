@@ -27,9 +27,4 @@ public class MethodConfiguration extends ConfigurationElement
 	public List<ParameterConfiguration> parameterConfigurations;
 	public MethodReturnValueConfiguration returnValueConfiguration;
 
-	public boolean postCheckInvariants;
-	public MethodPostExecutionConfiguration postExecutionConfiguration;
-	
-	public boolean preCheckInvariants;
-	public MethodPreExecutionConfiguration preExecutionConfiguration;
 }

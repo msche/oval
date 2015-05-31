@@ -82,14 +82,6 @@ public final class AllTests
 		suite.addTestSuite(net.sf.oval.test.guard.OverridingEqualsTest.class);
 		suite.addTestSuite(net.sf.oval.test.guard.OverridingHashCodeTest.class);
 		suite.addTestSuite(net.sf.oval.test.guard.ParameterConstraintsTest.class);
-		suite.addTestSuite(net.sf.oval.test.guard.PrePostBeanShellTest.class);
-		suite.addTestSuite(net.sf.oval.test.guard.PrePostGroovyTest.class);
-		suite.addTestSuite(net.sf.oval.test.guard.PrePostJavascriptTest.class);
-		suite.addTestSuite(net.sf.oval.test.guard.PrePostJEXLTest.class);
-		suite.addTestSuite(net.sf.oval.test.guard.PrePostMVELTest.class);
-		suite.addTestSuite(net.sf.oval.test.guard.PrePostOGNLTest.class);
-		suite.addTestSuite(net.sf.oval.test.guard.PrePostRubyTest.class);
-		suite.addTestSuite(net.sf.oval.test.guard.PrePostValidateThisTest.class);
 		suite.addTestSuite(net.sf.oval.test.guard.ProbeModeTest.class);
 		suite.addTestSuite(net.sf.oval.test.guard.StaticMethodsTest.class);
 	}

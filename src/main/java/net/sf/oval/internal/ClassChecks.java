@@ -17,8 +17,6 @@ import net.sf.oval.CheckExclusion;
 import net.sf.oval.exception.InvalidConfigurationException;
 import net.sf.oval.guard.IsGuarded;
 import net.sf.oval.guard.ParameterNameResolver;
-import net.sf.oval.guard.PostCheck;
-import net.sf.oval.guard.PreCheck;
 import net.sf.oval.internal.util.ArrayUtils;
 import net.sf.oval.internal.util.ReflectionUtils;
 import org.slf4j.Logger;
@@ -69,10 +67,6 @@ public final class ClassChecks
 	 * checks on methods' return value
 	 */
 	public final Map<Method, Set<Check>> checksForMethodReturnValues = new LinkedHashMap<>();
-
-	public final Map<Method, Set<PostCheck>> checksForMethodsPostExcecution = new LinkedHashMap<>();
-
-	public final Map<Method, Set<PreCheck>> checksForMethodsPreExecution = new LinkedHashMap<>();
 
 	/**
 	 * compound constraints / object level invariants
@@ -363,82 +357,6 @@ public final class ClassChecks
 	/**
 	 * adds constraint checks to a method's return value
 	 * @param method
-	 * @param checks
-	 * @throws InvalidConfigurationException if the declaring class is not guarded by GuardAspect
-	 */
-	public void addMethodPostChecks(final Method method, final Collection<PostCheck> checks) throws InvalidConfigurationException
-	{
-        if (!IsGuarded.class.isAssignableFrom(clazz))
-            LOG.warn("Method post-conditions may not be validated. {}", GUARDING_MAY_NOT_BE_ACTIVATED_MESSAGE);
-
-        synchronized (checksForMethodsPostExcecution)
-        {
-            Set<PostCheck> postChecks = checksForMethodsPostExcecution.get(method);
-            if (postChecks == null)
-            {
-                postChecks = new LinkedHashSet<>(2);
-                checksForMethodsPostExcecution.put(method, postChecks);
-            }
-
-                for (final PostCheck check : checks)
-                {
-                    postChecks.add(check);
-                    if (check.getContext() == null) check.setContext(ContextCache.getMethodExitContext(method));
-                }
-        }
-	}
-
-	/**
-	 * adds constraint checks to a method's return value
-	 * @param method
-	 * @param checks
-	 * @throws InvalidConfigurationException if the declaring class is not guarded by GuardAspect
-	 */
-	public void addMethodPostChecks(final Method method, final PostCheck... checks) throws InvalidConfigurationException
-	{
-		addMethodPostChecks(method, ArrayUtils.asList(checks));
-	}
-
-	/**
-	 * @param method
-	 * @param checks
-	 * @throws InvalidConfigurationException if the declaring class is not guarded by GuardAspect
-	 */
-	public void addMethodPreChecks(final Method method, final Collection<PreCheck> checks) throws InvalidConfigurationException
-	{
-        if (!IsGuarded.class.isAssignableFrom(clazz))
-            LOG.warn("Method pre-conditions may not be validated. {}", GUARDING_MAY_NOT_BE_ACTIVATED_MESSAGE);
-
-        synchronized (checksForMethodsPreExecution)
-        {
-            Set<PreCheck> preChecks = checksForMethodsPreExecution.get(method);
-            if (preChecks == null)
-            {
-                preChecks = new LinkedHashSet<>(2);
-                checksForMethodsPreExecution.put(method, preChecks);
-            }
-
-                for (final PreCheck check : checks)
-                {
-                    preChecks.add(check);
-                    if (check.getContext() == null) check.setContext(ContextCache.getMethodEntryContext(method));
-                }
-        }
-	}
-
-	/**
-	 * @param method
-	 * @param checks
-	 * @throws InvalidConfigurationException if the declaring class is not guarded by GuardAspect
-	 */
-	public void addMethodPreChecks(final Method method, final PreCheck... checks) throws InvalidConfigurationException
-	{
-        addMethodPreChecks(method, ArrayUtils.asList(checks));
-	}
-
-	/**
-	 * adds constraint checks to a method's return value
-	 * @param method
 	 * @param isInvariant determines if the return value should be checked when the object is validated, can be null
 	 * @param checks
 	 */
@@ -544,8 +462,6 @@ public final class ClassChecks
 		LOG.debug("Clearing all checks for class {}", clazz);
 
 		checksForObject.clear();
-		checksForMethodsPostExcecution.clear();
-		checksForMethodsPreExecution.clear();
 		checksForConstructorParameters.clear();
 		checksForFields.clear();
 		checksForMethodReturnValues.clear();
@@ -599,8 +515,6 @@ public final class ClassChecks
 	{
 		clearMethodParameterChecks(method);
 		clearMethodReturnValueChecks(method);
-		clearMethodPreChecks(method);
-		clearMethodPostChecks(method);
 	}
 
 	public void clearMethodParameterChecks(final Method method)
@@ -624,22 +538,6 @@ public final class ClassChecks
 			if (checksOfMethodParameter == null) return;
 
 			checksOfMethodByParameter.remove(parameterIndex);
-		}
-	}
-
-	public void clearMethodPostChecks(final Method method)
-	{
-		synchronized (checksForMethodsPostExcecution)
-		{
-			checksForMethodsPostExcecution.remove(method);
-		}
-	}
-
-	public void clearMethodPreChecks(final Method method)
-	{
-		synchronized (checksForMethodsPreExecution)
-		{
-			checksForMethodsPreExecution.remove(method);
 		}
 	}
 
@@ -762,36 +660,6 @@ public final class ClassChecks
 				checksOfMethodParameter.checks.remove(check);
 
 			if (checksOfMethodParameter.isEmpty()) checksOfMethodByParameter.remove(parameterIndex);
-		}
-	}
-
-	public void removeMethodPostChecks(final Method method, final PostCheck... checks)
-	{
-		synchronized (checksForMethodsPostExcecution)
-		{
-			final Set<PostCheck> checksforMethod = checksForMethodsPostExcecution.get(method);
-
-			if (checksforMethod == null) return;
-
-			for (final PostCheck check : checks)
-				checksforMethod.remove(check);
-
-			if (checksforMethod.size() == 0) checksForMethodsPostExcecution.remove(method);
-		}
-	}
-
-	public void removeMethodPreChecks(final Method method, final PreCheck... checks)
-	{
-		synchronized (checksForMethodsPreExecution)
-		{
-			final Set<PreCheck> checksforMethod = checksForMethodsPreExecution.get(method);
-
-			if (checksforMethod == null) return;
-
-			for (final PreCheck check : checks)
-				checksforMethod.remove(check);
-
-			if (checksforMethod.size() == 0) checksForMethodsPreExecution.remove(method);
 		}
 	}
 

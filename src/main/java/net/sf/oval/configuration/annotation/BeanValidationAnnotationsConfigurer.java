@@ -122,7 +122,6 @@ public class BeanValidationAnnotationsConfigurer implements Configurer
 
 				final ConstructorConfiguration cc = new ConstructorConfiguration();
 				cc.parameterConfigurations = paramCfg;
-				cc.postCheckInvariants = false;
 				classCfg.constructorConfigurations.add(cc);
 			}
 		}

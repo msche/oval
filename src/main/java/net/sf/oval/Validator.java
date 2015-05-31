@@ -326,10 +326,6 @@ public class Validator implements IValidator {
                         cc.clearConstructorChecks(ctor);
                     }
 
-                    if (ctorCfg.postCheckInvariants) {
-                        cc.methodsWithCheckInvariantsPost.add(ctor);
-                    }
-
                     final String[] paramNames = parameterNameResolver.getParameterNames(ctor);
 
                     for (int i = 0, l = ctorCfg.parameterConfigurations.size(); i < l; i++) {
@@ -446,39 +442,6 @@ public class Validator implements IValidator {
                         }
                     }
 
-                    if (methodCfg.preCheckInvariants) {
-                        cc.methodsWithCheckInvariantsPre.add(method);
-                    }
-
-					/*
-					 * configure pre conditions
-					 */
-                    if (methodCfg.preExecutionConfiguration != null) {
-                        if (methodCfg.preExecutionConfiguration.overwrite) {
-                            cc.clearMethodPreChecks(method);
-                        }
-
-                        if (methodCfg.preExecutionConfiguration.checks != null && methodCfg.preExecutionConfiguration.checks.size() > 0) {
-                            cc.addMethodPreChecks(method, methodCfg.preExecutionConfiguration.checks);
-                        }
-                    }
-
-                    if (methodCfg.postCheckInvariants) {
-                        cc.methodsWithCheckInvariantsPost.add(method);
-                    }
-
-					/*
-					 * configure post conditions
-					 */
-                    if (methodCfg.postExecutionConfiguration != null) {
-                        if (methodCfg.postExecutionConfiguration.overwrite) {
-                            cc.clearMethodPostChecks(method);
-                        }
-
-                        if (methodCfg.postExecutionConfiguration.checks != null && methodCfg.postExecutionConfiguration.checks.size() > 0) {
-                            cc.addMethodPostChecks(method, methodCfg.postExecutionConfiguration.checks);
-                        }
-                    }
                 }
             }
         } catch (final NoSuchMethodException ex) {
