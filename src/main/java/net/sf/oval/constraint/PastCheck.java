@@ -17,6 +17,7 @@ import net.sf.oval.Validator;
 import net.sf.oval.configuration.annotation.ConstraintAnnotationSettings;
 import net.sf.oval.context.OValContext;
 
+import javax.validation.constraints.Past;
 import java.util.Date;
 
 /**
@@ -30,7 +31,6 @@ public final class PastCheck extends AbstractDateCheck<Past> {
     @Override
     public void configure(final Past constraintAnnotation) {
         super.configure(constraintAnnotation);
-        setTolerance(constraintAnnotation.tolerance());
     }
 
     /**
@@ -44,12 +44,7 @@ public final class PastCheck extends AbstractDateCheck<Past> {
 
         ConstraintAnnotationSettings settings = new ConstraintAnnotationSettings.Builder()
                 .message(constraintAnnotation.message())
-                .appliesTo(constraintAnnotation.appliesTo())
-                .errorCode(constraintAnnotation.errorCode())
-                .severity(constraintAnnotation.severity())
-                .profiles(constraintAnnotation.profiles())
-                .target(constraintAnnotation.target())
-                .when(constraintAnnotation.when())
+                .profiles(constraintAnnotation.groups())
                 .build();
         return settings;
     }
