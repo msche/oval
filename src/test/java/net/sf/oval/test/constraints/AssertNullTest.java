@@ -12,7 +12,7 @@
  *******************************************************************************/
 package net.sf.oval.test.constraints;
 
-import net.sf.oval.constraint.AssertNullCheck;
+import net.sf.oval.constraint.NullCheck;
 
 /**
  * @author Sebastian Thomschke
@@ -21,7 +21,7 @@ public class AssertNullTest extends AbstractContraintsTest
 {
 	public void testNotNull()
 	{
-		final AssertNullCheck check = new AssertNullCheck();
+		final NullCheck check = new NullCheck();
 		super.testCheck(check);
 		assertTrue(check.isSatisfied(null, null, null, null));
 		assertFalse(check.isSatisfied(null, "bla", null, null));

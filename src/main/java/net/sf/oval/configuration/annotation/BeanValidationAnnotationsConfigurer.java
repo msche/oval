@@ -22,7 +22,7 @@ import net.sf.oval.configuration.pojo.elements.MethodConfiguration;
 import net.sf.oval.configuration.pojo.elements.MethodReturnValueConfiguration;
 import net.sf.oval.configuration.pojo.elements.ParameterConfiguration;
 import net.sf.oval.constraint.AssertFalseCheck;
-import net.sf.oval.constraint.AssertNullCheck;
+import net.sf.oval.constraint.NullCheck;
 import net.sf.oval.constraint.AssertTrueCheck;
 import net.sf.oval.constraint.AssertValidCheck;
 import net.sf.oval.constraint.DigitsCheck;
@@ -254,7 +254,7 @@ public class BeanValidationAnnotationsConfigurer implements Configurer
 		else if (annotation instanceof Null)
 		{
 			groups = ((Null) annotation).groups();
-			check = new AssertNullCheck();
+			check = new NullCheck();
 		}
 		else if (annotation instanceof Valid)
 			check = new AssertValidCheck();

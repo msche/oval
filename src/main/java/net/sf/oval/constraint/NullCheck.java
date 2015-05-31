@@ -17,10 +17,12 @@ import net.sf.oval.configuration.annotation.AbstractAnnotationCheck;
 import net.sf.oval.configuration.annotation.ConstraintAnnotationSettings;
 import net.sf.oval.context.OValContext;
 
+import javax.validation.constraints.Null;
+
 /**
  * @author Sebastian Thomschke
  */
-public final class AssertNullCheck extends AbstractAnnotationCheck<AssertNull>
+public final class NullCheck extends AbstractAnnotationCheck<Null>
 {
 	private static final long serialVersionUID = 1L;
 
@@ -40,16 +42,11 @@ public final class AssertNullCheck extends AbstractAnnotationCheck<AssertNull>
      *
      * @return Value object {@code ConstraintAnnotationSettings}.
      */
-    protected ConstraintAnnotationSettings getSettings(final  AssertNull constraintAnnotation) {
+    protected ConstraintAnnotationSettings getSettings(final Null constraintAnnotation) {
 
         ConstraintAnnotationSettings settings = new ConstraintAnnotationSettings.Builder()
                 .message(constraintAnnotation.message())
-                .appliesTo(constraintAnnotation.appliesTo())
-                .errorCode(constraintAnnotation.errorCode())
-                .severity(constraintAnnotation.severity())
-                .profiles(constraintAnnotation.profiles())
-                .target(constraintAnnotation.target())
-                .when(constraintAnnotation.when())
+                .profiles(constraintAnnotation.groups())
                 .build();
         return settings;
     }
