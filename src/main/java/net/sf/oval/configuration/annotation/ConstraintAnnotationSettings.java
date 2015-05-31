@@ -86,6 +86,15 @@ public final class ConstraintAnnotationSettings {
             return this;
         }
 
+        public Builder profiles(Class<?>[] groups) {
+            String[] profiles = new String[groups.length];
+            for(int i=0; i<groups.length;i++) {
+                profiles[i] = groups[i].getCanonicalName();
+            }
+            profiles(profiles);
+            return this;
+        }
+
         public Builder profiles(String[] profiles) {
             this.profiles = profiles;
             return this;
