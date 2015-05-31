@@ -17,6 +17,7 @@ import net.sf.oval.Validator;
 import net.sf.oval.configuration.annotation.ConstraintAnnotationSettings;
 import net.sf.oval.context.OValContext;
 
+import javax.validation.constraints.Future;
 import java.util.Date;
 
 /**
@@ -30,7 +31,6 @@ public final class FutureCheck extends AbstractDateCheck<Future>
 	public void configure(final Future constraintAnnotation)
 	{
 		super.configure(constraintAnnotation);
-		setTolerance(constraintAnnotation.tolerance());
 	}
 
     /**
@@ -44,12 +44,7 @@ public final class FutureCheck extends AbstractDateCheck<Future>
 
         ConstraintAnnotationSettings settings = new ConstraintAnnotationSettings.Builder()
                 .message(constraintAnnotation.message())
-                .appliesTo(constraintAnnotation.appliesTo())
-                .errorCode(constraintAnnotation.errorCode())
-                .severity(constraintAnnotation.severity())
-                .profiles(constraintAnnotation.profiles())
-                .target(constraintAnnotation.target())
-                .when(constraintAnnotation.when())
+                .profiles(constraintAnnotation.groups())
                 .build();
         return settings;
     }

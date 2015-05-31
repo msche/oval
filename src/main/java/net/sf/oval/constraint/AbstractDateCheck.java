@@ -22,6 +22,7 @@ public abstract class AbstractDateCheck<ConstraintAnnotation extends Annotation>
      */
     private SimpleDateFormat formatter = (SimpleDateFormat) DateFormat.getDateTimeInstance();
 
+    // TODO: Remove
     private long tolerance;
 
     /**
