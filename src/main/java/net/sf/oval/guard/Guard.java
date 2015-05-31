@@ -56,7 +56,7 @@ import java.util.WeakHashMap;
 /**
  * Extended version of the validator to realize programming by contract.
  *
- * @author Sebastian Thomschke
+ * @author msche
  */
 public class Guard extends Validator
 {
