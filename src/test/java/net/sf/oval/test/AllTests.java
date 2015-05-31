@@ -82,7 +82,6 @@ public final class AllTests
 		suite.addTestSuite(net.sf.oval.test.guard.OverridingEqualsTest.class);
 		suite.addTestSuite(net.sf.oval.test.guard.OverridingHashCodeTest.class);
 		suite.addTestSuite(net.sf.oval.test.guard.ParameterConstraintsTest.class);
-		suite.addTestSuite(net.sf.oval.test.guard.ProbeModeTest.class);
 		suite.addTestSuite(net.sf.oval.test.guard.StaticMethodsTest.class);
 	}
 

@@ -115,25 +115,9 @@ public class Guard extends Validator
 	 * Flag that indicates if any listeners were registered at any time. Used for improved performance.
 	 */
 	private boolean isListenersFeatureUsed = false;
-	/**
-	 * Flag that indicates if exception suppressing was used at any time. Used for improved performance.
-	 */
-	private boolean isProbeModeFeatureUsed = false;
-
 	private final Set<ConstraintsViolatedListener> listeners = new IdentitySet<ConstraintsViolatedListener>(4);
-
-	private final Map<Class< ? >, Set<ConstraintsViolatedListener>> listenersByClass = new WeakHashMap<Class< ? >, Set<ConstraintsViolatedListener>>(
-			4);
-
-	private final Map<Object, Set<ConstraintsViolatedListener>> listenersByObject = new WeakHashMap<Object, Set<ConstraintsViolatedListener>>(
-			4);
-
-	/**
-	 * Objects for OVal suppresses occurring ConstraintViolationExceptions for pre condition violations on setter methods
-	 * for the current thread.
-	 */
-//	private final ThreadLocalWeakHashMap<Object, ProbeModeListener> objectsInProbeMode = new ThreadLocalWeakHashMap<Object, ProbeModeListener>();
-    private final Map<Object, ProbeModeListener> objectsInProbeMode = new HashMap<>();
+	private final Map<Class< ? >, Set<ConstraintsViolatedListener>> listenersByClass = new WeakHashMap<Class< ? >, Set<ConstraintsViolatedListener>>(4);
+	private final Map<Object, Set<ConstraintsViolatedListener>> listenersByObject = new WeakHashMap<Object, Set<ConstraintsViolatedListener>>(4);
 
 	/**
 	 * Constructs a new guard object and uses a new instance of AnnotationsConfigurer
@@ -351,43 +335,6 @@ public class Guard extends Validator
 	}
 
 	/**
-	 * Disables the probe mode for the given object in the current thread.
-	 *
-	 * @param guardedObject the object to disable the probe mode for
-	 * @throws IllegalArgumentException if <code>guardedObject == null</code>
-	 * @throws IllegalStateException in case probe mode was not enabled for the given object
-	 */
-	public ProbeModeListener disableProbeMode(final Object guardedObject) throws IllegalArgumentException, IllegalStateException
-	{
-		Assert.argumentNotNull("guardedObject", guardedObject);
-
-		return objectsInProbeMode.remove(guardedObject);
-	}
-
-//	/**
-//	 * Enables the probe mode for the given object in the current thread. In probe mode calls to methods of an
-//	 * object are not actually executed. OVal only validates method pre-conditions and notifies
-//	 * ConstraintViolationListeners but does not throw ConstraintViolationExceptions. Methods with return values will
-//	 * return null.
-//	 *
-//	 * @param guardedObject the object to enable the probe mode for
-//	 * @throws IllegalArgumentException if <code>guardedObject == null</code>
-//	 * @throws IllegalStateException if the probe mode is already enabled
-//	 */
-//	public void enableProbeMode(final Object guardedObject) throws IllegalArgumentException, IllegalStateException
-//	{
-//		Assert.argumentNotNull("guardedObject", guardedObject);
-//
-//		if (guardedObject instanceof Class< ? >)
-//			LOG.warn("Enabling probe mode for a class looks like a programming error. Class: {}", guardedObject);
-//		isProbeModeFeatureUsed = true;
-//
-//		if (objectsInProbeMode.get(guardedObject) != null) throw new IllegalStateException("The object is already in probe mode.");
-//
-//		objectsInProbeMode.put(guardedObject, new ProbeModeListener(guardedObject));
-//	}
-
-	/**
 	 * Returns the registers constraint pre condition checks for the given method parameter
 	 *
 	 * @param method
@@ -527,26 +474,13 @@ public class Guard extends Validator
 			throw translateException(ex);
 		}
 
-		final ProbeModeListener pml = isProbeModeFeatureUsed ? objectsInProbeMode.get(guardedObject) : null;
-		if (pml != null) pml.onMethodCall(method, args);
-
 		if (violations.size() > 0)
 		{
 			final ConstraintsViolatedException violationException = new ConstraintsViolatedException(violations);
 			if (isListenersFeatureUsed) notifyListeners(guardedObject, violationException);
 
-			// don't throw an exception if the method is a setter and suppressing for precondition is enabled
-			if (pml != null)
-			{
-				pml.onConstraintsViolatedException(violationException);
-				return null;
-			}
-
 			throw translateException(violationException);
 		}
-
-		// abort method execution if in probe mode
-		if (pml != null) return null;
 
 		final Object returnValue = invocable.invoke();
 
@@ -587,8 +521,7 @@ public class Guard extends Validator
 	 *
 	 * @param returnValue
 	 * @param preResult
-	 * @throws ConstraintsViolatedException if an constraint violation occurs and the validated object is not in probe
-	 *             mode.
+	 * @throws ConstraintsViolatedException if an constraint violation occurs.
 	 */
 	protected void guardMethodPost(final Object returnValue, final GuardMethodPreResult preResult) throws ConstraintsViolatedException,
 			ValidationFailedException
@@ -633,7 +566,7 @@ public class Guard extends Validator
 	 * @param method
 	 * @param args
 	 * @return Null if method guarding is deactivated or a result object that needs to be passed to {@link #guardMethodPost(Object, GuardMethodPreResult)}
-	 * @throws ConstraintsViolatedException if an constraint violation occurs and the validated object is not in probe
+	 * @throws ConstraintsViolatedException if an constraint violation occurs.
 	 *             mode.
 	 */
 	protected GuardMethodPreResult guardMethodPre(Object guardedObject, final Method method, final Object[] args)
@@ -668,26 +601,13 @@ public class Guard extends Validator
 			throw translateException(ex);
 		}
 
-		final ProbeModeListener pml = isProbeModeFeatureUsed ? objectsInProbeMode.get(guardedObject) : null;
-		if (pml != null) pml.onMethodCall(method, args);
-
 		if (violations.size() > 0)
 		{
 			final ConstraintsViolatedException violationException = new ConstraintsViolatedException(violations);
 			if (isListenersFeatureUsed) notifyListeners(guardedObject, violationException);
 
-			// don't throw an exception if the method is a setter and suppressing for precondition is enabled
-			if (pml != null)
-			{
-				pml.onConstraintsViolatedException(violationException);
-				return DO_NOT_PROCEED;
-			}
-
 			throw translateException(violationException);
 		}
-
-		// abort method execution if in probe mode
-		if (pml != null) return DO_NOT_PROCEED;
 
 		return new GuardMethodPreResult(guardedObject, method, args, cc, checkInvariants, violations);
 	}
@@ -748,22 +668,6 @@ public class Guard extends Validator
 		return isActivated;
 	}
 
-	/**
-	 * Determines if the probe mode is enabled for the given object in the current thread. In probe mode calls to
-	 * methods of an object are not actually executed. OVal only validates method pre-conditions and notifies
-	 * ConstraintViolationListeners but does not throw ConstraintViolationExceptions. Methods with return values will
-	 * return null.
-	 *
-	 * @param guardedObject
-	 * @return true if exceptions are suppressed
-	 */
-	public boolean isInProbeMode(final Object guardedObject)
-	{
-		// guardedObject may be null if isInProbeMode is called when validating pre conditions of a static method
-		if (guardedObject == null) return false;
-
-		return objectsInProbeMode.containsKey(guardedObject);
-	}
 
 	/**
 	 * Determines if invariants are checked prior and after every call to a non-private method or constructor.
