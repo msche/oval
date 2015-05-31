@@ -60,29 +60,6 @@ import java.util.WeakHashMap;
  */
 public class Guard extends Validator
 {
-	/**
-	 * <b>Note:</b> Only required until AspectJ allows throwing of checked exceptions
-	 */
-	protected static final class GuardMethodPreResult
-	{
-		protected final boolean checkInvariants;
-		protected final Method method;
-		protected final Object[] args;
-		protected final ClassChecks cc;
-		protected final List<ConstraintViolation> violations;
-		protected final Object guardedObject;
-
-		public GuardMethodPreResult(final Object guardedObject, final Method method, final Object[] args, final ClassChecks cc,
-				final boolean checkInvariants, final List<ConstraintViolation> violations)
-		{
-			this.guardedObject = guardedObject;
-			this.method = method;
-			this.args = args;
-			this.cc = cc;
-			this.checkInvariants = checkInvariants;
-			this.violations = violations;
-		}
-	}
 
 	private static final Logger LOG = LoggerFactory.getLogger(Guard.class);
 
@@ -422,8 +399,8 @@ public class Guard extends Validator
 	 * @param method
 	 * @param args
 	 * @param invocable
-	 * @return The method return value or null if the guarded object is in probe mode.
-	 * @throws ConstraintsViolatedException if an constraint violation occurs and the validated object is not in probe mode.
+	 * @return The method return value.
+	 * @throws ConstraintsViolatedException if an constraint violation occurs.
 	 * @throws ValidationFailedException
 	 */
 	protected Object guardMethod(Object guardedObject, final Method method, final Object[] args, final Invocable invocable)
