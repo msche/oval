@@ -108,8 +108,6 @@ public class Guard extends Validator
 
 	private boolean isActivated = true;
 	private boolean isInvariantsEnabled = true;
-	private boolean isPreConditionsEnabled = true;
-	private boolean isPostConditionsEnabled = true;
 
 	/**
 	 * Flag that indicates if any listeners were registered at any time. Used for improved performance.
@@ -410,7 +408,7 @@ public class Guard extends Validator
 		if (!isActivated) return;
 
 		// constructor parameter validation
-		if (isPreConditionsEnabled && args.length > 0)
+		if (args.length > 0)
 		{
 			final List<ConstraintViolation> violations;
 			try
@@ -463,11 +461,8 @@ public class Guard extends Validator
 			// check invariants
 			if (checkInvariants || cc.methodsWithCheckInvariantsPre.contains(method)) validateInvariants(guardedObject, violations, null);
 
-			if (isPreConditionsEnabled)
-			{
-				// method parameter validation
-				if (violations.size() == 0 && args.length > 0) validateMethodParameters(guardedObject, method, args, violations);
-			}
+			// method parameter validation
+			if (violations.size() == 0 && args.length > 0) validateMethodParameters(guardedObject, method, args, violations);
 		}
 		catch (final ValidationFailedException ex)
 		{
@@ -489,13 +484,8 @@ public class Guard extends Validator
 			// check invariants if executed method is not private
 			if (checkInvariants || cc.methodsWithCheckInvariantsPost.contains(method)) validateInvariants(guardedObject, violations, null);
 
-			if (isPostConditionsEnabled)
-			{
-
-				// method return value
-				if (violations.size() == 0) validateMethodReturnValue(guardedObject, method, returnValue, violations);
-
-			}
+			// method return value
+			if (violations.size() == 0) validateMethodReturnValue(guardedObject, method, returnValue, violations);
 		}
 		catch (final ValidationFailedException ex)
 		{
@@ -511,105 +501,6 @@ public class Guard extends Validator
 		}
 
 		return returnValue;
-	}
-
-	/**
-	 * <b>Note:</b> Only required until AspectJ allows throwing of checked exceptions,
-	 * then {@link #guardMethod(Object, Method, Object[], Invocable)} can be used instead
-	 *
-	 * This method is provided for use by guard aspects.
-	 *
-	 * @param returnValue
-	 * @param preResult
-	 * @throws ConstraintsViolatedException if an constraint violation occurs.
-	 */
-	protected void guardMethodPost(final Object returnValue, final GuardMethodPreResult preResult) throws ConstraintsViolatedException,
-			ValidationFailedException
-	{
-		if (!isActivated) return;
-
-		try
-		{
-			// check invariants if executed method is not private
-			if (preResult.checkInvariants || preResult.cc.methodsWithCheckInvariantsPost.contains(preResult.method))
-				validateInvariants(preResult.guardedObject, preResult.violations, null);
-
-			if (isPostConditionsEnabled)
-			{
-
-				// method return value
-				if (preResult.violations.size() == 0)
-					validateMethodReturnValue(preResult.guardedObject, preResult.method, returnValue, preResult.violations);
-
-			}
-		}
-		catch (final ValidationFailedException ex)
-		{
-			throw translateException(ex);
-		}
-
-		if (preResult.violations.size() > 0)
-		{
-			final ConstraintsViolatedException violationException = new ConstraintsViolatedException(preResult.violations);
-			if (isListenersFeatureUsed) notifyListeners(preResult.guardedObject, violationException);
-
-			throw translateException(violationException);
-		}
-	}
-
-	/**
-	 * <b>Note:</b> Only required until AspectJ allows throwing of checked exceptions, then {@link #guardMethod(Object, Method, Object[], Invocable)} can be used instead
-	 *
-	 * This method is provided for use by guard aspects.
-	 *
-	 * @param guardedObject
-	 * @param method
-	 * @param args
-	 * @return Null if method guarding is deactivated or a result object that needs to be passed to {@link #guardMethodPost(Object, GuardMethodPreResult)}
-	 * @throws ConstraintsViolatedException if an constraint violation occurs.
-	 *             mode.
-	 */
-	protected GuardMethodPreResult guardMethodPre(Object guardedObject, final Method method, final Object[] args)
-			throws ConstraintsViolatedException, ValidationFailedException
-	{
-		if (!isActivated) return null;
-
-		final ClassChecks cc = getClassChecks(method.getDeclaringClass());
-
-		final boolean checkInvariants = isInvariantsEnabled && cc.isCheckInvariants && !ReflectionUtils.isPrivate(method)
-				&& !ReflectionUtils.isProtected(method);
-
-		// if static method use the declaring class as guardedObject
-		if (guardedObject == null && ReflectionUtils.isStatic(method)) guardedObject = method.getDeclaringClass();
-
-		final List<ConstraintViolation> violations = new ArrayList<>();
-
-		try
-		{
-			// check invariants
-			if (checkInvariants || cc.methodsWithCheckInvariantsPre.contains(method)) validateInvariants(guardedObject, violations, null);
-
-			if (isPreConditionsEnabled)
-			{
-				// method parameter validation
-				if (violations.size() == 0 && args.length > 0) validateMethodParameters(guardedObject, method, args, violations);
-
-			}
-		}
-		catch (final ValidationFailedException ex)
-		{
-			throw translateException(ex);
-		}
-
-		if (violations.size() > 0)
-		{
-			final ConstraintsViolatedException violationException = new ConstraintsViolatedException(violations);
-			if (isListenersFeatureUsed) notifyListeners(guardedObject, violationException);
-
-			throw translateException(violationException);
-		}
-
-		return new GuardMethodPreResult(guardedObject, method, args, cc, checkInvariants, violations);
 	}
 
 	/**
@@ -688,22 +579,6 @@ public class Guard extends Validator
 	public boolean isInvariantsEnabled(final Class< ? > guardedClass)
 	{
 		return getClassChecks(guardedClass).isCheckInvariants;
-	}
-
-	/**
-	 * @return the isPostChecksActivated
-	 */
-	public boolean isPostConditionsEnabled()
-	{
-		return isPostConditionsEnabled;
-	}
-
-	/**
-	 * @return the isPreChecksActivated
-	 */
-	public boolean isPreConditionsEnabled()
-	{
-		return isPreConditionsEnabled;
 	}
 
 	/**
@@ -913,22 +788,6 @@ public class Guard extends Validator
 		Assert.argumentNotNull("parameterNameResolver", parameterNameResolver);
 
 		this.parameterNameResolver.setDelegate(parameterNameResolver);
-	}
-
-	/**
-	 * @param isEnabled the isEnabled to set
-	 */
-	public void setPostConditionsEnabled(final boolean isEnabled)
-	{
-		isPostConditionsEnabled = isEnabled;
-	}
-
-	/**
-	 * @param isEnabled the isEnabled to set
-	 */
-	public void setPreConditionsEnabled(final boolean isEnabled)
-	{
-		isPreConditionsEnabled = isEnabled;
 	}
 
 	/**
