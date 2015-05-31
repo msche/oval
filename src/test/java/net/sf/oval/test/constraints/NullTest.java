@@ -17,7 +17,7 @@ import net.sf.oval.constraint.NullCheck;
 /**
  * @author Sebastian Thomschke
  */
-public class AssertNullTest extends AbstractContraintsTest
+public class NullTest extends AbstractContraintsTest
 {
 	public void testNotNull()
 	{
