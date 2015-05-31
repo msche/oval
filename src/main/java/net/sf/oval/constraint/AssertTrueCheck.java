@@ -18,6 +18,8 @@ import net.sf.oval.configuration.annotation.AbstractAnnotationCheck;
 import net.sf.oval.configuration.annotation.ConstraintAnnotationSettings;
 import net.sf.oval.context.OValContext;
 
+import javax.validation.constraints.AssertTrue;
+
 /**
  * @author Sebastian Thomschke
  */
@@ -58,12 +60,7 @@ public final class AssertTrueCheck extends AbstractAnnotationCheck<AssertTrue>
 
         ConstraintAnnotationSettings settings = new ConstraintAnnotationSettings.Builder()
                 .message(constraintAnnotation.message())
-                .appliesTo(constraintAnnotation.appliesTo())
-                .errorCode(constraintAnnotation.errorCode())
-                .severity(constraintAnnotation.severity())
-                .profiles(constraintAnnotation.profiles())
-                .target(constraintAnnotation.target())
-                .when(constraintAnnotation.when())
+                .profiles(constraintAnnotation.groups())
                 .build();
         return settings;
     }
