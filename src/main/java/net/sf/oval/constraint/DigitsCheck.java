@@ -20,6 +20,7 @@ import net.sf.oval.context.OValContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.validation.constraints.Digits;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.LinkedHashMap;
@@ -46,10 +47,8 @@ public final class DigitsCheck extends AbstractAnnotationCheck<Digits>
 	public void configure(final Digits constraintAnnotation)
 	{
 		super.configure(constraintAnnotation);
-		setMinInteger(constraintAnnotation.minInteger());
-		setMaxInteger(constraintAnnotation.maxInteger());
-		setMinFraction(constraintAnnotation.minFraction());
-		setMaxFraction(constraintAnnotation.maxFraction());
+		setMaxInteger(constraintAnnotation.integer());
+		setMaxFraction(constraintAnnotation.fraction());
 	}
 
     /**
@@ -63,12 +62,7 @@ public final class DigitsCheck extends AbstractAnnotationCheck<Digits>
 
         ConstraintAnnotationSettings settings = new ConstraintAnnotationSettings.Builder()
                 .message(constraintAnnotation.message())
-                .appliesTo(constraintAnnotation.appliesTo())
-                .errorCode(constraintAnnotation.errorCode())
-                .severity(constraintAnnotation.severity())
-                .profiles(constraintAnnotation.profiles())
-                .target(constraintAnnotation.target())
-                .when(constraintAnnotation.when())
+                .profiles(constraintAnnotation.groups())
                 .build();
         return settings;
     }
@@ -206,19 +200,5 @@ public final class DigitsCheck extends AbstractAnnotationCheck<Digits>
 		this.maxInteger = maxInteger;
 	}
 
-	/**
-	 * @param minFraction the minFraction to set
-	 */
-	public void setMinFraction(final int minFraction)
-	{
-		this.minFraction = minFraction;
-	}
 
-	/**
-	 * @param minInteger the minInteger to set
-	 */
-	public void setMinInteger(final int minInteger)
-	{
-		this.minInteger = minInteger;
-	}
 }
