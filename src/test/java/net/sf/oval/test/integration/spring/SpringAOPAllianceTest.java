@@ -14,7 +14,7 @@ package net.sf.oval.test.integration.spring;
 
 import junit.framework.TestCase;
 import net.sf.oval.constraint.MaxLength;
-import net.sf.oval.constraint.NotNull;
+import javax.validation.constraints.NotNull;
 import net.sf.oval.exception.ConstraintsViolatedException;
 import net.sf.oval.guard.Guarded;
 import net.sf.oval.guard.SuppressOValWarnings;

@@ -19,7 +19,6 @@ import net.sf.oval.constraint.AssertTrue;
 import net.sf.oval.constraint.Length;
 import net.sf.oval.constraint.MatchPattern;
 import net.sf.oval.constraint.NotEmpty;
-import net.sf.oval.constraint.NotNull;
 import net.sf.oval.context.FieldContext;
 import net.sf.oval.context.MethodParameterContext;
 import net.sf.oval.exception.ConstraintsViolatedException;
@@ -29,6 +28,7 @@ import net.sf.oval.guard.Guard;
 import net.sf.oval.guard.GuardAspect2;
 import net.sf.oval.guard.Guarded;
 
+import javax.validation.constraints.NotNull;
 import java.lang.reflect.Method;
 
 /**

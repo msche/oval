@@ -13,8 +13,9 @@
 package net.sf.oval.test.guard;
 
 import junit.framework.TestCase;
-import net.sf.oval.constraint.NotNull;
 import net.sf.oval.guard.Guarded;
+
+import javax.validation.constraints.NotNull;
 
 /**
  * @author Sebastian Thomschke

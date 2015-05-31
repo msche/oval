@@ -15,7 +15,7 @@ package net.sf.oval.test.integration.spring;
 import junit.framework.TestCase;
 import net.sf.oval.Validator;
 import net.sf.oval.constraint.NotNegative;
-import net.sf.oval.constraint.NotNull;
+import javax.validation.constraints.NotNull;
 import net.sf.oval.integration.spring.SpringValidator;
 import org.springframework.validation.BindException;
 
@@ -26,10 +26,10 @@ public class SpringValidatorTest extends TestCase
 {
 	public static class Entity
 	{
-		@NotNull(errorCode = "E1", message = "M1")
+		@NotNull(message = "M1")
 		protected String name;
 
-		@NotNegative(errorCode = "E2", message = "M2")
+		@NotNegative(message = "M2")
 		protected int age;
 
 		public int getAge()
@@ -55,9 +55,7 @@ public class SpringValidatorTest extends TestCase
 			assertEquals(2, errors.getErrorCount());
 			assertEquals(2, errors.getFieldErrorCount());
 			assertEquals(null, errors.getFieldError("name").getRejectedValue());
-			assertTrue(errors.getFieldError("name").getCodes()[0].startsWith("E1"));
 			assertEquals(-1, errors.getFieldError("age").getRejectedValue());
-			assertTrue(errors.getFieldError("age").getCodes()[0].startsWith("E2"));
 		}
 		{
 			final BindException errors = new BindException(e, e.getClass().getName());
@@ -67,7 +65,6 @@ public class SpringValidatorTest extends TestCase
 			assertEquals(1, errors.getErrorCount());
 			assertEquals(1, errors.getFieldErrorCount());
 			assertEquals(-1, errors.getFieldError("age").getRejectedValue());
-			assertTrue(errors.getFieldError("age").getCodes()[0].startsWith("E2"));
 		}
 		{
 			final BindException errors = new BindException(e, e.getClass().getName());
@@ -77,7 +74,6 @@ public class SpringValidatorTest extends TestCase
 			assertEquals(1, errors.getErrorCount());
 			assertEquals(1, errors.getFieldErrorCount());
 			assertEquals(null, errors.getFieldError("name").getRejectedValue());
-			assertTrue(errors.getFieldError("name").getCodes()[0].startsWith("E1"));
 		}
 		{
 			final BindException errors = new BindException(e, e.getClass().getName());

@@ -20,7 +20,7 @@ import net.sf.oval.constraint.AssertValid;
 import net.sf.oval.constraint.Length;
 import net.sf.oval.constraint.MatchPattern;
 import net.sf.oval.constraint.NotEmpty;
-import net.sf.oval.constraint.NotNull;
+import javax.validation.constraints.NotNull;
 import net.sf.oval.context.FieldContext;
 
 import java.lang.reflect.Field;

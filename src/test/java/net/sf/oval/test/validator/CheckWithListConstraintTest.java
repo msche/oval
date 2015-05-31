@@ -17,7 +17,7 @@ import net.sf.oval.ConstraintViolation;
 import net.sf.oval.Validator;
 import net.sf.oval.constraint.CheckWith;
 import net.sf.oval.constraint.CheckWithCheck.SimpleCheck;
-import net.sf.oval.constraint.NotNull;
+import javax.validation.constraints.NotNull;
 
 import java.util.List;
 

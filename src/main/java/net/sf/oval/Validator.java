@@ -915,6 +915,15 @@ public class Validator implements IValidator {
      *
      * @param profile the id of the profile
      */
+    public void disableProfile(final Class profile) {
+        disableProfile(profile.getCanonicalName());
+    }
+
+    /**
+     * Disables a constraints profile globally.
+     *
+     * @param profile the id of the profile
+     */
     public void disableProfile(final String profile) {
         isProfilesFeatureUsed = true;
 
@@ -941,6 +950,14 @@ public class Validator implements IValidator {
      *
      * @param profile the id of the profile
      */
+    public void enableProfile(final Class profile) {
+        enableProfile(profile.getCanonicalName());
+    }
+        /**
+         * Enables a constraints profile globally.
+         *
+         * @param profile the id of the profile
+         */
     public void enableProfile(final String profile) {
         isProfilesFeatureUsed = true;
 
@@ -1126,6 +1143,16 @@ public class Validator implements IValidator {
      * @param profileId
      * @return Returns true if the given profile is enabled.
      */
+    public boolean isProfileEnabled(final Class profileId) {
+        return isProfileEnabled(profileId.getCanonicalName());
+    }
+
+        /**
+         * Determines if the given profile is enabled.
+         *
+         * @param profileId
+         * @return Returns true if the given profile is enabled.
+         */
     public boolean isProfileEnabled(final String profileId) {
         Assert.argumentNotNull("profileId", profileId);
         if (isProfilesFeatureUsed) {
@@ -1264,6 +1291,20 @@ public class Validator implements IValidator {
     /**
      * {@inheritDoc}
      */
+    public List<ConstraintViolation> validate(final Object validatedObject, final Class... profiles) throws IllegalArgumentException,
+            ValidationFailedException {
+
+        String[] textualProfiles = new String[profiles.length];
+        for (int i=0; i < profiles.length; i++) {
+            textualProfiles[i] = profiles[i].getCanonicalName();
+        }
+
+        return validate(validatedObject,textualProfiles);
+    }
+
+        /**
+         * {@inheritDoc}
+         */
     public List<ConstraintViolation> validate(final Object validatedObject, final String... profiles) throws IllegalArgumentException,
             ValidationFailedException {
         Assert.argumentNotNull("validatedObject", validatedObject);

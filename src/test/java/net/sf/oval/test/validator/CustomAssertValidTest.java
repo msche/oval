@@ -19,15 +19,17 @@ import net.sf.oval.Validator;
 import net.sf.oval.configuration.annotation.AbstractAnnotationCheck;
 import net.sf.oval.configuration.annotation.AnnotationCheck;
 import net.sf.oval.configuration.annotation.AnnotationsConfigurer;
+import net.sf.oval.configuration.annotation.BeanValidationAnnotationsConfigurer;
 import net.sf.oval.configuration.annotation.Constraint;
 import net.sf.oval.configuration.annotation.ConstraintAnnotationSettings;
 import net.sf.oval.constraint.AssertValidCheck;
 import net.sf.oval.constraint.Length;
 import net.sf.oval.constraint.MatchPattern;
 import net.sf.oval.constraint.NotEmpty;
-import net.sf.oval.constraint.NotNull;
+import javax.validation.constraints.NotNull;
 import net.sf.oval.context.OValContext;
 import net.sf.oval.exception.ReflectionException;
+import net.sf.oval.guard.Guarded;
 
 import java.lang.annotation.Annotation;
 import java.lang.annotation.ElementType;
@@ -184,7 +186,7 @@ public class CustomAssertValidTest extends TestCase
 
 	public void testCollectionValues()
 	{
-		final Validator validator = new Validator(new CustomAnnotationConfigurer());
+		final Validator validator = new Validator(new BeanValidationAnnotationsConfigurer(),new CustomAnnotationConfigurer());
 
 		final Person p = new Person();
 		p.firstName = "John";
@@ -212,7 +214,7 @@ public class CustomAssertValidTest extends TestCase
 
 	public void testRecursion()
 	{
-		final Validator validator = new Validator(new CustomAnnotationConfigurer());
+		final Validator validator = new Validator(new BeanValidationAnnotationsConfigurer(),new CustomAnnotationConfigurer());
 
 		final Registry registry = new Registry();
 
@@ -276,7 +278,7 @@ public class CustomAssertValidTest extends TestCase
 
 	public void testScalarValues()
 	{
-		final Validator validator = new Validator(new CustomAnnotationConfigurer());
+		final Validator validator = new Validator(new BeanValidationAnnotationsConfigurer(), new CustomAnnotationConfigurer());
 
 		final Person p = new Person();
 		p.firstName = "John";

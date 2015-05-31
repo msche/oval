@@ -17,7 +17,7 @@ import net.sf.oval.ConstraintViolation;
 import net.sf.oval.Validator;
 import net.sf.oval.configuration.annotation.IsInvariant;
 import net.sf.oval.constraint.Length;
-import net.sf.oval.constraint.NotNull;
+import javax.validation.constraints.NotNull;
 import net.sf.oval.guard.SuppressOValWarnings;
 
 import java.util.List;

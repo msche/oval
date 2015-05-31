@@ -15,7 +15,7 @@ package net.sf.oval.test.validator;
 import junit.framework.TestCase;
 import net.sf.oval.ConstraintViolation;
 import net.sf.oval.Validator;
-import net.sf.oval.constraint.NotNull;
+import javax.validation.constraints.NotNull;
 import net.sf.oval.exception.ConstraintsViolatedException;
 
 import java.lang.reflect.Field;

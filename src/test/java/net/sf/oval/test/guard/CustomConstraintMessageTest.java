@@ -14,7 +14,7 @@ package net.sf.oval.test.guard;
 
 import junit.framework.TestCase;
 import net.sf.oval.ConstraintViolation;
-import net.sf.oval.constraint.NotNull;
+import javax.validation.constraints.NotNull;
 import net.sf.oval.constraint.Range;
 import net.sf.oval.exception.ConstraintsViolatedException;
 import net.sf.oval.guard.Guard;

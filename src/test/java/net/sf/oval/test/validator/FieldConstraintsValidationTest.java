@@ -18,7 +18,7 @@ import net.sf.oval.Validator;
 import net.sf.oval.constraint.Length;
 import net.sf.oval.constraint.MatchPattern;
 import net.sf.oval.constraint.NotEmpty;
-import net.sf.oval.constraint.NotNull;
+import javax.validation.constraints.NotNull;
 
 import java.util.List;
 

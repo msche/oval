@@ -16,7 +16,7 @@ import junit.framework.TestCase;
 import net.sf.oval.Validator;
 import net.sf.oval.configuration.annotation.IsInvariant;
 import net.sf.oval.constraint.MaxLength;
-import net.sf.oval.constraint.NotNull;
+import javax.validation.constraints.NotNull;
 
 /**
  * @author Sebastian Thomschke

@@ -18,7 +18,7 @@ import net.sf.oval.Validator;
 import net.sf.oval.constraint.Max;
 import net.sf.oval.constraint.MaxSize;
 import net.sf.oval.constraint.MinSize;
-import net.sf.oval.constraint.NotNull;
+import javax.validation.constraints.NotNull;
 
 import java.util.List;
 

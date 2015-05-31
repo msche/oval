@@ -15,7 +15,7 @@ package net.sf.oval.test.validator;
 import junit.framework.TestCase;
 import net.sf.oval.ConstraintViolation;
 import net.sf.oval.Validator;
-import net.sf.oval.constraint.NotNull;
+import javax.validation.constraints.NotNull;
 
 import java.util.List;
 
@@ -24,18 +24,23 @@ import java.util.List;
  */
 public class ProfilesTest extends TestCase
 {
+	public class Profile1 {}
+	public class Profile2 {}
+	public class Profile3 {}
+	public class Profile4 {}
+
 	protected static class Person
 	{
 		@NotNull(/* profiles = { "default" }, */message = "NOTNULL")
 		public String city;
 
-		@NotNull(profiles = {"profile1"}, message = "NOTNULL1")
+		@NotNull(groups = {Profile1.class}, message = "NOTNULL1")
 		public String firstName;
 
-		@NotNull(profiles = {"profile2", "profile3"}, message = "NOTNULL2")
+		@NotNull(groups = {Profile2.class, Profile3.class}, message = "NOTNULL2")
 		public String lastName;
 
-		@NotNull(profiles = {"profile3", "profile4"}, message = "NOTNULL3")
+		@NotNull(groups = {Profile3.class, Profile4.class}, message = "NOTNULL3")
 		public String zipCode;
 	}
 
@@ -48,20 +53,20 @@ public class ProfilesTest extends TestCase
 		final Person p = new Person();
 		List<ConstraintViolation> violations = validator.validate(p, (String[]) null);
 		assertEquals(0, violations.size());
-		violations = validator.validate(p, "profile1");
+		violations = validator.validate(p, Profile1.class);
 		assertEquals(1, violations.size());
 		assertEquals("NOTNULL1", violations.get(0).getMessage());
-		violations = validator.validate(p, "profile1", "profile2");
+		violations = validator.validate(p, Profile1.class, Profile2.class);
 		assertEquals(2, violations.size());
 
 		// enable all profiles = all constraints by default
 		validator.enableAllProfiles();
 		violations = validator.validate(p, (String[]) null);
 		assertEquals(4, violations.size());
-		violations = validator.validate(p, "profile1");
+		violations = validator.validate(p, Profile1.class);
 		assertEquals(1, violations.size());
 		assertEquals("NOTNULL1", violations.get(0).getMessage());
-		violations = validator.validate(p, "profile1", "profile2");
+		violations = validator.validate(p, Profile1.class, Profile2.class);
 		assertEquals(2, violations.size());
 	}
 
@@ -71,9 +76,9 @@ public class ProfilesTest extends TestCase
 
 		// disable all profiles = no constraints
 		validator.disableAllProfiles();
-		assertFalse(validator.isProfileEnabled("profile1"));
-		assertFalse(validator.isProfileEnabled("profile2"));
-		assertFalse(validator.isProfileEnabled("profile3"));
+		assertFalse(validator.isProfileEnabled(Profile1.class.getName()));
+		assertFalse(validator.isProfileEnabled(Profile2.class.getName()));
+		assertFalse(validator.isProfileEnabled(Profile3.class.getName()));
 		{
 			final Person p = new Person();
 			final List<ConstraintViolation> violations = validator.validate(p);
@@ -81,8 +86,8 @@ public class ProfilesTest extends TestCase
 		}
 
 		// enable profile 1
-		validator.enableProfile("profile1");
-		assertTrue(validator.isProfileEnabled("profile1"));
+		validator.enableProfile(Profile1.class);
+		assertTrue(validator.isProfileEnabled(Profile1.class));
 		{
 			final Person p = new Person();
 			final List<ConstraintViolation> violations = validator.validate(p);
@@ -91,8 +96,8 @@ public class ProfilesTest extends TestCase
 		}
 
 		// enable profile 1 + 2
-		validator.enableProfile("profile2");
-		assertTrue(validator.isProfileEnabled("profile2"));
+		validator.enableProfile(Profile2.class);
+		assertTrue(validator.isProfileEnabled(Profile2.class));
 		{
 			final Person p = new Person();
 			final List<ConstraintViolation> violations = validator.validate(p);
@@ -100,8 +105,8 @@ public class ProfilesTest extends TestCase
 		}
 
 		// enable profile 1 + 2 + 3
-		validator.enableProfile("profile3");
-		assertTrue(validator.isProfileEnabled("profile3"));
+		validator.enableProfile(Profile3.class);
+		assertTrue(validator.isProfileEnabled(Profile3.class));
 		{
 			final Person p = new Person();
 			final List<ConstraintViolation> violations = validator.validate(p);
@@ -109,9 +114,9 @@ public class ProfilesTest extends TestCase
 		}
 
 		// enable profile 1 + 2 + 3 + 4
-		assertFalse(validator.isProfileEnabled("profile4"));
-		validator.enableProfile("profile4");
-		assertTrue(validator.isProfileEnabled("profile4"));
+		assertFalse(validator.isProfileEnabled(Profile4.class));
+		validator.enableProfile(Profile4.class);
+		assertTrue(validator.isProfileEnabled(Profile4.class));
 		{
 			final Person p = new Person();
 			final List<ConstraintViolation> violations = validator.validate(p);
@@ -140,27 +145,27 @@ public class ProfilesTest extends TestCase
 			assertEquals(4, violations.size());
 		}
 
-		assertTrue(validator.isProfileEnabled("profile1"));
-		validator.disableProfile("profile1");
-		assertFalse(validator.isProfileEnabled("profile1"));
+		assertTrue(validator.isProfileEnabled(Profile1.class));
+		validator.disableProfile(Profile1.class);
+		assertFalse(validator.isProfileEnabled(Profile1.class));
 		{
 			final Person p = new Person();
 			final List<ConstraintViolation> violations = validator.validate(p);
 			assertEquals(3, violations.size());
 		}
 
-		assertTrue(validator.isProfileEnabled("profile2"));
-		validator.disableProfile("profile2");
-		assertFalse(validator.isProfileEnabled("profile2"));
+		assertTrue(validator.isProfileEnabled(Profile2.class));
+		validator.disableProfile(Profile2.class);
+		assertFalse(validator.isProfileEnabled(Profile2.class));
 		{
 			final Person p = new Person();
 			final List<ConstraintViolation> violations = validator.validate(p);
 			assertEquals(3, violations.size());
 		}
 
-		assertTrue(validator.isProfileEnabled("profile3"));
-		validator.disableProfile("profile3");
-		assertFalse(validator.isProfileEnabled("profile3"));
+		assertTrue(validator.isProfileEnabled(Profile3.class));
+		validator.disableProfile(Profile3.class);
+		assertFalse(validator.isProfileEnabled(Profile3.class));
 		{
 			final Person p = new Person();
 			final List<ConstraintViolation> violations = validator.validate(p);
@@ -174,9 +179,9 @@ public class ProfilesTest extends TestCase
 			}
 		}
 
-		assertTrue(validator.isProfileEnabled("profile4"));
-		validator.disableProfile("profile4");
-		assertFalse(validator.isProfileEnabled("profile4"));
+		assertTrue(validator.isProfileEnabled(Profile4.class));
+		validator.disableProfile(Profile4.class);
+		assertFalse(validator.isProfileEnabled(Profile4.class));
 		{
 			final Person p = new Person();
 			final List<ConstraintViolation> violations = validator.validate(p);

@@ -139,7 +139,6 @@ public final class AllTests
 		suite.addTestSuite(net.sf.oval.test.validator.CheckWithListConstraintTest.class);
 		suite.addTestSuite(net.sf.oval.test.validator.CollectionTest.class);
 		suite.addTestSuite(net.sf.oval.test.validator.ConcurrencyTest.class);
-		suite.addTestSuite(net.sf.oval.test.validator.ConditionalConstraintsTest.class);
 		suite.addTestSuite(net.sf.oval.test.validator.ConstraintViolationMessagesTest.class);
 		suite.addTestSuite(net.sf.oval.test.validator.ConstraintViolationOrderTest.class);
 		suite.addTestSuite(net.sf.oval.test.validator.CustomAssertValidTest.class);
@@ -152,8 +151,6 @@ public final class AllTests
 		suite.addTestSuite(net.sf.oval.test.validator.ProfilesTest.class);
 		suite.addTestSuite(net.sf.oval.test.validator.SerializationTest.class);
 		suite.addTestSuite(net.sf.oval.test.validator.StaticFieldsAndGettersTest.class);
-		suite.addTestSuite(net.sf.oval.test.validator.TargetDefaultTest.class);
-		suite.addTestSuite(net.sf.oval.test.validator.TargetJXPathTest.class);
 		suite.addTestSuite(net.sf.oval.test.validator.ValidateClassWithoutConstraintsTest.class);
 		suite.addTestSuite(net.sf.oval.test.validator.ValidateWithMethodConstraintTest.class);
 		suite.addTestSuite(net.sf.oval.test.validator.ValidatorAssertValidTest.class);
