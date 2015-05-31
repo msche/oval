@@ -24,7 +24,7 @@ import net.sf.oval.configuration.pojo.elements.ObjectConfiguration;
 import net.sf.oval.configuration.pojo.elements.ParameterConfiguration;
 import net.sf.oval.constraint.AssertConstraintSetCheck;
 import net.sf.oval.constraint.AssertFieldConstraintsCheck;
-import net.sf.oval.constraint.AssertValidCheck;
+import net.sf.oval.constraint.ValidCheck;
 import net.sf.oval.constraint.NotNullCheck;
 import net.sf.oval.context.ConstructorParameterContext;
 import net.sf.oval.context.FieldContext;
@@ -49,7 +49,6 @@ import net.sf.oval.internal.ContextCache;
 import net.sf.oval.internal.MessageRenderer;
 import net.sf.oval.internal.util.ArrayUtils;
 import net.sf.oval.internal.util.Assert;
-import net.sf.oval.internal.util.IdentitySet;
 import net.sf.oval.internal.util.ReflectionUtils;
 import net.sf.oval.internal.util.StringUtils;
 import net.sf.oval.localization.context.OValContextRenderer;
@@ -71,7 +70,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -495,8 +493,8 @@ public class Validator implements IValidator {
 		/*
 		 * special handling of the AssertValid constraint
 		 */
-        if (check instanceof AssertValidCheck) {
-            checkConstraintAssertValid(violations, (AssertValidCheck) check, validatedObject, valueToValidate, context, profiles);
+        if (check instanceof ValidCheck) {
+            checkConstraintAssertValid(violations, (ValidCheck) check, validatedObject, valueToValidate, context, profiles);
             return;
         }
 
@@ -872,7 +870,7 @@ public class Validator implements IValidator {
      */
     private final List<Object> validatedObjects = new ArrayList<>();
 
-    protected void checkConstraintAssertValid(final List<ConstraintViolation> violations, final AssertValidCheck check,
+    protected void checkConstraintAssertValid(final List<ConstraintViolation> violations, final ValidCheck check,
                                               final Object validatedObject, final Object valueToValidate, final OValContext context, final String[] profiles)
             throws OValException {
         if (valueToValidate == null) return;

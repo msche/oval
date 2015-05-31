@@ -16,6 +16,8 @@ package net.sf.oval.test;
 import junit.extensions.TestSetup;
 import junit.framework.Test;
 import junit.framework.TestSuite;
+import net.sf.oval.test.constraints.NullTest;
+import net.sf.oval.test.constraints.ValidTest;
 
 /**
  * @author Sebastian Thomschke
@@ -25,7 +27,7 @@ public final class AllTests
 	private static void constraintsTests(final TestSuite suite) throws Exception
 	{
 		suite.addTestSuite(net.sf.oval.test.constraints.AssertFalseTest.class);
-		suite.addTestSuite(net.sf.oval.test.constraints.AssertNullTest.class);
+		suite.addTestSuite(NullTest.class);
 		suite.addTestSuite(net.sf.oval.test.constraints.AssertTest.class);
 		suite.addTestSuite(net.sf.oval.test.constraints.AssertTrueTest.class);
 		suite.addTestSuite(net.sf.oval.test.constraints.AssertURLTest.class);
@@ -133,7 +135,7 @@ public final class AllTests
 		suite.addTestSuite(net.sf.oval.test.validator.AssertMVELTest.class);
 		suite.addTestSuite(net.sf.oval.test.validator.AssertOGNLTest.class);
 		suite.addTestSuite(net.sf.oval.test.validator.AssertRubyTest.class);
-		suite.addTestSuite(net.sf.oval.test.validator.AssertValidTest.class);
+		suite.addTestSuite(ValidTest.class);
 		suite.addTestSuite(net.sf.oval.test.validator.BeanValidationAnnotationsConfigurerTest.class);
 		suite.addTestSuite(net.sf.oval.test.validator.CheckWithConstraintTest.class);
 		suite.addTestSuite(net.sf.oval.test.validator.CheckWithListConstraintTest.class);

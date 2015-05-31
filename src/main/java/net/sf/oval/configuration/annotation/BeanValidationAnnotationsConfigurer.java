@@ -24,7 +24,7 @@ import net.sf.oval.configuration.pojo.elements.ParameterConfiguration;
 import net.sf.oval.constraint.AssertFalseCheck;
 import net.sf.oval.constraint.NullCheck;
 import net.sf.oval.constraint.AssertTrueCheck;
-import net.sf.oval.constraint.AssertValidCheck;
+import net.sf.oval.constraint.ValidCheck;
 import net.sf.oval.constraint.DigitsCheck;
 import net.sf.oval.constraint.FutureCheck;
 import net.sf.oval.constraint.MatchPatternCheck;
@@ -73,12 +73,9 @@ import java.util.List;
  * <li>javax.validation.constraints.Future         => net.sf.oval.constraint.FutureCheck
  * <li>javax.validation.constraints.Max            => net.sf.oval.constraint.MaxCheck
  * <li>javax.validation.constraints.Min            => net.sf.oval.constraint.MinCheck
- * <li>javax.validation.constraints.NotNull        => net.sf.oval.constraint.NotNullCheck
- * <li>javax.validation.constraints.Null           => net.sf.oval.constraint.AssertNullCheck
  * <li>javax.validation.constraints.Past           => net.sf.oval.constraint.PastCheck
  * <li>javax.validation.constraints.Pattern        => net.sf.oval.constraint.PatternCheck
  * <li>javax.validation.constraints.Size           => net.sf.oval.constraint.SizeCheck
- * <li>javax.validation.Valid                      => net.sf.oval.constraint.AssertValidCheck
  * </ul>
  * @author Sebastian Thomschke
  */
@@ -257,7 +254,7 @@ public class BeanValidationAnnotationsConfigurer implements Configurer
 			check = new NullCheck();
 		}
 		else if (annotation instanceof Valid)
-			check = new AssertValidCheck();
+			check = new ValidCheck();
 		else if (annotation instanceof AssertTrue)
 		{
 			groups = ((AssertTrue) annotation).groups();

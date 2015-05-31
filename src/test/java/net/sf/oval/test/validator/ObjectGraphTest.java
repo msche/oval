@@ -15,7 +15,8 @@ package net.sf.oval.test.validator;
 import junit.framework.TestCase;
 import net.sf.oval.ConstraintViolation;
 import net.sf.oval.Validator;
-import net.sf.oval.constraint.AssertValid;
+
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 import java.util.List;
@@ -27,22 +28,22 @@ public class ObjectGraphTest extends TestCase
 {
 	protected static class ClassA
 	{
-		@AssertValid
+		@Valid
 		ClassB classB;
 
-		@AssertValid
+		@Valid
 		ClassC classC;
 	}
 
 	protected static class ClassB
 	{
-		@AssertValid
+		@Valid
 		ClassC classC;
 	}
 
 	protected static class ClassC
 	{
-		@AssertValid
+		@Valid
 		ClassA classA;
 
 		@NotNull

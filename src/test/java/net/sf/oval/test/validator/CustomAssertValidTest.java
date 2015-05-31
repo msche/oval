@@ -22,14 +22,13 @@ import net.sf.oval.configuration.annotation.AnnotationsConfigurer;
 import net.sf.oval.configuration.annotation.BeanValidationAnnotationsConfigurer;
 import net.sf.oval.configuration.annotation.Constraint;
 import net.sf.oval.configuration.annotation.ConstraintAnnotationSettings;
-import net.sf.oval.constraint.AssertValidCheck;
+import net.sf.oval.constraint.ValidCheck;
 import net.sf.oval.constraint.Length;
 import net.sf.oval.constraint.MatchPattern;
 import net.sf.oval.constraint.NotEmpty;
 import javax.validation.constraints.NotNull;
 import net.sf.oval.context.OValContext;
 import net.sf.oval.exception.ReflectionException;
-import net.sf.oval.guard.Guarded;
 
 import java.lang.annotation.Annotation;
 import java.lang.annotation.ElementType;
@@ -79,7 +78,7 @@ public class CustomAssertValidTest extends TestCase
 				final CustomAssertValid customAssertValid = (CustomAssertValid) constraintAnnotation;
 
 				// instantiate a AssertValidCheck based on the custom constraint annotation
-				final AssertValidCheck assertValidCheck = new AssertValidCheck();
+				final ValidCheck assertValidCheck = new ValidCheck();
 				assertValidCheck.setErrorCode(customAssertValid.errorCode());
 				assertValidCheck.setMessage(customAssertValid.message());
 				assertValidCheck.setProfiles(customAssertValid.profiles());
@@ -112,7 +111,7 @@ public class CustomAssertValidTest extends TestCase
 	{
 		private static final long serialVersionUID = 1L;
 
-		private final AssertValidCheck assertValidCheck = new AssertValidCheck();
+		private final ValidCheck assertValidCheck = new ValidCheck();
 
 		@Override
 		public void configure(final CustomAssertValid constraintAnnotation)

@@ -18,10 +18,12 @@ import net.sf.oval.configuration.annotation.AbstractAnnotationCheck;
 import net.sf.oval.configuration.annotation.ConstraintAnnotationSettings;
 import net.sf.oval.context.OValContext;
 
+import javax.validation.Valid;
+
 /**
  * @author Sebastian Thomschke
  */
-public final class AssertValidCheck extends AbstractAnnotationCheck<AssertValid>
+public final class ValidCheck extends AbstractAnnotationCheck<Valid>
 {
 	private static final long serialVersionUID = 1L;
 
@@ -41,16 +43,9 @@ public final class AssertValidCheck extends AbstractAnnotationCheck<AssertValid>
      *
      * @return Value object {@code ConstraintAnnotationSettings}.
      */
-    protected ConstraintAnnotationSettings getSettings(final  AssertValid constraintAnnotation) {
+    protected ConstraintAnnotationSettings getSettings(final Valid constraintAnnotation) {
 
         ConstraintAnnotationSettings settings = new ConstraintAnnotationSettings.Builder()
-                .message(constraintAnnotation.message())
-                .appliesTo(constraintAnnotation.appliesTo())
-                .errorCode(constraintAnnotation.errorCode())
-                .severity(constraintAnnotation.severity())
-                .profiles(constraintAnnotation.profiles())
-                .target(constraintAnnotation.target())
-                .when(constraintAnnotation.when())
                 .build();
         return settings;
     }

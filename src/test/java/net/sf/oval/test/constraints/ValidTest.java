@@ -10,16 +10,17 @@
  * Contributors:
  *     Sebastian Thomschke - initial implementation.
  *******************************************************************************/
-package net.sf.oval.test.validator;
+package net.sf.oval.test.constraints;
 
 import junit.framework.TestCase;
 import net.sf.oval.ConstraintTarget;
 import net.sf.oval.ConstraintViolation;
 import net.sf.oval.Validator;
-import net.sf.oval.constraint.AssertValid;
 import net.sf.oval.constraint.Length;
 import net.sf.oval.constraint.MatchPattern;
 import net.sf.oval.constraint.NotEmpty;
+
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import net.sf.oval.context.FieldContext;
 
@@ -35,7 +36,7 @@ import java.util.Set;
 /**
  * @author Sebastian Thomschke
  */
-public class AssertValidTest extends TestCase
+public class ValidTest extends TestCase
 {
 	protected static class Address
 	{
@@ -51,7 +52,7 @@ public class AssertValidTest extends TestCase
 		@MatchPattern(pattern = "^[0-9]*$")
 		public String zipCode;
 
-		@AssertValid(message = "ASSERT_VALID")
+		@Valid
 		public Person contact;
 	}
 
@@ -63,29 +64,29 @@ public class AssertValidTest extends TestCase
 		@NotNull
 		public String lastName;
 
-		@AssertValid(message = "ASSERT_VALID")
+		@Valid
 		public Address homeAddress;
 
-		@AssertValid(message = "ASSERT_VALID")
+		@Valid
 		public List<Address> otherAddresses1;
 
-		@AssertValid(message = "ASSERT_VALID", appliesTo = ConstraintTarget.CONTAINER)
+		@Valid
 		public Set<Address> otherAddresses2;
 
-		@AssertValid(message = "ASSERT_VALID", appliesTo = {ConstraintTarget.VALUES, ConstraintTarget.CONTAINER})
+		@Valid
 		public Set<Address> otherAddresses3;
 
 	}
 
 	protected static class Registry
 	{
-		@AssertValid
+		@Valid
 		public List<Address[]> addressClusters;
 
-		@AssertValid
+		@Valid
 		public Map<String, List<Person>> personsByCity;
 
-		@AssertValid
+		@Valid
 		public Map<String, Map<String, Address[]>> addressesByCityAndStreet;
 	}
 
@@ -99,7 +100,7 @@ public class AssertValidTest extends TestCase
 
 		final List<ConstraintViolation> violations = validator.validateFieldValue(p, fieldHomeAddress, a);
 		assertEquals(1, violations.size());
-		assertEquals("ASSERT_VALID", violations.get(0).getMessage());
+		//assertEquals("ASSERT_VALID", violations.get(0).getMessage());
 		assertEquals(a, violations.get(0).getInvalidValue());
 		assertEquals(3, violations.get(0).getCauses().length);
 		for (final ConstraintViolation cv : violations.get(0).getCauses())
@@ -132,10 +133,10 @@ public class AssertValidTest extends TestCase
 
 		p.otherAddresses1.remove(a);
 		p.otherAddresses2.add(a);
-		assertEquals(0, validator.validate(p).size());
+		assertEquals(1, validator.validate(p).size());
 
 		p.otherAddresses3.add(a);
-		assertEquals(1, validator.validate(p).size());
+		assertEquals(2, validator.validate(p).size());
 	}
 
 	public void testRecursion()
@@ -224,12 +225,12 @@ public class AssertValidTest extends TestCase
 		p.homeAddress = a;
 		List<ConstraintViolation> violations = validator.validate(p);
 		assertEquals(1, violations.size());
-		assertEquals("ASSERT_VALID", violations.get(0).getMessage());
+		//assertEquals("ASSERT_VALID", violations.get(0).getMessage());
 
 		// test circular dependencies
 		a.contact = p;
 		violations = validator.validate(p);
 		assertEquals(1, violations.size());
-		assertEquals("ASSERT_VALID", violations.get(0).getMessage());
+		//assertEquals("ASSERT_VALID", violations.get(0).getMessage());
 	}
 }
