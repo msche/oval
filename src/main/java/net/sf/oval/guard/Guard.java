@@ -84,27 +84,12 @@ public class Guard extends Validator
 		}
 	}
 
-	/**
-	 * <b>Note:</b> Only required until AspectJ allows throwing of checked exceptions
-	 */
-	protected static final GuardMethodPreResult DO_NOT_PROCEED = new GuardMethodPreResult(null, null, null, null, false, null);
-
 	private static final Logger LOG = LoggerFactory.getLogger(Guard.class);
 
 	/**
 	 * string based on validated object hashcode + method hashcode for currently validated method return values
 	 */
 	private static final List<String> currentlyCheckingMethodReturnValues = new ArrayList<>();
-
-	/**
-	 * string based on validated object hashcode + method hashcode for currently validated method pre-conditions
-	 */
-	private static final List<String> currentlyCheckingPreConditions = new ArrayList<>();
-
-	/**
-	 * string based on validated object hashcode + method hashcode for currently validated method post-conditions
-	 */
-	private static final List<String> currentlyCheckingPostConditions = new ArrayList<>();
 
 	private boolean isActivated = true;
 	private boolean isInvariantsEnabled = true;
