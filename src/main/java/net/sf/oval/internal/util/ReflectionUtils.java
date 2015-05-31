@@ -94,7 +94,7 @@ public final class ReflectionUtils {
         final List<Annotation> annotations = ArrayUtils.asList(method.getAnnotations());
         for (final Class<?> nextClass : ReflectionUtils.getInterfacesRecursive(method.getDeclaringClass()))
             try {
-                ArrayUtils.addAll(annotations, nextClass.getDeclaredMethod(methodName, methodParameterTypes).getDeclaredAnnotations());
+                Collections.addAll(annotations, nextClass.getDeclaredMethod(methodName, methodParameterTypes).getDeclaredAnnotations());
             } catch (final NoSuchMethodException e) {
                 // ignore
             }

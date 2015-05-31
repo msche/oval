@@ -30,7 +30,10 @@ public abstract class AbstractCheck implements Check
 	private static final long serialVersionUID = 1L;
 
 	private OValContext context;
+
+	// TODO remove
 	private String errorCode;
+
 	private String message;
 	private Map<String, ? extends Serializable> messageVariables;
 	private Map<String, ? extends Serializable> messageVariablesUnmodifiable;

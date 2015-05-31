@@ -28,8 +28,11 @@ import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
+
+import static net.sf.oval.internal.util.Assert.argumentNotNull;
 
 /**
  * @author Sebastian Thomschke
@@ -232,7 +235,9 @@ public final class AssertURLCheck extends AbstractAnnotationCheck<AssertURL>
 	 */
 	public void setPermittedURISchemes(final URIScheme[] permittedURISchemes)
 	{
+		argumentNotNull("permittedURISchemes", permittedURISchemes);
+
 		this.permittedURISchemes.clear();
-		ArrayUtils.addAll(this.permittedURISchemes, permittedURISchemes);
+		Collections.addAll(this.permittedURISchemes, permittedURISchemes);
 	}
 }

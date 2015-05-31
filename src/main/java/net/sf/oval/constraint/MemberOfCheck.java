@@ -21,6 +21,7 @@ import net.sf.oval.internal.util.ArrayUtils;
 import net.sf.oval.internal.util.StringUtils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
@@ -158,7 +159,7 @@ public final class MemberOfCheck extends AbstractAnnotationCheck<MemberOf>
 	public void setMembers(final String... members)
 	{
 		this.members = new ArrayList<>();
-		ArrayUtils.addAll(this.members, members);
+		Collections.addAll(this.members, members);
 		membersLowerCase = null;
 		requireMessageVariablesRecreation();
 	}

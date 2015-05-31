@@ -22,6 +22,7 @@ import net.sf.oval.internal.util.ArrayUtils;
 import javax.validation.constraints.Pattern;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -184,7 +185,7 @@ public final class PatternCheck extends AbstractAnnotationCheck<Pattern>
 		synchronized (this.patterns)
 		{
 			this.patterns.clear();
-			ArrayUtils.addAll(this.patterns, patterns);
+			Collections.addAll(this.patterns, patterns);
 		}
 		requireMessageVariablesRecreation();
 	}

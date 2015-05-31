@@ -26,36 +26,6 @@ public final class ArrayUtils
 {
 	public static final Object[] EMPTY_OBJECT_ARRAY = {};
 
-	/**
-     * Adds all of the specified elements to the specified collection.
-     * Elements to be added may be specified individually or as an array.
-     * The behavior of this convenience method is identical to that of
-     * <tt>c.addAll(Arrays.asList(elements))</tt>, but this method is likely
-     * to run significantly faster under most implementations.
-     *
-     * <p>When elements are specified individually, this method provides a
-     * convenient way to add a few elements to an existing collection:
-     * <pre>
-     *     Collections.addAll(flavors, "Peaches 'n Plutonium", "Rocky Raccoon");
-     * </pre>
-     *
-     * @param collection the collection into which <tt>elements</tt> are to be inserted
-     * @param elements the elements to insert into <tt>collection</tt>
-     * @return <tt>true</tt> if the collection changed as a result of the call
-     * @throws UnsupportedOperationException if <tt>c</tt> does not support
-     *         the <tt>add</tt> operation
-     * @throws NullPointerException if <tt>elements</tt> contains one or more
-     *         null values and <tt>c</tt> does not permit null elements, or
-     *         if <tt>c</tt> or <tt>elements</tt> are <tt>null</tt>
-     * @throws IllegalArgumentException if some property of a value in
-     *         <tt>elements</tt> prevents it from being added to <tt>c</tt>
-	 */
-	@SafeVarargs
-    public static <T> boolean addAll(final Collection<T> collection, final T... elements)
-	{
-        return elements != null && Collections.addAll(collection, elements);
-	}
-
     /**
      * Returns a list containing the values in the specified array.
      *
