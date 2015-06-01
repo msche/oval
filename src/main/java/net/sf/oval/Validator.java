@@ -339,10 +339,6 @@ public class Validator implements IValidator {
                             cc.addConstructorParameterChecks(ctor, i, paramCfg.checks);
                         }
 
-                        if (paramCfg.hasCheckExclusions()) {
-                            cc.addConstructorParameterCheckExclusions(ctor, i, paramCfg.checkExclusions);
-                        }
-
                         if (assertParametersNotNull) {
                             cc.addConstructorParameterChecks(ctor, i, sharedNotNullCheck);
                         }
@@ -417,10 +413,6 @@ public class Validator implements IValidator {
 
                             if (paramCfg.hasChecks()) {
                                 cc.addMethodParameterChecks(method, i, paramCfg.checks);
-                            }
-
-                            if (paramCfg.hasCheckExclusions()) {
-                                cc.addMethodParameterCheckExclusions(method, i, paramCfg.checkExclusions);
                             }
 
                             if (assertParametersNotNull) {

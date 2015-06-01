@@ -34,16 +34,6 @@ public class ParameterConfiguration extends ConfigurationElement
 	 */
 	public List<Check> checks;
 
-	/**
-	 * the check exclusions for the parameter
-	 */
-	public List<CheckExclusion> checkExclusions;
-
-	public boolean hasCheckExclusions()
-	{
-		return checkExclusions != null && checkExclusions.size() > 0;
-	}
-
 	public boolean hasChecks()
 	{
 		return checks != null && checks.size() > 0;

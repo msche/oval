@@ -54,8 +54,7 @@ public class AnnotationsConfigurer implements Configurer
 	{
 		final List<ParameterConfiguration> paramCfg = new ArrayList<>();
 
-		List<Check> paramChecks = new ArrayList<>(2);
-		List<CheckExclusion> paramCheckExclusions = new ArrayList<>(2);
+		List<Check> paramChecks = new ArrayList();
 
 		// loop over all parameters of the current constructor
 		for (int i = 0; i < paramAnnotations.length; i++)
@@ -67,8 +66,6 @@ public class AnnotationsConfigurer implements Configurer
 					paramChecks.add(initializeCheck(annotation));
 				else if (annotation.annotationType().isAnnotationPresent(Constraints.class))
 					initializeChecks(annotation, paramChecks);
-				else if (annotation.annotationType().isAnnotationPresent(Exclusion.class))
-					paramCheckExclusions.add(initializeExclusion(annotation));
 
 			final ParameterConfiguration pc = new ParameterConfiguration();
 			paramCfg.add(pc);
@@ -78,11 +75,7 @@ public class AnnotationsConfigurer implements Configurer
 				pc.checks = paramChecks;
 				paramChecks = new ArrayList<>(2); // create a new list for the next parameter having checks
 			}
-			if (paramCheckExclusions.size() > 0)
-			{
-				pc.checkExclusions = paramCheckExclusions;
-				paramCheckExclusions = new ArrayList<>(2); // create a new list for the next parameter having check exclusions
-			}
+
 		}
 		return paramCfg;
 	}
@@ -280,31 +273,6 @@ public class AnnotationsConfigurer implements Configurer
 		catch (final Exception ex)
 		{
 			throw new ReflectionException("Cannot initialize constraint check " + constraintsAnnotation.annotationType().getName(), ex);
-		}
-	}
-
-	protected <ExclusionAnnotation extends Annotation> AnnotationCheckExclusion<ExclusionAnnotation> initializeExclusion(
-			final ExclusionAnnotation exclusionAnnotation) throws ReflectionException
-	{
-		assert exclusionAnnotation != null;
-
-		final Exclusion constraint = exclusionAnnotation.annotationType().getAnnotation(Exclusion.class);
-
-		// determine the check class
-		final Class< ? > exclusionClass = constraint.excludeWith();
-
-		try
-		{
-			// instantiate the appropriate exclusion for the found annotation
-			@SuppressWarnings("unchecked")
-			final AnnotationCheckExclusion<ExclusionAnnotation> exclusion = (AnnotationCheckExclusion<ExclusionAnnotation>) exclusionClass
-					.newInstance();
-			exclusion.configure(exclusionAnnotation);
-			return exclusion;
-		}
-		catch (final Exception ex)
-		{
-			throw new ReflectionException("Cannot initialize constraint exclusion " + exclusionClass.getName(), ex);
 		}
 	}
 

@@ -56,7 +56,7 @@ public final class ArrayUtils
 	public static <T> List<T> asList(final T[] array)
 	{
         Assert.argumentNotNull("array", array);
-        return new ArrayList<>(Arrays.asList(array));
+        return new ArrayList<T>(Arrays.asList(array));
 	}
 
 	public static <T> boolean containsEqual(final T[] theArray, final T theItem)

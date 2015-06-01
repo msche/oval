@@ -20,45 +20,93 @@ import net.sf.oval.context.OValContext;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
 /**
+ * Contains check(s) for parameter of Method/Constructor.
+ *
  * @author Sebastian Thomschke
+ * @author msche
  */
 public final class ParameterChecks
 {
-	public final Set<Check> checks = new LinkedHashSet<Check>(2);
-	public final Set<CheckExclusion> checkExclusions = new LinkedHashSet<CheckExclusion>(2);
+	/**
+	 * Contains set of checks that apply to parameter.
+	 */
+	private final Set<Check> checks = new LinkedHashSet();
 
-	public final int parameterIndex;
+	/**
+	 * Contains context of checks
+	 */
+	private final OValContext context;
 
-	public final OValContext context;
-
-	public ParameterChecks(final Constructor< ? > ctor, final int paramIndex, final String paramName)
+	/**
+	 * Constructor parameter checks
+	 *
+	 * @param constructor {@code Constructor} at which the parameter checks applies
+	 * @param paramIndex index of parameter at which the checks apply
+	 * @param paramName name of parameter at which the checks apply
+	 */
+	ParameterChecks(final Constructor< ? > constructor, final int paramIndex, final String paramName)
 	{
-		context = new ConstructorParameterContext(ctor, paramIndex, paramName);
-		parameterIndex = paramIndex;
+		context = new ConstructorParameterContext(constructor, paramIndex, paramName);
 	}
 
-	public ParameterChecks(final Method method, final int paramIndex, final String paramName)
+	/**
+	 * Method parameter checks
+	 *
+	 * @param method {@code Method} at which the parameter checks applies
+	 * @param paramIndex index of parameter at which the checks apply
+	 * @param paramName name of parameter at which the checks apply
+	 */
+	ParameterChecks(final Method method, final int paramIndex, final String paramName)
 	{
 		context = new MethodParameterContext(method, paramIndex, paramName);
-		parameterIndex = paramIndex;
 	}
 
+	/**
+	 * Returns whether there are checks for this parameter.
+	 *
+	 * @return true if there are checks specified; false otherwise.
+	 */
 	public boolean hasChecks()
 	{
 		return checks.size() > 0;
 	}
 
-	public boolean hasExclusions()
-	{
-		return checkExclusions.size() > 0;
+	/**
+	 * Appends the specified checks to the existing parameter checks
+	 *
+	 * @param newChecks checks that need to be appended
+	 */
+	public void addChecks(final Collection<Check> newChecks) {
+		for (Check check : newChecks) {
+			if (check.getContext()==null) {
+				check.setContext(context);
+			}
+		}
+		checks.addAll(newChecks);
 	}
 
-	public boolean isEmpty()
-	{
-		return checks.size() == 0 && checkExclusions.size() == 0;
+	/**
+	 * Removes specified check from existing parameter checks
+	 *
+	 * param check check that needs to be removed
+	 */
+	public void removeCheck(final Check check) {
+		checks.remove(check);
 	}
+
+	/**
+	 * Returns checks that apply to parameter
+	 *
+	 * @return unmodifiable set of checks that apply to parameter
+	 */
+	public Set<Check> getChecks() {
+		return Collections.unmodifiableSet(checks);
+	}
+
 }

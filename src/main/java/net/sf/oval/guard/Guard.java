@@ -97,75 +97,14 @@ public class Guard extends Validator
 		super(configurers);
 	}
 
-	private List<CheckExclusion> _getActiveExclusions(final Set<CheckExclusion> exclusions)
-	{
-		final List<CheckExclusion> activeExclusions = new LinkedList<CheckExclusion>(exclusions);
-		for (final Iterator<CheckExclusion> it = activeExclusions.iterator(); it.hasNext();)
-		{
-			final CheckExclusion exclusion = it.next();
-			if (!isAnyProfileEnabled(exclusion.getProfiles(), null)) it.remove();
-		}
-		return activeExclusions.size() == 0 ? null : activeExclusions;
-	}
-
-	private void _validateParameterChecks(final ParameterChecks checks, final Object validatedObject, final Object valueToValidate,
+	private void _validateParameterChecks(final ParameterChecks parameterChecks, final Object validatedObject, final Object valueToValidate,
 			final OValContext context, final List<ConstraintViolation> violations)
 	{
-		// determine the active exclusions based on the active profiles
-		final List<CheckExclusion> activeExclusions = checks.hasExclusions() ? _getActiveExclusions(checks.checkExclusions) : null;
-
 		// check the constraints
-		for (final Check check : checks.checks)
+		for (final Check check : parameterChecks.getChecks())
 		{
-			boolean skip = false;
-
-			if (activeExclusions != null)
-				for (final CheckExclusion exclusion : activeExclusions)
-					if (exclusion.isActive(validatedObject, valueToValidate, this)
-							&& exclusion.isCheckExcluded(check, validatedObject, valueToValidate, context, this))
-					{
-						// skip if this check should be excluded
-						skip = true;
-						continue;
-					}
-			if (!skip) checkConstraint(violations, check, validatedObject, valueToValidate, context, null, false);
+			checkConstraint(violations, check, validatedObject, valueToValidate, context, null, false);
 		}
-	}
-
-	/**
-	 * Registers constraint checks for the given constructor parameter
-	 *
-	 * @param ctor
-	 * @param paramIndex
-	 * @param exclusions
-	 * @throws IllegalArgumentException if <code>method == null</code> or <code>exclusions == null</code> or exclusions is empty
-	 * @throws InvalidConfigurationException if the declaring class is not guarded or the parameterIndex is out of range
-	 */
-	public void addCheckExclusions(final Constructor< ? > ctor, final int paramIndex, final CheckExclusion... exclusions)
-			throws IllegalArgumentException, InvalidConfigurationException
-	{
-		Assert.argumentNotNull("ctor", ctor);
-		Assert.argumentNotEmpty("exclusions", exclusions);
-
-		getClassChecks(ctor.getDeclaringClass()).addConstructorParameterCheckExclusions(ctor, paramIndex, exclusions);
-	}
-
-	/**
-	 * Registers constraint checks for the given method parameter
-	 *
-	 * @param method
-	 * @param paramIndex
-	 * @param exclusions
-	 * @throws IllegalArgumentException if <code>method == null</code> or <code>exclusions == null</code> or exclusions is empty
-	 * @throws InvalidConfigurationException if the declaring class is not guarded or the parameterIndex is out of range
-	 */
-	public void addCheckExclusions(final Method method, final int paramIndex, final CheckExclusion... exclusions)
-			throws IllegalArgumentException, InvalidConfigurationException
-	{
-		Assert.argumentNotNull("method", method);
-		Assert.argumentNotEmpty("exclusions", exclusions);
-
-		getClassChecks(method.getDeclaringClass()).addMethodParameterCheckExclusions(method, paramIndex, exclusions);
 	}
 
 	/**
@@ -292,26 +231,6 @@ public class Guard extends Validator
 			}
 			return objectListeners.add(listener);
 		}
-	}
-
-	/**
-	 * Returns the registers constraint pre condition checks for the given method parameter
-	 *
-	 * @param method
-	 * @param paramIndex
-	 * @throws IllegalArgumentException if <code>method == null</code>
-	 */
-	public Check[] getChecks(final Method method, final int paramIndex) throws InvalidConfigurationException
-	{
-		Assert.argumentNotNull("method", method);
-
-		final ClassChecks cc = getClassChecks(method.getDeclaringClass());
-
-		final Map<Integer, ParameterChecks> checks = cc.checksForMethodParameters.get(method);
-		if (checks == null) return null;
-
-		final ParameterChecks paramChecks = checks.get(paramIndex);
-		return paramChecks == null ? null : paramChecks.checks.toArray(new Check[checks.size()]);
 	}
 
 	/**
@@ -591,40 +510,6 @@ public class Guard extends Validator
 	}
 
 	/**
-	 * Removes constraint check exclusions from the given constructor parameter
-	 *
-	 * @param ctor
-	 * @param paramIndex
-	 * @param exclusions
-	 * @throws InvalidConfigurationException if the declaring class is not guarded or the parameterIndex is out of range
-	 */
-	public void removeCheckExclusions(final Constructor< ? > ctor, final int paramIndex, final CheckExclusion... exclusions)
-			throws InvalidConfigurationException
-	{
-		Assert.argumentNotNull("ctor", ctor);
-		Assert.argumentNotEmpty("exclusions", exclusions);
-
-		getClassChecks(ctor.getDeclaringClass()).removeConstructorParameterCheckExclusions(ctor, paramIndex, exclusions);
-	}
-
-	/**
-	 * Removes constraint check exclusions from the given method parameter
-	 *
-	 * @param method
-	 * @param paramIndex
-	 * @param exclusions
-	 * @throws InvalidConfigurationException if the declaring class is not guarded or the parameterIndex is out of range
-	 */
-	public void removeCheckExclusions(final Method method, final int paramIndex, final CheckExclusion... exclusions)
-			throws InvalidConfigurationException
-	{
-		Assert.argumentNotNull("method", method);
-		Assert.argumentNotEmpty("exclusions", exclusions);
-
-		getClassChecks(method.getDeclaringClass()).removeMethodParameterCheckExclusions(method, paramIndex, exclusions);
-	}
-
-	/**
 	 * Removes constraint checks from the given constructor parameter
 	 *
 	 * @param ctor
@@ -817,8 +702,7 @@ public class Guard extends Validator
 		// create a new set for this validation cycle
 		try
 		{
-			final ClassChecks cc = getClassChecks(method.getDeclaringClass());
-			final Map<Integer, ParameterChecks> parameterChecks = cc.checksForMethodParameters.get(method);
+			final Map<Integer, ParameterChecks> parameterChecks = getClassChecks(method.getDeclaringClass()).checksForMethodParameters.get(method);
 
 			if (parameterChecks == null) return;
 
@@ -831,7 +715,7 @@ public class Guard extends Validator
 			{
 				final ParameterChecks checks = parameterChecks.get(i);
 
-				if (checks != null && checks.checks.size() > 0)
+				if (checks != null && checks.hasChecks())
 				{
 					final Object valueToValidate = args[i];
 					final MethodParameterContext context = new MethodParameterContext(method, i, parameterNames[i]);
