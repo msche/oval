@@ -37,7 +37,7 @@ public class SpringInjectorTest extends TestCase
 {
 	@Retention(RetentionPolicy.RUNTIME)
 	@Target({ElementType.FIELD})
-	@Constraint(checkWith = SpringNullContraintCheck.class)
+	@Constraint(validatedBy = SpringNullContraintCheck.class)
 	public @interface SpringNullContraint
 	{
 		//nothing

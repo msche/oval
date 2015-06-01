@@ -34,7 +34,7 @@ import java.lang.annotation.Target;
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.FIELD, ElementType.PARAMETER, ElementType.METHOD})
-@Constraint(checkWith = NotMatchPatternCheck.class)
+@Constraint(validatedBy = NotMatchPatternCheck.class)
 public @interface NotMatchPattern
 {
 	@Documented

@@ -33,7 +33,7 @@ import java.lang.annotation.Target;
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.FIELD, ElementType.PARAMETER, ElementType.METHOD, ElementType.TYPE})
-@Constraint(checkWith = CheckWithCheck.class)
+@Constraint(validatedBy = CheckWithCheck.class)
 public @interface CheckWith
 {
 	@Documented

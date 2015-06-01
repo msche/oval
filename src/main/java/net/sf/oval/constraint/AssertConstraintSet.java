@@ -30,7 +30,7 @@ import java.lang.annotation.Target;
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.FIELD, ElementType.PARAMETER, ElementType.METHOD})
-@Constraint(checkWith = AssertConstraintSetCheck.class)
+@Constraint(validatedBy = AssertConstraintSetCheck.class)
 public @interface AssertConstraintSet
 {
 	@Documented

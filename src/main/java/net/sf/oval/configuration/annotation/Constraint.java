@@ -33,5 +33,5 @@ public @interface Constraint
 	 * The class implementing the constraint logic.
 	 * It can check if a value satisfies the constraint.
 	 */
-	Class< ? extends AnnotationCheck< ? extends Annotation>> checkWith();
+	Class< ? extends AnnotationCheck< ? extends Annotation>> validatedBy();
 }

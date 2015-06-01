@@ -34,7 +34,7 @@ import java.lang.annotation.Target;
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.FIELD, ElementType.PARAMETER, ElementType.METHOD})
-@Constraint(checkWith = NotNegativeCheck.class)
+@Constraint(validatedBy = NotNegativeCheck.class)
 public @interface NotNegative
 {
 	@Documented

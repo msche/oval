@@ -41,7 +41,7 @@ public class GuiceInjectorTest extends TestCase
 {
 	@Retention(RetentionPolicy.RUNTIME)
 	@Target({ElementType.FIELD})
-	@Constraint(checkWith = GuiceNullContraintCheck.class)
+	@Constraint(validatedBy = GuiceNullContraintCheck.class)
 	public @interface GuiceNullContraint
 	{
 		//nothing

@@ -245,7 +245,7 @@ public class AnnotationsConfigurer implements Configurer
 		// determine the check class
 		@SuppressWarnings("unchecked")
 		final Class<AnnotationCheck<ConstraintAnnotation>> checkClass = (Class<AnnotationCheck<ConstraintAnnotation>>) constraint
-				.checkWith();
+				.validatedBy();
 
 		// instantiate the appropriate check for the found constraint
 		final AnnotationCheck<ConstraintAnnotation> check = newCheckInstance(checkClass);

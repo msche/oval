@@ -94,7 +94,7 @@ public class CustomAssertValidTest extends TestCase
 
 	@Retention(RetentionPolicy.RUNTIME)
 	@Target({ElementType.FIELD, ElementType.PARAMETER, ElementType.METHOD})
-	@Constraint(checkWith = CustomAssertValidCheck.class)
+	@Constraint(validatedBy = CustomAssertValidCheck.class)
 	public static @interface CustomAssertValid
 	{
 		String errorCode() default "CustomAssertValid";

@@ -29,7 +29,7 @@ import java.lang.annotation.Target;
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.PARAMETER, ElementType.METHOD})
-@Constraint(checkWith = AssertFieldConstraintsCheck.class)
+@Constraint(validatedBy = AssertFieldConstraintsCheck.class)
 public @interface AssertFieldConstraints
 {
 	@Documented
