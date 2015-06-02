@@ -47,7 +47,7 @@ public final class EqualToFieldCheck extends AbstractAnnotationCheck<EqualToFiel
 	public void configure(final EqualToField constraintAnnotation)
 	{
 		setMessage(constraintAnnotation.message());
-		setProfiles(constraintAnnotation.profiles());
+		setGroups(constraintAnnotation.groups());
 		setFieldName(constraintAnnotation.value());
 		setDeclaringClass(constraintAnnotation.declaringClass());
 		setUseGetter(constraintAnnotation.useGetter());

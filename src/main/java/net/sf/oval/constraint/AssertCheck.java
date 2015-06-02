@@ -40,7 +40,7 @@ public final class AssertCheck extends AbstractAnnotationCheck<Assert>
 	public void configure(final Assert constraintAnnotation)
 	{
 		setMessage(constraintAnnotation.message());
-		setProfiles(constraintAnnotation.profiles());
+		setGroups(constraintAnnotation.groups());
 		setExpr(constraintAnnotation.expr());
 		setLang(constraintAnnotation.lang());
 	}

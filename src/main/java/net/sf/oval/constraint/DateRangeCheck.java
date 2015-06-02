@@ -43,7 +43,7 @@ public final class DateRangeCheck extends AbstractDateCheck<DateRange> {
     @Override
     public void configure(final DateRange constraintAnnotation) {
         setMessage(constraintAnnotation.message());
-        setProfiles(constraintAnnotation.profiles());
+        setGroups(constraintAnnotation.groups());
         setMin(constraintAnnotation.min());
         setMax(constraintAnnotation.max());
         setFormat(constraintAnnotation.format());

@@ -36,7 +36,7 @@ public final class AssertFieldConstraintsCheck extends AbstractAnnotationCheck<A
 	public void configure(final AssertFieldConstraints constraintAnnotation)
 	{
 		//TODO: add message to constraint setMessage(constraintAnnotation.message());
-		setProfiles(constraintAnnotation.profiles());
+		setGroups(constraintAnnotation.groups());
 		setFieldName(constraintAnnotation.value());
 		setDeclaringClass(constraintAnnotation.declaringClass());
 	}

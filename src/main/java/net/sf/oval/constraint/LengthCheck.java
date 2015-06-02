@@ -38,7 +38,7 @@ public final class LengthCheck extends AbstractAnnotationCheck<Length>
 	public void configure(final Length constraintAnnotation)
 	{
 		setMessage(constraintAnnotation.message());
-		setProfiles(constraintAnnotation.profiles());
+		setGroups(constraintAnnotation.groups());
 		setMax(constraintAnnotation.max());
 		setMin(constraintAnnotation.min());
 	}

@@ -340,10 +340,10 @@ public class BeanValidationAnnotationsConfigurer implements Configurer
 
 			if (groups != null && groups.length > 0)
 			{
-				final String[] profiles = new String[groups.length];
-				for (int i = 0, l = groups.length; i < l; i++)
-					profiles[i] = groups[i].getCanonicalName();
-				check.setProfiles(profiles);
+				//final String[] profiles = new String[groups.length];
+				//for (int i = 0, l = groups.length; i < l; i++)
+				//	profiles[i] = groups[i].getCanonicalName();
+				check.setGroups(groups);
 			}
 			checks.add(check);
 			return;

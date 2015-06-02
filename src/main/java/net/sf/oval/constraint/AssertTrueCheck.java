@@ -57,6 +57,6 @@ public final class AssertTrueCheck extends AbstractAnnotationCheck<AssertTrue>
 	@Override
 	public void configure(AssertTrue constraintAnnotation) {
 		setMessage(constraintAnnotation.message());
-		setProfiles(constraintAnnotation.groups());
+		setGroups(constraintAnnotation.groups());
 	}
 }

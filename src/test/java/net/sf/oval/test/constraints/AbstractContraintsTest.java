@@ -32,12 +32,12 @@ public abstract class AbstractContraintsTest extends TestCase
 		check.setMessage("XYZ");
 		assertEquals("XYZ", check.getMessage());
 
-		check.setProfiles("p1");
-		assertNotNull(check.getProfiles());
-		assertEquals(1, check.getProfiles().length);
-		assertEquals("p1", check.getProfiles()[0]);
+		check.setGroups(Object.class);
+		assertNotNull(check.getGroups());
+		assertEquals(1, check.getGroups().length);
+		assertEquals(Object.class.getCanonicalName(), check.getGroups()[0]);
 
-		check.setProfiles((String[]) null);
-		assertTrue(check.getProfiles() == null || check.getProfiles().length == 0);
+		check.setGroups(null);
+		assertTrue(check.getGroups() == null || check.getGroups().length == 0);
 	}
 }

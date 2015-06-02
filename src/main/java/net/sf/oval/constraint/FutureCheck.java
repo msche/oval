@@ -31,7 +31,7 @@ public final class FutureCheck extends AbstractDateCheck<Future>
 	public void configure(final Future constraintAnnotation)
 	{
 		setMessage(constraintAnnotation.message());
-		setProfiles(constraintAnnotation.groups());
+		setGroups(constraintAnnotation.groups());
 	}
 
 	/**

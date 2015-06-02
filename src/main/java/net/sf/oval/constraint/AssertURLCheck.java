@@ -18,7 +18,6 @@ import net.sf.oval.Validator;
 import net.sf.oval.configuration.annotation.AbstractAnnotationCheck;
 
 import net.sf.oval.context.OValContext;
-import net.sf.oval.internal.util.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -120,7 +119,7 @@ public final class AssertURLCheck extends AbstractAnnotationCheck<AssertURL>
 	public void configure(final AssertURL constraintAnnotation)
 	{
 		setMessage(constraintAnnotation.message());
-		setProfiles(constraintAnnotation.profiles());
+		setGroups(constraintAnnotation.groups());
 		setConnect(constraintAnnotation.connect());
 		setPermittedURISchemes(constraintAnnotation.permittedURISchemes());
 	}

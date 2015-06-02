@@ -73,7 +73,7 @@ public interface Check extends Serializable
 	/**
 	 * @return the profiles, may return null
 	 */
-	String[] getProfiles();
+	String[] getGroups();
 
 	/**
 	 * @return the severity
@@ -159,7 +159,7 @@ public interface Check extends Serializable
 	/**
 	 * @param profiles the profiles to set
 	 */
-	void setProfiles(String... profiles);
+	void setGroups(Class... profiles);
 
 	/**
 	 * @param severity the severity to set

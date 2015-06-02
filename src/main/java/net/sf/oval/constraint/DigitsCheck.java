@@ -47,7 +47,7 @@ public final class DigitsCheck extends AbstractAnnotationCheck<Digits>
 	public void configure(final Digits constraintAnnotation)
 	{
 		setMessage(constraintAnnotation.message());
-		setProfiles(constraintAnnotation.groups());
+		setGroups(constraintAnnotation.groups());
 		setMaxInteger(constraintAnnotation.integer());
 		setMaxFraction(constraintAnnotation.fraction());
 	}

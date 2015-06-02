@@ -38,7 +38,7 @@ public final class RangeCheck extends AbstractAnnotationCheck<Range>
 	public void configure(final Range constraintAnnotation)
 	{
 		setMessage(constraintAnnotation.message());
-		setProfiles(constraintAnnotation.profiles());
+		setGroups(constraintAnnotation.groups());
 		setMax(constraintAnnotation.max());
 		setMin(constraintAnnotation.min());
 	}

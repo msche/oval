@@ -38,7 +38,7 @@ public final class DecimalMinCheck extends AbstractAnnotationCheck<DecimalMin>
 	public void configure(final DecimalMin constraintAnnotation)
 	{
 		setMessage(constraintAnnotation.message());
-		setProfiles(constraintAnnotation.groups());
+		setGroups(constraintAnnotation.groups());
 		setMin(Double.parseDouble(constraintAnnotation.value()));
 	}
 

@@ -33,7 +33,7 @@ public final class NotNullCheck extends AbstractAnnotationCheck<NotNull>
     public void configure(final NotNull constraintAnnotation)
     {
         setMessage(constraintAnnotation.message());
-        setProfiles(constraintAnnotation.groups());
+        setGroups(constraintAnnotation.groups());
     }
 
 	/**

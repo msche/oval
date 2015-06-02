@@ -38,7 +38,7 @@ public final class MinSizeCheck extends AbstractAnnotationCheck<MinSize>
 	public void configure(final MinSize constraintAnnotation)
 	{
 		setMessage(constraintAnnotation.message());
-		setProfiles(constraintAnnotation.profiles());
+		setGroups(constraintAnnotation.groups());
 		setMin(constraintAnnotation.value());
 	}
 

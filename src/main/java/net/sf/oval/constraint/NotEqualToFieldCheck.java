@@ -47,7 +47,7 @@ public final class NotEqualToFieldCheck extends AbstractAnnotationCheck<NotEqual
 	public void configure(final NotEqualToField constraintAnnotation)
 	{
 		setMessage(constraintAnnotation.message());
-		setProfiles(constraintAnnotation.profiles());
+		setGroups(constraintAnnotation.groups());
 		setFieldName(constraintAnnotation.value());
 		setDeclaringClass(constraintAnnotation.declaringClass());
 		setUseGetter(constraintAnnotation.useGetter());

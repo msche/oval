@@ -43,7 +43,7 @@ public final class ValidateWithMethodCheck extends AbstractAnnotationCheck<Valid
 	public void configure(final ValidateWithMethod constraintAnnotation)
 	{
 		setMessage(constraintAnnotation.message());
-		setProfiles(constraintAnnotation.profiles());
+		setGroups(constraintAnnotation.groups());
 		setMethodName(constraintAnnotation.methodName());
 		setParameterType(constraintAnnotation.parameterType());
 		setIgnoreIfNull(constraintAnnotation.ignoreIfNull());

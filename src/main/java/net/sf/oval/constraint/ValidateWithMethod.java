@@ -98,9 +98,11 @@ public @interface ValidateWithMethod
 	Class< ? > parameterType();
 
 	/**
-	 * The associated constraint profiles.
+	 * Specifies the processing groups with which the constraint declaration is associated.
+	 *
+	 * Groups allow you to restrict the set of constraints applied during validation. Groups targeted are passed as parameters to the validate, validateProperty and validateValue methods. All constraints belonging to the targeted group are applied during the validation routine. If no group is passed, the Default group is assumed.
 	 */
-	String[] profiles() default {};
+	Class<?>[] groups() default { };
 
 	/**
 	 * severity passed to the ConstraintViolation object

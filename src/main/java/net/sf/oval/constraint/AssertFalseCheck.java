@@ -43,7 +43,7 @@ public final class AssertFalseCheck extends AbstractAnnotationCheck<AssertFalse>
 	public void configure(final AssertFalse constraintAnnotation)
 	{
 		setMessage(constraintAnnotation.message());
-		setProfiles(constraintAnnotation.groups());
+		setGroups(constraintAnnotation.groups());
 	}
 
 	/**

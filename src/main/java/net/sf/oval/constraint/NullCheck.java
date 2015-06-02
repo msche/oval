@@ -17,7 +17,6 @@ import net.sf.oval.configuration.annotation.AbstractAnnotationCheck;
 
 import net.sf.oval.context.OValContext;
 
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 
 /**
@@ -34,7 +33,7 @@ public final class NullCheck extends AbstractAnnotationCheck<Null>
     public void configure(final Null constraintAnnotation)
     {
         setMessage(constraintAnnotation.message());
-        setProfiles(constraintAnnotation.groups());
+        setGroups(constraintAnnotation.groups());
     }
 
 	/**

@@ -38,7 +38,7 @@ public final class MaxSizeCheck extends AbstractAnnotationCheck<MaxSize>
 	public void configure(final MaxSize constraintAnnotation)
 	{
 		setMessage(constraintAnnotation.message());
-		setProfiles(constraintAnnotation.profiles());
+		setGroups(constraintAnnotation.groups());
 		setMax(constraintAnnotation.value());
 	}
 

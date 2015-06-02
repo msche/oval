@@ -34,7 +34,7 @@ public final class InstanceOfCheck extends AbstractAnnotationCheck<InstanceOf>
 	public void configure(final InstanceOf constraintAnnotation)
 	{
 		setMessage(constraintAnnotation.message());
-		setProfiles(constraintAnnotation.profiles());
+		setGroups(constraintAnnotation.groups());
 		setTypes(constraintAnnotation.value());
 	}
 

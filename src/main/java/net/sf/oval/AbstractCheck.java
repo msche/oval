@@ -38,6 +38,8 @@ public abstract class AbstractCheck implements Check
 	private Map<String, ? extends Serializable> messageVariables;
 	private Map<String, ? extends Serializable> messageVariablesUnmodifiable;
 	private boolean messageVariablesUpToDate = true;
+
+	// TODO: Replace this by classes
 	private String[] profiles;
 	private int severity;
 	private ConstraintTarget[] appliesTo;
@@ -144,7 +146,7 @@ public abstract class AbstractCheck implements Check
 	/**
 	 * {@inheritDoc}
 	 */
-	public String[] getProfiles()
+	public String[] getGroups()
 	{
 		return profiles;
 	}
@@ -235,19 +237,15 @@ public abstract class AbstractCheck implements Check
 	/**
 	 * {@inheritDoc}
 	 */
-	public void setProfiles(final String... profiles)
+	public void setGroups(final Class... groups)
 	{
-		this.profiles = profiles;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public void setProfiles(final Class... groups)
-	{
-		profiles = new String[groups.length];
-		for(int i=0; i<groups.length;i++) {
-			profiles[i] = groups[i].getCanonicalName();
+		if (groups == null) {
+			profiles = null;
+		} else {
+			profiles = new String[groups.length];
+			for (int i = 0; i < groups.length; i++) {
+				profiles[i] = groups[i].getCanonicalName();
+			}
 		}
 	}
 

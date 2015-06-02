@@ -17,7 +17,6 @@ import net.sf.oval.Validator;
 import net.sf.oval.configuration.annotation.AbstractAnnotationCheck;
 
 import net.sf.oval.context.OValContext;
-import net.sf.oval.internal.util.ArrayUtils;
 import net.sf.oval.internal.util.StringUtils;
 
 import java.util.ArrayList;
@@ -45,7 +44,7 @@ public final class MemberOfCheck extends AbstractAnnotationCheck<MemberOf>
 	public void configure(final MemberOf constraintAnnotation)
 	{
 		setMessage(constraintAnnotation.message());
-		setProfiles(constraintAnnotation.profiles());
+		setGroups(constraintAnnotation.groups());
 		setIgnoreCase(constraintAnnotation.ignoreCase());
 		setMembers(constraintAnnotation.value());
 	}

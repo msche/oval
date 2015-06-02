@@ -40,7 +40,7 @@ public final class NotBlankCheck extends AbstractAnnotationCheck<NotBlank>
 	@Override
 	public void configure(final NotBlank constraintAnnotation) {
 		setMessage(constraintAnnotation.message());
-		setProfiles(constraintAnnotation.profiles());
+		setGroups(constraintAnnotation.groups());
 	}
 
 	/**

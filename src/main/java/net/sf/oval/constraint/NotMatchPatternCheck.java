@@ -17,7 +17,6 @@ import net.sf.oval.Validator;
 import net.sf.oval.configuration.annotation.AbstractAnnotationCheck;
 
 import net.sf.oval.context.OValContext;
-import net.sf.oval.internal.util.ArrayUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -43,7 +42,7 @@ public final class NotMatchPatternCheck extends AbstractAnnotationCheck<NotMatch
 	public void configure(final NotMatchPattern constraintAnnotation)
 	{
 		setMessage(constraintAnnotation.message());
-		setProfiles(constraintAnnotation.profiles());
+		setGroups(constraintAnnotation.groups());
 
 		synchronized (patterns)
 		{

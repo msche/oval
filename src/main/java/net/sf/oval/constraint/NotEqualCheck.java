@@ -40,7 +40,7 @@ public final class NotEqualCheck extends AbstractAnnotationCheck<NotEqual>
 	public void configure(final NotEqual constraintAnnotation)
 	{
 		setMessage(constraintAnnotation.message());
-		setProfiles(constraintAnnotation.profiles());
+		setGroups(constraintAnnotation.groups());
 		setIgnoreCase(constraintAnnotation.ignoreCase());
 		setTestString(constraintAnnotation.value());
 	}

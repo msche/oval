@@ -32,7 +32,7 @@ public final class AssertConstraintSetCheck extends AbstractAnnotationCheck<Asse
 	@Override
 	public void configure(final AssertConstraintSet constraintAnnotation)
 	{
-		setProfiles(constraintAnnotation.profiles());
+		setGroups(constraintAnnotation.groups());
 		setId(constraintAnnotation.id());
 	}
 

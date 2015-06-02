@@ -37,7 +37,7 @@ public final class MinLengthCheck extends AbstractAnnotationCheck<MinLength>
 	public void configure(final MinLength constraintAnnotation)
 	{
 		setMessage(constraintAnnotation.message());
-		setProfiles(constraintAnnotation.profiles());
+		setGroups(constraintAnnotation.groups());
 		setMin(constraintAnnotation.value());
 	}
 

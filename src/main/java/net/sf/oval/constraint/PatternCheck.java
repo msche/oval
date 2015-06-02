@@ -17,7 +17,6 @@ import net.sf.oval.Validator;
 import net.sf.oval.configuration.annotation.AbstractAnnotationCheck;
 
 import net.sf.oval.context.OValContext;
-import net.sf.oval.internal.util.ArrayUtils;
 
 import javax.validation.constraints.Pattern;
 import java.util.ArrayList;
@@ -47,7 +46,7 @@ public final class PatternCheck extends AbstractAnnotationCheck<Pattern>
 	public void configure(final Pattern constraintAnnotation)
 	{
 		setMessage(constraintAnnotation.message());
-		setProfiles(constraintAnnotation.groups());
+		setGroups(constraintAnnotation.groups());
 
 		synchronized (patterns)
 		{

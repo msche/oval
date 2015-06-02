@@ -38,7 +38,7 @@ public final class DecimalMaxCheck extends AbstractAnnotationCheck<DecimalMax>
 	public void configure(final DecimalMax constraintAnnotation)
 	{
 		setMessage(constraintAnnotation.message());
-		setProfiles(constraintAnnotation.groups());
+		setGroups(constraintAnnotation.groups());
 		setMax(Double.parseDouble(constraintAnnotation.value()));
 	}
 

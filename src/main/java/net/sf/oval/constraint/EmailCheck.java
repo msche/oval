@@ -57,7 +57,7 @@ public final class EmailCheck extends AbstractAnnotationCheck<Email> {
     @Override
     public void configure(final Email constraintAnnotation) {
         setMessage(constraintAnnotation.message());
-        setProfiles(constraintAnnotation.profiles());
+        setGroups(constraintAnnotation.groups());
         setAllowPersonalName(constraintAnnotation.allowPersonalName());
     }
 

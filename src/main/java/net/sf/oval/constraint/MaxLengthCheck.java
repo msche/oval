@@ -37,7 +37,7 @@ public final class MaxLengthCheck extends AbstractAnnotationCheck<MaxLength>
 	public void configure(final MaxLength constraintAnnotation)
 	{
 		setMessage(constraintAnnotation.message());
-		setProfiles(constraintAnnotation.profiles());
+		setGroups(constraintAnnotation.groups());
 		setMax(constraintAnnotation.value());
 	}
 

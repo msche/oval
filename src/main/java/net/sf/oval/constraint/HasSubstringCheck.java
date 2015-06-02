@@ -41,7 +41,7 @@ public final class HasSubstringCheck extends AbstractAnnotationCheck<HasSubstrin
 	public void configure(final HasSubstring constraintAnnotation)
 	{
 		setMessage(constraintAnnotation.message());
-		setProfiles(constraintAnnotation.profiles());
+		setGroups(constraintAnnotation.groups());
 		setIgnoreCase(constraintAnnotation.ignoreCase());
 		setSubstring(constraintAnnotation.value());
 	}

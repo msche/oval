@@ -51,7 +51,7 @@ public final class CheckWithCheck extends AbstractAnnotationCheck<CheckWith>
 	public void configure(final CheckWith constraintAnnotation)
 	{
 		setMessage(constraintAnnotation.message());
-		setProfiles(constraintAnnotation.profiles());
+		setGroups(constraintAnnotation.groups());
 		setSimpleCheck(constraintAnnotation.value());
 		setIgnoreIfNull(constraintAnnotation.ignoreIfNull());
 	}

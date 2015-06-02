@@ -40,7 +40,7 @@ public final class NoSelfReferenceCheck extends AbstractAnnotationCheck<NoSelfRe
 	@Override
 	public void configure(final NoSelfReference constraintAnnotation) {
 		setMessage(constraintAnnotation.message());
-		setProfiles(constraintAnnotation.profiles());
+		setGroups(constraintAnnotation.groups());
 	}
 
 		/**

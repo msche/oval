@@ -40,7 +40,7 @@ public final class NotEmptyCheck extends AbstractAnnotationCheck<NotEmpty>
 	@Override
 	public void configure(final NotEmpty constraintAnnotation) {
 		setMessage(constraintAnnotation.message());
-		setProfiles(constraintAnnotation.profiles());
+		setGroups(constraintAnnotation.groups());
 	}
 
 	/**

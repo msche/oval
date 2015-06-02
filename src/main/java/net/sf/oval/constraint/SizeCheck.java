@@ -40,7 +40,7 @@ public final class SizeCheck extends AbstractAnnotationCheck<Size>
 	public void configure(final Size constraintAnnotation)
 	{
 		setMessage(constraintAnnotation.message());
-		setProfiles(constraintAnnotation.groups());
+		setGroups(constraintAnnotation.groups());
 		setMax(constraintAnnotation.max());
 		setMin(constraintAnnotation.min());
 	}

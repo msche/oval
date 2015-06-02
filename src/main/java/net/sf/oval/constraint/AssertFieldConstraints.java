@@ -66,9 +66,11 @@ public @interface AssertFieldConstraints
 	Class< ? > declaringClass() default Void.class;
 
 	/**
-	 * The associated constraint profiles.
+	 * Specifies the processing groups with which the constraint declaration is associated.
+	 *
+	 * Groups allow you to restrict the set of constraints applied during validation. Groups targeted are passed as parameters to the validate, validateProperty and validateValue methods. All constraints belonging to the targeted group are applied during the validation routine. If no group is passed, the Default group is assumed.
 	 */
-	String[] profiles() default {};
+	Class<?>[] groups() default { };
 
 	/**
 	 * Name of the field. If not specified, the constraints of the field with the same name as

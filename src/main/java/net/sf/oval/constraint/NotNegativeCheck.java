@@ -45,7 +45,7 @@ public final class NotNegativeCheck extends AbstractAnnotationCheck<NotNegative>
 	public void configure(final NotNegative constraintAnnotation)
 	{
 		setMessage(constraintAnnotation.message());
-		setProfiles(constraintAnnotation.profiles());
+		setGroups(constraintAnnotation.groups());
 	}
 
     /**

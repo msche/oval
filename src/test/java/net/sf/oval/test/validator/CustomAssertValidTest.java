@@ -82,7 +82,7 @@ public class CustomAssertValidTest extends TestCase
 				final ValidCheck assertValidCheck = new ValidCheck();
 				assertValidCheck.setErrorCode(customAssertValid.errorCode());
 				assertValidCheck.setMessage(customAssertValid.message());
-				assertValidCheck.setProfiles(customAssertValid.profiles());
+				assertValidCheck.setGroups(customAssertValid.groups());
 				assertValidCheck.setAppliesTo(customAssertValid.appliesTo());
 				assertValidCheck.setSeverity(customAssertValid.severity());
 				return (AnnotationCheck<ConstraintAnnotation>) assertValidCheck;
@@ -101,7 +101,7 @@ public class CustomAssertValidTest extends TestCase
 
 		String message() default "CustomAssertValid.violated";
 
-		String[] profiles() default {};
+		Class[] groups() default {};
 
 		ConstraintTarget[] appliesTo() default {ConstraintTarget.VALUES};
 
@@ -119,7 +119,7 @@ public class CustomAssertValidTest extends TestCase
 		{
 			assertValidCheck.setErrorCode(constraintAnnotation.errorCode());
 			assertValidCheck.setMessage(constraintAnnotation.message());
-			assertValidCheck.setProfiles(constraintAnnotation.profiles());
+			assertValidCheck.setGroups(constraintAnnotation.groups());
 			assertValidCheck.setAppliesTo(constraintAnnotation.appliesTo());
 			assertValidCheck.setSeverity(constraintAnnotation.severity());
 		}
