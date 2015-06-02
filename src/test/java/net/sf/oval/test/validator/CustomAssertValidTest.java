@@ -80,7 +80,6 @@ public class CustomAssertValidTest extends TestCase
 
 				// instantiate a AssertValidCheck based on the custom constraint annotation
 				final ValidCheck assertValidCheck = new ValidCheck();
-				assertValidCheck.setErrorCode(customAssertValid.errorCode());
 				assertValidCheck.setMessage(customAssertValid.message());
 				assertValidCheck.setGroups(customAssertValid.groups());
 				assertValidCheck.setAppliesTo(customAssertValid.appliesTo());
@@ -97,8 +96,6 @@ public class CustomAssertValidTest extends TestCase
 	@Constraint(validatedBy = CustomAssertValidCheck.class)
 	public static @interface CustomAssertValid
 	{
-		String errorCode() default "CustomAssertValid";
-
 		String message() default "CustomAssertValid.violated";
 
 		Class[] groups() default {};
@@ -117,7 +114,6 @@ public class CustomAssertValidTest extends TestCase
 		@Override
 		public void configure(final CustomAssertValid constraintAnnotation)
 		{
-			assertValidCheck.setErrorCode(constraintAnnotation.errorCode());
 			assertValidCheck.setMessage(constraintAnnotation.message());
 			assertValidCheck.setGroups(constraintAnnotation.groups());
 			assertValidCheck.setAppliesTo(constraintAnnotation.appliesTo());

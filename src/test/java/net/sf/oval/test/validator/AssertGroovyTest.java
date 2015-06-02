@@ -23,16 +23,16 @@ import java.util.List;
  */
 public class AssertGroovyTest extends TestCase
 {
-	@net.sf.oval.constraint.Assert(expr = "_this.firstName!=null && _this.lastName!=null && (_this.firstName.length() + _this.lastName.length() > 9)", lang = "groovy", errorCode = "C0")
+	@net.sf.oval.constraint.Assert(expr = "_this.firstName!=null && _this.lastName!=null && (_this.firstName.length() + _this.lastName.length() > 9)", lang = "groovy")
 	protected static class Person
 	{
-		@net.sf.oval.constraint.Assert(expr = "_value!=null", lang = "groovy", errorCode = "C1")
+		@net.sf.oval.constraint.Assert(expr = "_value!=null", lang = "groovy")
 		public String firstName;
 
-		@net.sf.oval.constraint.Assert(expr = "_value!=null", lang = "groovy", errorCode = "C2")
+		@net.sf.oval.constraint.Assert(expr = "_value!=null", lang = "groovy")
 		public String lastName;
 
-		@net.sf.oval.constraint.Assert(expr = "_value!=null && _value.length()>0 && _value.length()<7", lang = "groovy", errorCode = "C3")
+		@net.sf.oval.constraint.Assert(expr = "_value!=null && _value.length()>0 && _value.length()<7", lang = "groovy")
 		public String zipCode;
 	}
 

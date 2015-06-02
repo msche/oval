@@ -71,11 +71,6 @@ public @interface NoSelfReference
 	ConstraintTarget[] appliesTo() default ConstraintTarget.VALUES;
 
 	/**
-	 * error code passed to the ConstraintViolation object
-	 */
-	String errorCode() default "net.sf.oval.constraint.NoSelfReference";
-
-	/**
 	 * message to be used for the ContraintsViolatedException
 	 * 
 	 * @see ConstraintViolation

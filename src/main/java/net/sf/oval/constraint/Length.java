@@ -72,11 +72,6 @@ public @interface Length
 	 */
 	ConstraintTarget[] appliesTo() default ConstraintTarget.VALUES;
 
-	/**
-	 * error code passed to the ConstraintViolation object
-	 */
-	String errorCode() default "net.sf.oval.constraint.Length";
-
 	int max() default Integer.MAX_VALUE;
 
 	/**

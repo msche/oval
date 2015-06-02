@@ -73,11 +73,6 @@ public @interface NotMatchPattern
 	ConstraintTarget[] appliesTo() default ConstraintTarget.VALUES;
 
 	/**
-	 * error code passed to the ConstraintViolation object
-	 */
-	String errorCode() default "net.sf.oval.constraint.NotMatchPattern";
-
-	/**
 	 *  Match flags, a bit mask that may include
 	 *         Pattern.CASE_INSENSITIVE, Pattern.MULTILINE, Pattern.DOTALL,
 	 *         Pattern.UNICODE_CASE, Pattern.CANON_EQ

@@ -73,11 +73,6 @@ public @interface DateRange
 	ConstraintTarget[] appliesTo() default ConstraintTarget.VALUES;
 
 	/**
-	 * error code passed to the ConstraintViolation object
-	 */
-	String errorCode() default "net.sf.oval.constraint.DateRange";
-
-	/**
 	 * The format of the specified dates in a form understandable by the SimpleDateFormat class.
 	 * Defaults to the default format style of the default locale.
 	 */

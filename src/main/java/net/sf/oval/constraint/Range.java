@@ -72,11 +72,6 @@ public @interface Range
 	 */
 	ConstraintTarget[] appliesTo() default ConstraintTarget.VALUES;
 
-	/**
-	 * error code passed to the ConstraintViolation object
-	 */
-	String errorCode() default "net.sf.oval.constraint.Range";
-
 	double max() default Double.MAX_VALUE;
 
 	/**

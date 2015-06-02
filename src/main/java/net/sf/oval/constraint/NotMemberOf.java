@@ -72,11 +72,6 @@ public @interface NotMemberOf
 	 */
 	ConstraintTarget[] appliesTo() default ConstraintTarget.VALUES;
 
-	/**
-	 * error code passed to the ConstraintViolation object
-	 */
-	String errorCode() default "net.sf.oval.constraint.NotMemberOf";
-
 	boolean ignoreCase() default false;
 
 	/**

@@ -26,13 +26,13 @@ public class AssertBeanShellTest extends TestCase
 {
 	protected static class Person
 	{
-		@Assert(expr = "_value!=null", lang = "bsh", errorCode = "C1")
+		@Assert(expr = "_value!=null", lang = "bsh")
 		public String firstName;
 
-		@Assert(expr = "_value!=null", lang = "beanshell", errorCode = "C2")
+		@Assert(expr = "_value!=null", lang = "beanshell")
 		public String lastName;
 
-		@Assert(expr = "_value!=null && _value.length()>0 && _value.length()<7", lang = "bsh", errorCode = "C3")
+		@Assert(expr = "_value!=null && _value.length()>0 && _value.length()<7", lang = "bsh")
 		public String zipCode;
 	}
 

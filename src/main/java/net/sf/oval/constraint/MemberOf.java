@@ -72,11 +72,6 @@ public @interface MemberOf
 	 */
 	ConstraintTarget[] appliesTo() default ConstraintTarget.VALUES;
 
-	/**
-	 * error code passed to the ConstraintViolation object
-	 */
-	String errorCode() default "net.sf.oval.constraint.MemberOf";
-
 	boolean ignoreCase() default false;
 
 	/**

@@ -71,11 +71,6 @@ public @interface ValidateWithMethod
 	ConstraintTarget[] appliesTo() default ConstraintTarget.CONTAINER;
 
 	/**
-	 * error code passed to the ConstraintViolation object
-	 */
-	String errorCode() default "net.sf.oval.constraint.ValidateWithMethod";
-
-	/**
 	 * this constraint will be ignored if the value to check is null
 	 */
 	boolean ignoreIfNull() default true;

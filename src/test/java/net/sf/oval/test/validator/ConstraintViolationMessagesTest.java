@@ -43,9 +43,6 @@ public class ConstraintViolationMessagesTest extends TestCase
 				String annotationMessage = (String) ReflectionUtils.getMethod(annotationClass, "message")
 						.getDefaultValue();
 				assertEquals(key, annotationMessage);
-				String annotationErrorCode = (String) ReflectionUtils.getMethod(annotationClass, "errorCode")
-						.getDefaultValue();
-				assertEquals(className, annotationErrorCode);
 
 				// check that the message key returned by the check instance is the same as the key read from the bundle
 				Check check = (Check) Class.forName(className + "Check").newInstance();

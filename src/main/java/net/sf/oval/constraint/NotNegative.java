@@ -73,11 +73,6 @@ public @interface NotNegative
 	ConstraintTarget[] appliesTo() default ConstraintTarget.VALUES;
 
 	/**
-	 * error code passed to the ConstraintViolation object
-	 */
-	String errorCode() default "net.sf.oval.constraint.NotNegative";
-
-	/**
 	 * message to be used for the ContraintsViolatedException
 	 * 
 	 * @see ConstraintViolation

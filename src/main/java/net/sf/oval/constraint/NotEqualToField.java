@@ -80,11 +80,6 @@ public @interface NotEqualToField
 	Class< ? > declaringClass() default Void.class;
 
 	/**
-	 * error code passed to the ConstraintViolation object
-	 */
-	String errorCode() default "net.sf.oval.constraint.NotEqualToField";
-
-	/**
 	 * message to be used for the ContraintsViolatedException
 	 * 
 	 * @see ConstraintViolation

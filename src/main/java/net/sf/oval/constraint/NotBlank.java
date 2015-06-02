@@ -73,11 +73,6 @@ public @interface NotBlank
 	ConstraintTarget[] appliesTo() default ConstraintTarget.VALUES;
 
 	/**
-	 * error code passed to the ConstraintViolation object
-	 */
-	String errorCode() default "net.sf.oval.constraint.NotBlank";
-
-	/**
 	 * message to be used for the ContraintsViolatedException
 	 * 
 	 * @see ConstraintViolation

@@ -37,7 +37,6 @@ public class ConstraintViolation implements Serializable
 	private final OValContext checkDeclaringContext;
 	private final String checkName;
 	private final OValContext context;
-	private final String errorCode;
 	private transient Object invalidValue;
 	private final String message;
 	private final String messageTemplate;
@@ -57,7 +56,6 @@ public class ConstraintViolation implements Serializable
 	{
 		checkName = check.getClass().getName();
 		checkDeclaringContext = check.getContext();
-		errorCode = check.getErrorCode();
 		this.message = message;
 		messageTemplate = check.getMessage();
 		messageVariables = check.getMessageVariables();
@@ -73,7 +71,6 @@ public class ConstraintViolation implements Serializable
 	{
 		checkName = check.getClass().getName();
 		checkDeclaringContext = check.getContext();
-		errorCode = check.getErrorCode();
 		this.message = message;
 		messageTemplate = check.getMessage();
 		messageVariables = check.getMessageVariables();
@@ -128,14 +125,6 @@ public class ConstraintViolation implements Serializable
 	public OValContext getContext()
 	{
 		return context;
-	}
-
-	/**
-	 * @return the error code
-	 */
-	public String getErrorCode()
-	{
-		return errorCode;
 	}
 
 	/**

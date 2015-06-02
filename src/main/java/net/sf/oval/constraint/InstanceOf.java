@@ -73,11 +73,6 @@ public @interface InstanceOf
 	ConstraintTarget[] appliesTo() default ConstraintTarget.CONTAINER;
 
 	/**
-	 * error code passed to the ConstraintViolation object
-	 */
-	String errorCode() default "net.sf.oval.constraint.InstanceOf";
-
-	/**
 	 * message to be used for the ContraintsViolatedException
 	 * 
 	 * @see ConstraintViolation

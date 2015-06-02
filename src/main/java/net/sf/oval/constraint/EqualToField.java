@@ -79,11 +79,6 @@ public @interface EqualToField
 	Class< ? > declaringClass() default Void.class;
 
 	/**
-	 * error code passed to the ConstraintViolation object
-	 */
-	String errorCode() default "net.sf.oval.constraint.EqualToField";
-
-	/**
 	 * message to be used for the ContraintsViolatedException
 	 * 
 	 * @see ConstraintViolation

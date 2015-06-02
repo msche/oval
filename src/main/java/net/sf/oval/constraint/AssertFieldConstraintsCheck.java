@@ -59,15 +59,6 @@ public final class AssertFieldConstraintsCheck extends AbstractAnnotationCheck<A
 	}
 
 	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public String getErrorCode() throws UnsupportedOperationException
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	/**
 	 * @return the fieldName
 	 */
 	public String getFieldName()
@@ -110,15 +101,6 @@ public final class AssertFieldConstraintsCheck extends AbstractAnnotationCheck<A
 	public void setDeclaringClass(final Class< ? > declaringClass)
 	{
 		this.declaringClass = declaringClass == Void.class ? null : declaringClass;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void setErrorCode(final String errorCode)
-	{
-		//throw new UnsupportedOperationException();
 	}
 
 	/**

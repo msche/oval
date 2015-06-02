@@ -47,11 +47,6 @@ public interface Check extends Serializable
 	OValContext getContext();
 
 	/**
-	 * @return the error code that will be used in a corresponding ConstraintViolation object
-	 */
-	String getErrorCode();
-
-	/**
 	 * gets the default message that is displayed if a corresponding message key
 	 * is not found in the messages properties file
 	 * <br>
@@ -137,11 +132,6 @@ public interface Check extends Serializable
 	 * @param context the context to set
 	 */
 	void setContext(OValContext context);
-
-	/**
-	 * @param errorCode the error code to set
-	 */
-	void setErrorCode(String errorCode);
 
 	/**
 	 * sets the default message that is displayed if a corresponding message key

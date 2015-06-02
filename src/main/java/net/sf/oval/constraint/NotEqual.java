@@ -72,11 +72,6 @@ public @interface NotEqual
 	 */
 	ConstraintTarget[] appliesTo() default ConstraintTarget.VALUES;
 
-	/**
-	 * error code passed to the ConstraintViolation object
-	 */
-	String errorCode() default "net.sf.oval.constraint.NotEqual";
-
 	boolean ignoreCase() default false;
 
 	/**

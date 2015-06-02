@@ -36,15 +36,6 @@ public final class AssertConstraintSetCheck extends AbstractAnnotationCheck<Asse
 		setId(constraintAnnotation.id());
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public String getErrorCode() throws UnsupportedOperationException
-	{
-		throw new UnsupportedOperationException();
-	}
-
 	public String getId()
 	{
 		return id;
@@ -77,15 +68,6 @@ public final class AssertConstraintSetCheck extends AbstractAnnotationCheck<Asse
 			final Validator validator) throws UnsupportedOperationException
 	{
 		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void setErrorCode(final String errorCode) throws UnsupportedOperationException
-	{
-        //throw new UnsupportedOperationException();
 	}
 
 	public void setId(final String id)

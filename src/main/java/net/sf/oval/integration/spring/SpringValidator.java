@@ -84,16 +84,15 @@ public class SpringValidator implements org.springframework.validation.Validator
 			for (final ConstraintViolation violation : validator.validate(objectToValidate))
 			{
 				final OValContext ctx = violation.getContext();
-				final String errorCode = violation.getErrorCode();
 				final String errorMessage = violation.getMessage();
 
 				if (ctx instanceof FieldContext)
 				{
 					final String fieldName = ((FieldContext) ctx).getField().getName();
-					errors.rejectValue(fieldName, errorCode, errorMessage);
+					errors.rejectValue(fieldName, errorMessage);
 				}
 				else
-					errors.reject(errorCode, errorMessage);
+					errors.reject(errorMessage);
 			}
 		}
 		catch (final ValidationFailedException ex)

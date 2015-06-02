@@ -31,9 +31,6 @@ public abstract class AbstractCheck implements Check
 
 	private OValContext context;
 
-	// TODO remove properties which are not set by javax validation annotations (only message and profiles).
-	private String errorCode;
-
 	private String message;
 	private Map<String, ? extends Serializable> messageVariables;
 	private Map<String, ? extends Serializable> messageVariablesUnmodifiable;
@@ -41,6 +38,8 @@ public abstract class AbstractCheck implements Check
 
 	// TODO: Replace this by classes
 	private String[] profiles;
+
+	// TODO remove properties which are not set by javax validation annotations (only message and profiles).
 	private int severity;
 	private ConstraintTarget[] appliesTo;
 	private String target;
@@ -77,26 +76,6 @@ public abstract class AbstractCheck implements Check
 	public OValContext getContext()
 	{
 		return context;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public String getErrorCode()
-	{
-		/*
-		 * if the error code has not been initialized (which might be the case when using XML configuration),
-		 * construct the string based on this class' name minus the appendix "Check"
-		 */
-		if (errorCode == null)
-		{
-			final String className = getClass().getName();
-			if (className.endsWith("Check"))
-				errorCode = className.substring(0, getClass().getName().length() - "Check".length());
-			else
-				errorCode = className;
-		}
-		return errorCode;
 	}
 
 	/**
@@ -216,14 +195,6 @@ public abstract class AbstractCheck implements Check
 	public void setContext(final OValContext context)
 	{
 		this.context = context;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public void setErrorCode(final String failureCode)
-	{
-		errorCode = failureCode;
 	}
 
 	/**

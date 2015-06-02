@@ -24,16 +24,16 @@ import java.util.List;
  */
 public class AssertJavascriptTest extends TestCase
 {
-	@Assert(expr = "_this.firstName!=null && _this.lastName!=null && (_this.firstName.length() + _this.lastName.length() > 9)", lang = "javascript", errorCode = "C0")
+	@Assert(expr = "_this.firstName!=null && _this.lastName!=null && (_this.firstName.length() + _this.lastName.length() > 9)", lang = "javascript")
 	public static class Person
 	{
-		@Assert(expr = "_value!=null", lang = "javascript", errorCode = "C1")
+		@Assert(expr = "_value!=null", lang = "javascript")
 		public String firstName;
 
-		@Assert(expr = "_value!=null", lang = "js", errorCode = "C2")
+		@Assert(expr = "_value!=null", lang = "js")
 		public String lastName;
 
-		@Assert(expr = "_value!=null && _value.length>0 && _value.length<7", lang = "javascript", errorCode = "C3")
+		@Assert(expr = "_value!=null && _value.length>0 && _value.length<7", lang = "javascript")
 		public String zipCode;
 	}
 
