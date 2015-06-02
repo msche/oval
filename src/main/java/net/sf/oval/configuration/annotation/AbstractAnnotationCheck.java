@@ -13,6 +13,7 @@
 package net.sf.oval.configuration.annotation;
 
 import net.sf.oval.AbstractCheck;
+import net.sf.oval.constraint.Assert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,34 +24,18 @@ import java.lang.annotation.Annotation;
  * 
  * @author Sebastian Thomschke
  */
-public abstract class AbstractAnnotationCheck<ConstraintAnnotation extends Annotation> extends AbstractCheck
+public abstract class AbstractAnnotationCheck<T extends Annotation> extends AbstractCheck
 		implements
-			AnnotationCheck<ConstraintAnnotation>
+			AnnotationCheck<T>
 {
 	private static final long serialVersionUID = 1L;
 
 	private static final Logger LOG = LoggerFactory.getLogger(AbstractAnnotationCheck.class);
 
-    public void configure(final ConstraintAnnotation constraintAnnotation) {
-        configure(getSettings(constraintAnnotation));
-    }
-
     /**
-     * Returns value object {@code ConstraintAnnotationSettings} containing the basic settings of the constraint annotation
-     *
-     * @param constraintAnnotation Annotation from which the settings will be extracted
-     *
-     * @return Value object {@code ConstraintAnnotationSettings}.
+     * {@inheritDoc}
      */
-    protected abstract ConstraintAnnotationSettings getSettings(final ConstraintAnnotation constraintAnnotation);
+    public abstract void configure(final T constraintAnnotation);
 
-    public final void configure(ConstraintAnnotationSettings settings) {
-        setMessage(settings.getMessage());
-        setAppliesTo(settings.getAppliesTo());
-        setErrorCode(settings.getErrorCode());
-        setSeverity(settings.getSeverity());
-        setProfiles(settings.getProfiles());
-        setTarget(settings.getTarget());
-        setWhen(settings.getWhen());
-    }
+
 }

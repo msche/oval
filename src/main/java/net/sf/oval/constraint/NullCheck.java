@@ -14,9 +14,10 @@ package net.sf.oval.constraint;
 
 import net.sf.oval.Validator;
 import net.sf.oval.configuration.annotation.AbstractAnnotationCheck;
-import net.sf.oval.configuration.annotation.ConstraintAnnotationSettings;
+
 import net.sf.oval.context.OValContext;
 
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 
 /**
@@ -25,6 +26,16 @@ import javax.validation.constraints.Null;
 public final class NullCheck extends AbstractAnnotationCheck<Null>
 {
 	private static final long serialVersionUID = 1L;
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void configure(final Null constraintAnnotation)
+    {
+        setMessage(constraintAnnotation.message());
+        setProfiles(constraintAnnotation.groups());
+    }
 
 	/**
 	 * {@inheritDoc}
@@ -35,19 +46,4 @@ public final class NullCheck extends AbstractAnnotationCheck<Null>
 		return valueToValidate == null;
 	}
 
-    /**
-     * Returns value object {@code ConstraintAnnotationSettings} containing the basic settings of the constraint annotations
-     *
-     * @param constraintAnnotation Annotation from which the settings will be extracted
-     *
-     * @return Value object {@code ConstraintAnnotationSettings}.
-     */
-    protected ConstraintAnnotationSettings getSettings(final Null constraintAnnotation) {
-
-        ConstraintAnnotationSettings settings = new ConstraintAnnotationSettings.Builder()
-                .message(constraintAnnotation.message())
-                .profiles(constraintAnnotation.groups())
-                .build();
-        return settings;
-    }
 }

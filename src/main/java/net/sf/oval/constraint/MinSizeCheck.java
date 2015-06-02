@@ -14,7 +14,7 @@ package net.sf.oval.constraint;
 
 import net.sf.oval.Validator;
 import net.sf.oval.configuration.annotation.AbstractAnnotationCheck;
-import net.sf.oval.configuration.annotation.ConstraintAnnotationSettings;
+
 import net.sf.oval.context.OValContext;
 
 import java.lang.reflect.Array;
@@ -37,30 +37,11 @@ public final class MinSizeCheck extends AbstractAnnotationCheck<MinSize>
 	@Override
 	public void configure(final MinSize constraintAnnotation)
 	{
-		super.configure(constraintAnnotation);
+		setMessage(constraintAnnotation.message());
+		setProfiles(constraintAnnotation.profiles());
 		setMin(constraintAnnotation.value());
 	}
 
-    /**
-     * Returns value object {@code ConstraintAnnotationSettings} containing the basic settings of the constraint annotation
-     *
-     * @param constraintAnnotation Annotation from which the settings will be extracted
-     *
-     * @return Value object {@code ConstraintAnnotationSettings}.
-     */
-    protected ConstraintAnnotationSettings getSettings(final  MinSize constraintAnnotation) {
-
-        ConstraintAnnotationSettings settings = new ConstraintAnnotationSettings.Builder()
-                .message(constraintAnnotation.message())
-                .appliesTo(constraintAnnotation.appliesTo())
-                .errorCode(constraintAnnotation.errorCode())
-                .severity(constraintAnnotation.severity())
-                .profiles(constraintAnnotation.profiles())
-                .target(constraintAnnotation.target())
-                .when(constraintAnnotation.when())
-                .build();
-        return settings;
-    }
     /**
 	 * {@inheritDoc}
 	 */

@@ -15,7 +15,7 @@ package net.sf.oval.constraint;
 import net.sf.oval.ConstraintTarget;
 import net.sf.oval.Validator;
 import net.sf.oval.configuration.annotation.AbstractAnnotationCheck;
-import net.sf.oval.configuration.annotation.ConstraintAnnotationSettings;
+
 import net.sf.oval.context.OValContext;
 
 import javax.validation.Valid;
@@ -31,24 +31,17 @@ public final class ValidCheck extends AbstractAnnotationCheck<Valid>
 	 * {@inheritDoc}
 	 */
 	@Override
+	public void configure(final Valid constraintAnnotation) {
+	}
+		/**
+         * {@inheritDoc}
+         */
+	@Override
 	protected ConstraintTarget[] getAppliesToDefault()
 	{
 		return new ConstraintTarget[]{ConstraintTarget.CONTAINER, ConstraintTarget.VALUES};
 	}
 
-    /**
-     * Returns value object {@code ConstraintAnnotationSettings} containing the basic settings of the constraint annotations
-     *
-     * @param constraintAnnotation Annotation from which the settings will be extracted
-     *
-     * @return Value object {@code ConstraintAnnotationSettings}.
-     */
-    protected ConstraintAnnotationSettings getSettings(final Valid constraintAnnotation) {
-
-        ConstraintAnnotationSettings settings = new ConstraintAnnotationSettings.Builder()
-                .build();
-        return settings;
-    }
 	/**
 	 *  <b>This method is not used.</b><br>
 	 *  The validation of this special constraint is directly performed by the Validator class

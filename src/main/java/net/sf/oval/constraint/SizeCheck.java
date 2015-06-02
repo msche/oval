@@ -14,7 +14,7 @@ package net.sf.oval.constraint;
 
 import net.sf.oval.Validator;
 import net.sf.oval.configuration.annotation.AbstractAnnotationCheck;
-import net.sf.oval.configuration.annotation.ConstraintAnnotationSettings;
+
 import net.sf.oval.context.OValContext;
 
 import javax.validation.constraints.Size;
@@ -39,26 +39,12 @@ public final class SizeCheck extends AbstractAnnotationCheck<Size>
 	@Override
 	public void configure(final Size constraintAnnotation)
 	{
-		super.configure(constraintAnnotation);
+		setMessage(constraintAnnotation.message());
+		setProfiles(constraintAnnotation.groups());
 		setMax(constraintAnnotation.max());
 		setMin(constraintAnnotation.min());
 	}
 
-    /**
-     * Returns value object {@code ConstraintAnnotationSettings} containing the basic settings of the constraint annotation.
-     *
-     * @param constraintAnnotation Annotation from which the settings will be extracted
-     *
-     * @return Value object {@code ConstraintAnnotationSettings}.
-     */
-    protected ConstraintAnnotationSettings getSettings(final  Size constraintAnnotation) {
-
-        ConstraintAnnotationSettings settings = new ConstraintAnnotationSettings.Builder()
-                .message(constraintAnnotation.message())
-                .profiles(constraintAnnotation.groups())
-                .build();
-        return settings;
-    }
     /**
 	 * {@inheritDoc}
 	 */

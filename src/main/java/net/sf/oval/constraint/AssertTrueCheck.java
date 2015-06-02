@@ -15,7 +15,7 @@ package net.sf.oval.constraint;
 import net.sf.oval.ConstraintTarget;
 import net.sf.oval.Validator;
 import net.sf.oval.configuration.annotation.AbstractAnnotationCheck;
-import net.sf.oval.configuration.annotation.ConstraintAnnotationSettings;
+
 import net.sf.oval.context.OValContext;
 
 import javax.validation.constraints.AssertTrue;
@@ -49,19 +49,14 @@ public final class AssertTrueCheck extends AbstractAnnotationCheck<AssertTrue>
 		return Boolean.parseBoolean(valueToValidate.toString());
 	}
 
-    /**
-     * Returns value object {@code ConstraintAnnotationSettings} containing the basic settings of the constraint annotations
-     *
-     * @param constraintAnnotation Annotation from which the settings will be extracted
-     *
-     * @return Value object {@code ConstraintAnnotationSettings}.
-     */
-    protected ConstraintAnnotationSettings getSettings(final  AssertTrue constraintAnnotation) {
-
-        ConstraintAnnotationSettings settings = new ConstraintAnnotationSettings.Builder()
-                .message(constraintAnnotation.message())
-                .profiles(constraintAnnotation.groups())
-                .build();
-        return settings;
-    }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @param constraintAnnotation
+	 */
+	@Override
+	public void configure(AssertTrue constraintAnnotation) {
+		setMessage(constraintAnnotation.message());
+		setProfiles(constraintAnnotation.groups());
+	}
 }

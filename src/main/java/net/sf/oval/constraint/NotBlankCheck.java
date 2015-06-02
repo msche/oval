@@ -15,7 +15,7 @@ package net.sf.oval.constraint;
 import net.sf.oval.ConstraintTarget;
 import net.sf.oval.Validator;
 import net.sf.oval.configuration.annotation.AbstractAnnotationCheck;
-import net.sf.oval.configuration.annotation.ConstraintAnnotationSettings;
+
 import net.sf.oval.context.OValContext;
 
 /**
@@ -32,6 +32,15 @@ public final class NotBlankCheck extends AbstractAnnotationCheck<NotBlank>
 	protected ConstraintTarget[] getAppliesToDefault()
 	{
 		return new ConstraintTarget[]{ConstraintTarget.VALUES};
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void configure(final NotBlank constraintAnnotation) {
+		setMessage(constraintAnnotation.message());
+		setProfiles(constraintAnnotation.profiles());
 	}
 
 	/**
@@ -54,24 +63,4 @@ public final class NotBlankCheck extends AbstractAnnotationCheck<NotBlank>
 		return false;
 	}
 
-    /**
-     * Returns value object {@code ConstraintAnnotationSettings} containing the basic settings of the constraint annotation
-     *
-     * @param constraintAnnotation Annotation from which the settings will be extracted
-     *
-     * @return Value object {@code ConstraintAnnotationSettings}.
-     */
-    protected ConstraintAnnotationSettings getSettings(final  NotBlank constraintAnnotation) {
-
-        ConstraintAnnotationSettings settings = new ConstraintAnnotationSettings.Builder()
-                .message(constraintAnnotation.message())
-                .appliesTo(constraintAnnotation.appliesTo())
-                .errorCode(constraintAnnotation.errorCode())
-                .severity(constraintAnnotation.severity())
-                .profiles(constraintAnnotation.profiles())
-                .target(constraintAnnotation.target())
-                .when(constraintAnnotation.when())
-                .build();
-        return settings;
-    }
 }

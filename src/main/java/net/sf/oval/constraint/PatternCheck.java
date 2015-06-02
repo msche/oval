@@ -15,7 +15,7 @@ package net.sf.oval.constraint;
 import net.sf.oval.ConstraintTarget;
 import net.sf.oval.Validator;
 import net.sf.oval.configuration.annotation.AbstractAnnotationCheck;
-import net.sf.oval.configuration.annotation.ConstraintAnnotationSettings;
+
 import net.sf.oval.context.OValContext;
 import net.sf.oval.internal.util.ArrayUtils;
 
@@ -46,7 +46,8 @@ public final class PatternCheck extends AbstractAnnotationCheck<Pattern>
 	@Override
 	public void configure(final Pattern constraintAnnotation)
 	{
-		super.configure(constraintAnnotation);
+		setMessage(constraintAnnotation.message());
+		setProfiles(constraintAnnotation.groups());
 
 		synchronized (patterns)
 		{
@@ -63,21 +64,6 @@ public final class PatternCheck extends AbstractAnnotationCheck<Pattern>
 		}
 	}
 
-    /**
-     * Returns value object {@code ConstraintAnnotationSettings} containing the basic settings of the constraint annotation
-     *
-     * @param constraintAnnotation Annotation from which the settings will be extracted
-     *
-     * @return Value object {@code ConstraintAnnotationSettings}.
-     */
-    protected ConstraintAnnotationSettings getSettings(final  Pattern constraintAnnotation) {
-
-        ConstraintAnnotationSettings settings = new ConstraintAnnotationSettings.Builder()
-                .message(constraintAnnotation.message())
-                .profiles(constraintAnnotation.groups())
-                .build();
-        return settings;
-    }
     /**
 	 * {@inheritDoc}
 	 */

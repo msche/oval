@@ -14,7 +14,7 @@ package net.sf.oval.constraint;
 
 import net.sf.oval.ConstraintTarget;
 import net.sf.oval.Validator;
-import net.sf.oval.configuration.annotation.ConstraintAnnotationSettings;
+
 import net.sf.oval.context.OValContext;
 import net.sf.oval.exception.InvalidConfigurationException;
 
@@ -42,32 +42,14 @@ public final class DateRangeCheck extends AbstractDateCheck<DateRange> {
      */
     @Override
     public void configure(final DateRange constraintAnnotation) {
-        super.configure(constraintAnnotation);
+        setMessage(constraintAnnotation.message());
+        setProfiles(constraintAnnotation.profiles());
         setMin(constraintAnnotation.min());
         setMax(constraintAnnotation.max());
         setFormat(constraintAnnotation.format());
         setTolerance(constraintAnnotation.tolerance());
     }
 
-    /**
-     * Returns value object {@code ConstraintAnnotationSettings} containing the basic settings of the constraint annotations
-     *
-     * @param constraintAnnotation Annotation from which the settings will be extracted
-     *
-     * @return Value object {@code ConstraintAnnotationSettings}.
-     */
-    protected ConstraintAnnotationSettings getSettings(final  DateRange constraintAnnotation) {
-
-        ConstraintAnnotationSettings settings = new ConstraintAnnotationSettings.Builder()
-                .message(constraintAnnotation.message())
-                .appliesTo(constraintAnnotation.appliesTo())
-                .errorCode(constraintAnnotation.errorCode())
-                .severity(constraintAnnotation.severity())
-                .profiles(constraintAnnotation.profiles())
-                .target(constraintAnnotation.target())
-                .build();
-        return settings;
-    }
     /**
      * {@inheritDoc}
      */

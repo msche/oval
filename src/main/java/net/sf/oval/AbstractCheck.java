@@ -31,7 +31,7 @@ public abstract class AbstractCheck implements Check
 
 	private OValContext context;
 
-	// TODO remove
+	// TODO remove properties which are not set by javax validation annotations (only message and profiles).
 	private String errorCode;
 
 	private String message;
@@ -238,6 +238,17 @@ public abstract class AbstractCheck implements Check
 	public void setProfiles(final String... profiles)
 	{
 		this.profiles = profiles;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public void setProfiles(final Class... groups)
+	{
+		profiles = new String[groups.length];
+		for(int i=0; i<groups.length;i++) {
+			profiles[i] = groups[i].getCanonicalName();
+		}
 	}
 
 	/**

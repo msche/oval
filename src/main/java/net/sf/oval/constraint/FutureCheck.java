@@ -14,7 +14,7 @@ package net.sf.oval.constraint;
 
 import net.sf.oval.ConstraintTarget;
 import net.sf.oval.Validator;
-import net.sf.oval.configuration.annotation.ConstraintAnnotationSettings;
+
 import net.sf.oval.context.OValContext;
 
 import javax.validation.constraints.Future;
@@ -30,24 +30,10 @@ public final class FutureCheck extends AbstractDateCheck<Future>
 	@Override
 	public void configure(final Future constraintAnnotation)
 	{
-		super.configure(constraintAnnotation);
+		setMessage(constraintAnnotation.message());
+		setProfiles(constraintAnnotation.groups());
 	}
 
-    /**
-     * Returns value object {@code ConstraintAnnotationSettings} containing the basic settings of the constraint annotations
-     *
-     * @param constraintAnnotation Annotation from which the settings will be extracted
-     *
-     * @return Value object {@code ConstraintAnnotationSettings}.
-     */
-    protected ConstraintAnnotationSettings getSettings(final  Future constraintAnnotation) {
-
-        ConstraintAnnotationSettings settings = new ConstraintAnnotationSettings.Builder()
-                .message(constraintAnnotation.message())
-                .profiles(constraintAnnotation.groups())
-                .build();
-        return settings;
-    }
 	/**
 	 * {@inheritDoc}
 	 */

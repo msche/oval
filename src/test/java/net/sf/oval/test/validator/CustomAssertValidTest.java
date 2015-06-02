@@ -21,7 +21,7 @@ import net.sf.oval.configuration.annotation.AnnotationCheck;
 import net.sf.oval.configuration.annotation.AnnotationsConfigurer;
 import net.sf.oval.configuration.annotation.BeanValidationAnnotationsConfigurer;
 import net.sf.oval.configuration.annotation.Constraint;
-import net.sf.oval.configuration.annotation.ConstraintAnnotationSettings;
+
 import net.sf.oval.constraint.ValidCheck;
 import net.sf.oval.constraint.Length;
 import net.sf.oval.constraint.NotEmpty;
@@ -117,31 +117,12 @@ public class CustomAssertValidTest extends TestCase
 		@Override
 		public void configure(final CustomAssertValid constraintAnnotation)
 		{
-            super.configure(constraintAnnotation);
 			assertValidCheck.setErrorCode(constraintAnnotation.errorCode());
 			assertValidCheck.setMessage(constraintAnnotation.message());
 			assertValidCheck.setProfiles(constraintAnnotation.profiles());
 			assertValidCheck.setAppliesTo(constraintAnnotation.appliesTo());
 			assertValidCheck.setSeverity(constraintAnnotation.severity());
 		}
-
-        /**
-         * Returns value object {@code ConstraintAnnotationSettings} containing the basic settings of the constraint settings
-         *
-         * @param constraintAnnotation Annotation from which the settings will be extracted
-         * @return Value object {@code ConstraintAnnotationSettings}.
-         */
-        @Override
-        protected final ConstraintAnnotationSettings getSettings(CustomAssertValid constraintAnnotation) {
-            ConstraintAnnotationSettings settings = new ConstraintAnnotationSettings.Builder()
-                    .message(constraintAnnotation.message())
-                    .appliesTo(constraintAnnotation.appliesTo())
-                    .errorCode(constraintAnnotation.errorCode())
-                    .severity(constraintAnnotation.severity())
-                    .profiles(constraintAnnotation.profiles())
-                    .build();
-            return settings;
-        }
 
         public boolean isSatisfied(final Object validatedObject, final Object value, final OValContext context,
 				final Validator validator)

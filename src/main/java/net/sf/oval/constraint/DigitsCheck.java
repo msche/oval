@@ -15,7 +15,7 @@ package net.sf.oval.constraint;
 import net.sf.oval.ConstraintTarget;
 import net.sf.oval.Validator;
 import net.sf.oval.configuration.annotation.AbstractAnnotationCheck;
-import net.sf.oval.configuration.annotation.ConstraintAnnotationSettings;
+
 import net.sf.oval.context.OValContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,26 +46,12 @@ public final class DigitsCheck extends AbstractAnnotationCheck<Digits>
 	@Override
 	public void configure(final Digits constraintAnnotation)
 	{
-		super.configure(constraintAnnotation);
+		setMessage(constraintAnnotation.message());
+		setProfiles(constraintAnnotation.groups());
 		setMaxInteger(constraintAnnotation.integer());
 		setMaxFraction(constraintAnnotation.fraction());
 	}
 
-    /**
-     * Returns value object {@code ConstraintAnnotationSettings} containing the basic settings of the constraint annotations
-     *
-     * @param constraintAnnotation Annotation from which the settings will be extracted
-     *
-     * @return Value object {@code ConstraintAnnotationSettings}.
-     */
-    protected ConstraintAnnotationSettings getSettings(final  Digits constraintAnnotation) {
-
-        ConstraintAnnotationSettings settings = new ConstraintAnnotationSettings.Builder()
-                .message(constraintAnnotation.message())
-                .profiles(constraintAnnotation.groups())
-                .build();
-        return settings;
-    }
 	/**
 	 * {@inheritDoc}
 	 */

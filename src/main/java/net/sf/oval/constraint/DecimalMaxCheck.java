@@ -15,7 +15,7 @@ package net.sf.oval.constraint;
 import net.sf.oval.ConstraintTarget;
 import net.sf.oval.Validator;
 import net.sf.oval.configuration.annotation.AbstractAnnotationCheck;
-import net.sf.oval.configuration.annotation.ConstraintAnnotationSettings;
+
 import net.sf.oval.context.OValContext;
 
 import javax.validation.constraints.DecimalMax;
@@ -37,7 +37,8 @@ public final class DecimalMaxCheck extends AbstractAnnotationCheck<DecimalMax>
 	@Override
 	public void configure(final DecimalMax constraintAnnotation)
 	{
-		super.configure(constraintAnnotation);
+		setMessage(constraintAnnotation.message());
+		setProfiles(constraintAnnotation.groups());
 		setMax(Double.parseDouble(constraintAnnotation.value()));
 	}
 
@@ -62,21 +63,6 @@ public final class DecimalMaxCheck extends AbstractAnnotationCheck<DecimalMax>
 		return new ConstraintTarget[]{ConstraintTarget.VALUES};
 	}
 
-    /**
-     * Returns value object {@code ConstraintAnnotationSettings} containing the basic settings of the constraint annotation
-     *
-     * @param constraintAnnotation Annotation from which the settings will be extracted
-     *
-     * @return Value object {@code ConstraintAnnotationSettings}.
-     */
-    protected ConstraintAnnotationSettings getSettings(final  DecimalMax constraintAnnotation) {
-
-        ConstraintAnnotationSettings settings = new ConstraintAnnotationSettings.Builder()
-                .message(constraintAnnotation.message())
-                .profiles(constraintAnnotation.groups())
-                .build();
-        return settings;
-    }
     /**
 	 * @return the max
 	 */

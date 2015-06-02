@@ -14,7 +14,7 @@ package net.sf.oval.constraint;
 
 import net.sf.oval.Validator;
 import net.sf.oval.configuration.annotation.AbstractAnnotationCheck;
-import net.sf.oval.configuration.annotation.ConstraintAnnotationSettings;
+
 import net.sf.oval.context.OValContext;
 import net.sf.oval.exception.ExpressionEvaluationException;
 import net.sf.oval.exception.ExpressionLanguageNotAvailableException;
@@ -39,32 +39,11 @@ public final class AssertCheck extends AbstractAnnotationCheck<Assert>
 	@Override
 	public void configure(final Assert constraintAnnotation)
 	{
-		super.configure(constraintAnnotation);
+		setMessage(constraintAnnotation.message());
+		setProfiles(constraintAnnotation.profiles());
 		setExpr(constraintAnnotation.expr());
 		setLang(constraintAnnotation.lang());
 	}
-
-    /**
-     * Returns value object {@code ConstraintAnnotationSettings} containing the basic settings of the constraint annotations
-     *
-     * @param constraintAnnotation Annotation from which the settings will be extracted
-     *
-     * @return Value object {@code ConstraintAnnotationSettings}.
-     */
-    protected ConstraintAnnotationSettings getSettings(final  Assert constraintAnnotation) {
-
-        ConstraintAnnotationSettings settings = new ConstraintAnnotationSettings.Builder()
-                .message(constraintAnnotation.message())
-                .appliesTo(constraintAnnotation.appliesTo())
-                .errorCode(constraintAnnotation.errorCode())
-                .severity(constraintAnnotation.severity())
-                .profiles(constraintAnnotation.profiles())
-                .target(constraintAnnotation.target())
-                .when(constraintAnnotation.when())
-                .build();
-        return settings;
-    }
-
 
     /**
 	 * {@inheritDoc}

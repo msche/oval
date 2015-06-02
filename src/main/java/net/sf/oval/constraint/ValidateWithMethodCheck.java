@@ -15,7 +15,7 @@ package net.sf.oval.constraint;
 import net.sf.oval.ConstraintTarget;
 import net.sf.oval.Validator;
 import net.sf.oval.configuration.annotation.AbstractAnnotationCheck;
-import net.sf.oval.configuration.annotation.ConstraintAnnotationSettings;
+
 import net.sf.oval.context.OValContext;
 import net.sf.oval.exception.InvalidConfigurationException;
 import net.sf.oval.exception.ReflectionException;
@@ -42,32 +42,13 @@ public final class ValidateWithMethodCheck extends AbstractAnnotationCheck<Valid
 	@Override
 	public void configure(final ValidateWithMethod constraintAnnotation)
 	{
-		super.configure(constraintAnnotation);
+		setMessage(constraintAnnotation.message());
+		setProfiles(constraintAnnotation.profiles());
 		setMethodName(constraintAnnotation.methodName());
 		setParameterType(constraintAnnotation.parameterType());
 		setIgnoreIfNull(constraintAnnotation.ignoreIfNull());
 	}
 
-    /**
-     * Returns value object {@code ConstraintAnnotationSettings} containing the basic settings of the constraint annotation.
-     *
-     * @param constraintAnnotation Annotation from which the settings will be extracted
-     *
-     * @return Value object {@code ConstraintAnnotationSettings}.
-     */
-    protected ConstraintAnnotationSettings getSettings(final  ValidateWithMethod constraintAnnotation) {
-
-        ConstraintAnnotationSettings settings = new ConstraintAnnotationSettings.Builder()
-                .message(constraintAnnotation.message())
-                .appliesTo(constraintAnnotation.appliesTo())
-                .errorCode(constraintAnnotation.errorCode())
-                .severity(constraintAnnotation.severity())
-                .profiles(constraintAnnotation.profiles())
-                .target(constraintAnnotation.target())
-                .when(constraintAnnotation.when())
-                .build();
-        return settings;
-    }
     /**
 	 * {@inheritDoc}
 	 */

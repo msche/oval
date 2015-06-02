@@ -104,13 +104,11 @@ public class AssertScriptEngineJavascriptTest extends TestCase
 		p.zipCode = "1234567";
 		violations = validator.validate(p);
 		assertTrue(violations.size() == 1);
-		assertTrue(violations.get(0).getErrorCode().equals("C3"));
 
 		// test not empty
 		p.zipCode = "";
 		violations = validator.validate(p);
 		assertTrue(violations.size() == 1);
-		assertTrue(violations.get(0).getErrorCode().equals("C3"));
 
 		// test ok
 		p.zipCode = "wqeew";
@@ -122,6 +120,5 @@ public class AssertScriptEngineJavascriptTest extends TestCase
 		p.lastName = "1234";
 		violations = validator.validate(p);
 		assertTrue(violations.size() == 1);
-		assertTrue(violations.get(0).getErrorCode().equals("C0"));
 	}
 }

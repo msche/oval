@@ -15,7 +15,7 @@ package net.sf.oval.constraint;
 import net.sf.oval.ConstraintTarget;
 import net.sf.oval.Validator;
 import net.sf.oval.configuration.annotation.AbstractAnnotationCheck;
-import net.sf.oval.configuration.annotation.ConstraintAnnotationSettings;
+
 import net.sf.oval.context.OValContext;
 
 /**
@@ -35,27 +35,11 @@ public final class AssertFieldConstraintsCheck extends AbstractAnnotationCheck<A
 	@Override
 	public void configure(final AssertFieldConstraints constraintAnnotation)
 	{
-		super.configure(constraintAnnotation);
+		//TODO: add message to constraint setMessage(constraintAnnotation.message());
+		setProfiles(constraintAnnotation.profiles());
 		setFieldName(constraintAnnotation.value());
 		setDeclaringClass(constraintAnnotation.declaringClass());
 	}
-
-    /**
-     * Returns value object {@code ConstraintAnnotationSettings} containing the basic settings of the constraint annotations
-     *
-     * @param constraintAnnotation Annotation from which the settings will be extracted
-     *
-     * @return Value object {@code ConstraintAnnotationSettings}.
-     */
-    protected final ConstraintAnnotationSettings getSettings(final  AssertFieldConstraints constraintAnnotation) {
-
-        ConstraintAnnotationSettings settings = new ConstraintAnnotationSettings.Builder()
-                .profiles(constraintAnnotation.profiles())
-                .when(constraintAnnotation.when())
-                .build();
-        return settings;
-    }
-
 
 	/**
 	 * {@inheritDoc}

@@ -15,7 +15,7 @@ package net.sf.oval.constraint;
 import net.sf.oval.ConstraintTarget;
 import net.sf.oval.Validator;
 import net.sf.oval.configuration.annotation.AbstractAnnotationCheck;
-import net.sf.oval.configuration.annotation.ConstraintAnnotationSettings;
+
 import net.sf.oval.context.OValContext;
 
 import javax.validation.constraints.AssertFalse;
@@ -39,6 +39,16 @@ public final class AssertFalseCheck extends AbstractAnnotationCheck<AssertFalse>
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
+	public void configure(final AssertFalse constraintAnnotation)
+	{
+		setMessage(constraintAnnotation.message());
+		setProfiles(constraintAnnotation.groups());
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public boolean isSatisfied(final Object validatedObject, final Object valueToValidate, final OValContext context,
 			final Validator validator)
 	{
@@ -48,21 +58,5 @@ public final class AssertFalseCheck extends AbstractAnnotationCheck<AssertFalse>
 
 		return !Boolean.parseBoolean(valueToValidate.toString());
 	}
-
-    /**
-     * Returns value object {@code ConstraintAnnotationSettings} containing the basic settings of the constraint annotations
-     *
-     * @param constraintAnnotation Annotation from which the settings will be extracted
-     *
-     * @return Value object {@code ConstraintAnnotationSettings}.
-     */
-    protected ConstraintAnnotationSettings getSettings(final  AssertFalse constraintAnnotation) {
-
-        ConstraintAnnotationSettings settings = new ConstraintAnnotationSettings.Builder()
-                .message(constraintAnnotation.message())
-                .profiles(constraintAnnotation.groups())
-                .build();
-        return settings;
-    }
 
 }
