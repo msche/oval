@@ -33,7 +33,6 @@ public abstract class AbstractCheck implements Check
 
 	private String message;
 	private Map<String, ? extends Serializable> messageVariables;
-	private Map<String, ? extends Serializable> messageVariablesUnmodifiable;
 	private boolean messageVariablesUpToDate = true;
 
 	// TODO: Replace this by classes
@@ -107,14 +106,13 @@ public abstract class AbstractCheck implements Check
 	{
 		if (!messageVariablesUpToDate)
 		{
-			messageVariables = createMessageVariables();
-			if (messageVariables == null)
-				messageVariablesUnmodifiable = null;
-			else
-				messageVariablesUnmodifiable = Collections.unmodifiableMap(messageVariables);
+			messageVariables = Collections.unmodifiableMap(createMessageVariables());
 			messageVariablesUpToDate = true;
 		}
-		return messageVariablesUnmodifiable;
+		if (messageVariables == null)
+			return null;
+		else
+			return messageVariables;
 	}
 
 	/**
