@@ -71,15 +71,6 @@ public interface Check extends Serializable
 	String[] getGroups();
 
 	/**
-	 *
-	 * @param validatedObject the object/bean to validate the value against, for static fields or methods this is the class
-	 * @param valueToValidate the value to validate, may be null when validating pre conditions for static methods
-	 * @param validator the calling validator
-	 * @return <code>true</code> if this check is active and must be satisfied
-	 */
-	boolean isActive(Object validatedObject, Object valueToValidate, Validator validator);
-
-	/**
 	 * This method implements the validation logic
 	 *
 	 * @param validatedObject the object/bean to validate the value against, for static fields or methods this is the class

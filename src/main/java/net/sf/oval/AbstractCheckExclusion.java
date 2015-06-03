@@ -44,14 +44,6 @@ public abstract class AbstractCheckExclusion implements CheckExclusion
 	/**
 	 * {@inheritDoc}
 	 */
-	public boolean isActive(final Object validatedObject, final Object valueToValidate, final Validator validator)
-	{
-		return true;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
 	public void setProfiles(final String... profiles)
 	{
 		this.profiles = profiles;

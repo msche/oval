@@ -126,14 +126,6 @@ public abstract class AbstractCheck implements Check
 	}
 
 	/**
-	 * {@inheritDoc}
-	 */
-	public synchronized boolean isActive(final Object validatedObject, final Object valueToValidate, final Validator validator)
-	{
-		return true;
-	}
-
-	/**
 	 * Calling this method indicates that the {@link #createMessageVariables()} method needs to be called before the message
 	 * for the next violation of this check is rendered.
 	 */

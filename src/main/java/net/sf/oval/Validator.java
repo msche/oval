@@ -671,8 +671,6 @@ public class Validator implements IValidator {
                                    Object valueToValidate, OValContext context, final String[] profiles, final boolean isContainerValue) throws OValException {
         if (!isAnyProfileEnabled(check.getGroups(), profiles)) return;
 
-        if (!check.isActive(validatedObject, valueToValidate, this)) return;
-
         final ConstraintTarget[] targets = check.getAppliesTo();
 
         final Class<?> compileTimeType = context.getCompileTimeType();
