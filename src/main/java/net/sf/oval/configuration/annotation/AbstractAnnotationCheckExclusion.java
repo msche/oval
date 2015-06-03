@@ -52,17 +52,5 @@ public abstract class AbstractAnnotationCheckExclusion<ExclusionAnnotation exten
 			LOG.debug("Cannot determine constraint profiles based on annotation {}", exclusionClazz.getName(), e);
 		}
 
-		/*
-		 * Retrieve the when formula from the constraint exclusion annotation via reflection.
-		 */
-		try
-		{
-			final Method getWhen = exclusionClazz.getDeclaredMethod("when", (Class< ? >[]) null);
-			setWhen((String) getWhen.invoke(exclusionClazz, (Object[]) null));
-		}
-		catch (final Exception e)
-		{
-			LOG.debug("Cannot determine constraint when formula based on annotation {}", exclusionClazz.getName(), e);
-		}
 	}
 }

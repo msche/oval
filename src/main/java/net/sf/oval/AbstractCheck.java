@@ -41,9 +41,6 @@ public abstract class AbstractCheck implements Check
 
 	// TODO remove properties which are not set by javax validation annotations (only message and profiles).
 	private ConstraintTarget[] appliesTo;
-	private String when;
-	private transient String whenFormula;
-	private transient String whenLang;
 
 	protected Map<String, ? extends Serializable> createMessageVariables()
 	{
@@ -131,27 +128,9 @@ public abstract class AbstractCheck implements Check
 	/**
 	 * {@inheritDoc}
 	 */
-	public String getWhen()
-	{
-		return when;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
 	public synchronized boolean isActive(final Object validatedObject, final Object valueToValidate, final Validator validator)
 	{
-		if (when == null) return true;
-
-		// this triggers parsing of when, happens when this check instance was deserialized
-		if (whenLang == null) setWhen(when);
-
-		final Map<String, Object> values = new LinkedHashMap<>();
-		values.put("_value", valueToValidate);
-		values.put("_this", validatedObject);
-
-		final ExpressionLanguage el = validator.getExpressionLanguageRegistry().getExpressionLanguage(whenLang);
-		return el.evaluateAsBoolean(whenFormula, values);
+		return true;
 	}
 
 	/**
@@ -202,27 +181,4 @@ public abstract class AbstractCheck implements Check
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public void setWhen(final String when)
-	{
-		synchronized (this)
-		{
-			if (when == null || when.length() == 0)
-			{
-				this.when = null;
-				whenFormula = null;
-				whenLang = null;
-			}
-			else
-			{
-				final String[] parts = when.split(":", 2);
-				if (parts.length == 0) throw new IllegalArgumentException("[when] is missing the scripting language declaration");
-				this.when = when;
-				whenLang = parts[0];
-				whenFormula = parts[1];
-			}
-		}
-	}
 }

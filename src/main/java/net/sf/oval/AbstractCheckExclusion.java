@@ -28,10 +28,6 @@ public abstract class AbstractCheckExclusion implements CheckExclusion
 
 	private String[] profiles;
 
-	private String when;
-	private String whenFormula;
-	private String whenLang;
-
 	public Map<String, String> getMessageVariables()
 	{
 		return null;
@@ -48,24 +44,9 @@ public abstract class AbstractCheckExclusion implements CheckExclusion
 	/**
 	 * {@inheritDoc}
 	 */
-	public String getWhen()
-	{
-		return whenLang + ":" + when;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
 	public boolean isActive(final Object validatedObject, final Object valueToValidate, final Validator validator)
 	{
-		if (when == null) return true;
-
-		final Map<String, Object> values = new LinkedHashMap<>();
-		values.put("_value", valueToValidate);
-		values.put("_this", validatedObject);
-
-		final ExpressionLanguage el = validator.getExpressionLanguageRegistry().getExpressionLanguage(whenLang);
-		return el.evaluateAsBoolean(whenFormula, values);
+		return true;
 	}
 
 	/**
@@ -76,25 +57,4 @@ public abstract class AbstractCheckExclusion implements CheckExclusion
 		this.profiles = profiles;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public void setWhen(final String when)
-	{
-		if (when == null || when.length() == 0)
-		{
-			this.when = null;
-			this.whenFormula = null;
-			this.whenLang = null;
-		}
-		else
-		{
-			this.when = when;
-			final String[] parts = when.split(":", 2);
-			if (parts.length == 0)
-				throw new IllegalArgumentException("[when] is missing the scripting language declaration");
-			whenLang = parts[0];
-			whenFormula = parts[1];
-		}
-	}
 }

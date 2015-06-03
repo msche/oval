@@ -30,22 +30,6 @@ public interface CheckExclusion extends Serializable
 	String[] getProfiles();
 
 	/**
-	 * Formula returning <code>true</code> if this constraint shall be evaluated and
-	 * <code>false</code> if it shall be ignored for the current validation.
-	 * <p>
-	 * <b>Important:</b> The formula must be prefixed with the name of the scripting language that is used.
-	 * E.g. <code>groovy:_this.amount > 10</code>
-	 * <p>
-	 * Available context variables are:<br>
-	 * <b>_this</b> -&gt; the validated bean<br>
-	 * <b>_value</b> -&gt; the value to validate (e.g. the field value, parameter value, method return value,
-	 *    or the validated bean for object level constraints)
-	 *    
-	 * @return the formula
-	 */
-	String getWhen();
-
-	/**
 	 * @param validatedObject the object/bean to validate the value against, for static fields or methods this is the class
 	 * @param valueToValidate the value to validate, may be null when validating pre conditions for static methods
 	 * @param validator the calling validator
@@ -72,19 +56,4 @@ public interface CheckExclusion extends Serializable
 	 */
 	void setProfiles(String... profiles);
 
-	/**
-	 * Sets the formula returning <code>true</code> if this constraint shall be evaluated and
-	 * <code>false</code> if it shall be ignored for the current validation.
-	 * <p>
-	 * <b>Important:</b> The formula must be prefixed with the name of the scripting language that is used.
-	 * E.g. <code>groovy:_this.amount > 10</code>
-	 * <p>
-	 * Available context variables are:<br>
-	 * <b>_this</b> -&gt; the validated bean<br>
-	 * <b>_value</b> -&gt; the value to validate (e.g. the field value, parameter value, method return value,
-	 *    or the validated bean for object level constraints)
-	 *  
-	 * @param when formula calculating if this check is active
-	 */
-	void setWhen(final String when);
 }
