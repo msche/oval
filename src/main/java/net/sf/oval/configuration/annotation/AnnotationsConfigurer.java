@@ -207,7 +207,6 @@ public class AnnotationsConfigurer implements Configurer
 			classCfg.applyFieldConstraintsToConstructors = false;
 			classCfg.applyFieldConstraintsToSetters = false;
 			classCfg.assertParametersNotNull = false;
-			classCfg.checkInvariants = false;
 			classCfg.inspectInterfaces = false;
 		}
 		else
@@ -215,7 +214,6 @@ public class AnnotationsConfigurer implements Configurer
 			classCfg.applyFieldConstraintsToConstructors = guarded.applyFieldConstraintsToConstructors();
 			classCfg.applyFieldConstraintsToSetters = guarded.applyFieldConstraintsToSetters();
 			classCfg.assertParametersNotNull = guarded.assertParametersNotNull();
-			classCfg.checkInvariants = guarded.checkInvariants();
 			classCfg.inspectInterfaces = guarded.inspectInterfaces();
 		}
 

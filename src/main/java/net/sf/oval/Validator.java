@@ -263,11 +263,6 @@ public class Validator implements IValidator {
             cc.clear();
         }
 
-//		if (classCfg.checkInvariants != null)
-//		{
-        cc.isCheckInvariants = classCfg.checkInvariants;
-//		}
-
         // cache the result for better performance
         final boolean applyFieldConstraintsToConstructors = classCfg.applyFieldConstraintsToConstructors;
         final boolean applyFieldConstraintsToSetters = classCfg.applyFieldConstraintsToSetters;

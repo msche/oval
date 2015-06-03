@@ -69,12 +69,6 @@ public class ClassConfiguration extends ConfigurationElement
 	public boolean assertParametersNotNull;
 
 	/**
-	 * Specifies if invariants are checked prior and after calls to
-	 * non-private methods and constructors.
-	 */
-	public boolean checkInvariants;
-
-	/**
 	 * Specifies whether annotations can be applied to interfaces that this class implements,
 	 * supporting a documentation function
 	 */

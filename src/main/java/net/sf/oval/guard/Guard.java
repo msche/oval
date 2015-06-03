@@ -250,8 +250,6 @@ public class Guard extends Validator
 		final ClassChecks cc = getClassChecks(ctor.getDeclaringClass());
 
 		// check invariants
-		if (cc.isCheckInvariants || cc.methodsWithCheckInvariantsPost.contains(ctor))
-		{
 			final List<ConstraintViolation> violations = new ArrayList<>();
 			try
 			{
@@ -269,7 +267,6 @@ public class Guard extends Validator
 
 				throw translateException(violationException);
 			}
-		}
 	}
 
 	/**
@@ -320,8 +317,8 @@ public class Guard extends Validator
 	{
 		final ClassChecks cc = getClassChecks(method.getDeclaringClass());
 
-		final boolean checkInvariants = cc.isCheckInvariants && !ReflectionUtils.isPrivate(method)
-				&& !ReflectionUtils.isProtected(method);
+		// Check invariants if method is not private
+		final boolean checkInvariants = !ReflectionUtils.isPrivate(method);
 
 		// if static method use the declaring class as guardedObject
 		if (guardedObject == null && ReflectionUtils.isStatic(method)) guardedObject = method.getDeclaringClass();
@@ -421,17 +418,6 @@ public class Guard extends Validator
 		if (objectListeners == null) return false;
 
 		return objectListeners.contains(listener);
-	}
-
-	/**
-	 * Determines if invariants are checked prior and after every call to a non-private method or constructor.
-	 *
-	 * @param guardedClass the guarded class
-	 * @return the isInvariantChecksActivated
-	 */
-	public boolean isInvariantsEnabled(final Class< ? > guardedClass)
-	{
-		return getClassChecks(guardedClass).isCheckInvariants;
 	}
 
 	/**
@@ -564,17 +550,6 @@ public class Guard extends Validator
 		final Set<ConstraintsViolatedListener> currentListeners = listenersByObject.get(guardedObject);
 
 		return currentListeners == null ? false : currentListeners.remove(listener);
-	}
-
-	/**
-	 * Specifies if invariants are checked prior and after calls to non-private methods and constructors.
-	 *
-	 * @param guardedClass the guarded class to turn on/off the invariant checking
-	 * @param isEnabled the isEnabled to set
-	 */
-	public void setInvariantsEnabled(final Class< ? > guardedClass, final boolean isEnabled)
-	{
-		getClassChecks(guardedClass).isCheckInvariants = isEnabled;
 	}
 
 	/**

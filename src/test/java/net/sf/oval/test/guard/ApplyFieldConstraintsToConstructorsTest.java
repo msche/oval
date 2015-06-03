@@ -78,6 +78,7 @@ public class ApplyFieldConstraintsToConstructorsTest extends TestCase
 		try
 		{
 			new Person(false, null, null, null);
+			fail();
 		}
 		catch (final ConstraintsViolatedException ex)
 		{
@@ -96,10 +97,11 @@ public class ApplyFieldConstraintsToConstructorsTest extends TestCase
 		try
 		{
 			new Person(null, null, null);
+			fail();
 		}
 		catch (final ConstraintsViolatedException ex)
 		{
-			fail();
+			// OK
 		}
 
 	}

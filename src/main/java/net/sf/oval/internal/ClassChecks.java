@@ -99,8 +99,6 @@ public final class ClassChecks
 	 */
 	public final Set<Method> constrainedStaticMethods = new LinkedHashSet<>();
 
-	public boolean isCheckInvariants;
-
 	public final Set<AccessibleObject> methodsWithCheckInvariantsPost = new LinkedHashSet<>();
 
 	public final Set<Method> methodsWithCheckInvariantsPre = new LinkedHashSet<>();
