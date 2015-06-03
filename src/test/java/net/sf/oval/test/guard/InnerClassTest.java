@@ -74,11 +74,7 @@ public class InnerClassTest extends TestCase
 	@SuppressWarnings("unused")
 	public void testInnerClassGuarded()
 	{
-		//final Guard guard = new Guard();
-		//TestGuardAspect.aspectOf().setGuard(guard);
 		Guard guard = new GuardAspect2().getGuard();
-
-		guard.setInvariantsEnabled(true);
 
 		try
 		{

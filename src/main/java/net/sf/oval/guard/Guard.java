@@ -68,8 +68,6 @@ public class Guard extends Validator
 	 */
 	private static final List<String> currentlyCheckingMethodReturnValues = new ArrayList<>();
 
-	private boolean isInvariantsEnabled = true;
-
 	/**
 	 * Flag that indicates if any listeners were registered at any time. Used for improved performance.
 	 */
@@ -252,7 +250,7 @@ public class Guard extends Validator
 		final ClassChecks cc = getClassChecks(ctor.getDeclaringClass());
 
 		// check invariants
-		if (isInvariantsEnabled && cc.isCheckInvariants || cc.methodsWithCheckInvariantsPost.contains(ctor))
+		if (cc.isCheckInvariants || cc.methodsWithCheckInvariantsPost.contains(ctor))
 		{
 			final List<ConstraintViolation> violations = new ArrayList<>();
 			try
@@ -322,7 +320,7 @@ public class Guard extends Validator
 	{
 		final ClassChecks cc = getClassChecks(method.getDeclaringClass());
 
-		final boolean checkInvariants = isInvariantsEnabled && cc.isCheckInvariants && !ReflectionUtils.isPrivate(method)
+		final boolean checkInvariants = cc.isCheckInvariants && !ReflectionUtils.isPrivate(method)
 				&& !ReflectionUtils.isProtected(method);
 
 		// if static method use the declaring class as guardedObject
@@ -423,16 +421,6 @@ public class Guard extends Validator
 		if (objectListeners == null) return false;
 
 		return objectListeners.contains(listener);
-	}
-
-	/**
-	 * Determines if invariants are checked prior and after every call to a non-private method or constructor.
-	 *
-	 * @return the isInvariantChecksActivated
-	 */
-	public boolean isInvariantsEnabled()
-	{
-		return isInvariantsEnabled;
 	}
 
 	/**
@@ -576,16 +564,6 @@ public class Guard extends Validator
 		final Set<ConstraintsViolatedListener> currentListeners = listenersByObject.get(guardedObject);
 
 		return currentListeners == null ? false : currentListeners.remove(listener);
-	}
-
-	/**
-	 * Specifies if invariants are checked prior and after calls to non-private methods and constructors.
-	 *
-	 * @param isEnabled the isInvariantsEnabled to set
-	 */
-	public void setInvariantsEnabled(final boolean isEnabled)
-	{
-		isInvariantsEnabled = isEnabled;
 	}
 
 	/**
