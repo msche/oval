@@ -607,16 +607,6 @@ public class Guard extends Validator
 		}
 	}
 
-//	/**
-//	 * {@inheritDoc}
-//	 */
-//	@Override
-//	protected void validateInvariants(final Object guardedObject, final List<ConstraintViolation> violations, final String[] profiles)
-//			throws IllegalArgumentException, ValidationFailedException
-//	{
-//			super.validateInvariants(guardedObject, violations, profiles);
-//	}
-
 	/**
 	 * Validates the pre conditions for a method call.<br>
 	 *
@@ -637,7 +627,7 @@ public class Guard extends Validator
 			/*
 			 * parameter constraints validation
 			 */
-			if (parameterNames.length > 0) for (int i = 0; i < args.length; i++)
+			for (int i = 0; i < args.length; i++)
 			{
 				final ParameterChecks checks = parameterChecks.get(i);
 
