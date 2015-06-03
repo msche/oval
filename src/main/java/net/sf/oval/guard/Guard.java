@@ -68,7 +68,6 @@ public class Guard extends Validator
 	 */
 	private static final List<String> currentlyCheckingMethodReturnValues = new ArrayList<>();
 
-	private boolean isActivated = true;
 	private boolean isInvariantsEnabled = true;
 
 	/**
@@ -250,8 +249,6 @@ public class Guard extends Validator
 	protected void guardConstructorPost(final Object guardedObject, final Constructor< ? > ctor,
 			@SuppressWarnings("unused") final Object[] args) throws ConstraintsViolatedException, ValidationFailedException
 	{
-		if (!isActivated) return;
-
 		final ClassChecks cc = getClassChecks(ctor.getDeclaringClass());
 
 		// check invariants
@@ -286,8 +283,6 @@ public class Guard extends Validator
 	protected void guardConstructorPre(final Object guardedObject, final Constructor< ? > ctor, final Object[] args)
 			throws ConstraintsViolatedException, ValidationFailedException
 	{
-		if (!isActivated) return;
-
 		// constructor parameter validation
 		if (args.length > 0)
 		{
@@ -325,8 +320,6 @@ public class Guard extends Validator
 	protected Object guardMethod(Object guardedObject, final Method method, final Object[] args, final Invocable invocable)
 			throws Throwable
 	{
-		if (!isActivated) return invocable.invoke();
-
 		final ClassChecks cc = getClassChecks(method.getDeclaringClass());
 
 		final boolean checkInvariants = isInvariantsEnabled && cc.isCheckInvariants && !ReflectionUtils.isPrivate(method)
@@ -431,15 +424,6 @@ public class Guard extends Validator
 
 		return objectListeners.contains(listener);
 	}
-
-	/**
-	 * @return the isEnabled
-	 */
-	public boolean isActivated()
-	{
-		return isActivated;
-	}
-
 
 	/**
 	 * Determines if invariants are checked prior and after every call to a non-private method or constructor.
@@ -592,17 +576,6 @@ public class Guard extends Validator
 		final Set<ConstraintsViolatedListener> currentListeners = listenersByObject.get(guardedObject);
 
 		return currentListeners == null ? false : currentListeners.remove(listener);
-	}
-
-	/**
-	 * If set to false OVal's programming by contract features are disabled and constraints are not checked
-	 * automatically during runtime.
-	 *
-	 * @param isActivated the isActivated to set
-	 */
-	public void setActivated(final boolean isActivated)
-	{
-		this.isActivated = isActivated;
 	}
 
 	/**
