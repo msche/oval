@@ -65,15 +65,6 @@ public final class AssertFieldConstraintsCheck extends AbstractAnnotationCheck<A
 	}
 
 	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public int getSeverity() throws UnsupportedOperationException
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	/**
 	 *  <b>This method is not used.</b><br>
 	 *  The validation of this special constraint is directly performed by the Validator class
 	 *  @throws UnsupportedOperationException always thrown if this method is invoked
@@ -101,12 +92,4 @@ public final class AssertFieldConstraintsCheck extends AbstractAnnotationCheck<A
 		//throw new UnsupportedOperationException();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void setSeverity(final int severity)
-	{
-		//throw new UnsupportedOperationException();
-	}
 }

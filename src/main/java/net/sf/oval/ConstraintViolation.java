@@ -42,7 +42,6 @@ public class ConstraintViolation implements Serializable
 	private final String messageTemplate;
 	private final Map<String, ? extends Serializable> messageVariables;
 
-	private final int severity;
 	private transient Object validatedObject;
 
 	public ConstraintViolation(final Check check, final String message, final Object validatedObject, final Object invalidValue,
@@ -59,7 +58,6 @@ public class ConstraintViolation implements Serializable
 		this.message = message;
 		messageTemplate = check.getMessage();
 		messageVariables = check.getMessageVariables();
-		severity = check.getSeverity();
 		this.validatedObject = validatedObject;
 		this.invalidValue = invalidValue;
 		this.context = context;
@@ -74,7 +72,6 @@ public class ConstraintViolation implements Serializable
 		this.message = message;
 		messageTemplate = check.getMessage();
 		messageVariables = check.getMessageVariables();
-		severity = check.getSeverity();
 		this.validatedObject = validatedObject;
 		this.invalidValue = invalidValue;
 		this.context = context;
@@ -158,14 +155,6 @@ public class ConstraintViolation implements Serializable
 	public Map<String, ? extends Serializable> getMessageVariables()
 	{
 		return messageVariables;
-	}
-
-	/**
-	 * @return the severity
-	 */
-	public int getSeverity()
-	{
-		return severity;
 	}
 
 	/**

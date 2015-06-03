@@ -71,11 +71,6 @@ public interface Check extends Serializable
 	String[] getGroups();
 
 	/**
-	 * @return the severity
-	 */
-	int getSeverity();
-
-	/**
 	 * An expression to specify where in the object graph relative from this object the expression
 	 * should be applied.
 	 * <p>
@@ -150,11 +145,6 @@ public interface Check extends Serializable
 	 * @param profiles the profiles to set
 	 */
 	void setGroups(Class... profiles);
-
-	/**
-	 * @param severity the severity to set
-	 */
-	void setSeverity(int severity);
 
 	/**
 	 * Sets an expression to specify where in the object graph relative from this object the expression

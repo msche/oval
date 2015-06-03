@@ -40,7 +40,6 @@ public abstract class AbstractCheck implements Check
 	private String[] profiles;
 
 	// TODO remove properties which are not set by javax validation annotations (only message and profiles).
-	private int severity;
 	private ConstraintTarget[] appliesTo;
 	private String target;
 	private String when;
@@ -131,14 +130,6 @@ public abstract class AbstractCheck implements Check
 	}
 
 	/**
-	 * {@inheritDoc}
-	 */
-	public int getSeverity()
-	{
-		return severity;
-	}
-
-	/**
 	 * @return the target
 	 */
 	public String getTarget()
@@ -218,14 +209,6 @@ public abstract class AbstractCheck implements Check
 				profiles[i] = groups[i].getCanonicalName();
 			}
 		}
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public void setSeverity(final int severity)
-	{
-		this.severity = severity;
 	}
 
 	/**

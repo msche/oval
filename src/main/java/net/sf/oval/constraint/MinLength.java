@@ -86,11 +86,6 @@ public @interface MinLength
 	 */
 	Class<?>[] groups() default { };
 
-	/**
-	 * severity passed to the ConstraintViolation object
-	 */
-	int severity() default 0;
-
 	String target() default "";
 
 	int value();

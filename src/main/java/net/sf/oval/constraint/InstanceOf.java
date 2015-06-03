@@ -87,11 +87,6 @@ public @interface InstanceOf
 	Class<?>[] groups() default { };
 
 	/**
-	 * severity passed to the ConstraintViolation object
-	 */
-	int severity() default 0;
-
-	/**
 	 * An expression to specify where in the object graph relative from this object the expression
 	 * should be applied.
 	 * <p>

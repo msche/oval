@@ -83,7 +83,6 @@ public class CustomAssertValidTest extends TestCase
 				assertValidCheck.setMessage(customAssertValid.message());
 				assertValidCheck.setGroups(customAssertValid.groups());
 				assertValidCheck.setAppliesTo(customAssertValid.appliesTo());
-				assertValidCheck.setSeverity(customAssertValid.severity());
 				return (AnnotationCheck<ConstraintAnnotation>) assertValidCheck;
 			}
 
@@ -102,7 +101,6 @@ public class CustomAssertValidTest extends TestCase
 
 		ConstraintTarget[] appliesTo() default {ConstraintTarget.VALUES};
 
-		int severity() default 0;
 	}
 
 	public static class CustomAssertValidCheck extends AbstractAnnotationCheck<CustomAssertValid>
@@ -117,7 +115,6 @@ public class CustomAssertValidTest extends TestCase
 			assertValidCheck.setMessage(constraintAnnotation.message());
 			assertValidCheck.setGroups(constraintAnnotation.groups());
 			assertValidCheck.setAppliesTo(constraintAnnotation.appliesTo());
-			assertValidCheck.setSeverity(constraintAnnotation.severity());
 		}
 
         public boolean isSatisfied(final Object validatedObject, final Object value, final OValContext context,
