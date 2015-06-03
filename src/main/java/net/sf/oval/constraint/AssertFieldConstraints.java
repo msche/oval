@@ -59,13 +59,6 @@ public @interface AssertFieldConstraints
 	}
 
 	/**
-	 * The class in which the field is declared. If omitted the current class and it's super 
-	 * classes are searched for a field with the given name.
-	 * The default value Void.class means the current class.
-	 */
-	Class< ? > declaringClass() default Void.class;
-
-	/**
 	 * Specifies the processing groups with which the constraint declaration is associated.
 	 *
 	 * Groups allow you to restrict the set of constraints applied during validation. Groups targeted are passed as parameters to the validate, validateProperty and validateValue methods. All constraints belonging to the targeted group are applied during the validation routine. If no group is passed, the Default group is assumed.

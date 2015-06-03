@@ -772,9 +772,7 @@ public class Validator implements IValidator {
 		/*
 		 * set the targetClass based on the validation context
 		 */
-        if (check.getDeclaringClass() != null && check.getDeclaringClass() != Void.class) {
-            targetClass = check.getDeclaringClass();
-        } else if (context instanceof ConstructorParameterContext) {
+        if (context instanceof ConstructorParameterContext) {
             // the class declaring the field must either be the class declaring the constructor or one of its super
             // classes
             targetClass = ((ConstructorParameterContext) context).getConstructor().getDeclaringClass();

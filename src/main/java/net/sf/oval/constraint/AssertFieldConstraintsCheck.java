@@ -27,8 +27,6 @@ public final class AssertFieldConstraintsCheck extends AbstractAnnotationCheck<A
 
 	private String fieldName;
 
-	private Class< ? > declaringClass;
-
 	/**
 	 * {@inheritDoc}
 	 */
@@ -38,7 +36,6 @@ public final class AssertFieldConstraintsCheck extends AbstractAnnotationCheck<A
 		//TODO: add message to constraint setMessage(constraintAnnotation.message());
 		setGroups(constraintAnnotation.groups());
 		setFieldName(constraintAnnotation.value());
-		setDeclaringClass(constraintAnnotation.declaringClass());
 	}
 
 	/**
@@ -48,14 +45,6 @@ public final class AssertFieldConstraintsCheck extends AbstractAnnotationCheck<A
 	protected ConstraintTarget[] getAppliesToDefault()
 	{
 		return new ConstraintTarget[]{ConstraintTarget.CONTAINER};
-	}
-
-	/**
-	 * @return the declaringClass
-	 */
-	public Class< ? > getDeclaringClass()
-	{
-		return declaringClass;
 	}
 
 	/**
@@ -93,14 +82,6 @@ public final class AssertFieldConstraintsCheck extends AbstractAnnotationCheck<A
 			final Validator validator) throws UnsupportedOperationException
 	{
 		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * @param declaringClass the declaringClass to set
-	 */
-	public void setDeclaringClass(final Class< ? > declaringClass)
-	{
-		this.declaringClass = declaringClass == Void.class ? null : declaringClass;
 	}
 
 	/**
