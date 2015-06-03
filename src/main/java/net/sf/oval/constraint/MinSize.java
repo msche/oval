@@ -86,8 +86,6 @@ public @interface MinSize
 	 */
 	Class<?>[] groups() default { };
 
-	String target() default "";
-
 	int value();
 
 	/**

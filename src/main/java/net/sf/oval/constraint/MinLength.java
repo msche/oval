@@ -86,8 +86,6 @@ public @interface MinLength
 	 */
 	Class<?>[] groups() default { };
 
-	String target() default "";
-
 	int value();
 
 	/**

@@ -41,7 +41,6 @@ public abstract class AbstractCheck implements Check
 
 	// TODO remove properties which are not set by javax validation annotations (only message and profiles).
 	private ConstraintTarget[] appliesTo;
-	private String target;
 	private String when;
 	private transient String whenFormula;
 	private transient String whenLang;
@@ -130,14 +129,6 @@ public abstract class AbstractCheck implements Check
 	}
 
 	/**
-	 * @return the target
-	 */
-	public String getTarget()
-	{
-		return target;
-	}
-
-	/**
 	 * {@inheritDoc}
 	 */
 	public String getWhen()
@@ -209,14 +200,6 @@ public abstract class AbstractCheck implements Check
 				profiles[i] = groups[i].getCanonicalName();
 			}
 		}
-	}
-
-	/**
-	 * @param target the target to set
-	 */
-	public void setTarget(final String target)
-	{
-		this.target = target;
 	}
 
 	/**

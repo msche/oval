@@ -675,36 +675,6 @@ public class Validator implements IValidator {
 
         final ConstraintTarget[] targets = check.getAppliesTo();
 
-        // only process the target expression if we are not already on a value inside the container object (collection, array, map)
-        if (!isContainerValue) {
-            String target = check.getTarget();
-            if (target != null) {
-                target = target.trim();
-                if (target.length() > 0) {
-                    if (valueToValidate == null) return;
-                    final String[] chunks = target.split(":", 2);
-                    final String ognId, path;
-                    if (chunks.length == 1) {
-                        ognId = "";
-                        path = chunks[0];
-                    } else {
-                        ognId = chunks[0];
-                        path = chunks[1];
-                    }
-                    final ObjectGraphNavigationResult result = ognRegistry.getObjectGraphNavigator(ognId) //
-                            .navigateTo(valueToValidate, path);
-                    if (result == null) return;
-                    validatedObject = result.targetParent;
-                    valueToValidate = result.target;
-                    if (result.targetAccessor instanceof Field) {
-                        context = ContextCache.getFieldContext((Field) result.targetAccessor);
-                    } else {
-                        context = ContextCache.getMethodReturnValueContext((Method) result.targetAccessor);
-                    }
-                }
-            }
-        }
-
         final Class<?> compileTimeType = context.getCompileTimeType();
 
         final boolean isCollection = valueToValidate != null ? //

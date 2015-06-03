@@ -91,17 +91,6 @@ public @interface CheckWith
 	Class<?>[] groups() default { };
 
 	/**
-	 * An expression to specify where in the object graph relative from this object the expression
-	 * should be applied.
-	 * <p>
-	 * Examples:
-	 * <li>"owner" would apply this constraint to the current object's property <code>owner</code>
-	 * <li>"owner.id" would apply this constraint to the current object's <code>owner</code>'s property <code>id</code>
-	 * <li>"jxpath:owner/id" would use the JXPath implementation to traverse the object graph to locate the object where this constraint should be applied.
-	 */
-	String target() default "";
-
-	/**
 	 * Check class to use for validation. If this class is an inner class
 	 * it needs be declared as a <b>static</b> class. Otherwise
 	 * check instantiation will fail.
