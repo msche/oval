@@ -40,11 +40,11 @@ import java.lang.reflect.Method;
 @Aspect
 public class GuardAspect2 extends ApiUsageAuditor2
 {
-	private static final class ProceedInvocable implements Invocable
+	private static final class ProceedInvokable implements Invocable
 	{
 		final ProceedingJoinPoint thisJoinPoint;
 
-		protected ProceedInvocable(final ProceedingJoinPoint thisJoinPoint)
+		private ProceedInvokable(final ProceedingJoinPoint thisJoinPoint)
 		{
 			this.thisJoinPoint = thisJoinPoint;
 		}
@@ -52,7 +52,7 @@ public class GuardAspect2 extends ApiUsageAuditor2
 		/**
 		 * {@inheritDoc}
 		 */
-		public Object invoke() throws Throwable
+		public final Object invoke() throws Throwable
 		{
 			return thisJoinPoint.proceed();
 		}
@@ -124,7 +124,7 @@ public class GuardAspect2 extends ApiUsageAuditor2
 		final Object[] args = thisJoinPoint.getArgs();
 		final Object target = thisJoinPoint.getTarget();
 
-		return guard.guardMethod(target, method, args, new ProceedInvocable(thisJoinPoint));
+		return guard.guardMethod(target, method, args, new ProceedInvokable(thisJoinPoint));
 	}
 
 	/**
