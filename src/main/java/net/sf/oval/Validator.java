@@ -309,7 +309,7 @@ public class Validator implements IValidator {
                     final Class<?>[] paramTypes = new Class[ctorCfg.parameterConfigurations.size()];
 
                     for (int i = 0, l = ctorCfg.parameterConfigurations.size(); i < l; i++) {
-                        paramTypes[i] = ctorCfg.parameterConfigurations.get(i).type;
+                        paramTypes[i] = ctorCfg.parameterConfigurations.get(i).getType();
                     }
 
                     final Constructor<?> ctor = classCfg.type.getDeclaredConstructor(paramTypes);
@@ -328,7 +328,7 @@ public class Validator implements IValidator {
                         }
 
                         if (paramCfg.hasChecks()) {
-                            cc.addConstructorParameterChecks(ctor, i, paramCfg.checks);
+                            cc.addConstructorParameterChecks(ctor, i, paramCfg.getChecks());
                         }
 
                         if (assertParametersNotNull) {
@@ -368,7 +368,7 @@ public class Validator implements IValidator {
                         final Class<?>[] paramTypes = new Class[methodCfg.parameterConfigurations.size()];
 
                         for (int i = 0, l = methodCfg.parameterConfigurations.size(); i < l; i++) {
-                            paramTypes[i] = methodCfg.parameterConfigurations.get(i).type;
+                            paramTypes[i] = methodCfg.parameterConfigurations.get(i).getType();
                         }
 
                         method = classCfg.type.getDeclaredMethod(methodCfg.name, paramTypes);
@@ -404,7 +404,7 @@ public class Validator implements IValidator {
                             }
 
                             if (paramCfg.hasChecks()) {
-                                cc.addMethodParameterChecks(method, i, paramCfg.checks);
+                                cc.addMethodParameterChecks(method, i, paramCfg.getChecks());
                             }
 
                             if (assertParametersNotNull) {

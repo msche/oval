@@ -53,28 +53,20 @@ public class AnnotationsConfigurer implements Configurer
 	{
 		final List<ParameterConfiguration> paramCfg = new ArrayList<>();
 
-		List<Check> paramChecks = new ArrayList();
-
 		// loop over all parameters of the current constructor
 		for (int i = 0; i < paramAnnotations.length; i++)
 		{
+			final ParameterConfiguration pc = new ParameterConfiguration(parameterTypes[i]);
+
 			// loop over all annotations of the current constructor parameter
 			for (final Annotation annotation : paramAnnotations[i])
 				// check if the current annotation is a constraint annotation
 				if (annotation.annotationType().isAnnotationPresent(Constraint.class))
-					paramChecks.add(initializeCheck(annotation));
+					pc.addCheck(initializeCheck(annotation));
 				else if (annotation.annotationType().isAnnotationPresent(Constraints.class))
-					paramChecks.addAll(initializeChecks(annotation));
+					pc.addChecks(initializeChecks(annotation));
 
-			final ParameterConfiguration pc = new ParameterConfiguration();
 			paramCfg.add(pc);
-			pc.type = parameterTypes[i];
-			if (paramChecks.size() > 0)
-			{
-				pc.checks = paramChecks;
-				paramChecks = new ArrayList<>(2); // create a new list for the next parameter having checks
-			}
-
 		}
 		return paramCfg;
 	}

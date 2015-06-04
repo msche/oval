@@ -15,6 +15,7 @@ package net.sf.oval.configuration.pojo.elements;
 import net.sf.oval.Check;
 import net.sf.oval.CheckExclusion;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,15 +28,52 @@ public class ParameterConfiguration extends ConfigurationElement
 	/**
 	 * the type of the parameter
 	 */
-	public Class< ? > type;
+	private final Class< ? > type;
 
 	/**
 	 * the checks for the parameter
 	 */
-	public List<Check> checks;
+	private final List<Check> checks = new ArrayList<>();
+
+	/**
+	 * Constructor
+	 *
+	 * @param type type of parameter
+	 */
+	public ParameterConfiguration(Class<?> type) {
+		this.type = type;
+	}
+
+	/**
+	 * Returns type of parameter at which checks are applied
+	 */
+	public Class<?> getType() {
+		return type;
+	}
 
 	public boolean hasChecks()
 	{
-		return checks != null && checks.size() > 0;
+		return !checks.isEmpty();
+	}
+
+	/**
+	 * Returns list of checks that apply to parameter
+	 */
+	public List<Check> getChecks() {
+		return checks;
+	}
+
+	/**
+	 * Append check for parameter
+	 */
+	public void addCheck(Check check) {
+		checks.add(check);
+	}
+
+	/**
+	 * Append checks for parameter
+	 */
+	public void addChecks(List<Check> parameterChecks) {
+		checks.addAll(parameterChecks);
 	}
 }
