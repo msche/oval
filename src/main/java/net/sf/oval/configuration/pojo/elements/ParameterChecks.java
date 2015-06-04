@@ -16,12 +16,13 @@ import net.sf.oval.Check;
 import net.sf.oval.CheckExclusion;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
  * @author Sebastian Thomschke
  */
-public class ParameterChecks extends ConfigurationElement
+public final class ParameterChecks extends ConfigurationElement
 {
 	private static final long serialVersionUID = 1L;
 
@@ -60,7 +61,7 @@ public class ParameterChecks extends ConfigurationElement
 	 * Returns list of checks that apply to parameter
 	 */
 	public List<Check> getChecks() {
-		return checks;
+		return Collections.unmodifiableList(checks);
 	}
 
 	/**
