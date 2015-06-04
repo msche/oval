@@ -24,7 +24,7 @@ public class MethodConfiguration extends ConfigurationElement
 	public String name;
 	public boolean isInvariant;
 	
-	public List<ParameterConfiguration> parameterConfigurations;
+	public List<ParameterChecks> parameterChecks;
 	public MethodReturnValueConfiguration returnValueConfiguration;
 
 }

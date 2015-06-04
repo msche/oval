@@ -20,7 +20,7 @@ import net.sf.oval.configuration.pojo.elements.ConstructorConfiguration;
 import net.sf.oval.configuration.pojo.elements.FieldChecks;
 import net.sf.oval.configuration.pojo.elements.MethodConfiguration;
 import net.sf.oval.configuration.pojo.elements.MethodReturnValueConfiguration;
-import net.sf.oval.configuration.pojo.elements.ParameterConfiguration;
+import net.sf.oval.configuration.pojo.elements.ParameterChecks;
 import net.sf.oval.constraint.AssertFalseCheck;
 import net.sf.oval.constraint.NullCheck;
 import net.sf.oval.constraint.AssertTrueCheck;
@@ -58,7 +58,6 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.List;
 
@@ -83,38 +82,38 @@ public class BeanValidationAnnotationsConfigurer implements Configurer
 {
 	private static final Logger LOG = LoggerFactory.getLogger(BeanValidationAnnotationsConfigurer.class);
 
-	private List<ParameterConfiguration> _createParameterConfiguration(final Annotation[][] paramAnnotations,
-			final Class< ? >[] parameterTypes)
+	private List<ParameterChecks> createParameterChecks(final Annotation[][] paramAnnotations,
+														final Class<?>[] parameterTypes)
 	{
-		final List<ParameterConfiguration> paramCfg = new ArrayList<>(paramAnnotations.length);
+		final List<ParameterChecks> paramChecks = new ArrayList<>(paramAnnotations.length);
 
 		// loop over all parameters of the current constructor
 		for (int i = 0; i < paramAnnotations.length; i++)
 		{
-			final ParameterConfiguration pc = new ParameterConfiguration(parameterTypes[i]);
+			final ParameterChecks pc = new ParameterChecks(parameterTypes[i]);
 
 			// loop over all annotations of the current constructor parameter
 			for (final Annotation annotation : paramAnnotations[i])
 				pc.addChecks(initializeChecks(annotation));
 
-			paramCfg.add(pc);
+			paramChecks.add(pc);
 		}
-		return paramCfg;
+		return paramChecks;
 	}
 
 	protected void configureConstructorParameterChecks(final ClassConfiguration classCfg)
 	{
 		for (final Constructor< ? > ctor : classCfg.type.getDeclaredConstructors())
 		{
-			final List<ParameterConfiguration> paramCfg = _createParameterConfiguration(ctor.getParameterAnnotations(),
+			final List<ParameterChecks> paramChecks = createParameterChecks(ctor.getParameterAnnotations(),
 					ctor.getParameterTypes());
 
-			if (paramCfg.size() > 0)
+			if (paramChecks.size() > 0)
 			{
 				if (classCfg.constructorConfigurations == null) classCfg.constructorConfigurations = new LinkedHashSet<>(2);
 
 				final ConstructorConfiguration cc = new ConstructorConfiguration();
-				cc.parameterConfigurations = paramCfg;
+				cc.parameterChecks = paramChecks;
 				classCfg.constructorConfigurations.add(cc);
 			}
 		}
@@ -159,18 +158,18 @@ public class BeanValidationAnnotationsConfigurer implements Configurer
 			/*
 			 * determine parameter checks
 			 */
-			final List<ParameterConfiguration> paramCfg = _createParameterConfiguration(
+			final List<ParameterChecks> paramChecks = createParameterChecks(
 					ReflectionUtils.getParameterAnnotations(method, classCfg.inspectInterfaces),
 					method.getParameterTypes());
 
 			// check if anything has been configured for this method at all
-			if (paramCfg.size() > 0 || returnValueChecks.size() > 0)
+			if (paramChecks.size() > 0 || returnValueChecks.size() > 0)
 			{
 				if (classCfg.methodConfigurations == null) classCfg.methodConfigurations = new LinkedHashSet<>(2);
 
 				final MethodConfiguration mc = new MethodConfiguration();
 				mc.name = method.getName();
-				mc.parameterConfigurations = paramCfg;
+				mc.parameterChecks = paramChecks;
 				mc.isInvariant = ReflectionUtils.isGetter(method);
 				if (returnValueChecks.size() > 0)
 				{

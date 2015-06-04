@@ -23,7 +23,7 @@ import net.sf.oval.configuration.pojo.elements.FieldChecks;
 import net.sf.oval.configuration.pojo.elements.MethodConfiguration;
 import net.sf.oval.configuration.pojo.elements.MethodReturnValueConfiguration;
 import net.sf.oval.configuration.pojo.elements.ObjectConfiguration;
-import net.sf.oval.configuration.pojo.elements.ParameterConfiguration;
+import net.sf.oval.configuration.pojo.elements.ParameterChecks;
 import net.sf.oval.exception.OValException;
 import net.sf.oval.exception.ReflectionException;
 import net.sf.oval.guard.Guarded;
@@ -48,15 +48,15 @@ public class AnnotationsConfigurer implements Configurer
 {
 	protected final Set<CheckInitializationListener> listeners = new LinkedHashSet<CheckInitializationListener>(2);
 
-	private List<ParameterConfiguration> _createParameterConfiguration(final Annotation[][] paramAnnotations,
-			final Class< ? >[] parameterTypes)
+	private List<ParameterChecks> createParameterChecks(final Annotation[][] paramAnnotations,
+														final Class<?>[] parameterTypes)
 	{
-		final List<ParameterConfiguration> paramCfg = new ArrayList<>();
+		final List<ParameterChecks> paramCfg = new ArrayList<>();
 
 		// loop over all parameters of the current constructor
 		for (int i = 0; i < paramAnnotations.length; i++)
 		{
-			final ParameterConfiguration pc = new ParameterConfiguration(parameterTypes[i]);
+			final ParameterChecks pc = new ParameterChecks(parameterTypes[i]);
 
 			// loop over all annotations of the current constructor parameter
 			for (final Annotation annotation : paramAnnotations[i])
@@ -81,15 +81,15 @@ public class AnnotationsConfigurer implements Configurer
 	{
 		for (final Constructor< ? > ctor : classCfg.type.getDeclaredConstructors())
 		{
-			final List<ParameterConfiguration> paramCfg = _createParameterConfiguration(ctor.getParameterAnnotations(),
+			final List<ParameterChecks> paramChecks = createParameterChecks(ctor.getParameterAnnotations(),
 					ctor.getParameterTypes());
 
-			if (paramCfg.size() > 0)
+			if (paramChecks.size() > 0)
 			{
 				if (classCfg.constructorConfigurations == null) classCfg.constructorConfigurations = new LinkedHashSet<>(2);
 
 				final ConstructorConfiguration cc = new ConstructorConfiguration();
-				cc.parameterConfigurations = paramCfg;
+				cc.parameterChecks = paramChecks;
 				classCfg.constructorConfigurations.add(cc);
 			}
 		}
@@ -140,18 +140,18 @@ public class AnnotationsConfigurer implements Configurer
 			/*
 			 * determine parameter checks
 			 */
-			final List<ParameterConfiguration> paramCfg = _createParameterConfiguration(
+			final List<ParameterChecks> paramChecks = createParameterChecks(
 					ReflectionUtils.getParameterAnnotations(method, classCfg.inspectInterfaces),
 					method.getParameterTypes());
 
 			// check if anything has been configured for this method at all
-			if (paramCfg.size() > 0 || returnValueChecks.size() > 0)
+			if (paramChecks.size() > 0 || returnValueChecks.size() > 0)
 			{
 				if (classCfg.methodConfigurations == null) classCfg.methodConfigurations = new LinkedHashSet<>(2);
 
 				final MethodConfiguration mc = new MethodConfiguration();
 				mc.name = method.getName();
-				mc.parameterConfigurations = paramCfg;
+				mc.parameterChecks = paramChecks;
 				mc.isInvariant = ReflectionUtils.isAnnotationPresent(method, IsInvariant.class,
 						classCfg.inspectInterfaces);
 				if (returnValueChecks.size() > 0)

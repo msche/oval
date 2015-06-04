@@ -21,7 +21,7 @@ import java.util.List;
 /**
  * @author Sebastian Thomschke
  */
-public class ParameterConfiguration extends ConfigurationElement
+public class ParameterChecks extends ConfigurationElement
 {
 	private static final long serialVersionUID = 1L;
 
@@ -40,7 +40,7 @@ public class ParameterConfiguration extends ConfigurationElement
 	 *
 	 * @param type type of parameter
 	 */
-	public ParameterConfiguration(Class<?> type) {
+	public ParameterChecks(Class<?> type) {
 		this.type = type;
 	}
 

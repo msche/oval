@@ -21,6 +21,6 @@ public class ConstructorConfiguration extends ConfigurationElement
 {
 	private static final long serialVersionUID = 1L;
 	
-	public List<ParameterConfiguration> parameterConfigurations;
+	public List<ParameterChecks> parameterChecks;
 	
 }
