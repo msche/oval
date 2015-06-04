@@ -95,7 +95,7 @@ public class BeanValidationAnnotationsConfigurer implements Configurer
 		{
 			// loop over all annotations of the current constructor parameter
 			for (final Annotation annotation : paramAnnotations[i])
-				initializeChecks(annotation, paramChecks);
+				paramChecks.addAll(initializeChecks(annotation));
 
 			final ParameterConfiguration pc = new ParameterConfiguration();
 			paramCfg.add(pc);
@@ -136,7 +136,7 @@ public class BeanValidationAnnotationsConfigurer implements Configurer
 		{
 			// loop over all annotations of the current field
 			for (final Annotation annotation : field.getAnnotations())
-				initializeChecks(annotation, checks);
+				checks.addAll(initializeChecks(annotation));
 
             // If checks defined for field append to field checks
 			if (checks.size() > 0)
@@ -161,7 +161,7 @@ public class BeanValidationAnnotationsConfigurer implements Configurer
 		{
 			// loop over all annotations
 			for (final Annotation annotation : ReflectionUtils.getAnnotations(method,classCfg.inspectInterfaces))
-				initializeChecks(annotation, returnValueChecks);
+				returnValueChecks.addAll(initializeChecks(annotation));
 
 			/*
 			 * determine parameter checks
@@ -230,13 +230,13 @@ public class BeanValidationAnnotationsConfigurer implements Configurer
 		return null;
 	}
 
-	protected void initializeChecks(final Annotation annotation, final Collection<Check> checks)
-	{
+	protected List<Check>  initializeChecks(final Annotation annotation) {
 		assert annotation != null;
-		assert checks != null;
+		final List<Check> checks = new ArrayList();
 
 		// ignore non-bean validation annotations
-		if (!(annotation instanceof Valid) && annotation.annotationType().getAnnotation(javax.validation.Constraint.class) == null) return;
+		if (!(annotation instanceof Valid) && annotation.annotationType().getAnnotation(javax.validation.Constraint.class) == null)
+			return checks;
 
 		Class< ? >[] groups = null;
 		Check check = null;
@@ -344,7 +344,7 @@ public class BeanValidationAnnotationsConfigurer implements Configurer
 				check.setGroups(groups);
 			}
 			checks.add(check);
-			return;
+			return checks;
 		}
 
 		Annotation[] list = null;
@@ -376,11 +376,12 @@ public class BeanValidationAnnotationsConfigurer implements Configurer
 
 		if (list != null)
 			for (final Annotation anno : list)
-				initializeChecks(anno, checks);
+				checks.addAll(initializeChecks(anno));
 		else
 		{
 			LOG.warn("Ignoring unsupported bean validation constraint annotation {}", annotation);
-			return;
 		}
+		return checks;
+
 	}
 }
