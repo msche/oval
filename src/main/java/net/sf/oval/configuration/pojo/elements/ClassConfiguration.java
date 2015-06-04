@@ -13,6 +13,7 @@
  *******************************************************************************/
 package net.sf.oval.configuration.pojo.elements;
 
+import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -79,7 +80,7 @@ public class ClassConfiguration extends ConfigurationElement
      * Returns set of checks that need to be applied to fields within the class
      */
     public Set<FieldChecks> getFieldChecks() {
-        return fieldChecks;
+        return Collections.unmodifiableSet(fieldChecks);
     }
 
     /**
