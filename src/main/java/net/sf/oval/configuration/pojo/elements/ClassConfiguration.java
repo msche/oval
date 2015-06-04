@@ -37,7 +37,7 @@ public class ClassConfiguration extends ConfigurationElement
 	/**
 	 * field constraints configuration
 	 */
-	private Set<FieldChecks> fieldChecks = new LinkedHashSet();
+	private final Set<FieldChecks> fieldChecks = new LinkedHashSet();
 
 	/**
 	 * constructor constraints configuration
