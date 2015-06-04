@@ -64,7 +64,7 @@ public class AnnotationsConfigurer implements Configurer
 				if (annotation.annotationType().isAnnotationPresent(Constraint.class))
 					paramChecks.add(initializeCheck(annotation));
 				else if (annotation.annotationType().isAnnotationPresent(Constraints.class))
-					initializeChecks(annotation, paramChecks);
+					paramChecks.addAll(initializeChecks(annotation));
 
 			final ParameterConfiguration pc = new ParameterConfiguration();
 			paramCfg.add(pc);
@@ -114,7 +114,8 @@ public class AnnotationsConfigurer implements Configurer
 				// check if the current annotation is a constraint annotation
 				if (annotation.annotationType().isAnnotationPresent(Constraint.class))
 					checks.add(initializeCheck(annotation));
-				else if (annotation.annotationType().isAnnotationPresent(Constraints.class)) initializeChecks(annotation, checks);
+				else if (annotation.annotationType().isAnnotationPresent(Constraints.class))
+					checks.addAll(initializeChecks(annotation));
 
 			if (checks.size() > 0)
 			{
@@ -142,7 +143,7 @@ public class AnnotationsConfigurer implements Configurer
 				if (annotation.annotationType().isAnnotationPresent(Constraint.class))
 					returnValueChecks.add(initializeCheck(annotation));
 				else if (annotation.annotationType().isAnnotationPresent(Constraints.class))
-					initializeChecks(annotation, returnValueChecks);
+					returnValueChecks.addAll(initializeChecks(annotation));
 
 			/*
 			 * determine parameter checks
@@ -180,7 +181,8 @@ public class AnnotationsConfigurer implements Configurer
 			// check if the current annotation is a constraint annotation
 			if (annotation.annotationType().isAnnotationPresent(Constraint.class))
 				checks.add(initializeCheck(annotation));
-			else if (annotation.annotationType().isAnnotationPresent(Constraints.class)) initializeChecks(annotation, checks);
+			else if (annotation.annotationType().isAnnotationPresent(Constraints.class))
+				checks.addAll(initializeChecks(annotation));
 
 		if (checks.size() > 0)
 		{
@@ -251,9 +253,9 @@ public class AnnotationsConfigurer implements Configurer
 		return check;
 	}
 
-	protected <ConstraintsAnnotation extends Annotation> void initializeChecks(final ConstraintsAnnotation constraintsAnnotation,
-			final List<Check> checks) throws ReflectionException
+	protected <ConstraintAnnotation extends Annotation>  List<Check>  initializeChecks(final ConstraintAnnotation constraintsAnnotation) throws ReflectionException
 	{
+		final List<Check> checks = new ArrayList();
 		try
 		{
 			final Method getValue = constraintsAnnotation.annotationType().getDeclaredMethod("value", (Class< ? >[]) null);
@@ -269,6 +271,7 @@ public class AnnotationsConfigurer implements Configurer
 		{
 			throw new ReflectionException("Cannot initialize constraint check " + constraintsAnnotation.annotationType().getName(), ex);
 		}
+		return checks;
 	}
 
 	/**
