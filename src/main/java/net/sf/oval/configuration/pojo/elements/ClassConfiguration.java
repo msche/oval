@@ -13,6 +13,7 @@
  *******************************************************************************/
 package net.sf.oval.configuration.pojo.elements;
 
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 /**
@@ -23,7 +24,7 @@ public class ClassConfiguration extends ConfigurationElement
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * class type
+	 * class at which this configuration applies.
 	 */
 	public Class< ? > type;
 
@@ -35,7 +36,7 @@ public class ClassConfiguration extends ConfigurationElement
 	/**
 	 * field constraints configuration
 	 */
-	public Set<FieldConfiguration> fieldConfigurations;
+	private Set<FieldChecks> fieldChecks = new LinkedHashSet();
 
 	/**
 	 * constructor constraints configuration
@@ -73,4 +74,20 @@ public class ClassConfiguration extends ConfigurationElement
 	 * supporting a documentation function
 	 */
 	public boolean inspectInterfaces;
+
+    /**
+     * Returns set of checks that need to be applied to fields within the class
+     */
+    public Set<FieldChecks> getFieldChecks() {
+        return fieldChecks;
+    }
+
+    /**
+     * Append checks for fields within class
+     *
+     * @para fieldChecks checks that apply to certain field within class
+     */
+    public void addFieldChecks(FieldChecks fieldChecks) {
+        this.fieldChecks.add(fieldChecks);
+    }
 }

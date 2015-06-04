@@ -17,9 +17,12 @@ import net.sf.oval.Check;
 import java.util.List;
 
 /**
+ * Contains checks that should be applied to certain field within class
+ *
  * @author Sebastian Thomschke
+ * @author msche
  */
-public class FieldConfiguration extends ConfigurationElement
+public class FieldChecks extends ConfigurationElement
 {
 	private static final long serialVersionUID = 1L;
 	

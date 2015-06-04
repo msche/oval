@@ -18,7 +18,7 @@ import net.sf.oval.configuration.annotation.BeanValidationAnnotationsConfigurer;
 import net.sf.oval.configuration.pojo.elements.ClassConfiguration;
 import net.sf.oval.configuration.pojo.elements.ConstraintSetConfiguration;
 import net.sf.oval.configuration.pojo.elements.ConstructorConfiguration;
-import net.sf.oval.configuration.pojo.elements.FieldConfiguration;
+import net.sf.oval.configuration.pojo.elements.FieldChecks;
 import net.sf.oval.configuration.pojo.elements.MethodConfiguration;
 import net.sf.oval.configuration.pojo.elements.ObjectConfiguration;
 import net.sf.oval.configuration.pojo.elements.ParameterConfiguration;
@@ -59,7 +59,6 @@ import net.sf.oval.localization.message.MessageResolver;
 import net.sf.oval.localization.message.ResourceBundleMessageResolver;
 import net.sf.oval.localization.value.MessageValueFormatter;
 import net.sf.oval.localization.value.ToStringMessageValueFormatter;
-import net.sf.oval.ogn.ObjectGraphNavigationResult;
 import net.sf.oval.ogn.ObjectGraphNavigatorRegistry;
 
 import java.lang.reflect.Constructor;
@@ -133,7 +132,7 @@ public class Validator implements IValidator {
 
     public static MessageResolver getMessageResolver() {
         /*
-		 * since ResourceBundleMessageResolver references getCollectionFactory() of this class
+         * since ResourceBundleMessageResolver references getCollectionFactory() of this class
 		 * we are lazy referencing the resolvers shared instance.
 		 */
         if (messageResolver == null) {
@@ -285,17 +284,15 @@ public class Validator implements IValidator {
 			/* ******************************
 			 * apply field checks
 			 * ******************************/
-            if (classCfg.fieldConfigurations != null) {
-                for (final FieldConfiguration fieldCfg : classCfg.fieldConfigurations) {
-                    final Field field = classCfg.type.getDeclaredField(fieldCfg.name);
+            for (final FieldChecks fieldCfg : classCfg.getFieldChecks()) {
+                final Field field = classCfg.type.getDeclaredField(fieldCfg.name);
 
-                    if (fieldCfg.overwrite) {
-                        cc.clearFieldChecks(field);
-                    }
+                if (fieldCfg.overwrite) {
+                    cc.clearFieldChecks(field);
+                }
 
-                    if (fieldCfg.checks != null && fieldCfg.checks.size() > 0) {
-                        cc.addFieldChecks(field, fieldCfg.checks);
-                    }
+                if (fieldCfg.checks != null && fieldCfg.checks.size() > 0) {
+                    cc.addFieldChecks(field, fieldCfg.checks);
                 }
             }
 
@@ -649,7 +646,8 @@ public class Validator implements IValidator {
             ConstraintsViolatedException {
         final List<ConstraintViolation> violations = validate(validatedObject);
 
-        if (violations.size() > 0) throw translateException(new ConstraintsViolatedException(violations));
+        if (violations.size() > 0)
+            throw translateException(new ConstraintsViolatedException(violations));
     }
 
     /**
@@ -659,7 +657,8 @@ public class Validator implements IValidator {
             throws IllegalArgumentException, ValidationFailedException, ConstraintsViolatedException {
         final List<ConstraintViolation> violations = validateFieldValue(validatedObject, validatedField, fieldValueToValidate);
 
-        if (violations.size() > 0) throw translateException(new ConstraintsViolatedException(violations));
+        if (violations.size() > 0)
+            throw translateException(new ConstraintsViolatedException(violations));
     }
 
     protected void checkConstraint(final List<ConstraintViolation> violations, final Check check, Object validatedObject,
@@ -716,7 +715,8 @@ public class Validator implements IValidator {
             throws OValException {
         final ConstraintSet cs = getConstraintSet(check.getId());
 
-        if (cs == null) throw new UndefinedConstraintSetException(check.getId());
+        if (cs == null)
+            throw new UndefinedConstraintSetException(check.getId());
 
         final Collection<Check> referencedChecks = cs.getChecks();
 
@@ -756,13 +756,14 @@ public class Validator implements IValidator {
 		/*
 		 * calculate the field name based on the validation context if the @AssertFieldConstraints constraint didn't specify the field name
 		 */
-        if (fieldName == null || fieldName.length() == 0) if (context instanceof ConstructorParameterContext) {
-            fieldName = ((ConstructorParameterContext) context).getParameterName();
-        } else if (context instanceof MethodParameterContext) {
-            fieldName = ((MethodParameterContext) context).getParameterName();
-        } else if (context instanceof MethodReturnValueContext) {
-            fieldName = ReflectionUtils.guessFieldName(((MethodReturnValueContext) context).getMethod());
-        }
+        if (fieldName == null || fieldName.length() == 0)
+            if (context instanceof ConstructorParameterContext) {
+                fieldName = ((ConstructorParameterContext) context).getParameterName();
+            } else if (context instanceof MethodParameterContext) {
+                fieldName = ((MethodParameterContext) context).getParameterName();
+            } else if (context instanceof MethodReturnValueContext) {
+                fieldName = ReflectionUtils.guessFieldName(((MethodReturnValueContext) context).getMethod());
+            }
 
 		/*
 		 * find the field based on fieldName and targetClass
@@ -867,11 +868,12 @@ public class Validator implements IValidator {
     public void enableProfile(final Class profile) {
         enableProfile(profile.getCanonicalName());
     }
-        /**
-         * Enables a constraints profile globally.
-         *
-         * @param profile the id of the profile
-         */
+
+    /**
+     * Enables a constraints profile globally.
+     *
+     * @param profile the id of the profile
+     */
     public void enableProfile(final String profile) {
         isProfilesFeatureUsed = true;
 
@@ -1025,7 +1027,8 @@ public class Validator implements IValidator {
     protected boolean isAnyProfileEnabled(final String[] profilesOfCheck, final String[] enabledProfiles) {
         if (enabledProfiles == null) {
             // use the global profile configuration
-            if (profilesOfCheck == null || profilesOfCheck.length == 0) return isProfileEnabled("default");
+            if (profilesOfCheck == null || profilesOfCheck.length == 0)
+                return isProfileEnabled("default");
 
             for (final String profile : profilesOfCheck)
                 if (isProfileEnabled(profile)) return true;
@@ -1035,7 +1038,8 @@ public class Validator implements IValidator {
                 return ArrayUtils.containsEqual(enabledProfiles, "default");
 
             for (final String profile : profilesOfCheck)
-                if (ArrayUtils.containsEqual(enabledProfiles, profile)) return true;
+                if (ArrayUtils.containsEqual(enabledProfiles, profile))
+                    return true;
         }
         return false;
     }
@@ -1061,16 +1065,17 @@ public class Validator implements IValidator {
         return isProfileEnabled(profileId.getCanonicalName());
     }
 
-        /**
-         * Determines if the given profile is enabled.
-         *
-         * @param profileId
-         * @return Returns true if the given profile is enabled.
-         */
+    /**
+     * Determines if the given profile is enabled.
+     *
+     * @param profileId
+     * @return Returns true if the given profile is enabled.
+     */
     public boolean isProfileEnabled(final String profileId) {
         Assert.argumentNotNull("profileId", profileId);
         if (isProfilesFeatureUsed) {
-            if (isAllProfilesEnabledByDefault) return !disabledProfiles.contains(profileId);
+            if (isAllProfilesEnabledByDefault)
+                return !disabledProfiles.contains(profileId);
 
             return enabledProfiles.contains(profileId);
         }
@@ -1198,8 +1203,8 @@ public class Validator implements IValidator {
         // create required objects for this validation cycle
         final List<ConstraintViolation> violations = new ArrayList<>();
 
-            validateInvariants(validatedObject, violations, (String[]) null);
-            return violations;
+        validateInvariants(validatedObject, violations, (String[]) null);
+        return violations;
     }
 
     /**
@@ -1209,24 +1214,24 @@ public class Validator implements IValidator {
             ValidationFailedException {
 
         String[] textualProfiles = new String[profiles.length];
-        for (int i=0; i < profiles.length; i++) {
+        for (int i = 0; i < profiles.length; i++) {
             textualProfiles[i] = profiles[i].getCanonicalName();
         }
 
-        return validate(validatedObject,textualProfiles);
+        return validate(validatedObject, textualProfiles);
     }
 
-        /**
-         * {@inheritDoc}
-         */
+    /**
+     * {@inheritDoc}
+     */
     public List<ConstraintViolation> validate(final Object validatedObject, final String... profiles) throws IllegalArgumentException,
             ValidationFailedException {
         Assert.argumentNotNull("validatedObject", validatedObject);
 
         // create required objects for this validation cycle
         final List<ConstraintViolation> violations = new ArrayList<>();
-            validateInvariants(validatedObject, violations, profiles);
-            return violations;
+        validateInvariants(validatedObject, violations, profiles);
+        return violations;
     }
 
     /**

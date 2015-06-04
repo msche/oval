@@ -17,7 +17,7 @@ import net.sf.oval.configuration.Configurer;
 import net.sf.oval.configuration.pojo.elements.ClassConfiguration;
 import net.sf.oval.configuration.pojo.elements.ConstraintSetConfiguration;
 import net.sf.oval.configuration.pojo.elements.ConstructorConfiguration;
-import net.sf.oval.configuration.pojo.elements.FieldConfiguration;
+import net.sf.oval.configuration.pojo.elements.FieldChecks;
 import net.sf.oval.configuration.pojo.elements.MethodConfiguration;
 import net.sf.oval.configuration.pojo.elements.MethodReturnValueConfiguration;
 import net.sf.oval.configuration.pojo.elements.ParameterConfiguration;
@@ -131,20 +131,20 @@ public class BeanValidationAnnotationsConfigurer implements Configurer
 	{
 		List<Check> checks = new ArrayList<>(2);
 
+        // Loop over all fields that are defined within the class.
 		for (final Field field : classCfg.type.getDeclaredFields())
 		{
 			// loop over all annotations of the current field
 			for (final Annotation annotation : field.getAnnotations())
 				initializeChecks(annotation, checks);
 
+            // If checks defined for field append to field checks
 			if (checks.size() > 0)
 			{
-				if (classCfg.fieldConfigurations == null) classCfg.fieldConfigurations = new LinkedHashSet<>(2);
-
-				final FieldConfiguration fc = new FieldConfiguration();
+				final FieldChecks fc = new FieldChecks();
 				fc.name = field.getName();
 				fc.checks = checks;
-				classCfg.fieldConfigurations.add(fc);
+				classCfg.addFieldChecks(fc);
 				checks = new ArrayList<>(2); // create a new list for the next field with checks
 			}
 		}
