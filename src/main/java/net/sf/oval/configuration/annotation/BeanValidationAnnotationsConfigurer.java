@@ -105,15 +105,11 @@ public class BeanValidationAnnotationsConfigurer implements Configurer
 	{
 		for (final Constructor< ? > ctor : classCfg.type.getDeclaredConstructors())
 		{
-			final List<ParameterChecks> paramChecks = createParameterChecks(ctor.getParameterAnnotations(),
-					ctor.getParameterTypes());
+            final ConstructorConfiguration cc = new ConstructorConfiguration(createParameterChecks(ctor.getParameterAnnotations(), ctor.getParameterTypes()));
 
-			if (paramChecks.size() > 0)
+			if (cc.hasParameterChecks())
 			{
 				if (classCfg.constructorConfigurations == null) classCfg.constructorConfigurations = new LinkedHashSet<>(2);
-
-				final ConstructorConfiguration cc = new ConstructorConfiguration();
-				cc.parameterChecks = paramChecks;
 				classCfg.constructorConfigurations.add(cc);
 			}
 		}
@@ -155,8 +151,8 @@ public class BeanValidationAnnotationsConfigurer implements Configurer
 			 * determine parameter checks
 			 */
 			final List<ParameterChecks> paramChecks = createParameterChecks(
-					ReflectionUtils.getParameterAnnotations(method, classCfg.inspectInterfaces),
-					method.getParameterTypes());
+                    ReflectionUtils.getParameterAnnotations(method, classCfg.inspectInterfaces),
+                    method.getParameterTypes());
 
 			// check if anything has been configured for this method at all
 			if (paramChecks.size() > 0 || returnValueChecks.size() > 0)

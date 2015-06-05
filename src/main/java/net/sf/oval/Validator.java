@@ -64,15 +64,7 @@ import net.sf.oval.ogn.ObjectGraphNavigatorRegistry;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.WeakHashMap;
+import java.util.*;
 
 import static java.lang.Boolean.TRUE;
 
@@ -302,15 +294,17 @@ public class Validator implements IValidator {
             if (classCfg.constructorConfigurations != null) {
                 for (final ConstructorConfiguration ctorCfg : classCfg.constructorConfigurations) {
                     // ignore constructors without parameters
-                    if (ctorCfg.parameterChecks == null) {
+                    if (!ctorCfg.hasParameterChecks()) {
                         continue;
                     }
 
-                    final Class<?>[] paramTypes = new Class[ctorCfg.parameterChecks.size()];
-
-                    for (int i = 0, l = ctorCfg.parameterChecks.size(); i < l; i++) {
-                        paramTypes[i] = ctorCfg.parameterChecks.get(i).getType();
+                    List<ParameterChecks> parameterChecks = ctorCfg.getParameterChecks();
+                    final Class<?>[] paramTypes = new Class[parameterChecks.size()];
+                    for (int i = 0, l = parameterChecks.size(); i < l; i++) {
+                        paramTypes[i] = parameterChecks.get(i).getType();
                     }
+
+
 
                     final Constructor<?> ctor = classCfg.type.getDeclaredConstructor(paramTypes);
 
@@ -320,15 +314,15 @@ public class Validator implements IValidator {
 
                     final String[] paramNames = parameterNameResolver.getParameterNames(ctor);
 
-                    for (int i = 0, l = ctorCfg.parameterChecks.size(); i < l; i++) {
-                        final ParameterChecks parameterChecks = ctorCfg.parameterChecks.get(i);
+                    for (int i = 0, l = parameterChecks.size(); i < l; i++) {
+                        final ParameterChecks checksOfParameter = parameterChecks.get(i);
 
-                        if (parameterChecks.overwrite) {
+                        if (checksOfParameter.overwrite) {
                             cc.clearConstructorParameterChecks(ctor, i);
                         }
 
-                        if (parameterChecks.hasChecks()) {
-                            cc.addConstructorParameterChecks(ctor, i, parameterChecks.getChecks());
+                        if (checksOfParameter.hasChecks()) {
+                            cc.addConstructorParameterChecks(ctor, i, checksOfParameter.getChecks());
                         }
 
                         if (assertParametersNotNull) {
