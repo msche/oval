@@ -416,13 +416,13 @@ public class Validator implements IValidator {
 					/* ******************************
 					 * configure return value constraints
 					 * ******************************/
-                    if (methodCfg.returnValueConfiguration != null) {
-                        if (methodCfg.returnValueConfiguration.overwrite) {
+                    if (methodCfg.returnValueChecks != null) {
+                        if (methodCfg.returnValueChecks.overwrite) {
                             cc.clearMethodReturnValueChecks(method);
                         }
 
-                        if (methodCfg.returnValueConfiguration.checks != null && methodCfg.returnValueConfiguration.checks.size() > 0) {
-                            cc.addMethodReturnValueChecks(method, methodCfg.isInvariant, methodCfg.returnValueConfiguration.checks);
+                        if (methodCfg.returnValueChecks.hasChecks()) {
+                            cc.addMethodReturnValueChecks(method, methodCfg.isInvariant, methodCfg.returnValueChecks.getChecks());
                         }
                     }
 

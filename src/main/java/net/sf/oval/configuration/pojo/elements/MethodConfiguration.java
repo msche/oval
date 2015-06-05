@@ -23,8 +23,15 @@ public class MethodConfiguration extends ConfigurationElement
 
 	public String name;
 	public boolean isInvariant;
-	
+
+	/**
+	 * Contains the checks that should be applied to the method parameters.
+	 */
 	public List<ParameterChecks> parameterChecks;
-	public MethodReturnValueConfiguration returnValueConfiguration;
+
+	/**
+	 * Contains the checks that should be applied to the return value.
+	 */
+	public ReturnValueChecks returnValueChecks;
 
 }

@@ -14,17 +14,49 @@ package net.sf.oval.configuration.pojo.elements;
 
 import net.sf.oval.Check;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Contains checks for return value of method
+ *
  * @author Sebastian Thomschke
+ * @author msche
  */
-public class MethodReturnValueConfiguration extends ConfigurationElement
+public final class ReturnValueChecks extends ConfigurationElement
 {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * checks for a method's return value that need to be verified after method execution
 	 */
-	public List<Check> checks;
+	private final List<Check> checks = new ArrayList();
+
+	/**
+	 * Returns whether there are checks for the return value
+	 */
+	public boolean hasChecks() {
+		return !checks.isEmpty();
+	}
+
+	/**
+	 * Returns checks that apply to return value
+	 */
+	public List<Check> getChecks() {
+		return checks;
+	}
+
+	/**
+	 * Append check for return value
+	 */
+	public void addCheck(Check check) {
+		checks.add(check);
+	}
+
+	/**
+	 * Append checks for return value
+	 */
+	public void addChecks(List<Check> returnValueChecks) {
+		checks.addAll(returnValueChecks);
+	}
 }

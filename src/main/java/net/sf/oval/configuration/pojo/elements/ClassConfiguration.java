@@ -88,7 +88,7 @@ public class ClassConfiguration extends ConfigurationElement
      *
      * @para fieldChecks checks that apply to certain field within class
      */
-    public void addFieldChecks(FieldChecks fieldChecks) {
+    public void addChecks(FieldChecks fieldChecks) {
         this.fieldChecks.add(fieldChecks);
     }
 }

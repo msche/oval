@@ -19,7 +19,7 @@ import net.sf.oval.configuration.pojo.elements.ConstraintSetConfiguration;
 import net.sf.oval.configuration.pojo.elements.ConstructorConfiguration;
 import net.sf.oval.configuration.pojo.elements.FieldChecks;
 import net.sf.oval.configuration.pojo.elements.MethodConfiguration;
-import net.sf.oval.configuration.pojo.elements.MethodReturnValueConfiguration;
+import net.sf.oval.configuration.pojo.elements.ReturnValueChecks;
 import net.sf.oval.configuration.pojo.elements.ParameterChecks;
 import net.sf.oval.constraint.AssertFalseCheck;
 import net.sf.oval.constraint.NullCheck;
@@ -136,7 +136,7 @@ public class BeanValidationAnnotationsConfigurer implements Configurer
 				final FieldChecks fc = new FieldChecks();
 				fc.name = field.getName();
 				fc.checks = checks;
-				classCfg.addFieldChecks(fc);
+				classCfg.addChecks(fc);
 				checks = new ArrayList<>(2); // create a new list for the next field with checks
 			}
 		}
@@ -147,11 +147,11 @@ public class BeanValidationAnnotationsConfigurer implements Configurer
 	 */
 	protected void configureMethodChecks(final ClassConfiguration classCfg)
 	{
-		List<Check> returnValueChecks = new ArrayList<>(2);
 
 		for (final Method method : classCfg.type.getDeclaredMethods())
 		{
 			// loop over all annotations
+			List<Check> returnValueChecks = new ArrayList<>(2);
 			for (final Annotation annotation : ReflectionUtils.getAnnotations(method,classCfg.inspectInterfaces))
 				returnValueChecks.addAll(initializeChecks(annotation));
 
@@ -173,9 +173,8 @@ public class BeanValidationAnnotationsConfigurer implements Configurer
 				mc.isInvariant = ReflectionUtils.isGetter(method);
 				if (returnValueChecks.size() > 0)
 				{
-					mc.returnValueConfiguration = new MethodReturnValueConfiguration();
-					mc.returnValueConfiguration.checks = returnValueChecks;
-					returnValueChecks = new ArrayList<>(2); // create a new list for the next method having return value checks
+					mc.returnValueChecks = new ReturnValueChecks();
+					mc.returnValueChecks.addChecks(returnValueChecks);
 				}
 				classCfg.methodConfigurations.add(mc);
 			}

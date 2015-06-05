@@ -20,7 +20,10 @@ import java.util.Collections;
 import java.util.List;
 
 /**
+ * Contains checks for parameter
+ *
  * @author Sebastian Thomschke
+ * @author msche
  */
 public final class ParameterChecks extends ConfigurationElement
 {
@@ -52,6 +55,9 @@ public final class ParameterChecks extends ConfigurationElement
 		return type;
 	}
 
+	/**
+	 * Returns whether there are checks for the parameter
+	 */
 	public boolean hasChecks()
 	{
 		return !checks.isEmpty();

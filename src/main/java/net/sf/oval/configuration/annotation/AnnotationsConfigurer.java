@@ -21,7 +21,7 @@ import net.sf.oval.configuration.pojo.elements.ConstraintSetConfiguration;
 import net.sf.oval.configuration.pojo.elements.ConstructorConfiguration;
 import net.sf.oval.configuration.pojo.elements.FieldChecks;
 import net.sf.oval.configuration.pojo.elements.MethodConfiguration;
-import net.sf.oval.configuration.pojo.elements.MethodReturnValueConfiguration;
+import net.sf.oval.configuration.pojo.elements.ReturnValueChecks;
 import net.sf.oval.configuration.pojo.elements.ObjectConfiguration;
 import net.sf.oval.configuration.pojo.elements.ParameterChecks;
 import net.sf.oval.exception.OValException;
@@ -114,7 +114,7 @@ public class AnnotationsConfigurer implements Configurer
 				final FieldChecks fc = new FieldChecks();
 				fc.name = field.getName();
 				fc.checks = checks;
-				classCfg.addFieldChecks(fc);
+				classCfg.addChecks(fc);
 				checks = new ArrayList<>(2); // create a new list for the next field with checks
 			}
 		}
@@ -125,12 +125,12 @@ public class AnnotationsConfigurer implements Configurer
 	 */
 	protected void configureMethodChecks(final ClassConfiguration classCfg)
 	{
-		List<Check> returnValueChecks = new ArrayList<>(2);
 
 		for (final Method method : classCfg.type.getDeclaredMethods())
 		{
 
 			// loop over all annotations
+			List<Check> returnValueChecks = new ArrayList<>();
 			for (final Annotation annotation : ReflectionUtils.getAnnotations(method, classCfg.inspectInterfaces))
 				if (annotation.annotationType().isAnnotationPresent(Constraint.class))
 					returnValueChecks.add(initializeCheck(annotation));
@@ -154,11 +154,10 @@ public class AnnotationsConfigurer implements Configurer
 				mc.parameterChecks = paramChecks;
 				mc.isInvariant = ReflectionUtils.isAnnotationPresent(method, IsInvariant.class,
 						classCfg.inspectInterfaces);
-				if (returnValueChecks.size() > 0)
+				if (!returnValueChecks.isEmpty())
 				{
-					mc.returnValueConfiguration = new MethodReturnValueConfiguration();
-					mc.returnValueConfiguration.checks = returnValueChecks;
-					returnValueChecks = new ArrayList<>(2); // create a new list for the next method having return value checks
+					mc.returnValueChecks = new ReturnValueChecks();
+					mc.returnValueChecks.addChecks(returnValueChecks);
 				}
 				classCfg.methodConfigurations.add(mc);
 			}
