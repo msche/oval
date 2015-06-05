@@ -19,7 +19,7 @@ import java.io.Serializable;
  */
 public class ConfigurationElement implements Serializable
 {
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 8732173806555872047L;
 
 	/**
 	 * If set to <code>false</code> the checks defined here and in the child configuration elements will be added to 

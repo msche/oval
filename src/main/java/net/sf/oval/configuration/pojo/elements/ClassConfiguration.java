@@ -22,7 +22,7 @@ import java.util.Set;
  */
 public class ClassConfiguration extends ConfigurationElement
 {
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -678113044888557518L;
 
 	/**
 	 * class at which this configuration applies.

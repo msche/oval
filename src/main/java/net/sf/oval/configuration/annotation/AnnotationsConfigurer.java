@@ -100,9 +100,7 @@ public class AnnotationsConfigurer implements Configurer
 
 		for (final Field field : classCfg.type.getDeclaredFields())
 		{
-			final FieldChecks fc = new FieldChecks();
-			fc.name = field.getName();
-
+			final FieldChecks fc = new FieldChecks(field.getName());
 
 			// loop over all annotations of the current field
 			for (final Annotation annotation : field.getAnnotations())

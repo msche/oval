@@ -22,13 +22,28 @@ import java.util.List;
  * @author Sebastian Thomschke
  * @author msche
  */
-public class FieldChecks extends AbstractChecks
+public final class FieldChecks extends AbstractChecks
 {
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 3491614273739310489L;
 	
 	/**
 	 * name of the field
 	 */
-	public String name;
-	
+	private final String name;
+
+	/**
+	 * Constructor
+	 *
+	 * @param name name of field at which checks apply
+	 */
+	public FieldChecks(String name) {
+		this.name = name;
+	}
+
+	/**
+	 * Returns name of field at which checks apply
+	 */
+	public String getName() {
+		return name;
+	}
 }

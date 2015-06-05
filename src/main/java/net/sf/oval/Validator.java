@@ -285,7 +285,7 @@ public class Validator implements IValidator {
 			 * apply field checks
 			 * ******************************/
             for (final FieldChecks fieldCfg : classCfg.getFieldChecks()) {
-                final Field field = classCfg.type.getDeclaredField(fieldCfg.name);
+                final Field field = classCfg.type.getDeclaredField(fieldCfg.getName());
 
                 if (fieldCfg.overwrite) {
                     cc.clearFieldChecks(field);
