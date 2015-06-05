@@ -25,7 +25,7 @@ import java.util.List;
  * @author Sebastian Thomschke
  * @author msche
  */
-public final class ParameterChecks extends ConfigurationElement
+public final class ParameterChecks extends AbstractChecks
 {
 	private static final long serialVersionUID = 1L;
 
@@ -33,11 +33,6 @@ public final class ParameterChecks extends ConfigurationElement
 	 * the type of the parameter
 	 */
 	private final Class< ? > type;
-
-	/**
-	 * the checks for the parameter
-	 */
-	private final List<Check> checks = new ArrayList<>();
 
 	/**
 	 * Constructor
@@ -55,32 +50,4 @@ public final class ParameterChecks extends ConfigurationElement
 		return type;
 	}
 
-	/**
-	 * Returns whether there are checks for the parameter
-	 */
-	public boolean hasChecks()
-	{
-		return !checks.isEmpty();
-	}
-
-	/**
-	 * Returns list of checks that apply to parameter
-	 */
-	public List<Check> getChecks() {
-		return Collections.unmodifiableList(checks);
-	}
-
-	/**
-	 * Append check for parameter
-	 */
-	public void addCheck(Check check) {
-		checks.add(check);
-	}
-
-	/**
-	 * Append checks for parameter
-	 */
-	public void addChecks(List<Check> parameterChecks) {
-		checks.addAll(parameterChecks);
-	}
 }

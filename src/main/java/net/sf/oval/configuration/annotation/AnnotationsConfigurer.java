@@ -97,25 +97,24 @@ public class AnnotationsConfigurer implements Configurer
 
 	protected void configureFieldChecks(final ClassConfiguration classCfg)
 	{
-		List<Check> checks = new ArrayList<>(2);
 
 		for (final Field field : classCfg.type.getDeclaredFields())
 		{
+			final FieldChecks fc = new FieldChecks();
+			fc.name = field.getName();
+
+
 			// loop over all annotations of the current field
 			for (final Annotation annotation : field.getAnnotations())
 				// check if the current annotation is a constraint annotation
 				if (annotation.annotationType().isAnnotationPresent(Constraint.class))
-					checks.add(initializeCheck(annotation));
+					fc.addCheck(initializeCheck(annotation));
 				else if (annotation.annotationType().isAnnotationPresent(Constraints.class))
-					checks.addAll(initializeChecks(annotation));
+					fc.addChecks(initializeChecks(annotation));
 
-			if (checks.size() > 0)
+			if (fc.hasChecks())
 			{
-				final FieldChecks fc = new FieldChecks();
-				fc.name = field.getName();
-				fc.checks = checks;
 				classCfg.addChecks(fc);
-				checks = new ArrayList<>(2); // create a new list for the next field with checks
 			}
 		}
 	}

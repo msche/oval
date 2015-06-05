@@ -291,8 +291,8 @@ public class Validator implements IValidator {
                     cc.clearFieldChecks(field);
                 }
 
-                if (fieldCfg.checks != null && fieldCfg.checks.size() > 0) {
-                    cc.addFieldChecks(field, fieldCfg.checks);
+                if (fieldCfg.hasChecks()) {
+                    cc.addFieldChecks(field, fieldCfg.getChecks());
                 }
             }
 

@@ -22,7 +22,7 @@ import java.util.List;
  * @author Sebastian Thomschke
  * @author msche
  */
-public class FieldChecks extends ConfigurationElement
+public class FieldChecks extends AbstractChecks
 {
 	private static final long serialVersionUID = 1L;
 	
@@ -31,8 +31,4 @@ public class FieldChecks extends ConfigurationElement
 	 */
 	public String name;
 	
-	/**
-	 * checks of the field
-	 */
-	public List<Check> checks;
 }
