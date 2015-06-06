@@ -159,15 +159,11 @@ public class BeanValidationAnnotationsConfigurer implements Configurer
 			// check if anything has been configured for this method at all
 			if (paramChecks.size() > 0 || returnValueChecks.size() > 0)
 			{
-				final MethodConfiguration mc = new MethodConfiguration();
-				mc.name = method.getName();
-				mc.parameterChecks = paramChecks;
-				mc.isInvariant = ReflectionUtils.isGetter(method);
-				if (returnValueChecks.size() > 0)
-				{
-					mc.returnValueChecks = new ReturnValueChecks();
-					mc.returnValueChecks.addChecks(returnValueChecks);
-				}
+				final MethodConfiguration mc = new MethodConfiguration(
+						method.getName(),
+						ReflectionUtils.isGetter(method),
+						paramChecks,
+						new ReturnValueChecks(returnValueChecks));
 				classCfg.addChecks(mc);
 			}
 		}

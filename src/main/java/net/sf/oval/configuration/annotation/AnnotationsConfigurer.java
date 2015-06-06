@@ -124,7 +124,7 @@ public class AnnotationsConfigurer implements Configurer
 		for (final Method method : classCfg.getType().getDeclaredMethods())
 		{
 
-			// loop over all annotations
+			// loop over all annotations method and
 			List<Check> returnValueChecks = new ArrayList<>();
 			for (final Annotation annotation : ReflectionUtils.getAnnotations(method, classCfg.inspectInterfaces))
 				if (annotation.annotationType().isAnnotationPresent(Constraint.class))
@@ -142,16 +142,11 @@ public class AnnotationsConfigurer implements Configurer
 			// check if anything has been configured for this method at all
 			if (paramChecks.size() > 0 || returnValueChecks.size() > 0)
 			{
-				final MethodConfiguration mc = new MethodConfiguration();
-				mc.name = method.getName();
-				mc.parameterChecks = paramChecks;
-				mc.isInvariant = ReflectionUtils.isAnnotationPresent(method, IsInvariant.class,
-						classCfg.inspectInterfaces);
-				if (!returnValueChecks.isEmpty())
-				{
-					mc.returnValueChecks = new ReturnValueChecks();
-					mc.returnValueChecks.addChecks(returnValueChecks);
-				}
+				final MethodConfiguration mc = new MethodConfiguration(
+						method.getName(),
+						ReflectionUtils.isAnnotationPresent(method, IsInvariant.class, classCfg.inspectInterfaces),
+						paramChecks,
+						new ReturnValueChecks(returnValueChecks));
 				classCfg.addChecks(mc);
 			}
 		}

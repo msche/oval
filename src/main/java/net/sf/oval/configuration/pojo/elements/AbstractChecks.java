@@ -35,14 +35,18 @@ abstract class AbstractChecks {
      * Append check for element
      */
     public void addCheck(Check check) {
-        checks.add(check);
+        if(check != null) {
+            checks.add(check);
+        }
     }
 
     /**
      * Append checks for element
      */
-    public void addChecks(List<Check> returnValueChecks) {
-        checks.addAll(returnValueChecks);
+    public void addChecks(List<Check> checks) {
+        if (checks != null) {
+            this.checks.addAll(checks);
+        }
     }
 
 }

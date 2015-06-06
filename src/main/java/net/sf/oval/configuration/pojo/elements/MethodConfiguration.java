@@ -12,6 +12,9 @@
  *******************************************************************************/
 package net.sf.oval.configuration.pojo.elements;
 
+import net.sf.oval.internal.util.Assert;
+
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -21,17 +24,59 @@ public class MethodConfiguration
 {
 	private static final long serialVersionUID = 1L;
 
-	public String name;
-	public boolean isInvariant;
+	/**
+	 * Name of method
+	 */
+	private final String name;
+
+	private final boolean isInvariant;
 
 	/**
 	 * Contains the checks that should be applied to the method parameters.
 	 */
-	public List<ParameterChecks> parameterChecks;
+	private final List<ParameterChecks> parameterChecks;
 
 	/**
 	 * Contains the checks that should be applied to the return value.
 	 */
-	public ReturnValueChecks returnValueChecks;
+	private final ReturnValueChecks returnValueChecks;
+
+	public MethodConfiguration(String name, boolean isInvariant, List<ParameterChecks> parameterChecks, ReturnValueChecks returnValueChecks) {
+
+		Assert.argumentNotEmpty("name", name);
+		Assert.argumentNotNull("parameterChecks", parameterChecks);
+		Assert.argumentNotNull("returnValueChecks", returnValueChecks);
+
+		this.name = name;
+		this.isInvariant = isInvariant;
+		this.parameterChecks = parameterChecks;
+		this.returnValueChecks = returnValueChecks;
+	}
+
+	/**
+	 * Returns name of method at which this configuration applies
+	 */
+	public String getName() {
+		return name;
+	}
+
+	public boolean isInvariant() {
+		return isInvariant;
+	}
+
+	/**
+	 * Returns checks for parameters method
+	 */
+	public List<ParameterChecks> getParameterChecks() {
+		return Collections.unmodifiableList(parameterChecks);
+	}
+
+	/**
+	 * Returns checks for return value method
+	 */
+	public ReturnValueChecks getReturnValueChecks() {
+		return returnValueChecks;
+	}
+
 
 }

@@ -275,7 +275,7 @@ public class Validator implements IValidator {
             }
 
 			/* ******************************
-			 * apply field checks
+             * apply field checks
 			 * ******************************/
             for (final FieldChecks fieldCfg : classCfg.getFieldChecks()) {
                 final Field field = classCfg.getType().getDeclaredField(fieldCfg.getName());
@@ -340,16 +340,17 @@ public class Validator implements IValidator {
 					 * ******************************/
                 final Method method;
 
-                if (methodCfg.parameterChecks == null || methodCfg.parameterChecks.size() == 0) {
-                    method = classCfg.getType().getDeclaredMethod(methodCfg.name);
+                final List<ParameterChecks> parameterChecks = methodCfg.getParameterChecks();
+                if (parameterChecks.isEmpty()) {
+                    method = classCfg.getType().getDeclaredMethod(methodCfg.getName());
                 } else {
-                    final Class<?>[] paramTypes = new Class[methodCfg.parameterChecks.size()];
+                    final Class<?>[] parameterTypes = new Class[parameterChecks.size()];
 
-                    for (int i = 0, l = methodCfg.parameterChecks.size(); i < l; i++) {
-                        paramTypes[i] = methodCfg.parameterChecks.get(i).getType();
+                    for (int i = 0, l = parameterChecks.size(); i < l; i++) {
+                        parameterTypes[i] = parameterChecks.get(i).getType();
                     }
 
-                    method = classCfg.getType().getDeclaredMethod(methodCfg.name, paramTypes);
+                    method = classCfg.getType().getDeclaredMethod(methodCfg.getName(), parameterTypes);
                 }
 
 					/* ******************************
@@ -369,27 +370,23 @@ public class Validator implements IValidator {
 					/* ******************************
 					 * configure parameter constraints
 					 * ******************************/
-                if (methodCfg.parameterChecks != null && methodCfg.parameterChecks.size() > 0) {
-                    for (int i = 0, l = methodCfg.parameterChecks.size(); i < l; i++) {
-                        final ParameterChecks paramCfg = methodCfg.parameterChecks.get(i);
+                for (int i = 0, l = parameterChecks.size(); i < l; i++) {
+                    final ParameterChecks paramCfg = parameterChecks.get(i);
 
-                        if (paramCfg.hasChecks()) {
-                            cc.addMethodParameterChecks(method, i, paramCfg.getChecks());
-                        }
+                    if (paramCfg.hasChecks()) {
+                        cc.addMethodParameterChecks(method, i, paramCfg.getChecks());
+                    }
 
-                        if (assertParametersNotNull) {
-                            cc.addMethodParameterChecks(method, i, sharedNotNullCheck);
-                        }
+                    if (assertParametersNotNull) {
+                        cc.addMethodParameterChecks(method, i, sharedNotNullCheck);
                     }
                 }
 
-					/* ******************************
-					 * configure return value constraints
-					 * ******************************/
-                if (methodCfg.returnValueChecks != null) {
-                    if (methodCfg.returnValueChecks.hasChecks()) {
-                        cc.addMethodReturnValueChecks(method, methodCfg.isInvariant, methodCfg.returnValueChecks.getChecks());
-                    }
+				/* ******************************
+				 * configure return value constraints
+				 * ******************************/
+                if (methodCfg.getReturnValueChecks().hasChecks()) {
+                    cc.addMethodReturnValueChecks(method, methodCfg.isInvariant(), methodCfg.getReturnValueChecks().getChecks());
                 }
 
             }
