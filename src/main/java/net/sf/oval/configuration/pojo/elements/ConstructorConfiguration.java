@@ -12,6 +12,10 @@
  *******************************************************************************/
 package net.sf.oval.configuration.pojo.elements;
 
+import net.sf.oval.internal.util.Assert;
+
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -21,6 +25,14 @@ public class ConstructorConfiguration
 {
 	private static final long serialVersionUID = 1L;
 	
-	public List<ParameterChecks> parameterChecks;
-	
+	private final List<ParameterChecks> parameterChecks;
+
+	public ConstructorConfiguration(List<ParameterChecks> checks) {
+		Assert.argumentNotNull("checks", checks);
+		parameterChecks = checks;
+	}
+
+	public List<ParameterChecks> getParameterChecks() {
+		return Collections.unmodifiableList(parameterChecks);
+	}
 }

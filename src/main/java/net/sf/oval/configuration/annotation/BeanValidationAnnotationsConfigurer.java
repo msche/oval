@@ -110,8 +110,7 @@ public class BeanValidationAnnotationsConfigurer implements Configurer
 
 			if (paramChecks.size() > 0)
 			{
-				final ConstructorConfiguration cc = new ConstructorConfiguration();
-				cc.parameterChecks = paramChecks;
+				final ConstructorConfiguration cc = new ConstructorConfiguration(paramChecks);
 				classCfg.addChecks(cc);
 			}
 		}

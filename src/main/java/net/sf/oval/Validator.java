@@ -287,43 +287,43 @@ public class Validator implements IValidator {
              * apply constructor parameter checks
 			 * ******************************/
             for (final ConstructorConfiguration ctorCfg : classCfg.getConstructorChecks()) {
+                List<ParameterChecks> parametersChecks = ctorCfg.getParameterChecks();
                 // ignore constructors without parameters
-                if (ctorCfg.parameterChecks == null) {
-                    continue;
-                }
+                if (!parametersChecks.isEmpty()) {
 
-                // Get instance of constructor at which the checks apply
-                final Class<?>[] paramTypes = new Class[ctorCfg.parameterChecks.size()];
-                for (int i = 0, l = ctorCfg.parameterChecks.size(); i < l; i++) {
-                    paramTypes[i] = ctorCfg.parameterChecks.get(i).getType();
-                }
-                final Constructor<?> ctor = classCfg.getType().getDeclaredConstructor(paramTypes);
-
-
-                final String[] paramNames = parameterNameResolver.getParameterNames(ctor);
-
-                for (int i = 0, l = ctorCfg.parameterChecks.size(); i < l; i++) {
-                    final ParameterChecks parameterChecks = ctorCfg.parameterChecks.get(i);
-
-                    if (parameterChecks.hasChecks()) {
-                        cc.addConstructorParameterChecks(ctor, i, parameterChecks.getChecks());
+                    // Get instance of constructor at which the checks apply
+                    final Class<?>[] paramTypes = new Class[parametersChecks.size()];
+                    for (int i = 0, l = parametersChecks.size(); i < l; i++) {
+                        paramTypes[i] = parametersChecks.get(i).getType();
                     }
+                    final Constructor<?> ctor = classCfg.getType().getDeclaredConstructor(paramTypes);
 
-                    if (assertParametersNotNull) {
-                        cc.addConstructorParameterChecks(ctor, i, sharedNotNullCheck);
-                    }
+
+                    final String[] paramNames = parameterNameResolver.getParameterNames(ctor);
+
+                    for (int i = 0, l = parametersChecks.size(); i < l; i++) {
+                        final ParameterChecks parameterChecks = parametersChecks.get(i);
+
+                        if (parameterChecks.hasChecks()) {
+                            cc.addConstructorParameterChecks(ctor, i, parameterChecks.getChecks());
+                        }
+
+                        if (assertParametersNotNull) {
+                            cc.addConstructorParameterChecks(ctor, i, sharedNotNullCheck);
+                        }
 
 						/* *******************
 						 * applying field constraints to the single parameter of setter methods
 						 * *******************/
-                    if (applyFieldConstraintsToConstructors) {
-                        final Field field = ReflectionUtils.getField(cc.clazz, paramNames[i]);
+                        if (applyFieldConstraintsToConstructors) {
+                            final Field field = ReflectionUtils.getField(cc.clazz, paramNames[i]);
 
-                        // check if a corresponding field has been found
-                        if (field != null && paramTypes[i].isAssignableFrom(field.getType())) {
-                            final AssertFieldConstraintsCheck check = new AssertFieldConstraintsCheck();
-                            check.setFieldName(field.getName());
-                            cc.addConstructorParameterChecks(ctor, i, check);
+                            // check if a corresponding field has been found
+                            if (field != null && paramTypes[i].isAssignableFrom(field.getType())) {
+                                final AssertFieldConstraintsCheck check = new AssertFieldConstraintsCheck();
+                                check.setFieldName(field.getName());
+                                cc.addConstructorParameterChecks(ctor, i, check);
+                            }
                         }
                     }
                 }
