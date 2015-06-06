@@ -265,8 +265,8 @@ public class Validator implements IValidator {
         final NotNullCheck sharedNotNullCheck = assertParametersNotNull ? new NotNullCheck() : null;
 
         try {
-			/* ******************************
-			 * apply object level checks
+            /* ******************************
+             * apply object level checks
 			 * ******************************/
             if (classCfg.objectConfiguration != null) {
                 final ObjectConfiguration objectCfg = classCfg.objectConfiguration;
@@ -288,46 +288,44 @@ public class Validator implements IValidator {
 			/* ******************************
 			 * apply constructor parameter checks
 			 * ******************************/
-            if (classCfg.constructorConfigurations != null) {
-                for (final ConstructorConfiguration ctorCfg : classCfg.constructorConfigurations) {
-                    // ignore constructors without parameters
-                    if (ctorCfg.parameterChecks == null) {
-                        continue;
+            for (final ConstructorConfiguration ctorCfg : classCfg.getConstructorChecks()) {
+                // ignore constructors without parameters
+                if (ctorCfg.parameterChecks == null) {
+                    continue;
+                }
+
+                final Class<?>[] paramTypes = new Class[ctorCfg.parameterChecks.size()];
+
+                for (int i = 0, l = ctorCfg.parameterChecks.size(); i < l; i++) {
+                    paramTypes[i] = ctorCfg.parameterChecks.get(i).getType();
+                }
+
+                final Constructor<?> ctor = classCfg.type.getDeclaredConstructor(paramTypes);
+
+                final String[] paramNames = parameterNameResolver.getParameterNames(ctor);
+
+                for (int i = 0, l = ctorCfg.parameterChecks.size(); i < l; i++) {
+                    final ParameterChecks parameterChecks = ctorCfg.parameterChecks.get(i);
+
+                    if (parameterChecks.hasChecks()) {
+                        cc.addConstructorParameterChecks(ctor, i, parameterChecks.getChecks());
                     }
 
-                    final Class<?>[] paramTypes = new Class[ctorCfg.parameterChecks.size()];
-
-                    for (int i = 0, l = ctorCfg.parameterChecks.size(); i < l; i++) {
-                        paramTypes[i] = ctorCfg.parameterChecks.get(i).getType();
+                    if (assertParametersNotNull) {
+                        cc.addConstructorParameterChecks(ctor, i, sharedNotNullCheck);
                     }
-
-                    final Constructor<?> ctor = classCfg.type.getDeclaredConstructor(paramTypes);
-
-                    final String[] paramNames = parameterNameResolver.getParameterNames(ctor);
-
-                    for (int i = 0, l = ctorCfg.parameterChecks.size(); i < l; i++) {
-                        final ParameterChecks parameterChecks = ctorCfg.parameterChecks.get(i);
-
-                        if (parameterChecks.hasChecks()) {
-                            cc.addConstructorParameterChecks(ctor, i, parameterChecks.getChecks());
-                        }
-
-                        if (assertParametersNotNull) {
-                            cc.addConstructorParameterChecks(ctor, i, sharedNotNullCheck);
-                        }
 
 						/* *******************
 						 * applying field constraints to the single parameter of setter methods
 						 * *******************/
-                        if (applyFieldConstraintsToConstructors) {
-                            final Field field = ReflectionUtils.getField(cc.clazz, paramNames[i]);
+                    if (applyFieldConstraintsToConstructors) {
+                        final Field field = ReflectionUtils.getField(cc.clazz, paramNames[i]);
 
-                            // check if a corresponding field has been found
-                            if (field != null && paramTypes[i].isAssignableFrom(field.getType())) {
-                                final AssertFieldConstraintsCheck check = new AssertFieldConstraintsCheck();
-                                check.setFieldName(field.getName());
-                                cc.addConstructorParameterChecks(ctor, i, check);
-                            }
+                        // check if a corresponding field has been found
+                        if (field != null && paramTypes[i].isAssignableFrom(field.getType())) {
+                            final AssertFieldConstraintsCheck check = new AssertFieldConstraintsCheck();
+                            check.setFieldName(field.getName());
+                            cc.addConstructorParameterChecks(ctor, i, check);
                         }
                     }
                 }
@@ -336,66 +334,64 @@ public class Validator implements IValidator {
 			/* ******************************
 			 * apply method parameter and return value checks and pre/post conditions
 			 * ******************************/
-            if (classCfg.methodConfigurations != null) {
-                for (final MethodConfiguration methodCfg : classCfg.methodConfigurations) {
+            for (final MethodConfiguration methodCfg : classCfg.getMethodChecks()) {
 					/* ******************************
 					 * determine the method
 					 * ******************************/
-                    final Method method;
+                final Method method;
 
-                    if (methodCfg.parameterChecks == null || methodCfg.parameterChecks.size() == 0) {
-                        method = classCfg.type.getDeclaredMethod(methodCfg.name);
-                    } else {
-                        final Class<?>[] paramTypes = new Class[methodCfg.parameterChecks.size()];
+                if (methodCfg.parameterChecks == null || methodCfg.parameterChecks.size() == 0) {
+                    method = classCfg.type.getDeclaredMethod(methodCfg.name);
+                } else {
+                    final Class<?>[] paramTypes = new Class[methodCfg.parameterChecks.size()];
 
-                        for (int i = 0, l = methodCfg.parameterChecks.size(); i < l; i++) {
-                            paramTypes[i] = methodCfg.parameterChecks.get(i).getType();
-                        }
-
-                        method = classCfg.type.getDeclaredMethod(methodCfg.name, paramTypes);
+                    for (int i = 0, l = methodCfg.parameterChecks.size(); i < l; i++) {
+                        paramTypes[i] = methodCfg.parameterChecks.get(i).getType();
                     }
+
+                    method = classCfg.type.getDeclaredMethod(methodCfg.name, paramTypes);
+                }
 
 					/* ******************************
 					 * applying field constraints to the single parameter of setter methods
 					 * ******************************/
-                    if (applyFieldConstraintsToSetters) {
-                        final Field field = ReflectionUtils.getFieldForSetter(method);
+                if (applyFieldConstraintsToSetters) {
+                    final Field field = ReflectionUtils.getFieldForSetter(method);
 
-                        // check if a corresponding field has been found
-                        if (field != null) {
-                            final AssertFieldConstraintsCheck check = new AssertFieldConstraintsCheck();
-                            check.setFieldName(field.getName());
-                            cc.addMethodParameterChecks(method, 0, check);
-                        }
+                    // check if a corresponding field has been found
+                    if (field != null) {
+                        final AssertFieldConstraintsCheck check = new AssertFieldConstraintsCheck();
+                        check.setFieldName(field.getName());
+                        cc.addMethodParameterChecks(method, 0, check);
                     }
+                }
 
 					/* ******************************
 					 * configure parameter constraints
 					 * ******************************/
-                    if (methodCfg.parameterChecks != null && methodCfg.parameterChecks.size() > 0) {
-                        for (int i = 0, l = methodCfg.parameterChecks.size(); i < l; i++) {
-                            final ParameterChecks paramCfg = methodCfg.parameterChecks.get(i);
+                if (methodCfg.parameterChecks != null && methodCfg.parameterChecks.size() > 0) {
+                    for (int i = 0, l = methodCfg.parameterChecks.size(); i < l; i++) {
+                        final ParameterChecks paramCfg = methodCfg.parameterChecks.get(i);
 
-                            if (paramCfg.hasChecks()) {
-                                cc.addMethodParameterChecks(method, i, paramCfg.getChecks());
-                            }
+                        if (paramCfg.hasChecks()) {
+                            cc.addMethodParameterChecks(method, i, paramCfg.getChecks());
+                        }
 
-                            if (assertParametersNotNull) {
-                                cc.addMethodParameterChecks(method, i, sharedNotNullCheck);
-                            }
+                        if (assertParametersNotNull) {
+                            cc.addMethodParameterChecks(method, i, sharedNotNullCheck);
                         }
                     }
+                }
 
 					/* ******************************
 					 * configure return value constraints
 					 * ******************************/
-                    if (methodCfg.returnValueChecks != null) {
-                        if (methodCfg.returnValueChecks.hasChecks()) {
-                            cc.addMethodReturnValueChecks(method, methodCfg.isInvariant, methodCfg.returnValueChecks.getChecks());
-                        }
+                if (methodCfg.returnValueChecks != null) {
+                    if (methodCfg.returnValueChecks.hasChecks()) {
+                        cc.addMethodReturnValueChecks(method, methodCfg.isInvariant, methodCfg.returnValueChecks.getChecks());
                     }
-
                 }
+
             }
         } catch (final NoSuchMethodException ex) {
             throw new MethodNotFoundException(ex);

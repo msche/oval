@@ -42,12 +42,12 @@ public class ClassConfiguration
 	/**
 	 * constructor constraints configuration
 	 */
-	public Set<ConstructorConfiguration> constructorConfigurations;
+	private final Set<ConstructorConfiguration> constructorConfigurations = new LinkedHashSet<>();
 
 	/**
 	 * method constraints configuration
 	 */
-	public Set<MethodConfiguration> methodConfigurations;
+	private final Set<MethodConfiguration> methodConfigurations = new LinkedHashSet<>();
 
 	/**
 	 * Automatically apply field constraints to the corresponding parameters
@@ -91,4 +91,33 @@ public class ClassConfiguration
     public void addChecks(FieldChecks fieldChecks) {
         this.fieldChecks.add(fieldChecks);
     }
+
+	/**
+	 * Append checks for method within class
+	 */
+	public void addChecks(MethodConfiguration checks) {
+		methodConfigurations.add(checks);
+	}
+
+	/**
+	 * Returns a set of checks that need to be applied to the methods within this class
+	 */
+	public Set<MethodConfiguration> getMethodChecks() {
+		return Collections.unmodifiableSet(methodConfigurations);
+	}
+
+
+	/**
+	 * Append checks for constructors within class
+	 */
+	public void addChecks(ConstructorConfiguration checks) {
+		this.constructorConfigurations.add(checks);
+	}
+
+	/**
+	 * Returns a set of checks that need to be applied to the constructors within this class
+	 */
+	public Set<ConstructorConfiguration> getConstructorChecks() {
+		return Collections.unmodifiableSet(constructorConfigurations);
+	}
 }

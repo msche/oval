@@ -110,11 +110,9 @@ public class BeanValidationAnnotationsConfigurer implements Configurer
 
 			if (paramChecks.size() > 0)
 			{
-				if (classCfg.constructorConfigurations == null) classCfg.constructorConfigurations = new LinkedHashSet<>(2);
-
 				final ConstructorConfiguration cc = new ConstructorConfiguration();
 				cc.parameterChecks = paramChecks;
-				classCfg.constructorConfigurations.add(cc);
+				classCfg.addChecks(cc);
 			}
 		}
 	}
@@ -161,8 +159,6 @@ public class BeanValidationAnnotationsConfigurer implements Configurer
 			// check if anything has been configured for this method at all
 			if (paramChecks.size() > 0 || returnValueChecks.size() > 0)
 			{
-				if (classCfg.methodConfigurations == null) classCfg.methodConfigurations = new LinkedHashSet<>(2);
-
 				final MethodConfiguration mc = new MethodConfiguration();
 				mc.name = method.getName();
 				mc.parameterChecks = paramChecks;
@@ -172,7 +168,7 @@ public class BeanValidationAnnotationsConfigurer implements Configurer
 					mc.returnValueChecks = new ReturnValueChecks();
 					mc.returnValueChecks.addChecks(returnValueChecks);
 				}
-				classCfg.methodConfigurations.add(mc);
+				classCfg.addChecks(mc);
 			}
 		}
 	}
