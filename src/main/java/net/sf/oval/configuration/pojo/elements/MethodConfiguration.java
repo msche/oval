@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * @author Sebastian Thomschke
  */
-public class MethodConfiguration extends ConfigurationElement
+public class MethodConfiguration
 {
 	private static final long serialVersionUID = 1L;
 

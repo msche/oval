@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * @author Sebastian Thomschke
  */
-public class ObjectConfiguration extends ConfigurationElement
+public class ObjectConfiguration
 {
 	private static final long serialVersionUID = 1L;
 

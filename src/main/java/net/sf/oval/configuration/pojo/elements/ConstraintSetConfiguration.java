@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * @author Sebastian Thomschke
  */
-public class ConstraintSetConfiguration extends ConfigurationElement
+public class ConstraintSetConfiguration
 {
 	private static final long serialVersionUID = 1L;
 	

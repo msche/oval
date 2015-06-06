@@ -10,7 +10,7 @@ import java.util.List;
  *
  * @author msche
  */
-abstract class AbstractChecks extends ConfigurationElement {
+abstract class AbstractChecks {
 
     /**
      * checks for a method's return value that need to be verified after method execution

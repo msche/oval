@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * @author Sebastian Thomschke
  */
-public class ConstructorConfiguration extends ConfigurationElement
+public class ConstructorConfiguration
 {
 	private static final long serialVersionUID = 1L;
 	
