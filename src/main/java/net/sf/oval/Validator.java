@@ -278,15 +278,14 @@ public class Validator implements IValidator {
              * apply field checks
 			 * ******************************/
             for (final FieldChecks fieldCfg : classCfg.getFieldChecks()) {
-                final Field field = classCfg.getType().getDeclaredField(fieldCfg.getName());
-
                 if (fieldCfg.hasChecks()) {
+                    final Field field = classCfg.getType().getDeclaredField(fieldCfg.getName());
                     cc.addFieldChecks(field, fieldCfg.getChecks());
                 }
             }
 
 			/* ******************************
-			 * apply constructor parameter checks
+             * apply constructor parameter checks
 			 * ******************************/
             for (final ConstructorConfiguration ctorCfg : classCfg.getConstructorChecks()) {
                 // ignore constructors without parameters
@@ -294,13 +293,13 @@ public class Validator implements IValidator {
                     continue;
                 }
 
+                // Get instance of constructor at which the checks apply
                 final Class<?>[] paramTypes = new Class[ctorCfg.parameterChecks.size()];
-
                 for (int i = 0, l = ctorCfg.parameterChecks.size(); i < l; i++) {
                     paramTypes[i] = ctorCfg.parameterChecks.get(i).getType();
                 }
-
                 final Constructor<?> ctor = classCfg.getType().getDeclaredConstructor(paramTypes);
+
 
                 final String[] paramNames = parameterNameResolver.getParameterNames(ctor);
 
@@ -335,27 +334,10 @@ public class Validator implements IValidator {
 			 * apply method parameter and return value checks and pre/post conditions
 			 * ******************************/
             for (final MethodConfiguration methodCfg : classCfg.getMethodChecks()) {
-					/* ******************************
-					 * determine the method
-					 * ******************************/
-                final Method method;
+				// determine the method
+                final Method method = methodCfg.getMethod();
 
-                final List<ParameterChecks> parameterChecks = methodCfg.getParameterChecks();
-                if (parameterChecks.isEmpty()) {
-                    method = classCfg.getType().getDeclaredMethod(methodCfg.getName());
-                } else {
-                    final Class<?>[] parameterTypes = new Class[parameterChecks.size()];
-
-                    for (int i = 0, l = parameterChecks.size(); i < l; i++) {
-                        parameterTypes[i] = parameterChecks.get(i).getType();
-                    }
-
-                    method = classCfg.getType().getDeclaredMethod(methodCfg.getName(), parameterTypes);
-                }
-
-					/* ******************************
-					 * applying field constraints to the single parameter of setter methods
-					 * ******************************/
+				// applying field constraints to the single parameter of setter methods
                 if (applyFieldConstraintsToSetters) {
                     final Field field = ReflectionUtils.getFieldForSetter(method);
 
@@ -367,9 +349,8 @@ public class Validator implements IValidator {
                     }
                 }
 
-					/* ******************************
-					 * configure parameter constraints
-					 * ******************************/
+				//configure parameter constraints method
+                List<ParameterChecks> parameterChecks = methodCfg.getParameterChecks();
                 for (int i = 0, l = parameterChecks.size(); i < l; i++) {
                     final ParameterChecks paramCfg = parameterChecks.get(i);
 
@@ -382,9 +363,7 @@ public class Validator implements IValidator {
                     }
                 }
 
-				/* ******************************
-				 * configure return value constraints
-				 * ******************************/
+				// configure return value constraints
                 if (methodCfg.getReturnValueChecks().hasChecks()) {
                     cc.addMethodReturnValueChecks(method, methodCfg.isInvariant(), methodCfg.getReturnValueChecks().getChecks());
                 }

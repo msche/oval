@@ -14,6 +14,7 @@ package net.sf.oval.configuration.pojo.elements;
 
 import net.sf.oval.internal.util.Assert;
 
+import java.lang.reflect.Method;
 import java.util.Collections;
 import java.util.List;
 
@@ -25,9 +26,9 @@ public class MethodConfiguration
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Name of method
+	 * Method at which this configuration applies
 	 */
-	private final String name;
+	private final Method method;
 
 	private final boolean isInvariant;
 
@@ -41,13 +42,13 @@ public class MethodConfiguration
 	 */
 	private final ReturnValueChecks returnValueChecks;
 
-	public MethodConfiguration(String name, boolean isInvariant, List<ParameterChecks> parameterChecks, ReturnValueChecks returnValueChecks) {
+	public MethodConfiguration(Method method, boolean isInvariant, List<ParameterChecks> parameterChecks, ReturnValueChecks returnValueChecks) {
 
-		Assert.argumentNotEmpty("name", name);
+		Assert.argumentNotNull("method", method);
 		Assert.argumentNotNull("parameterChecks", parameterChecks);
 		Assert.argumentNotNull("returnValueChecks", returnValueChecks);
 
-		this.name = name;
+		this.method = method;
 		this.isInvariant = isInvariant;
 		this.parameterChecks = parameterChecks;
 		this.returnValueChecks = returnValueChecks;
@@ -57,7 +58,14 @@ public class MethodConfiguration
 	 * Returns name of method at which this configuration applies
 	 */
 	public String getName() {
-		return name;
+		return method.getName();
+	}
+
+	/**
+	 * Returns method at which this configuration applies
+	 */
+	public Method getMethod() {
+		return method;
 	}
 
 	public boolean isInvariant() {

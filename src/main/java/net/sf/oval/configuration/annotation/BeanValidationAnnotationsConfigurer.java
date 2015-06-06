@@ -160,7 +160,7 @@ public class BeanValidationAnnotationsConfigurer implements Configurer
 			if (paramChecks.size() > 0 || returnValueChecks.size() > 0)
 			{
 				final MethodConfiguration mc = new MethodConfiguration(
-						method.getName(),
+						method,
 						ReflectionUtils.isGetter(method),
 						paramChecks,
 						new ReturnValueChecks(returnValueChecks));

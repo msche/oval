@@ -143,7 +143,7 @@ public class AnnotationsConfigurer implements Configurer
 			if (paramChecks.size() > 0 || returnValueChecks.size() > 0)
 			{
 				final MethodConfiguration mc = new MethodConfiguration(
-						method.getName(),
+						method,
 						ReflectionUtils.isAnnotationPresent(method, IsInvariant.class, classCfg.inspectInterfaces),
 						paramChecks,
 						new ReturnValueChecks(returnValueChecks));
