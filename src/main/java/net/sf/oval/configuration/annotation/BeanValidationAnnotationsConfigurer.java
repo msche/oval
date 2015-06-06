@@ -181,14 +181,12 @@ public class BeanValidationAnnotationsConfigurer implements Configurer
 		{
 			classCfg.applyFieldConstraintsToConstructors = false;
 			classCfg.applyFieldConstraintsToSetters = false;
-			classCfg.assertParametersNotNull = false;
 			classCfg.inspectInterfaces = false;
 		}
 		else
 		{
 			classCfg.applyFieldConstraintsToConstructors = guarded.applyFieldConstraintsToConstructors();
 			classCfg.applyFieldConstraintsToSetters = guarded.applyFieldConstraintsToSetters();
-			classCfg.assertParametersNotNull = guarded.assertParametersNotNull();
 			classCfg.inspectInterfaces = guarded.inspectInterfaces();
 		}
 

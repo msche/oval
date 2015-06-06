@@ -261,8 +261,6 @@ public class Validator implements IValidator {
         // cache the result for better performance
         final boolean applyFieldConstraintsToConstructors = classCfg.applyFieldConstraintsToConstructors;
         final boolean applyFieldConstraintsToSetters = classCfg.applyFieldConstraintsToSetters;
-        final boolean assertParametersNotNull = classCfg.assertParametersNotNull;
-        final NotNullCheck sharedNotNullCheck = assertParametersNotNull ? new NotNullCheck() : null;
 
             /* ******************************
              * apply object level checks
@@ -301,10 +299,6 @@ public class Validator implements IValidator {
 
                     if (parameterChecks.hasChecks()) {
                         cc.addConstructorParameterChecks(ctor, i, parameterChecks.getChecks());
-                    }
-
-                    if (assertParametersNotNull) {
-                        cc.addConstructorParameterChecks(ctor, i, sharedNotNullCheck);
                     }
 
 						/* *******************
@@ -352,9 +346,6 @@ public class Validator implements IValidator {
                     cc.addMethodParameterChecks(method, i, paramCfg.getChecks());
                 }
 
-                if (assertParametersNotNull) {
-                    cc.addMethodParameterChecks(method, i, sharedNotNullCheck);
-                }
             }
 
             // configure return value constraints

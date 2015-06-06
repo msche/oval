@@ -65,12 +65,6 @@ public class ClassConfiguration
 	public boolean applyFieldConstraintsToSetters;
 
 	/**
-	 * Declares if parameter values of constructors and methods are expected to be not null.
-	 * This can be weakened by using the @net.sf.oval.constraint.exclusion.Nullable annotation on specific parameters.
-	 */
-	public boolean assertParametersNotNull;
-
-	/**
 	 * Specifies whether annotations can be applied to interfaces that this class implements,
 	 * supporting a documentation function
 	 */
