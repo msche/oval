@@ -279,8 +279,7 @@ public class Validator implements IValidator {
 			 * ******************************/
             for (final FieldChecks fieldCfg : classCfg.getFieldChecks()) {
                 if (fieldCfg.hasChecks()) {
-                    final Field field = classCfg.getType().getDeclaredField(fieldCfg.getName());
-                    cc.addFieldChecks(field, fieldCfg.getChecks());
+                    cc.addFieldChecks(fieldCfg.getField(), fieldCfg.getChecks());
                 }
             }
 
@@ -371,8 +370,6 @@ public class Validator implements IValidator {
             }
         } catch (final NoSuchMethodException ex) {
             throw new MethodNotFoundException(ex);
-        } catch (final NoSuchFieldException ex) {
-            throw new FieldNotFoundException(ex);
         }
     }
 

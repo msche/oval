@@ -98,7 +98,7 @@ public class AnnotationsConfigurer implements Configurer
 
 		for (final Field field : classCfg.getType().getDeclaredFields())
 		{
-			final FieldChecks fc = new FieldChecks(field.getName());
+			final FieldChecks fc = new FieldChecks(field);
 
 			// loop over all annotations of the current field
 			for (final Annotation annotation : field.getAnnotations())
@@ -108,8 +108,7 @@ public class AnnotationsConfigurer implements Configurer
 				else if (annotation.annotationType().isAnnotationPresent(Constraints.class))
 					fc.addChecks(initializeChecks(annotation));
 
-			if (fc.hasChecks())
-			{
+			if (fc.hasChecks()) {
 				classCfg.addChecks(fc);
 			}
 		}

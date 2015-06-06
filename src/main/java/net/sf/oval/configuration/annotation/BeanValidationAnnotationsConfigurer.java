@@ -122,7 +122,7 @@ public class BeanValidationAnnotationsConfigurer implements Configurer
         // Loop over all fields that are defined within the class.
 		for (final Field field : classCfg.getType().getDeclaredFields())
 		{
-			final FieldChecks fc = new FieldChecks(field.getName());
+			final FieldChecks fc = new FieldChecks(field);
 
 			// loop over all annotations of the current field
 			for (final Annotation annotation : field.getAnnotations())
