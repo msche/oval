@@ -14,24 +14,49 @@ package net.sf.oval.configuration.pojo.elements;
 
 import net.sf.oval.internal.util.Assert;
 
+import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 /**
+ * Contains checks that should be applied to constructor of class.
+ *
  * @author Sebastian Thomschke
+ * @author msche
  */
 public class ConstructorConfiguration
 {
 	private static final long serialVersionUID = 1L;
-	
+
+	/**
+	 * Constructor at which this configuration applies
+	 */
+	private final Constructor constructor;
+
+	/**
+	 * Checks for parameters constructor
+	 */
 	private final List<ParameterChecks> parameterChecks;
 
-	public ConstructorConfiguration(List<ParameterChecks> checks) {
+	public ConstructorConfiguration(Constructor constructor, List<ParameterChecks> checks) {
+		Assert.argumentNotNull("constructor", constructor);
 		Assert.argumentNotNull("checks", checks);
+
+		this.constructor = constructor;
 		parameterChecks = checks;
 	}
 
+	/**
+	 * Return constructor at which this configuration applies
+	 */
+	public Constructor getConstructor() {
+		return constructor;
+	}
+
+	/**
+	 * Returns checks that should be applied to constructor parameters
+	 */
 	public List<ParameterChecks> getParameterChecks() {
 		return Collections.unmodifiableList(parameterChecks);
 	}

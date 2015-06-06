@@ -103,14 +103,14 @@ public class BeanValidationAnnotationsConfigurer implements Configurer
 
 	protected void configureConstructorParameterChecks(final ClassConfiguration classCfg)
 	{
-		for (final Constructor< ? > ctor : classCfg.getType().getDeclaredConstructors())
+		for (final Constructor< ? > constructor : classCfg.getType().getDeclaredConstructors())
 		{
-			final List<ParameterChecks> paramChecks = createParameterChecks(ctor.getParameterAnnotations(),
-					ctor.getParameterTypes());
+			final List<ParameterChecks> paramChecks = createParameterChecks(constructor.getParameterAnnotations(),
+					constructor.getParameterTypes());
 
 			if (paramChecks.size() > 0)
 			{
-				final ConstructorConfiguration cc = new ConstructorConfiguration(paramChecks);
+				final ConstructorConfiguration cc = new ConstructorConfiguration(constructor, paramChecks);
 				classCfg.addChecks(cc);
 			}
 		}
