@@ -258,10 +258,6 @@ public class Validator implements IValidator {
 
     private void _addChecks(final ClassChecks cc, final ClassConfiguration classCfg) throws InvalidConfigurationException,
             ReflectionException {
-        if (classCfg.overwrite) {
-            cc.clear();
-        }
-
         // cache the result for better performance
         final boolean applyFieldConstraintsToConstructors = classCfg.applyFieldConstraintsToConstructors;
         final boolean applyFieldConstraintsToSetters = classCfg.applyFieldConstraintsToSetters;
@@ -275,9 +271,6 @@ public class Validator implements IValidator {
             if (classCfg.objectConfiguration != null) {
                 final ObjectConfiguration objectCfg = classCfg.objectConfiguration;
 
-                if (objectCfg.overwrite) {
-                    cc.clearObjectChecks();
-                }
                 cc.addObjectChecks(objectCfg.checks);
             }
 
@@ -286,10 +279,6 @@ public class Validator implements IValidator {
 			 * ******************************/
             for (final FieldChecks fieldCfg : classCfg.getFieldChecks()) {
                 final Field field = classCfg.type.getDeclaredField(fieldCfg.getName());
-
-                if (fieldCfg.overwrite) {
-                    cc.clearFieldChecks(field);
-                }
 
                 if (fieldCfg.hasChecks()) {
                     cc.addFieldChecks(field, fieldCfg.getChecks());
@@ -314,18 +303,10 @@ public class Validator implements IValidator {
 
                     final Constructor<?> ctor = classCfg.type.getDeclaredConstructor(paramTypes);
 
-                    if (ctorCfg.overwrite) {
-                        cc.clearConstructorChecks(ctor);
-                    }
-
                     final String[] paramNames = parameterNameResolver.getParameterNames(ctor);
 
                     for (int i = 0, l = ctorCfg.parameterChecks.size(); i < l; i++) {
                         final ParameterChecks parameterChecks = ctorCfg.parameterChecks.get(i);
-
-                        if (parameterChecks.overwrite) {
-                            cc.clearConstructorParameterChecks(ctor, i);
-                        }
 
                         if (parameterChecks.hasChecks()) {
                             cc.addConstructorParameterChecks(ctor, i, parameterChecks.getChecks());
@@ -374,10 +355,6 @@ public class Validator implements IValidator {
                         method = classCfg.type.getDeclaredMethod(methodCfg.name, paramTypes);
                     }
 
-                    if (methodCfg.overwrite) {
-                        cc.clearMethodChecks(method);
-                    }
-
 					/* ******************************
 					 * applying field constraints to the single parameter of setter methods
 					 * ******************************/
@@ -399,10 +376,6 @@ public class Validator implements IValidator {
                         for (int i = 0, l = methodCfg.parameterChecks.size(); i < l; i++) {
                             final ParameterChecks paramCfg = methodCfg.parameterChecks.get(i);
 
-                            if (paramCfg.overwrite) {
-                                cc.clearMethodParameterChecks(method, i);
-                            }
-
                             if (paramCfg.hasChecks()) {
                                 cc.addMethodParameterChecks(method, i, paramCfg.getChecks());
                             }
@@ -417,10 +390,6 @@ public class Validator implements IValidator {
 					 * configure return value constraints
 					 * ******************************/
                     if (methodCfg.returnValueChecks != null) {
-                        if (methodCfg.returnValueChecks.overwrite) {
-                            cc.clearMethodReturnValueChecks(method);
-                        }
-
                         if (methodCfg.returnValueChecks.hasChecks()) {
                             cc.addMethodReturnValueChecks(method, methodCfg.isInvariant, methodCfg.returnValueChecks.getChecks());
                         }
@@ -618,21 +587,18 @@ public class Validator implements IValidator {
      * Registers a new constraint set.
      *
      * @param constraintSet cannot be null
-     * @param overwrite
-     * @throws ConstraintSetAlreadyDefinedException if <code>overwrite == false</code> and
-     *                                              a constraint set with the given id exists already
+     * @throws ConstraintSetAlreadyDefinedException if a constraint set with the given id exists already
      * @throws IllegalArgumentException             if <code>constraintSet == null</code>
      *                                              or <code>constraintSet.id == null</code>
      *                                              or <code>constraintSet.id.length == 0</code>
-     * @throws IllegalArgumentException             if <code>constraintSet.id == null</code>
      */
-    public void addConstraintSet(final ConstraintSet constraintSet, final boolean overwrite) throws ConstraintSetAlreadyDefinedException,
+    public void addConstraintSet(final ConstraintSet constraintSet) throws ConstraintSetAlreadyDefinedException,
             IllegalArgumentException {
         Assert.argumentNotNull("constraintSet", constraintSet);
         Assert.argumentNotEmpty("constraintSet.id", constraintSet.getId());
 
         synchronized (constraintSetsById) {
-            if (!overwrite && constraintSetsById.containsKey(constraintSet.getId()))
+            if (constraintSetsById.containsKey(constraintSet.getId()))
                 throw new ConstraintSetAlreadyDefinedException(constraintSet.getId());
 
             constraintSetsById.put(constraintSet.getId(), constraintSet);
@@ -988,7 +954,7 @@ public class Validator implements IValidator {
                         cs = new ConstraintSet(csc.id);
                         cs.setChecks(csc.checks);
 
-                        addConstraintSet(cs, csc.overwrite);
+                        addConstraintSet(cs);
                     }
                 }
             }

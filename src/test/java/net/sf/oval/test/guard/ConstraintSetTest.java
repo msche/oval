@@ -78,7 +78,7 @@ public class ConstraintSetTest extends TestCase
 		//TestGuardAspect.aspectOf().setGuard(guard);
 		Guard guard = new GuardAspect2().getGuard();
 
-		guard.addConstraintSet(constraintSet, false);
+		guard.addConstraintSet(constraintSet);
 
 		{
 			final Person p = new Person();
