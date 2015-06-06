@@ -278,7 +278,7 @@ public class Validator implements IValidator {
 			 * apply field checks
 			 * ******************************/
             for (final FieldChecks fieldCfg : classCfg.getFieldChecks()) {
-                final Field field = classCfg.type.getDeclaredField(fieldCfg.getName());
+                final Field field = classCfg.getType().getDeclaredField(fieldCfg.getName());
 
                 if (fieldCfg.hasChecks()) {
                     cc.addFieldChecks(field, fieldCfg.getChecks());
@@ -300,7 +300,7 @@ public class Validator implements IValidator {
                     paramTypes[i] = ctorCfg.parameterChecks.get(i).getType();
                 }
 
-                final Constructor<?> ctor = classCfg.type.getDeclaredConstructor(paramTypes);
+                final Constructor<?> ctor = classCfg.getType().getDeclaredConstructor(paramTypes);
 
                 final String[] paramNames = parameterNameResolver.getParameterNames(ctor);
 
@@ -341,7 +341,7 @@ public class Validator implements IValidator {
                 final Method method;
 
                 if (methodCfg.parameterChecks == null || methodCfg.parameterChecks.size() == 0) {
-                    method = classCfg.type.getDeclaredMethod(methodCfg.name);
+                    method = classCfg.getType().getDeclaredMethod(methodCfg.name);
                 } else {
                     final Class<?>[] paramTypes = new Class[methodCfg.parameterChecks.size()];
 
@@ -349,7 +349,7 @@ public class Validator implements IValidator {
                         paramTypes[i] = methodCfg.parameterChecks.get(i).getType();
                     }
 
-                    method = classCfg.type.getDeclaredMethod(methodCfg.name, paramTypes);
+                    method = classCfg.getType().getDeclaredMethod(methodCfg.name, paramTypes);
                 }
 
 					/* ******************************

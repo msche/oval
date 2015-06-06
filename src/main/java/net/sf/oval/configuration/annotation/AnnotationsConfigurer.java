@@ -79,7 +79,7 @@ public class AnnotationsConfigurer implements Configurer
 
 	protected void configureConstructorParameterChecks(final ClassConfiguration classCfg)
 	{
-		for (final Constructor< ? > ctor : classCfg.type.getDeclaredConstructors())
+		for (final Constructor< ? > ctor : classCfg.getType().getDeclaredConstructors())
 		{
 			final List<ParameterChecks> paramChecks = createParameterChecks(ctor.getParameterAnnotations(),
 					ctor.getParameterTypes());
@@ -96,7 +96,7 @@ public class AnnotationsConfigurer implements Configurer
 	protected void configureFieldChecks(final ClassConfiguration classCfg)
 	{
 
-		for (final Field field : classCfg.type.getDeclaredFields())
+		for (final Field field : classCfg.getType().getDeclaredFields())
 		{
 			final FieldChecks fc = new FieldChecks(field.getName());
 
@@ -121,7 +121,7 @@ public class AnnotationsConfigurer implements Configurer
 	protected void configureMethodChecks(final ClassConfiguration classCfg)
 	{
 
-		for (final Method method : classCfg.type.getDeclaredMethods())
+		for (final Method method : classCfg.getType().getDeclaredMethods())
 		{
 
 			// loop over all annotations
@@ -161,7 +161,7 @@ public class AnnotationsConfigurer implements Configurer
 	{
 		final List<Check> checks = new ArrayList<>(2);
 
-		for (final Annotation annotation : ReflectionUtils.getAnnotations(classCfg.type, classCfg.inspectInterfaces))
+		for (final Annotation annotation : ReflectionUtils.getAnnotations(classCfg.getType(), classCfg.inspectInterfaces))
 			// check if the current annotation is a constraint annotation
 			if (annotation.annotationType().isAnnotationPresent(Constraint.class))
 				checks.add(initializeCheck(annotation));
@@ -180,8 +180,7 @@ public class AnnotationsConfigurer implements Configurer
 	 */
 	public ClassConfiguration getClassConfiguration(final Class< ? > clazz)
 	{
-		final ClassConfiguration classCfg = new ClassConfiguration();
-		classCfg.type = clazz;
+		final ClassConfiguration classCfg = new ClassConfiguration(clazz);
 
 		final Guarded guarded = clazz.getAnnotation(Guarded.class);
 

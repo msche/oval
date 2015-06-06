@@ -27,7 +27,7 @@ public class ClassConfiguration
 	/**
 	 * class at which this configuration applies.
 	 */
-	public Class< ? > type;
+	private final Class< ? > type;
 
 	/**
 	 * object level constraints configuration
@@ -75,6 +75,22 @@ public class ClassConfiguration
 	 * supporting a documentation function
 	 */
 	public boolean inspectInterfaces;
+
+	/**
+	 * Constructor Class configuration
+	 *
+	 * @param type Type of class at which this configuration applies
+	 */
+	public ClassConfiguration(Class< ? > type) {
+		this.type = type;
+	}
+
+	/**
+	 * Returns type of class at which this configuration applies
+	 */
+	public Class<?> getType() {
+		return type;
+	}
 
     /**
      * Returns set of checks that need to be applied to fields within the class

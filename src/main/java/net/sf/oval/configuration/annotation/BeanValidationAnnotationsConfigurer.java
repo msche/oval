@@ -103,7 +103,7 @@ public class BeanValidationAnnotationsConfigurer implements Configurer
 
 	protected void configureConstructorParameterChecks(final ClassConfiguration classCfg)
 	{
-		for (final Constructor< ? > ctor : classCfg.type.getDeclaredConstructors())
+		for (final Constructor< ? > ctor : classCfg.getType().getDeclaredConstructors())
 		{
 			final List<ParameterChecks> paramChecks = createParameterChecks(ctor.getParameterAnnotations(),
 					ctor.getParameterTypes());
@@ -120,7 +120,7 @@ public class BeanValidationAnnotationsConfigurer implements Configurer
 	protected void configureFieldChecks(final ClassConfiguration classCfg)
 	{
         // Loop over all fields that are defined within the class.
-		for (final Field field : classCfg.type.getDeclaredFields())
+		for (final Field field : classCfg.getType().getDeclaredFields())
 		{
 			final FieldChecks fc = new FieldChecks(field.getName());
 
@@ -142,7 +142,7 @@ public class BeanValidationAnnotationsConfigurer implements Configurer
 	protected void configureMethodChecks(final ClassConfiguration classCfg)
 	{
 
-		for (final Method method : classCfg.type.getDeclaredMethods())
+		for (final Method method : classCfg.getType().getDeclaredMethods())
 		{
 			// loop over all annotations
 			List<Check> returnValueChecks = new ArrayList<>(2);
@@ -178,8 +178,7 @@ public class BeanValidationAnnotationsConfigurer implements Configurer
 	 */
 	public ClassConfiguration getClassConfiguration(final Class< ? > clazz)
 	{
-		final ClassConfiguration classCfg = new ClassConfiguration();
-		classCfg.type = clazz;
+		final ClassConfiguration classCfg = new ClassConfiguration(clazz);
 
 		final Guarded guarded = clazz.getAnnotation(Guarded.class);
 
