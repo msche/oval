@@ -804,36 +804,6 @@ public class Validator implements IValidator {
     }
 
     /**
-     * Gets the object-level constraint checks for the given class
-     *
-     * @param clazz the class to get the checks for
-     * @throws IllegalArgumentException if <code>clazz == null</code>
-     */
-    public Check[] getChecks(final Class<?> clazz) throws IllegalArgumentException {
-        Assert.argumentNotNull("clazz", clazz);
-
-        final ClassChecks cc = getClassChecks(clazz);
-
-        final Set<Check> checks = cc.checksForObject;
-        return checks == null ? null : checks.toArray(new Check[checks.size()]);
-    }
-
-    /**
-     * Gets the constraint checks for the given field
-     *
-     * @param field the field to get the checks for
-     * @throws IllegalArgumentException if <code>field == null</code>
-     */
-    public Check[] getChecks(final Field field) throws IllegalArgumentException {
-        Assert.argumentNotNull("field", field);
-
-        final ClassChecks cc = getClassChecks(field.getDeclaringClass());
-
-        final Set<Check> checks = cc.getChecks(field);
-        return checks == null ? null : checks.toArray(new Check[checks.size()]);
-    }
-
-    /**
      * Returns the ClassChecks object for the particular class,
      * allowing you to modify the checks
      *
