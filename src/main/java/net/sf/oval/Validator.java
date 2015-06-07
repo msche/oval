@@ -96,11 +96,6 @@ public class Validator implements IValidator {
         return localeProvider;
     }
 
-//MASE public static LoggerFactory getLoggerFactory()
-//	{
-//		return Log.getLoggerFactory();
-//	}
-
     public static MessageResolver getMessageResolver() {
         /*
          * since ResourceBundleMessageResolver references getCollectionFactory() of this class
