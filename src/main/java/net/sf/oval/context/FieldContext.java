@@ -27,15 +27,6 @@ public final class FieldContext extends OValContext
 	private final SerializableField field;
 
 	/**
-	 * @param declaringClass
-	 * @param fieldName
-	 */
-	public FieldContext(final Class< ? > declaringClass, final String fieldName)
-	{
-        this(ReflectionUtils.getField(declaringClass, fieldName));
-	}
-
-	/**
 	 * @param field
 	 */
 	public FieldContext(final Field field)
