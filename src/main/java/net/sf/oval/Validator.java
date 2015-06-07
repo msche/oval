@@ -87,35 +87,6 @@ import static java.lang.Boolean.TRUE;
  * @see AnnotationsConfigurer
  */
 public class Validator implements IValidator {
-    protected static final class DelegatingParameterNameResolver implements ParameterNameResolver {
-        private ParameterNameResolver delegate;
-
-        public DelegatingParameterNameResolver(final ParameterNameResolver delegate) {
-            this.delegate = delegate;
-        }
-
-        public ParameterNameResolver getDelegate() {
-            return delegate;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        public String[] getParameterNames(final Constructor<?> constructor) throws ReflectionException {
-            return delegate.getParameterNames(constructor);
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        public String[] getParameterNames(final Method method) throws ReflectionException {
-            return delegate.getParameterNames(method);
-        }
-
-        public void setDelegate(final ParameterNameResolver delegate) {
-            this.delegate = delegate;
-        }
-    }
 
     public static OValContextRenderer getContextRenderer() {
         return contextRenderer;
@@ -222,14 +193,20 @@ public class Validator implements IValidator {
 
     private final ObjectGraphNavigatorRegistry ognRegistry = new ObjectGraphNavigatorRegistry();
 
-    protected final DelegatingParameterNameResolver parameterNameResolver = new DelegatingParameterNameResolver(
-            new ParameterNameResolverEnumerationImpl());
+    private final ParameterNameResolver parameterNameResolver;
 
     /**
      * Constructs a new validator instance and uses a new instance of AnnotationsConfigurer
      */
     public Validator() {
-        this(new AnnotationsConfigurer(), new BeanValidationAnnotationsConfigurer());
+        this(new ParameterNameResolverEnumerationImpl());
+    }
+
+    /**
+     * Constructs a new validator instance and uses a new instance of AnnotationsConfigurer
+     */
+    public Validator(ParameterNameResolver parameterNameResolver) {
+        this(parameterNameResolver, new AnnotationsConfigurer(), new BeanValidationAnnotationsConfigurer());
     }
 
     /**
@@ -238,7 +215,17 @@ public class Validator implements IValidator {
      * @param configurers
      */
     public Validator(final Collection<Configurer> configurers) {
+        this(new ParameterNameResolverEnumerationImpl(), configurers);
+    }
+
+    /**
+     * Constructs a new validator instance and configures it using the given configurers
+     *
+     * @param configurers
+     */
+    public Validator(ParameterNameResolver parameterNameResolver, final Collection<Configurer> configurers) {
         ReflectionUtils.assertPrivateAccessAllowed();
+        this.parameterNameResolver = parameterNameResolver;
         if (configurers != null) {
             this.configurers.addAll(configurers);
         }
@@ -250,10 +237,28 @@ public class Validator implements IValidator {
      * @param configurers
      */
     public Validator(final Configurer... configurers) {
+        this(new ParameterNameResolverEnumerationImpl(), configurers);
+    }
+
+    /**
+     * Constructs a new validator instance and configures it using the given configurers
+     *
+     * @param configurers
+     */
+    public Validator(ParameterNameResolver parameterNameResolver, final Configurer... configurers) {
         ReflectionUtils.assertPrivateAccessAllowed();
+        this.parameterNameResolver = parameterNameResolver;
         if (configurers != null) {
             Collections.addAll(this.configurers, configurers);
         }
+    }
+
+    /**
+     * @return the parameterNameResolver
+     */
+    public ParameterNameResolver getParameterNameResolver()
+    {
+        return parameterNameResolver;
     }
 
     private void _addChecks(final ClassChecks cc, final ClassConfiguration classCfg) throws InvalidConfigurationException,
