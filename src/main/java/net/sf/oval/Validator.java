@@ -411,9 +411,9 @@ public class Validator implements IValidator {
 
             // validate field constraints
             for (final Field field : cc.constrainedFields) {
-                final Collection<Check> checks = cc.checksForFields.get(field);
+                final Collection<Check> checks = cc.getChecks(field);
 
-                if (checks != null && checks.size() > 0) {
+                if (checks.size() > 0) {
                     final FieldContext ctx = ContextCache.getFieldContext(field);
                     final Object valueToValidate = resolveValue(ctx, validatedObject);
 
@@ -465,9 +465,9 @@ public class Validator implements IValidator {
 
         // validate static field constraints
         for (final Field field : cc.constrainedStaticFields) {
-            final Collection<Check> checks = cc.checksForFields.get(field);
+            final Collection<Check> checks = cc.getChecks(field);
 
-            if (checks != null && checks.size() > 0) {
+            if (checks.size() > 0) {
                 final FieldContext ctx = ContextCache.getFieldContext(field);
                 final Object valueToValidate = resolveValue(ctx, null);
 
@@ -693,7 +693,7 @@ public class Validator implements IValidator {
             throw new FieldNotFoundException("Field <" + fieldName + "> not found in class <" + targetClass + "> or its super classes.");
 
         final ClassChecks cc = getClassChecks(field.getDeclaringClass());
-        final Collection<Check> referencedChecks = cc.checksForFields.get(field);
+        final Collection<Check> referencedChecks = cc.getChecks(field);
         if (referencedChecks != null && referencedChecks.size() > 0) {
             for (final Check referencedCheck : referencedChecks) {
                 checkConstraint(violations, referencedCheck, validatedObject, valueToValidate, context, profiles, false);
@@ -829,7 +829,7 @@ public class Validator implements IValidator {
 
         final ClassChecks cc = getClassChecks(field.getDeclaringClass());
 
-        final Set<Check> checks = cc.checksForFields.get(field);
+        final Set<Check> checks = cc.getChecks(field);
         return checks == null ? null : checks.toArray(new Check[checks.size()]);
     }
 
@@ -1165,7 +1165,7 @@ public class Validator implements IValidator {
         final List<ConstraintViolation> violations = new ArrayList<>();
         try {
             final ClassChecks cc = getClassChecks(validatedField.getDeclaringClass());
-            final Collection<Check> checks = cc.checksForFields.get(validatedField);
+            final Collection<Check> checks = cc.getChecks(validatedField);
 
             if (checks == null || checks.size() == 0) return violations;
 
