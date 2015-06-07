@@ -425,9 +425,9 @@ public class Validator implements IValidator {
 
             // validate constraints on getter methods
             for (final Method getter : cc.constrainedMethods) {
-                final Collection<Check> checks = cc.checksForMethodReturnValues.get(getter);
+                final Collection<Check> checks = cc.getReturnValueChecks(getter);
 
-                if (checks != null && checks.size() > 0) {
+                if (checks.size() > 0) {
                     final MethodReturnValueContext ctx = ContextCache.getMethodReturnValueContext(getter);
                     final Object valueToValidate = resolveValue(ctx, validatedObject);
 
@@ -479,9 +479,9 @@ public class Validator implements IValidator {
 
         // validate constraints on getter methods
         for (final Method getter : cc.constrainedStaticMethods) {
-            final Collection<Check> checks = cc.checksForMethodReturnValues.get(getter);
+            final Collection<Check> checks = cc.getReturnValueChecks(getter);
 
-            if (checks != null && checks.size() > 0) {
+            if (checks.size() > 0) {
                 final MethodReturnValueContext ctx = ContextCache.getMethodReturnValueContext(getter);
                 final Object valueToValidate = resolveValue(ctx, null);
 
@@ -844,8 +844,8 @@ public class Validator implements IValidator {
 
         final ClassChecks cc = getClassChecks(method.getDeclaringClass());
 
-        final Set<Check> checks = cc.checksForMethodReturnValues.get(method);
-        return checks == null ? null : checks.toArray(new Check[checks.size()]);
+        final Set<Check> checks = cc.getReturnValueChecks(method);
+        return checks.toArray(new Check[checks.size()]);
     }
 
     /**

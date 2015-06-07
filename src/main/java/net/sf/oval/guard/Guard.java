@@ -578,7 +578,7 @@ public class Guard extends Validator
 		try
 		{
 			final ClassChecks cc = getClassChecks(constructor.getDeclaringClass());
-			final Map<Integer, ParameterChecks> parameterChecks = cc.checksForConstructorParameters.get(constructor);
+			final Map<Integer, ParameterChecks> parameterChecks = cc.getParameterChecks(constructor);
 
 			// if no parameter checks exist just return null
 			if (parameterChecks == null) return null;
@@ -618,7 +618,7 @@ public class Guard extends Validator
 		// create a new set for this validation cycle
 		try
 		{
-			final Map<Integer, ParameterChecks> parameterChecks = getClassChecks(method.getDeclaringClass()).checksForMethodParameters.get(method);
+			final Map<Integer, ParameterChecks> parameterChecks = getClassChecks(method.getDeclaringClass()).getParameterChecks(method);
 
 			if (parameterChecks == null) return;
 
@@ -674,7 +674,7 @@ public class Guard extends Validator
 		try
 		{
 			final ClassChecks cc = getClassChecks(method.getDeclaringClass());
-			final Collection<Check> returnValueChecks = cc.checksForMethodReturnValues.get(method);
+			final Collection<Check> returnValueChecks = cc.getReturnValueChecks(method);
 
 			if (returnValueChecks == null || returnValueChecks.size() == 0) return;
 

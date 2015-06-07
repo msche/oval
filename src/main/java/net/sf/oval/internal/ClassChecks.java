@@ -18,6 +18,7 @@ import net.sf.oval.exception.InvalidConfigurationException;
 import net.sf.oval.guard.IsGuarded;
 import net.sf.oval.guard.ParameterNameResolver;
 import net.sf.oval.internal.util.ArrayUtils;
+import net.sf.oval.internal.util.Assert;
 import net.sf.oval.internal.util.ReflectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,7 +53,7 @@ public final class ClassChecks {
     /**
      * checks on constructors' parameter values
      */
-    public final Map<Constructor<?>, Map<Integer, ParameterChecks>> checksForConstructorParameters = new LinkedHashMap<>(2);
+    private final Map<Constructor<?>, Map<Integer, ParameterChecks>> checksForConstructorParameters = new LinkedHashMap<>();
 
     /**
      * checks on fields' value
@@ -62,12 +63,12 @@ public final class ClassChecks {
     /**
      * checks on methods' parameter values
      */
-    public final Map<Method, Map<Integer, ParameterChecks>> checksForMethodParameters = new LinkedHashMap<>();
+    private final Map<Method, Map<Integer, ParameterChecks>> checksForMethodParameters = new LinkedHashMap<>();
 
     /**
      * checks on methods' return value
      */
-    public final Map<Method, Set<Check>> checksForMethodReturnValues = new LinkedHashMap<>();
+    private final Map<Method, Set<Check>> checksForMethodReturnValues = new LinkedHashMap<>();
 
     /**
      * compound constraints / object level invariants
@@ -126,6 +127,7 @@ public final class ClassChecks {
      * @return Set containing checks for specified field. If there are no checks for the specified field, the returned set will be empty.
      */
     public Set<Check> getChecks(Field field) {
+        Assert.argumentNotNull("field", field);
         synchronized (checksForFields) {
             if (checksForFields.containsKey(field)) {
                 return Collections.unmodifiableSet(checksForFields.get(field));
@@ -134,6 +136,61 @@ public final class ClassChecks {
             }
         }
     }
+
+    /**
+     * Returns checks for parameters of specified method
+     *
+     * @param method Method for which we want to retrieve the parameter checks
+     *
+     * @return Map containing for the parameters for which constraints where defined the checks. The index of the parameter will act as key.
+     */
+    public Map<Integer, ParameterChecks> getParameterChecks(Method method) {
+        Assert.argumentNotNull("method", method);
+        synchronized (checksForMethodParameters) {
+            if (checksForMethodParameters.containsKey(method)) {
+                return Collections.unmodifiableMap(checksForMethodParameters.get(method));
+            } else {
+                return new LinkedHashMap<>();
+            }
+        }
+    }
+
+    /**
+     * Returns checks for return value of specified method
+     *
+     * @param method Method for which we want to retrieve the return value checks
+     *
+     * @return Set containing the checks for the return value. If there are no check for the return value the set will be empty
+     */
+    public Set<Check> getReturnValueChecks(Method method) {
+        Assert.argumentNotNull("method", method);
+        synchronized (checksForMethodReturnValues) {
+            if (checksForMethodReturnValues.containsKey(method)) {
+                return Collections.unmodifiableSet(checksForMethodReturnValues.get(method));
+            } else {
+                return new HashSet();
+            }
+        }
+    }
+
+    /**
+     * Returns checks for parameters of specified constructor
+     *
+     * @param constructor Constructor for which we want to retrieve the parameter checks
+     *
+     * @return Map containing for the parameters for which constraints where defined the checks. The index of the parameter will act as key.
+     */
+    public Map<Integer, ParameterChecks> getParameterChecks(Constructor constructor) {
+        Assert.argumentNotNull("constructor", constructor);
+        synchronized (checksForConstructorParameters) {
+            if (checksForConstructorParameters.containsKey(constructor)) {
+                return Collections.unmodifiableMap(checksForConstructorParameters.get(constructor));
+            } else {
+                return new LinkedHashMap<>();
+            }
+        }
+    }
+
 
     /**
      * Get checks for parameter of constructor.
