@@ -423,7 +423,7 @@ public class Validator implements IValidator {
             }
 
             // validate constraints on getter methods
-            for (final Method getter : cc.constrainedMethods) {
+            for (final Method getter : cc.getConstrainedMethods()) {
                 final Collection<Check> checks = cc.getReturnValueChecks(getter);
 
                 if (checks.size() > 0) {
@@ -476,7 +476,7 @@ public class Validator implements IValidator {
         }
 
         // validate constraints on getter methods
-        for (final Method getter : cc.constrainedStaticMethods) {
+        for (final Method getter : cc.getConstrainedStaticMethods()) {
             final Collection<Check> checks = cc.getReturnValueChecks(getter);
 
             if (checks.size() > 0) {

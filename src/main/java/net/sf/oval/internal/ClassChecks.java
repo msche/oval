@@ -92,17 +92,13 @@ public final class ClassChecks {
      * all non-static non-void, non-parameterized methods marked as invariant that have return value constraints.
      * Validator loops over this set during validation.
      */
-    public final Set<Method> constrainedMethods = new LinkedHashSet<>();
+    private final Set<Method> constrainedMethods = new LinkedHashSet<>();
 
     /**
      * all static non-void, non-parameterized methods marked as invariant that have return value constraints.
      * Validator loops over this set during validation.
      */
-    public final Set<Method> constrainedStaticMethods = new LinkedHashSet<>();
-
-    public final Set<AccessibleObject> methodsWithCheckInvariantsPost = new LinkedHashSet<>();
-
-    public final Set<Method> methodsWithCheckInvariantsPre = new LinkedHashSet<>();
+    private final Set<Method> constrainedStaticMethods = new LinkedHashSet<>();
 
     private final ParameterNameResolver parameterNameResolver;
 
@@ -144,6 +140,24 @@ public final class ClassChecks {
      */
     public Set<Field> getConstrainedStaticFields() {
         return constrainedStaticFields;
+    }
+
+    /**
+     * Returns methods of class that are constrained.
+     *
+     * @return Set of methods of class that are constrained.
+     */
+    public Set<Method> getConstrainedMethods() {
+        return constrainedMethods;
+    }
+
+    /**
+     * Returns static methods of class that are constrained.
+     *
+     * @return Set of static Methods that are constrained
+     */
+    public Set<Method> getConstrainedStaticMethods() {
+        return constrainedStaticMethods;
     }
 
     /**

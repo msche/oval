@@ -317,7 +317,7 @@ public class Guard extends Validator
 		try
 		{
 			// check invariants
-			if (checkInvariants || cc.methodsWithCheckInvariantsPre.contains(method)) validateInvariants(guardedObject, violations, null);
+			if (checkInvariants) validateInvariants(guardedObject, violations, null);
 
 			// method parameter validation
 			if (violations.size() == 0 && args.length > 0) validateMethodParameters(guardedObject, method, args, violations);
@@ -340,7 +340,7 @@ public class Guard extends Validator
 		try
 		{
 			// check invariants if executed method is not private
-			if (checkInvariants || cc.methodsWithCheckInvariantsPost.contains(method)) validateInvariants(guardedObject, violations, null);
+			if (checkInvariants) validateInvariants(guardedObject, violations, null);
 
 			// method return value
 			if (violations.size() == 0) validateMethodReturnValue(guardedObject, method, returnValue, violations);
