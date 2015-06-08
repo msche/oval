@@ -17,7 +17,6 @@ import net.sf.oval.exception.InvalidConfigurationException;
 import net.sf.oval.guard.IsGuarded;
 import net.sf.oval.guard.ParameterNameResolver;
 import net.sf.oval.internal.util.ArrayUtils;
-import net.sf.oval.internal.util.Assert;
 import net.sf.oval.internal.util.ReflectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,6 +32,8 @@ import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
+
+import static net.sf.oval.internal.util.Assert.*;
 
 /**
  * This class holds the instantiated checks for a single class.
@@ -110,6 +111,12 @@ public final class ClassChecks {
     public ClassChecks(final Class<?> clazz, final ParameterNameResolver parameterNameResolver) {
         LOG.debug("Initializing constraints configuration for class {}", clazz);
 
+        argumentNotNull("clazz", clazz);
+        argumentNotNull("parameterNameResolver", parameterNameResolver);
+
+        if (!IsGuarded.class.isAssignableFrom(clazz))
+            LOG.warn(GUARDING_MAY_NOT_BE_ACTIVATED_MESSAGE);
+
         this.clazz = clazz;
         this.parameterNameResolver = parameterNameResolver;
     }
@@ -167,7 +174,7 @@ public final class ClassChecks {
      * @return Set containing checks for specified field. If there are no checks for the specified field, the returned set will be empty.
      */
     public Set<Check> getChecks(Field field) {
-        Assert.argumentNotNull("field", field);
+        argumentNotNull("field", field);
         synchronized (checksForFields) {
             if (checksForFields.containsKey(field)) {
                 return Collections.unmodifiableSet(checksForFields.get(field));
@@ -185,7 +192,7 @@ public final class ClassChecks {
      * @return Map containing for the parameters for which constraints where defined the checks. The index of the parameter will act as key.
      */
     public Map<Integer, ParameterChecks> getParameterChecks(Method method) {
-        Assert.argumentNotNull("method", method);
+        argumentNotNull("method", method);
         synchronized (checksForMethodParameters) {
             if (checksForMethodParameters.containsKey(method)) {
                 return Collections.unmodifiableMap(checksForMethodParameters.get(method));
@@ -203,7 +210,7 @@ public final class ClassChecks {
      * @return Set containing the checks for the return value. If there are no check for the return value the set will be empty
      */
     public Set<Check> getReturnValueChecks(Method method) {
-        Assert.argumentNotNull("method", method);
+        argumentNotNull("method", method);
         synchronized (checksForMethodReturnValues) {
             if (checksForMethodReturnValues.containsKey(method)) {
                 return Collections.unmodifiableSet(checksForMethodReturnValues.get(method));
@@ -221,7 +228,7 @@ public final class ClassChecks {
      * @return Map containing for the parameters for which constraints where defined the checks. The index of the parameter will act as key.
      */
     public Map<Integer, ParameterChecks> getParameterChecks(Constructor constructor) {
-        Assert.argumentNotNull("constructor", constructor);
+        argumentNotNull("constructor", constructor);
         synchronized (checksForConstructorParameters) {
             if (checksForConstructorParameters.containsKey(constructor)) {
                 return Collections.unmodifiableMap(checksForConstructorParameters.get(constructor));
@@ -335,17 +342,8 @@ public final class ClassChecks {
      */
     public void addConstructorParameterChecks(final Constructor<?> constructor, final int parameterIndex, final Collection<Check> checks)
             throws InvalidConfigurationException {
-        if (!IsGuarded.class.isAssignableFrom(clazz))
-            LOG.warn("Constructor parameter constraints may not be validated. {}", GUARDING_MAY_NOT_BE_ACTIVATED_MESSAGE);
-
         final ParameterChecks checksOfConstructorParameter = getChecksOfConstructorParameter(constructor, parameterIndex);
         checksOfConstructorParameter.addChecks(checks);
-
-//        for (final Check check : checks)
-//        {
-//            checksOfConstructorParameter.checks.add(check);
-//            if (check.getContext() == null) check.setContext(checksOfConstructorParameter.context);
-//        }
     }
 
     /**
@@ -406,16 +404,8 @@ public final class ClassChecks {
      */
     public void addMethodParameterChecks(final Method method, final int parameterIndex, final Collection<Check> checks)
             throws InvalidConfigurationException {
-        if (!IsGuarded.class.isAssignableFrom(clazz))
-            LOG.warn("Method parameter constraints may not be validated. {}", GUARDING_MAY_NOT_BE_ACTIVATED_MESSAGE);
-
         final ParameterChecks checksOfMethodParameter = getChecksOfMethodParameter(method, parameterIndex);
         checksOfMethodParameter.addChecks(checks);
-//            for (final Check check : checks)
-//            {
-//                if (check.getContext() == null) check.setContext(checksOfMethodParameter.context);
-//                checksOfMethodParameter.checks.add(check);
-//            }
     }
 
     /**
@@ -446,13 +436,7 @@ public final class ClassChecks {
 
         final boolean hasParameters = method.getParameterTypes().length > 0;
 
-        if (hasParameters && !IsGuarded.class.isAssignableFrom(clazz))
-            LOG.warn("Method return value constraints may not be validated. {}", GUARDING_MAY_NOT_BE_ACTIVATED_MESSAGE);
-
         final boolean isInvariant2 = isInvariant == null ? constrainedMethods.contains(method) : isInvariant;
-
-        if (!isInvariant2 && !IsGuarded.class.isAssignableFrom(clazz))
-            LOG.warn("Method return value constraints may not be validated. {}", GUARDING_MAY_NOT_BE_ACTIVATED_MESSAGE);
 
         synchronized (checksForMethodReturnValues) {
             if (!hasParameters && isInvariant2) {
