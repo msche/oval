@@ -857,8 +857,7 @@ public class Validator implements IValidator {
                 for (final Configurer configurer : configurers) {
                     final ConstraintSetConfiguration csc = configurer.getConstraintSetConfiguration(constraintSetId);
                     if (csc != null) {
-                        cs = new ConstraintSet(csc.id);
-                        cs.setChecks(csc.checks);
+                        cs = new ConstraintSet(csc.id, csc.checks);
 
                         addConstraintSet(cs);
                     }

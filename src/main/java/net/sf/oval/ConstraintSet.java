@@ -23,9 +23,10 @@ public class ConstraintSet
 
 	private final String id;
 
-	public ConstraintSet(final String id)
+	public ConstraintSet(final String id, Collection<Check> checks )
 	{
 		this.id = id;
+		this.checks = checks;
 	}
 
 	/**
@@ -44,11 +45,4 @@ public class ConstraintSet
 		return id;
 	}
 
-	/**
-	 * @param checks the checks to set
-	 */
-	public void setChecks(final Collection<Check> checks)
-	{
-		this.checks = checks;
-	}
 }

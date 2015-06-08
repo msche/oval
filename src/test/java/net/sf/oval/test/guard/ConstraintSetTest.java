@@ -52,9 +52,8 @@ public class ConstraintSetTest extends TestCase
 
 	public void testConstraintSetValidation()
 	{
-		final ConstraintSet constraintSet = new ConstraintSet("zipCode");
-		final List<Check> checks = new ArrayList<Check>();
-		constraintSet.setChecks(checks);
+		List<Check> checks = new ArrayList<>();
+		final ConstraintSet constraintSet = new ConstraintSet("zipCode", checks);
 
 		final NotNullCheck notNull = new NotNullCheck();
 		notNull.setMessage("NOT_NULL");

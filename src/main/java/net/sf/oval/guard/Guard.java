@@ -304,8 +304,6 @@ public class Guard extends Validator
 	protected Object guardMethod(Object guardedObject, final Method method, final Object[] args, final Invocable invocable)
 			throws Throwable
 	{
-		final ClassChecks cc = getClassChecks(method.getDeclaringClass());
-
 		// Check invariants if method is not private
 		final boolean checkInvariants = !ReflectionUtils.isPrivate(method);
 
