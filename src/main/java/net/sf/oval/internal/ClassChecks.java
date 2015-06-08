@@ -80,19 +80,19 @@ public final class ClassChecks {
      * all non-static fields that have value constraints.
      * Validator loops over this set during validation.
      */
-    public final Set<Field> constrainedFields = new LinkedHashSet<>();
+    private final Set<Field> constrainedFields = new LinkedHashSet<>();
+
+    /**
+     * all non-static fields that have value constraints.
+     * Validator loops over this set during validation.
+     */
+    private final Set<Field> constrainedStaticFields = new LinkedHashSet<>();
 
     /**
      * all non-static non-void, non-parameterized methods marked as invariant that have return value constraints.
      * Validator loops over this set during validation.
      */
     public final Set<Method> constrainedMethods = new LinkedHashSet<>();
-
-    /**
-     * all non-static fields that have value constraints.
-     * Validator loops over this set during validation.
-     */
-    public final Set<Field> constrainedStaticFields = new LinkedHashSet<>();
 
     /**
      * all static non-void, non-parameterized methods marked as invariant that have return value constraints.
@@ -135,6 +135,15 @@ public final class ClassChecks {
      */
     public Set<Field> getConstrainedFields() {
         return Collections.unmodifiableSet(constrainedFields);
+    }
+
+    /**
+     * Returns static fields of class that are constrained
+     *
+     * @return Set of static fields that are constrained
+     */
+    public Set<Field> getConstrainedStaticFields() {
+        return constrainedStaticFields;
     }
 
     /**

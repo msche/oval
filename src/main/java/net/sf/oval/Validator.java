@@ -462,7 +462,7 @@ public class Validator implements IValidator {
         final ClassChecks cc = getClassChecks(validatedClass);
 
         // validate static field constraints
-        for (final Field field : cc.constrainedStaticFields) {
+        for (final Field field : cc.getConstrainedStaticFields()) {
             final Collection<Check> checks = cc.getChecks(field);
 
             if (checks.size() > 0) {
