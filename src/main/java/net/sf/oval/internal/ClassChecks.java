@@ -13,7 +13,6 @@
 package net.sf.oval.internal;
 
 import net.sf.oval.Check;
-import net.sf.oval.CheckExclusion;
 import net.sf.oval.exception.InvalidConfigurationException;
 import net.sf.oval.guard.IsGuarded;
 import net.sf.oval.guard.ParameterNameResolver;

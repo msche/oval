@@ -13,7 +13,6 @@
 package net.sf.oval.internal;
 
 import net.sf.oval.Check;
-import net.sf.oval.CheckExclusion;
 import net.sf.oval.context.ConstructorParameterContext;
 import net.sf.oval.context.MethodParameterContext;
 import net.sf.oval.context.OValContext;

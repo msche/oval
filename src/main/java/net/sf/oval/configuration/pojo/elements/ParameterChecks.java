@@ -12,13 +12,6 @@
  *******************************************************************************/
 package net.sf.oval.configuration.pojo.elements;
 
-import net.sf.oval.Check;
-import net.sf.oval.CheckExclusion;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 /**
  * Contains checks for parameter
  *
