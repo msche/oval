@@ -73,7 +73,7 @@ public final class ClassChecks {
     /**
      * compound constraints / object level invariants
      */
-    public final Set<Check> checksForObject = new LinkedHashSet<>(2);
+    private final Set<Check> checksForObject = new LinkedHashSet();
 
     public final Class<?> clazz;
 
@@ -188,6 +188,17 @@ public final class ClassChecks {
             } else {
                 return new LinkedHashMap<>();
             }
+        }
+    }
+
+    /**
+     * Returns checks for class instance
+     *
+     * @return set of checks that need to be applied to class instance
+     */
+    public Set<Check> getObjectChecks() {
+        synchronized (checksForObject) {
+           return Collections.unmodifiableSet(checksForObject);
         }
     }
 

@@ -251,8 +251,7 @@ public class Validator implements IValidator {
     /**
      * @return the parameterNameResolver
      */
-    public ParameterNameResolver getParameterNameResolver()
-    {
+    public ParameterNameResolver getParameterNameResolver() {
         return parameterNameResolver;
     }
 
@@ -319,7 +318,7 @@ public class Validator implements IValidator {
         }
 
 			/* ******************************
-			 * apply method parameter and return value checks and pre/post conditions
+             * apply method parameter and return value checks and pre/post conditions
 			 * ******************************/
         for (final MethodConfiguration methodCfg : classCfg.getMethodChecks()) {
             // determine the method
@@ -438,12 +437,11 @@ public class Validator implements IValidator {
             }
 
             // validate object constraints
-            if (cc.checksForObject.size() > 0) {
-                final OValContext ctx = ContextCache.getClassContext(clazz);
-                for (final Check check : cc.checksForObject) {
-                    checkConstraint(violations, check, validatedObject, validatedObject, ctx, profiles, false);
-                }
+            final OValContext ctx = ContextCache.getClassContext(clazz);
+            for (final Check check : cc.getObjectChecks()) {
+                checkConstraint(violations, check, validatedObject, validatedObject, ctx, profiles, false);
             }
+
 
             // if the super class is annotated to be validatable also validate it against the object
             _validateObjectInvariants(validatedObject, clazz.getSuperclass(), violations, profiles);
