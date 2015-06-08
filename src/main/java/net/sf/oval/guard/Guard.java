@@ -84,14 +84,19 @@ public class Guard extends Validator
 		super();
 	}
 
+	public Guard(ParameterNameResolver parameterNameResolver)
+	{
+		super(parameterNameResolver);
+	}
+
 	public Guard(final Collection<Configurer> configurers)
 	{
-		super(configurers);
+		super(new ParameterNameResolverEnumerationImpl(), configurers);
 	}
 
 	public Guard(final Configurer... configurers)
 	{
-		super(configurers);
+		super(new ParameterNameResolverEnumerationImpl(), configurers);
 	}
 
 	private void _validateParameterChecks(final ParameterChecks parameterChecks, final Object validatedObject, final Object valueToValidate,
@@ -230,13 +235,6 @@ public class Guard extends Validator
 		}
 	}
 
-	/**
-	 * @return the parameterNameResolver
-	 */
-	public ParameterNameResolver getParameterNameResolver()
-	{
-		return parameterNameResolver;
-	}
 
 	/**
 	 * This method is provided for use by guard aspects.
@@ -553,17 +551,6 @@ public class Guard extends Validator
 	}
 
 	/**
-	 * @param parameterNameResolver the parameterNameResolver to set, cannot be null
-	 * @throws IllegalArgumentException if <code>parameterNameResolver == null</code>
-	 */
-	public void setParameterNameResolver(final ParameterNameResolver parameterNameResolver) throws IllegalArgumentException
-	{
-		Assert.argumentNotNull("parameterNameResolver", parameterNameResolver);
-
-		this.parameterNameResolver.setDelegate(parameterNameResolver);
-	}
-
-	/**
 	 * Validates the give arguments against the defined constructor parameter constraints.<br>
 	 *
 	 * @return null if no violation, otherwise a list
@@ -578,12 +565,12 @@ public class Guard extends Validator
 		try
 		{
 			final ClassChecks cc = getClassChecks(constructor.getDeclaringClass());
-			final Map<Integer, ParameterChecks> parameterChecks = cc.checksForConstructorParameters.get(constructor);
+			final Map<Integer, ParameterChecks> parameterChecks = cc.getParameterChecks(constructor);
 
 			// if no parameter checks exist just return null
 			if (parameterChecks == null) return null;
 
-			final String[] parameterNames = parameterNameResolver.getParameterNames(constructor);
+			final String[] parameterNames = getParameterNameResolver().getParameterNames(constructor);
 
 			for (int i = 0; i < argsToValidate.length; i++)
 			{
@@ -618,11 +605,11 @@ public class Guard extends Validator
 		// create a new set for this validation cycle
 		try
 		{
-			final Map<Integer, ParameterChecks> parameterChecks = getClassChecks(method.getDeclaringClass()).checksForMethodParameters.get(method);
+			final Map<Integer, ParameterChecks> parameterChecks = getClassChecks(method.getDeclaringClass()).getParameterChecks(method);
 
 			if (parameterChecks == null) return;
 
-			final String[] parameterNames = parameterNameResolver.getParameterNames(method);
+			final String[] parameterNames = getParameterNameResolver().getParameterNames(method);
 
 			/*
 			 * parameter constraints validation
@@ -674,7 +661,7 @@ public class Guard extends Validator
 		try
 		{
 			final ClassChecks cc = getClassChecks(method.getDeclaringClass());
-			final Collection<Check> returnValueChecks = cc.checksForMethodReturnValues.get(method);
+			final Collection<Check> returnValueChecks = cc.getReturnValueChecks(method);
 
 			if (returnValueChecks == null || returnValueChecks.size() == 0) return;
 

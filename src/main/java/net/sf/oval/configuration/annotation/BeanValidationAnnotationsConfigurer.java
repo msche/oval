@@ -103,14 +103,15 @@ public class BeanValidationAnnotationsConfigurer implements Configurer
 
 	protected void configureConstructorParameterChecks(final ClassConfiguration classCfg)
 	{
-		for (final Constructor< ? > ctor : classCfg.type.getDeclaredConstructors())
+		for (final Constructor< ? > constructor : classCfg.getType().getDeclaredConstructors())
 		{
-            final ConstructorConfiguration cc = new ConstructorConfiguration(createParameterChecks(ctor.getParameterAnnotations(), ctor.getParameterTypes()));
+			final List<ParameterChecks> paramChecks = createParameterChecks(constructor.getParameterAnnotations(),
+					constructor.getParameterTypes());
 
-			if (cc.hasParameterChecks())
+			if (paramChecks.size() > 0)
 			{
-				if (classCfg.constructorConfigurations == null) classCfg.constructorConfigurations = new LinkedHashSet<>(2);
-				classCfg.constructorConfigurations.add(cc);
+				final ConstructorConfiguration cc = new ConstructorConfiguration(constructor, paramChecks);
+				classCfg.addChecks(cc);
 			}
 		}
 	}
@@ -118,9 +119,9 @@ public class BeanValidationAnnotationsConfigurer implements Configurer
 	protected void configureFieldChecks(final ClassConfiguration classCfg)
 	{
         // Loop over all fields that are defined within the class.
-		for (final Field field : classCfg.type.getDeclaredFields())
+		for (final Field field : classCfg.getType().getDeclaredFields())
 		{
-			final FieldChecks fc = new FieldChecks(field.getName());
+			final FieldChecks fc = new FieldChecks(field);
 
 			// loop over all annotations of the current field
 			for (final Annotation annotation : field.getAnnotations())
@@ -140,7 +141,7 @@ public class BeanValidationAnnotationsConfigurer implements Configurer
 	protected void configureMethodChecks(final ClassConfiguration classCfg)
 	{
 
-		for (final Method method : classCfg.type.getDeclaredMethods())
+		for (final Method method : classCfg.getType().getDeclaredMethods())
 		{
 			// loop over all annotations
 			List<Check> returnValueChecks = new ArrayList<>(2);
@@ -151,24 +152,18 @@ public class BeanValidationAnnotationsConfigurer implements Configurer
 			 * determine parameter checks
 			 */
 			final List<ParameterChecks> paramChecks = createParameterChecks(
-                    ReflectionUtils.getParameterAnnotations(method, classCfg.inspectInterfaces),
-                    method.getParameterTypes());
+					ReflectionUtils.getParameterAnnotations(method, classCfg.inspectInterfaces),
+					method.getParameterTypes());
 
 			// check if anything has been configured for this method at all
 			if (paramChecks.size() > 0 || returnValueChecks.size() > 0)
 			{
-				if (classCfg.methodConfigurations == null) classCfg.methodConfigurations = new LinkedHashSet<>(2);
-
-				final MethodConfiguration mc = new MethodConfiguration();
-				mc.name = method.getName();
-				mc.parameterChecks = paramChecks;
-				mc.isInvariant = ReflectionUtils.isGetter(method);
-				if (returnValueChecks.size() > 0)
-				{
-					mc.returnValueChecks = new ReturnValueChecks();
-					mc.returnValueChecks.addChecks(returnValueChecks);
-				}
-				classCfg.methodConfigurations.add(mc);
+				final MethodConfiguration mc = new MethodConfiguration(
+						method,
+						ReflectionUtils.isGetter(method),
+						paramChecks,
+						new ReturnValueChecks(returnValueChecks));
+				classCfg.addChecks(mc);
 			}
 		}
 	}
@@ -178,8 +173,7 @@ public class BeanValidationAnnotationsConfigurer implements Configurer
 	 */
 	public ClassConfiguration getClassConfiguration(final Class< ? > clazz)
 	{
-		final ClassConfiguration classCfg = new ClassConfiguration();
-		classCfg.type = clazz;
+		final ClassConfiguration classCfg = new ClassConfiguration(clazz);
 
 		final Guarded guarded = clazz.getAnnotation(Guarded.class);
 
@@ -187,14 +181,12 @@ public class BeanValidationAnnotationsConfigurer implements Configurer
 		{
 			classCfg.applyFieldConstraintsToConstructors = false;
 			classCfg.applyFieldConstraintsToSetters = false;
-			classCfg.assertParametersNotNull = false;
 			classCfg.inspectInterfaces = false;
 		}
 		else
 		{
 			classCfg.applyFieldConstraintsToConstructors = guarded.applyFieldConstraintsToConstructors();
 			classCfg.applyFieldConstraintsToSetters = guarded.applyFieldConstraintsToSetters();
-			classCfg.assertParametersNotNull = guarded.assertParametersNotNull();
 			classCfg.inspectInterfaces = guarded.inspectInterfaces();
 		}
 

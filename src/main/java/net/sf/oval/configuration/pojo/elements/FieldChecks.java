@@ -14,6 +14,7 @@ package net.sf.oval.configuration.pojo.elements;
 
 import net.sf.oval.Check;
 
+import java.lang.reflect.Field;
 import java.util.List;
 
 /**
@@ -27,23 +28,30 @@ public final class FieldChecks extends AbstractChecks
 	private static final long serialVersionUID = 3491614273739310489L;
 	
 	/**
-	 * name of the field
+	 * Field at which these checks apply
 	 */
-	private final String name;
+	private final Field field;
 
 	/**
 	 * Constructor
 	 *
-	 * @param name name of field at which checks apply
+	 * @param field field at which checks apply
 	 */
-	public FieldChecks(String name) {
-		this.name = name;
+	public FieldChecks(Field field) {
+		this.field = field;
 	}
 
 	/**
 	 * Returns name of field at which checks apply
 	 */
 	public String getName() {
-		return name;
+		return field.getName();
+	}
+
+	/**
+	 * Returns field at which these checks apply
+	 */
+	public Field getField() {
+		return field;
 	}
 }

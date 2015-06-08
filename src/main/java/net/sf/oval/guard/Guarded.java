@@ -49,12 +49,6 @@ public @interface Guarded
 	boolean applyFieldConstraintsToSetters() default false;
 
 	/**
-	 * Declares if parameter values of constructors and methods are expected to be not null.
-	 * This can be weakened by using the @net.sf.oval.constraint.exclusion.Nullable annotation on specific parameters.
-	 */
-	boolean assertParametersNotNull() default false;
-
-	/**
 	 * Declares if invariants are automatically checked after constructor execution and 
 	 * prior and after calls to non-private methods.
 	 */

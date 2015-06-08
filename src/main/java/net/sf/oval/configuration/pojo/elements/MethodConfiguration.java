@@ -12,26 +12,79 @@
  *******************************************************************************/
 package net.sf.oval.configuration.pojo.elements;
 
+import net.sf.oval.internal.util.Assert;
+
+import java.lang.reflect.Method;
+import java.util.Collections;
 import java.util.List;
 
 /**
  * @author Sebastian Thomschke
  */
-public class MethodConfiguration extends ConfigurationElement
+public class MethodConfiguration
 {
 	private static final long serialVersionUID = 1L;
 
-	public String name;
-	public boolean isInvariant;
+	/**
+	 * Method at which this configuration applies
+	 */
+	private final Method method;
+
+	private final boolean isInvariant;
 
 	/**
 	 * Contains the checks that should be applied to the method parameters.
 	 */
-	public List<ParameterChecks> parameterChecks;
+	private final List<ParameterChecks> parameterChecks;
 
 	/**
 	 * Contains the checks that should be applied to the return value.
 	 */
-	public ReturnValueChecks returnValueChecks;
+	private final ReturnValueChecks returnValueChecks;
+
+	public MethodConfiguration(Method method, boolean isInvariant, List<ParameterChecks> parameterChecks, ReturnValueChecks returnValueChecks) {
+
+		Assert.argumentNotNull("method", method);
+		Assert.argumentNotNull("parameterChecks", parameterChecks);
+		Assert.argumentNotNull("returnValueChecks", returnValueChecks);
+
+		this.method = method;
+		this.isInvariant = isInvariant;
+		this.parameterChecks = parameterChecks;
+		this.returnValueChecks = returnValueChecks;
+	}
+
+	/**
+	 * Returns name of method at which this configuration applies
+	 */
+	public String getName() {
+		return method.getName();
+	}
+
+	/**
+	 * Returns method at which this configuration applies
+	 */
+	public Method getMethod() {
+		return method;
+	}
+
+	public boolean isInvariant() {
+		return isInvariant;
+	}
+
+	/**
+	 * Returns checks for parameters method
+	 */
+	public List<ParameterChecks> getParameterChecks() {
+		return Collections.unmodifiableList(parameterChecks);
+	}
+
+	/**
+	 * Returns checks for return value method
+	 */
+	public ReturnValueChecks getReturnValueChecks() {
+		return returnValueChecks;
+	}
+
 
 }

@@ -27,4 +27,23 @@ public final class ReturnValueChecks extends AbstractChecks
 {
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * Constructor check return value
+	 *
+	 * @param check check that will be applied to return value
+	 */
+	public ReturnValueChecks(Check check) {
+			addCheck(check);
+	}
+
+	/**
+	 * Constructor check return value
+	 *
+	 * @param checks checks that will be applied to return value
+	 */
+	public ReturnValueChecks(List<Check> checks) {
+			addChecks(checks);
+	}
+
+
 }

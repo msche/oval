@@ -20,14 +20,14 @@ import java.util.Set;
 /**
  * @author Sebastian Thomschke
  */
-public class ClassConfiguration extends ConfigurationElement
+public class ClassConfiguration
 {
 	private static final long serialVersionUID = -678113044888557518L;
 
 	/**
 	 * class at which this configuration applies.
 	 */
-	public Class< ? > type;
+	private final Class< ? > type;
 
 	/**
 	 * object level constraints configuration
@@ -42,12 +42,12 @@ public class ClassConfiguration extends ConfigurationElement
 	/**
 	 * constructor constraints configuration
 	 */
-	public Set<ConstructorConfiguration> constructorConfigurations;
+	private final Set<ConstructorConfiguration> constructorConfigurations = new LinkedHashSet<>();
 
 	/**
 	 * method constraints configuration
 	 */
-	public Set<MethodConfiguration> methodConfigurations;
+	private final Set<MethodConfiguration> methodConfigurations = new LinkedHashSet<>();
 
 	/**
 	 * Automatically apply field constraints to the corresponding parameters
@@ -65,16 +65,26 @@ public class ClassConfiguration extends ConfigurationElement
 	public boolean applyFieldConstraintsToSetters;
 
 	/**
-	 * Declares if parameter values of constructors and methods are expected to be not null.
-	 * This can be weakened by using the @net.sf.oval.constraint.exclusion.Nullable annotation on specific parameters.
-	 */
-	public boolean assertParametersNotNull;
-
-	/**
 	 * Specifies whether annotations can be applied to interfaces that this class implements,
 	 * supporting a documentation function
 	 */
 	public boolean inspectInterfaces;
+
+	/**
+	 * Constructor Class configuration
+	 *
+	 * @param type Type of class at which this configuration applies
+	 */
+	public ClassConfiguration(Class< ? > type) {
+		this.type = type;
+	}
+
+	/**
+	 * Returns type of class at which this configuration applies
+	 */
+	public Class<?> getType() {
+		return type;
+	}
 
     /**
      * Returns set of checks that need to be applied to fields within the class
@@ -91,4 +101,33 @@ public class ClassConfiguration extends ConfigurationElement
     public void addChecks(FieldChecks fieldChecks) {
         this.fieldChecks.add(fieldChecks);
     }
+
+	/**
+	 * Append checks for method within class
+	 */
+	public void addChecks(MethodConfiguration checks) {
+		methodConfigurations.add(checks);
+	}
+
+	/**
+	 * Returns a set of checks that need to be applied to the methods within this class
+	 */
+	public Set<MethodConfiguration> getMethodChecks() {
+		return Collections.unmodifiableSet(methodConfigurations);
+	}
+
+
+	/**
+	 * Append checks for constructors within class
+	 */
+	public void addChecks(ConstructorConfiguration checks) {
+		this.constructorConfigurations.add(checks);
+	}
+
+	/**
+	 * Returns a set of checks that need to be applied to the constructors within this class
+	 */
+	public Set<ConstructorConfiguration> getConstructorChecks() {
+		return Collections.unmodifiableSet(constructorConfigurations);
+	}
 }

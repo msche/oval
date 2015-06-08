@@ -71,8 +71,7 @@ public class GuardAspect2 extends ApiUsageAuditor2
 	 */
 	public GuardAspect2()
 	{
-		this(new Guard());
-		getGuard().setParameterNameResolver(new ParameterNameResolverAspectJImpl());
+		this(new Guard(new ParameterNameResolverAspectJImpl()));
 	}
 
 	/**
