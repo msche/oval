@@ -304,7 +304,7 @@ public class Validator implements IValidator {
                          * applying field constraints to the single parameter of setter methods
 						 * *******************/
                     if (applyFieldConstraintsToConstructors) {
-                        final Field field = ReflectionUtils.getField(cc.clazz, paramNames[i]);
+                        final Field field = ReflectionUtils.getField(cc.getClazz(), paramNames[i]);
 
                         // check if a corresponding field has been found
                         if (field != null && parameterChecks.getType().isAssignableFrom(field.getType())) {

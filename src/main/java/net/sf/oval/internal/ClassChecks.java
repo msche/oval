@@ -75,7 +75,7 @@ public final class ClassChecks {
      */
     private final Set<Check> checksForObject = new LinkedHashSet();
 
-    public final Class<?> clazz;
+    private final Class<?> clazz;
 
     /**
      * all non-static fields that have value constraints.
@@ -119,6 +119,15 @@ public final class ClassChecks {
         this.parameterNameResolver = parameterNameResolver;
     }
 
+
+    /**
+     * Returns class at which the checks apply
+     *
+     * @return class at which the checks apply
+     */
+    public Class<?> getClazz() {
+        return clazz;
+    }
 
     /**
      * Returns checks for specified Field
