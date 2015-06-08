@@ -409,7 +409,7 @@ public class Validator implements IValidator {
             final ClassChecks cc = getClassChecks(clazz);
 
             // validate field constraints
-            for (final Field field : cc.constrainedFields) {
+            for (final Field field : cc.getConstrainedFields()) {
                 final Collection<Check> checks = cc.getChecks(field);
 
                 if (checks.size() > 0) {

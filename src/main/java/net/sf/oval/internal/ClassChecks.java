@@ -130,6 +130,15 @@ public final class ClassChecks {
     }
 
     /**
+     * Returns non-static fields of class that are constrained
+     *
+     * @return Set of non-static Fields that are constrained.
+     */
+    public Set<Field> getConstrainedFields() {
+        return Collections.unmodifiableSet(constrainedFields);
+    }
+
+    /**
      * Returns checks for specified Field
      *
      * @param field Field for which we want to retrieve checks
