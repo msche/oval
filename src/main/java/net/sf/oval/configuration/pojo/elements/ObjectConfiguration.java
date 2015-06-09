@@ -19,12 +19,5 @@ import java.util.List;
 /**
  * @author Sebastian Thomschke
  */
-public class ObjectConfiguration
-{
-	private static final long serialVersionUID = 1L;
-
-	/**
-	 * object level checks
-	 */
-	public List<Check> checks;
+public class ObjectConfiguration extends AbstractChecks {
 }

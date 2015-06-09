@@ -253,11 +253,7 @@ public class Validator implements IValidator {
             /* ******************************
              * apply object level checks
 			 * ******************************/
-        if (classCfg.objectConfiguration != null) {
-            final ObjectConfiguration objectCfg = classCfg.objectConfiguration;
-
-            cc.addObjectChecks(objectCfg.checks);
-        }
+            cc.addObjectChecks(classCfg.getObjectConfiguration().getChecks());
 
 			/* ******************************
              * apply field checks

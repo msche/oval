@@ -163,8 +163,7 @@ public class AnnotationsConfigurer implements Configurer
 
 		if (checks.size() > 0)
 		{
-			classCfg.objectConfiguration = new ObjectConfiguration();
-			classCfg.objectConfiguration.checks = checks;
+			classCfg.getObjectConfiguration().addChecks(checks);
 		}
 	}
 

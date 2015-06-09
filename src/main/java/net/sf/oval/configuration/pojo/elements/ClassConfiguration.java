@@ -22,8 +22,6 @@ import java.util.Set;
  */
 public class ClassConfiguration
 {
-	private static final long serialVersionUID = -678113044888557518L;
-
 	/**
 	 * class at which this configuration applies.
 	 */
@@ -32,7 +30,7 @@ public class ClassConfiguration
 	/**
 	 * object level constraints configuration
 	 */
-	public ObjectConfiguration objectConfiguration;
+	private final ObjectConfiguration objectConfiguration = new ObjectConfiguration();
 
 	/**
 	 * field constraints configuration
@@ -116,6 +114,9 @@ public class ClassConfiguration
 		return Collections.unmodifiableSet(methodConfigurations);
 	}
 
+	public ObjectConfiguration getObjectConfiguration() {
+		return objectConfiguration;
+	}
 
 	/**
 	 * Append checks for constructors within class
