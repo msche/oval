@@ -68,7 +68,7 @@ public interface Check extends Serializable
 	/**
 	 * @return the profiles, may return null
 	 */
-	String[] getGroups();
+	Class[] getGroups();
 
 	/**
 	 * This method implements the validation logic

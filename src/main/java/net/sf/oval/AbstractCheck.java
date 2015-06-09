@@ -36,7 +36,7 @@ public abstract class AbstractCheck implements Check
 	private boolean messageVariablesUpToDate = true;
 
 	// TODO: Replace this by classes
-	private String[] profiles;
+	private Class[] groups;
 
 	// TODO remove properties which are not set by javax validation annotations (only message and profiles).
 	private ConstraintTarget[] appliesTo;
@@ -118,9 +118,9 @@ public abstract class AbstractCheck implements Check
 	/**
 	 * {@inheritDoc}
 	 */
-	public String[] getGroups()
+	public Class[] getGroups()
 	{
-		return profiles;
+		return groups;
 	}
 
 	/**
@@ -161,14 +161,7 @@ public abstract class AbstractCheck implements Check
 	 */
 	public void setGroups(final Class... groups)
 	{
-		if (groups == null) {
-			profiles = null;
-		} else {
-			profiles = new String[groups.length];
-			for (int i = 0; i < groups.length; i++) {
-				profiles[i] = groups[i].getCanonicalName();
-			}
-		}
+		this.groups = groups;
 	}
 
 }

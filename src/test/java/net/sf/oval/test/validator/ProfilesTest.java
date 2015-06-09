@@ -51,7 +51,7 @@ public class ProfilesTest extends TestCase
 		// disable all profiles = no constraints by default
 		validator.disableAllProfiles();
 		final Person p = new Person();
-		List<ConstraintViolation> violations = validator.validate(p, (String[]) null);
+		List<ConstraintViolation> violations = validator.validate(p, (Class[]) null);
 		assertEquals(0, violations.size());
 		violations = validator.validate(p, Profile1.class);
 		assertEquals(1, violations.size());
@@ -61,7 +61,7 @@ public class ProfilesTest extends TestCase
 
 		// enable all profiles = all constraints by default
 		validator.enableAllProfiles();
-		violations = validator.validate(p, (String[]) null);
+		violations = validator.validate(p, (Class[]) null);
 		assertEquals(4, violations.size());
 		violations = validator.validate(p, Profile1.class);
 		assertEquals(1, violations.size());
@@ -76,9 +76,10 @@ public class ProfilesTest extends TestCase
 
 		// disable all profiles = no constraints
 		validator.disableAllProfiles();
-		assertFalse(validator.isProfileEnabled(Profile1.class.getName()));
-		assertFalse(validator.isProfileEnabled(Profile2.class.getName()));
-		assertFalse(validator.isProfileEnabled(Profile3.class.getName()));
+		assertFalse(validator.isProfileEnabled(Profile1.class));
+		assertFalse(validator.isProfileEnabled(Profile2.class));
+		assertFalse(validator.isProfileEnabled(Profile3.class));
+        assertFalse(validator.isProfileEnabled(null));
 		{
 			final Person p = new Person();
 			final List<ConstraintViolation> violations = validator.validate(p);
@@ -124,9 +125,7 @@ public class ProfilesTest extends TestCase
 		}
 
 		// enable profile 1 + 2 + 3 + 4 + default
-		assertFalse(validator.isProfileEnabled("default"));
-		validator.enableProfile("default");
-		assertTrue(validator.isProfileEnabled("default"));
+		assertTrue(validator.isProfileEnabled(null));
 		{
 			final Person p = new Person();
 			final List<ConstraintViolation> violations = validator.validate(p);
@@ -188,13 +187,13 @@ public class ProfilesTest extends TestCase
 			assertEquals(1, violations.size());
 		}
 
-		assertTrue(validator.isProfileEnabled("default"));
-		validator.disableProfile("default");
-		assertFalse(validator.isProfileEnabled("default"));
-		{
-			final Person p = new Person();
-			final List<ConstraintViolation> violations = validator.validate(p);
-			assertEquals(0, violations.size());
-		}
+//		assertTrue(validator.isProfileEnabled("default"));
+//		validator.disableProfile("default");
+//		assertFalse(validator.isProfileEnabled("default"));
+//		{
+//			final Person p = new Person();
+//			final List<ConstraintViolation> violations = validator.validate(p);
+//			assertEquals(0, violations.size());
+//		}
 	}
 }

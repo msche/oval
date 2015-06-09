@@ -170,9 +170,9 @@ public class Validator implements IValidator {
 
     //protected final LinkedList<Set<Object>> currentlyValidatedObjects = new LinkedList<Set<Object>>();
 
-    private final Set<String> disabledProfiles = new LinkedHashSet<>();
+    private final Set<Class> disabledProfiles = new LinkedHashSet<>();
 
-    private final Set<String> enabledProfiles = new LinkedHashSet<>();
+    private final Set<Class> enabledProfiles = new LinkedHashSet<>();
 
     private ExceptionTranslator exceptionTranslator;
 
@@ -357,8 +357,8 @@ public class Validator implements IValidator {
     }
 
     private void _checkConstraint(final List<ConstraintViolation> violations, final Check check, final Object validatedObject,
-                                  final Object valueToValidate, final OValContext context, final String[] profiles) {
-		/*
+                                  final Object valueToValidate, final OValContext context, final Class[] profiles) {
+        /*
 		 * special handling of the AssertValid constraint
 		 */
         if (check instanceof ValidCheck) {
@@ -397,7 +397,7 @@ public class Validator implements IValidator {
      * validate validatedObject based on the constraints of the given class
      */
     private void _validateObjectInvariants(final Object validatedObject, final Class<?> clazz,
-                                           final List<ConstraintViolation> violations, final String[] profiles) throws ValidationFailedException {
+                                           final List<ConstraintViolation> violations, final Class[] profiles) throws ValidationFailedException {
         assert validatedObject != null;
         assert clazz != null;
         assert violations != null;
@@ -455,7 +455,7 @@ public class Validator implements IValidator {
      * Constraints specified for super classes are not taken in account.
      */
     private void _validateStaticInvariants(final Class<?> validatedClass, final List<ConstraintViolation> violations,
-                                           final String[] profiles) throws ValidationFailedException {
+                                           final Class[] profiles) throws ValidationFailedException {
         assert validatedClass != null;
         assert violations != null;
 
@@ -579,7 +579,7 @@ public class Validator implements IValidator {
     }
 
     protected void checkConstraint(final List<ConstraintViolation> violations, final Check check, Object validatedObject,
-                                   Object valueToValidate, OValContext context, final String[] profiles, final boolean isContainerValue) throws OValException {
+                                   Object valueToValidate, OValContext context, final Class[] profiles, final boolean isContainerValue) throws OValException {
         if (!isAnyProfileEnabled(check.getGroups(), profiles)) return;
 
         final ConstraintTarget[] targets = check.getAppliesTo();
@@ -628,7 +628,7 @@ public class Validator implements IValidator {
     }
 
     protected void checkConstraintAssertConstraintSet(final List<ConstraintViolation> violations, final AssertConstraintSetCheck check,
-                                                      final Object validatedObject, final Object valueToValidate, final OValContext context, final String[] profiles)
+                                                      final Object validatedObject, final Object valueToValidate, final OValContext context, final Class[] profiles)
             throws OValException {
         final ConstraintSet cs = getConstraintSet(check.getId());
 
@@ -646,7 +646,7 @@ public class Validator implements IValidator {
 
     protected void checkConstraintAssertFieldConstraints(final List<ConstraintViolation> violations,
                                                          final AssertFieldConstraintsCheck check, final Object validatedObject, final Object valueToValidate, final OValContext context,
-                                                         final String[] profiles) throws OValException {
+                                                         final Class[] profiles) throws OValException {
         final Class<?> targetClass;
 
 		/*
@@ -705,7 +705,7 @@ public class Validator implements IValidator {
     private final List<Object> validatedObjects = new ArrayList<>();
 
     protected void checkConstraintAssertValid(final List<ConstraintViolation> violations, final ValidCheck check,
-                                              final Object validatedObject, final Object valueToValidate, final OValContext context, final String[] profiles)
+                                              final Object validatedObject, final Object valueToValidate, final OValContext context, final Class[] profiles)
             throws OValException {
         if (valueToValidate == null) return;
 
@@ -748,15 +748,6 @@ public class Validator implements IValidator {
      * @param profile the id of the profile
      */
     public void disableProfile(final Class profile) {
-        disableProfile(profile.getCanonicalName());
-    }
-
-    /**
-     * Disables a constraints profile globally.
-     *
-     * @param profile the id of the profile
-     */
-    public void disableProfile(final String profile) {
         isProfilesFeatureUsed = true;
 
         if (isAllProfilesEnabledByDefault) {
@@ -783,15 +774,6 @@ public class Validator implements IValidator {
      * @param profile the id of the profile
      */
     public void enableProfile(final Class profile) {
-        enableProfile(profile.getCanonicalName());
-    }
-
-    /**
-     * Enables a constraints profile globally.
-     *
-     * @param profile the id of the profile
-     */
-    public void enableProfile(final String profile) {
         isProfilesFeatureUsed = true;
 
         if (isAllProfilesEnabledByDefault) {
@@ -895,60 +877,35 @@ public class Validator implements IValidator {
      * @param enabledProfiles optional array of profiles (can be null)
      * @return Returns true if at least one of the given profiles is enabled.
      */
-    protected boolean isAnyProfileEnabled(final String[] profilesOfCheck, final String[] enabledProfiles) {
-        if (enabledProfiles == null) {
+    protected boolean isAnyProfileEnabled(final Class[] profilesOfCheck, final Class[] enabledProfiles) {
+        if (profilesOfCheck == null || profilesOfCheck.length == 0) {
+            return isProfileEnabled(null);
+        } else if (enabledProfiles == null) {
             // use the global profile configuration
-            if (profilesOfCheck == null || profilesOfCheck.length == 0)
-                return isProfileEnabled("default");
-
-            for (final String profile : profilesOfCheck)
+            for (final Class profile : profilesOfCheck)
                 if (isProfileEnabled(profile)) return true;
         } else {
             // use the local profile configuration
-            if (profilesOfCheck == null || profilesOfCheck.length == 0)
-                return ArrayUtils.containsEqual(enabledProfiles, "default");
-
-            for (final String profile : profilesOfCheck)
+            for (final Class profile : profilesOfCheck)
                 if (ArrayUtils.containsEqual(enabledProfiles, profile))
                     return true;
         }
         return false;
     }
 
-//    /**
-//     * Determines if the given object is currently validated in the current thread
-//     *
-//     * @param object
-//     * @return Returns true if the given object is currently validated in the current thread.
-//     */
-//    protected boolean isCurrentlyValidated(final Object object) {
-//        Assert.argumentNotNull("object", object);
-//        return currentlyValidatedObjects.getLast().contains(object);
-//    }
-
     /**
      * Determines if the given profile is enabled.
      *
-     * @param profileId
+     * @param profile
      * @return Returns true if the given profile is enabled.
      */
-    public boolean isProfileEnabled(final Class profileId) {
-        return isProfileEnabled(profileId.getCanonicalName());
-    }
-
-    /**
-     * Determines if the given profile is enabled.
-     *
-     * @param profileId
-     * @return Returns true if the given profile is enabled.
-     */
-    public boolean isProfileEnabled(final String profileId) {
-        Assert.argumentNotNull("profileId", profileId);
+    public boolean isProfileEnabled(final Class profile) {
         if (isProfilesFeatureUsed) {
-            if (isAllProfilesEnabledByDefault)
-                return !disabledProfiles.contains(profileId);
+            if (isAllProfilesEnabledByDefault) {
+                return profile == null ? true : !disabledProfiles.contains(profile);
+            }
 
-            return enabledProfiles.contains(profileId);
+            return profile == null ? true :enabledProfiles.contains(profile);
         }
         return true;
     }
@@ -1074,7 +1031,7 @@ public class Validator implements IValidator {
         // create required objects for this validation cycle
         final List<ConstraintViolation> violations = new ArrayList<>();
 
-        validateInvariants(validatedObject, violations, (String[]) null);
+        validateInvariants(validatedObject, violations, (Class[]) null);
         return violations;
     }
 
@@ -1083,21 +1040,6 @@ public class Validator implements IValidator {
      */
     public List<ConstraintViolation> validate(final Object validatedObject, final Class... profiles) throws IllegalArgumentException,
             ValidationFailedException {
-
-        String[] textualProfiles = new String[profiles.length];
-        for (int i = 0; i < profiles.length; i++) {
-            textualProfiles[i] = profiles[i].getCanonicalName();
-        }
-
-        return validate(validatedObject, textualProfiles);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public List<ConstraintViolation> validate(final Object validatedObject, final String... profiles) throws IllegalArgumentException,
-            ValidationFailedException {
-        Assert.argumentNotNull("validatedObject", validatedObject);
 
         // create required objects for this validation cycle
         final List<ConstraintViolation> violations = new ArrayList<>();
@@ -1142,7 +1084,7 @@ public class Validator implements IValidator {
      * @throws ValidationFailedException
      * @throws IllegalArgumentException  if <code>validatedObject == null</code>
      */
-    protected void validateInvariants(final Object validatedObject, final List<ConstraintViolation> violations, final String[] profiles)
+    protected void validateInvariants(final Object validatedObject, final List<ConstraintViolation> violations, final Class[] profiles)
             throws IllegalArgumentException, ValidationFailedException {
         Assert.argumentNotNull("validatedObject", validatedObject);
 

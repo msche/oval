@@ -35,7 +35,7 @@ public abstract class AbstractContraintsTest extends TestCase
 		check.setGroups(Object.class);
 		assertNotNull(check.getGroups());
 		assertEquals(1, check.getGroups().length);
-		assertEquals(Object.class.getCanonicalName(), check.getGroups()[0]);
+		assertEquals(Object.class, check.getGroups()[0]);
 
 		check.setGroups(null);
 		assertTrue(check.getGroups() == null || check.getGroups().length == 0);
