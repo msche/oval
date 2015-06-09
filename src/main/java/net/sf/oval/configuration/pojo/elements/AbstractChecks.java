@@ -3,6 +3,7 @@ package net.sf.oval.configuration.pojo.elements;
 import net.sf.oval.Check;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -28,7 +29,7 @@ abstract class AbstractChecks {
      * Returns checks that apply to element.
      */
     public List<Check> getChecks() {
-        return checks;
+        return Collections.unmodifiableList(checks);
     }
 
     /**
