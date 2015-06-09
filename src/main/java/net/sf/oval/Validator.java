@@ -253,7 +253,7 @@ public class Validator implements IValidator {
             /* ******************************
              * apply object level checks
 			 * ******************************/
-            cc.addObjectChecks(classCfg.getObjectConfiguration().getChecks());
+        cc.addObjectChecks(classCfg.getObjectConfiguration().getChecks());
 
 			/* ******************************
              * apply field checks
@@ -370,7 +370,7 @@ public class Validator implements IValidator {
         }
 
 		/*
-		 * standard constraints handling
+         * standard constraints handling
 		 */
         if (!check.isSatisfied(validatedObject, valueToValidate, context, this)) {
             final String errorMessage = renderMessage(context, valueToValidate, check.getMessage(), check.getMessageVariables());
@@ -635,7 +635,7 @@ public class Validator implements IValidator {
         final Class<?> targetClass;
 
 		/*
-		 * set the targetClass based on the validation context
+         * set the targetClass based on the validation context
 		 */
         if (context instanceof ConstructorParameterContext) {
             // the class declaring the field must either be the class declaring the constructor or one of its super
