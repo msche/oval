@@ -166,18 +166,14 @@ public class Validator implements IValidator {
 
     private final Map<String, ConstraintSet> constraintSetsById = new LinkedHashMap<>(4);
 
-    //protected final LinkedList<Set<Object>> currentlyValidatedObjects = new LinkedList<Set<Object>>();
-
-    private final Set<Class> disabledGroups = new LinkedHashSet<>();
-
-    private final Set<Class> enabledGroups = new LinkedHashSet<>();
+    /**
+     * Contains set of groups that must be validated beside the default group.
+     */
+    private final Set<Class> enabledGroups = new LinkedHashSet();
 
     private ExceptionTranslator exceptionTranslator;
 
     protected final ExpressionLanguageRegistry expressionLanguageRegistry = new ExpressionLanguageRegistry();
-
-    private boolean allGroupsEnabled = true;
-    private boolean allGroupsDisabled = false;
 
     private final ObjectGraphNavigatorRegistry ognRegistry = new ObjectGraphNavigatorRegistry();
 
@@ -360,7 +356,7 @@ public class Validator implements IValidator {
         }
 
 		/*
-		 * special handling of the FieldConstraints constraint
+         * special handling of the FieldConstraints constraint
 		 */
         if (check instanceof AssertConstraintSetCheck) {
             checkConstraintAssertConstraintSet(violations, (AssertConstraintSetCheck) check, validatedObject, valueToValidate, context,
@@ -369,7 +365,7 @@ public class Validator implements IValidator {
         }
 
 		/*
-		 * special handling of the FieldConstraints constraint
+         * special handling of the FieldConstraints constraint
 		 */
         if (check instanceof AssertFieldConstraintsCheck) {
             checkConstraintAssertFieldConstraints(violations, (AssertFieldConstraintsCheck) check, validatedObject, valueToValidate,
@@ -573,7 +569,7 @@ public class Validator implements IValidator {
 
     protected void checkConstraint(final List<ConstraintViolation> violations, final Check check, Object validatedObject,
                                    Object valueToValidate, OValContext context, final Class[] profiles, final boolean isContainerValue) throws OValException {
-        if (!isAnyProfileEnabled(check.getGroups(), profiles)) return;
+        if (!isGroupEnabled(check.getGroups(), profiles)) return;
 
         final ConstraintTarget[] targets = check.getAppliesTo();
 
@@ -728,11 +724,7 @@ public class Validator implements IValidator {
      * Disables all constraints profiles globally, i.e. no configured constraint will be validated.
      */
     public synchronized void disableAllGroups() {
-        allGroupsEnabled = false;
-        allGroupsDisabled = true;
-
         enabledGroups.clear();
-        disabledGroups.clear();
     }
 
     /**
@@ -741,24 +733,7 @@ public class Validator implements IValidator {
      * @param group the id of the profile
      */
     public void disableGroup(final Class group) {
-        allGroupsDisabled = false;
-
-        if (allGroupsEnabled) {
-            disabledGroups.add(group);
-        } else {
-            enabledGroups.remove(group);
-        }
-    }
-
-    /**
-     * Enables all constraint groups; i.e. all configured constraint will be validated.
-     */
-    public synchronized void enableAllGroups() {
-        allGroupsEnabled = true;
-        allGroupsDisabled = false;
-
-        enabledGroups.clear();
-        disabledGroups.clear();
+        enabledGroups.remove(group);
     }
 
     /**
@@ -767,12 +742,17 @@ public class Validator implements IValidator {
      * @param group the id of the profile
      */
     public void enableGroup(final Class group) {
-        allGroupsDisabled = false;
+        enabledGroups.add(group);
+    }
 
-        if (allGroupsEnabled) {
-            disabledGroups.remove(group);
-        } else {
-            enabledGroups.add(group);
+    /**
+     * Enables a constraint groups.
+     *
+     * @param groups the groups for which constraints need to be validated
+     */
+    public void enableGroups(final Class... groups) {
+        for (Class group : groups) {
+            enableGroup(group);
         }
     }
 
@@ -864,47 +844,42 @@ public class Validator implements IValidator {
     }
 
     /**
-     * Determines if at least one of the given profiles is enabled
+     * Determines if at least one of the given groups is enabled
      *
-     * @param profilesOfCheck
-     * @param enabledProfiles optional array of profiles (can be null)
-     * @return Returns true if at least one of the given profiles is enabled.
+     * @param groupsOfCheck Group(s) that are defined for the check
+     * @param enabledGroups optional array of groups that are enabled (can be null)
+     * @return Returns true if at least one of the given groups is enabled.
      */
-    protected boolean isAnyProfileEnabled(final Class[] profilesOfCheck, final Class[] enabledProfiles) {
-        if (profilesOfCheck == null || profilesOfCheck.length == 0) {
-            return isProfileEnabled(null);
-        } else if (enabledProfiles == null) {
-            // use the global profile configuration
-            for (final Class profile : profilesOfCheck)
-                if (isProfileEnabled(profile)) return true;
+    protected boolean isGroupEnabled(final Class[] groupsOfCheck, final Class[] enabledGroups) {
+        if (groupsOfCheck == null || groupsOfCheck.length == 0) {
+            return isGroupEnabled(null);
+        } else if (enabledGroups == null) {
+            // use the global group configuration
+            for (final Class group : groupsOfCheck)
+                if (isGroupEnabled(group))
+                    return true;
         } else {
-            // use the local profile configuration
-            for (final Class profile : profilesOfCheck)
-                if (ArrayUtils.containsEqual(enabledProfiles, profile))
+            // use the specified group configuration
+            for (final Class group : groupsOfCheck)
+                if (ArrayUtils.containsEqual(enabledGroups, group))
                     return true;
         }
         return false;
     }
 
     /**
-     * Determines if the given profile is enabled.
+     * Determines if the given group is enabled.
      *
-     * @param profile
-     * @return Returns true if the given profile is enabled.
+     * @param group group for which we want to check whether validation is enabled
+     * @return Returns true if the given group is enabled.
      */
-    public boolean isProfileEnabled(final Class profile) {
-        if (allGroupsDisabled) {
+    public boolean isGroupEnabled(final Class group) {
+        if (group == null) {
+            return true;
+        } else if (enabledGroups.isEmpty()) {
             return false;
         } else {
-            if (profile == null) {
-                return true;
-            } else {
-                if (allGroupsEnabled) {
-                    return !disabledGroups.contains(profile);
-                }
-
-                return enabledGroups.contains(profile);
-            }
+            return enabledGroups.contains(group);
         }
     }
 
