@@ -22,7 +22,7 @@ import java.util.List;
 /**
  * @author Sebastian Thomschke
  */
-public class ProfilesTest extends TestCase
+public class GroupsTest extends TestCase
 {
 	public class Profile1 {}
 	public class Profile2 {}

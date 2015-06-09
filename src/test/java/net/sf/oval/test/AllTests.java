@@ -21,6 +21,7 @@ import net.sf.oval.test.constraints.DecimalMinTest;
 import net.sf.oval.test.constraints.NullTest;
 import net.sf.oval.test.constraints.PatternTest;
 import net.sf.oval.test.constraints.ValidTest;
+import net.sf.oval.test.validator.GroupsTest;
 
 /**
  * @author Sebastian Thomschke
@@ -142,8 +143,7 @@ public final class AllTests
 		suite.addTestSuite(net.sf.oval.test.validator.InheritanceTest.class);
 		suite.addTestSuite(net.sf.oval.test.validator.ObjectGraphTest.class);
 		suite.addTestSuite(net.sf.oval.test.validator.PrimitiveArrayTest.class);
-		suite.addTestSuite(net.sf.oval.test.validator.ProfilesTest.class);
-		suite.addTestSuite(net.sf.oval.test.validator.SerializationTest.class);
+		suite.addTestSuite(GroupsTest.class);
 		suite.addTestSuite(net.sf.oval.test.validator.StaticFieldsAndGettersTest.class);
 		suite.addTestSuite(net.sf.oval.test.validator.ValidateClassWithoutConstraintsTest.class);
 		suite.addTestSuite(net.sf.oval.test.validator.ValidateWithMethodConstraintTest.class);

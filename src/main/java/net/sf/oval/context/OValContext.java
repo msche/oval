@@ -19,7 +19,7 @@ import java.io.Serializable;
  *
  * @author Sebastian Thomschke
  */
-public abstract class OValContext implements Serializable
+public abstract class OValContext
 {
     private static final long serialVersionUID = -7514650057377148621L;
 

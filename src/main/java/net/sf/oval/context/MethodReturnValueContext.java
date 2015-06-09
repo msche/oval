@@ -12,8 +12,6 @@
  *******************************************************************************/
 package net.sf.oval.context;
 
-import net.sf.oval.internal.util.SerializableMethod;
-
 import java.lang.reflect.Method;
 
 /**
@@ -21,14 +19,12 @@ import java.lang.reflect.Method;
  */
 public final class MethodReturnValueContext extends OValContext
 {
-    private static final long serialVersionUID = 8459673050446818620L;
-
-	private final SerializableMethod method;
+	private final Method method;
 
 	public MethodReturnValueContext(final Method method)
 	{
         super(method.getReturnType());
-		this.method = SerializableMethod.getInstance(method);
+		this.method = method;
 //		this.compileTimeType = method.getReturnType();
 	}
 
@@ -37,7 +33,7 @@ public final class MethodReturnValueContext extends OValContext
 	 */
 	public Method getMethod()
 	{
-		return method.getMethod();
+		return method;
 	}
 
 	/**

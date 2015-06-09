@@ -13,7 +13,6 @@
 package net.sf.oval.context;
 
 import net.sf.oval.Validator;
-import net.sf.oval.internal.util.SerializableConstructor;
 import net.sf.oval.internal.util.StringUtils;
 
 import java.lang.reflect.Constructor;
@@ -25,7 +24,8 @@ public final class ConstructorParameterContext extends OValContext
 {
     private static final long serialVersionUID = -782861376799538876L;
 
-	private final SerializableConstructor constructor;
+	//private final SerializableConstructor constructor;
+	private final Constructor<?> constructor;
 	private final int parameterIndex;
 	private final String parameterName;
 
@@ -38,7 +38,7 @@ public final class ConstructorParameterContext extends OValContext
 			final String parameterName)
 	{
         super(constructor.getParameterTypes()[parameterIndex]);
-		this.constructor = SerializableConstructor.getInstance(constructor);
+		this.constructor = constructor;
 		this.parameterIndex = parameterIndex;
 		this.parameterName = parameterName;
 	}
@@ -48,7 +48,7 @@ public final class ConstructorParameterContext extends OValContext
 	 */
 	public Constructor< ? > getConstructor()
 	{
-		return constructor.getConstructor();
+		return constructor;
 	}
 
 	/**

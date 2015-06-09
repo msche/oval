@@ -12,7 +12,6 @@
  *******************************************************************************/
 package net.sf.oval.context;
 
-import net.sf.oval.internal.util.SerializableMethod;
 import net.sf.oval.internal.util.StringUtils;
 
 import java.lang.reflect.Method;
@@ -22,13 +21,11 @@ import java.lang.reflect.Method;
  */
 public final class MethodExitContext extends OValContext
 {
-    private static final long serialVersionUID = -1748895304697900095L;
-
-	private final SerializableMethod method;
+	private final Method method;
 
 	public MethodExitContext(final Method method)
 	{
-		this.method = SerializableMethod.getInstance(method);
+		this.method = method;
 	}
 
 	/**
@@ -36,7 +33,7 @@ public final class MethodExitContext extends OValContext
 	 */
 	public Method getMethod()
 	{
-		return method.getMethod();
+		return method;
 	}
 
 	/**

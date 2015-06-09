@@ -13,7 +13,6 @@
 package net.sf.oval.context;
 
 import net.sf.oval.Validator;
-import net.sf.oval.internal.util.SerializableMethod;
 import net.sf.oval.internal.util.StringUtils;
 
 import java.lang.reflect.Method;
@@ -23,16 +22,14 @@ import java.lang.reflect.Method;
  */
 public final class MethodParameterContext extends OValContext
 {
-    private static final long serialVersionUID = -8124156558479124325L;
-
-	private final SerializableMethod method;
+	private final Method method;
 	private final int parameterIndex;
 	private final String parameterName;
 
 	public MethodParameterContext(final Method method, final int parameterIndex, final String parameterName)
 	{
         super(method.getParameterTypes()[parameterIndex]);
-		this.method = SerializableMethod.getInstance(method);
+		this.method = method;
 		this.parameterIndex = parameterIndex;
 		this.parameterName = parameterName == null ? "param" + parameterIndex : parameterName;
 //		this.compileTimeType = method.getParameterTypes()[parameterIndex];
@@ -43,7 +40,7 @@ public final class MethodParameterContext extends OValContext
 	 */
 	public Method getMethod()
 	{
-		return method.getMethod();
+		return method;
 	}
 
 	/**

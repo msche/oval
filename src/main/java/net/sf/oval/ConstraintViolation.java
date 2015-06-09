@@ -27,11 +27,9 @@ import java.util.Map;
  *
  * @author Sebastian Thomschke
  */
-public class ConstraintViolation implements Serializable
+public class ConstraintViolation
 {
 	private static final Logger LOG = LoggerFactory.getLogger(ConstraintViolation.class);
-
-	private static final long serialVersionUID = 1L;
 
 	private final ConstraintViolation[] causes;
 	private final OValContext checkDeclaringContext;
@@ -166,20 +164,6 @@ public class ConstraintViolation implements Serializable
 	}
 
 	/**
-	 * see http://java.sun.com/developer/technicalArticles/ALT/serialization/
-	 *
-	 * @param in
-	 * @throws IOException
-	 * @throws ClassNotFoundException
-	 */
-	private void readObject(final java.io.ObjectInputStream in) throws IOException, ClassNotFoundException
-	{
-		in.defaultReadObject();
-		if (in.readBoolean()) validatedObject = in.readObject();
-		if (in.readBoolean()) invalidValue = in.readObject();
-	}
-
-	/**
 	 * {@inheritDoc}
 	 */
 	@Override
@@ -188,40 +172,4 @@ public class ConstraintViolation implements Serializable
 		return getClass().getName() + ": " + message;
 	}
 
-	/**
-	 * see http://java.sun.com/developer/technicalArticles/ALT/serialization/
-	 *
-	 * @param out
-	 * @throws IOException
-	 */
-	private void writeObject(final java.io.ObjectOutputStream out) throws IOException
-	{
-		out.defaultWriteObject();
-		if (validatedObject instanceof Serializable)
-		{
-			// indicate validatedObject implements Serializable
-			out.writeBoolean(true);
-			out.writeObject(validatedObject);
-		}
-		else
-		{
-			LOG.warn("Field 'validatedObject' not serialized because the field value object {} of type {} does not implement {}", validatedObject, invalidValue.getClass(), Serializable.class.getName());
-
-			// indicate validatedObject does not implement Serializable
-			out.writeBoolean(false);
-		}
-
-		if (invalidValue instanceof Serializable)
-		{
-			// indicate value implements Serializable
-			out.writeBoolean(true);
-			out.writeObject(invalidValue);
-		}
-		else
-		{
-			LOG.warn("Field 'invalidValue' could not be serialized because the field value object {} does not implement java.io.Serializable.", invalidValue);
-			// indicate value does not implement Serializable
-			out.writeBoolean(false);
-		}
-	}
 }
