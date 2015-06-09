@@ -25,7 +25,6 @@ import net.sf.oval.configuration.pojo.elements.ParameterChecks;
 import net.sf.oval.constraint.AssertConstraintSetCheck;
 import net.sf.oval.constraint.AssertFieldConstraintsCheck;
 import net.sf.oval.constraint.ValidCheck;
-import net.sf.oval.constraint.NotNullCheck;
 import net.sf.oval.context.ConstructorParameterContext;
 import net.sf.oval.context.FieldContext;
 import net.sf.oval.context.MethodParameterContext;
@@ -36,7 +35,6 @@ import net.sf.oval.exception.ConstraintsViolatedException;
 import net.sf.oval.exception.ExceptionTranslator;
 import net.sf.oval.exception.FieldNotFoundException;
 import net.sf.oval.exception.InvalidConfigurationException;
-import net.sf.oval.exception.MethodNotFoundException;
 import net.sf.oval.exception.OValException;
 import net.sf.oval.exception.ReflectionException;
 import net.sf.oval.exception.UndefinedConstraintSetException;
@@ -170,21 +168,16 @@ public class Validator implements IValidator {
 
     //protected final LinkedList<Set<Object>> currentlyValidatedObjects = new LinkedList<Set<Object>>();
 
-    private final Set<Class> disabledProfiles = new LinkedHashSet<>();
+    private final Set<Class> disabledGroups = new LinkedHashSet<>();
 
-    private final Set<Class> enabledProfiles = new LinkedHashSet<>();
+    private final Set<Class> enabledGroups = new LinkedHashSet<>();
 
     private ExceptionTranslator exceptionTranslator;
 
     protected final ExpressionLanguageRegistry expressionLanguageRegistry = new ExpressionLanguageRegistry();
 
-    private boolean isAllProfilesEnabledByDefault = true;
-
-    /**
-     * Flag that indicates any configuration method related to profiles was called.
-     * Used for performance improvements.
-     */
-    private boolean isProfilesFeatureUsed = false;
+    private boolean allGroupsEnabled = true;
+    private boolean allGroupsDisabled = false;
 
     private final ObjectGraphNavigatorRegistry ognRegistry = new ObjectGraphNavigatorRegistry();
 
@@ -359,7 +352,7 @@ public class Validator implements IValidator {
     private void _checkConstraint(final List<ConstraintViolation> violations, final Check check, final Object validatedObject,
                                   final Object valueToValidate, final OValContext context, final Class[] profiles) {
         /*
-		 * special handling of the AssertValid constraint
+         * special handling of the AssertValid constraint
 		 */
         if (check instanceof ValidCheck) {
             checkConstraintAssertValid(violations, (ValidCheck) check, validatedObject, valueToValidate, context, profiles);
@@ -734,52 +727,52 @@ public class Validator implements IValidator {
     /**
      * Disables all constraints profiles globally, i.e. no configured constraint will be validated.
      */
-    public synchronized void disableAllProfiles() {
-        isProfilesFeatureUsed = true;
-        isAllProfilesEnabledByDefault = false;
+    public synchronized void disableAllGroups() {
+        allGroupsEnabled = false;
+        allGroupsDisabled = true;
 
-        enabledProfiles.clear();
-        disabledProfiles.clear();
+        enabledGroups.clear();
+        disabledGroups.clear();
     }
 
     /**
      * Disables a constraints profile globally.
      *
-     * @param profile the id of the profile
+     * @param group the id of the profile
      */
-    public void disableProfile(final Class profile) {
-        isProfilesFeatureUsed = true;
+    public void disableGroup(final Class group) {
+        allGroupsDisabled = false;
 
-        if (isAllProfilesEnabledByDefault) {
-            disabledProfiles.add(profile);
+        if (allGroupsEnabled) {
+            disabledGroups.add(group);
         } else {
-            enabledProfiles.remove(profile);
+            enabledGroups.remove(group);
         }
     }
 
     /**
-     * Enables all constraints profiles globally, i.e. all configured constraint will be validated.
+     * Enables all constraint groups; i.e. all configured constraint will be validated.
      */
-    public synchronized void enableAllProfiles() {
-        isProfilesFeatureUsed = true;
-        isAllProfilesEnabledByDefault = true;
+    public synchronized void enableAllGroups() {
+        allGroupsEnabled = true;
+        allGroupsDisabled = false;
 
-        enabledProfiles.clear();
-        disabledProfiles.clear();
+        enabledGroups.clear();
+        disabledGroups.clear();
     }
 
     /**
      * Enables a constraints profile globally.
      *
-     * @param profile the id of the profile
+     * @param group the id of the profile
      */
-    public void enableProfile(final Class profile) {
-        isProfilesFeatureUsed = true;
+    public void enableGroup(final Class group) {
+        allGroupsDisabled = false;
 
-        if (isAllProfilesEnabledByDefault) {
-            disabledProfiles.remove(profile);
+        if (allGroupsEnabled) {
+            disabledGroups.remove(group);
         } else {
-            enabledProfiles.add(profile);
+            enabledGroups.add(group);
         }
     }
 
@@ -900,14 +893,19 @@ public class Validator implements IValidator {
      * @return Returns true if the given profile is enabled.
      */
     public boolean isProfileEnabled(final Class profile) {
-        if (isProfilesFeatureUsed) {
-            if (isAllProfilesEnabledByDefault) {
-                return profile == null ? true : !disabledProfiles.contains(profile);
-            }
+        if (allGroupsDisabled) {
+            return false;
+        } else {
+            if (profile == null) {
+                return true;
+            } else {
+                if (allGroupsEnabled) {
+                    return !disabledGroups.contains(profile);
+                }
 
-            return profile == null ? true :enabledProfiles.contains(profile);
+                return enabledGroups.contains(profile);
+            }
         }
-        return true;
     }
 
     /**

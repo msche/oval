@@ -35,7 +35,9 @@ public abstract class AbstractCheck implements Check
 	private Map<String, ? extends Serializable> messageVariables;
 	private boolean messageVariablesUpToDate = true;
 
-	// TODO: Replace this by classes
+	/**
+	 * Contains groups that will allow you to restrict the set of constraints applied during validation.
+	 */
 	private Class[] groups;
 
 	// TODO remove properties which are not set by javax validation annotations (only message and profiles).

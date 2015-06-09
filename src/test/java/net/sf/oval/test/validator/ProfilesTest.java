@@ -49,7 +49,7 @@ public class ProfilesTest extends TestCase
 		final Validator validator = new Validator();
 
 		// disable all profiles = no constraints by default
-		validator.disableAllProfiles();
+		validator.disableAllGroups();
 		final Person p = new Person();
 		List<ConstraintViolation> violations = validator.validate(p, (Class[]) null);
 		assertEquals(0, violations.size());
@@ -60,14 +60,13 @@ public class ProfilesTest extends TestCase
 		assertEquals(2, violations.size());
 
 		// enable all profiles = all constraints by default
-		validator.enableAllProfiles();
+		validator.enableAllGroups();
 		violations = validator.validate(p, (Class[]) null);
 		assertEquals(4, violations.size());
 		violations = validator.validate(p, Profile1.class);
-		assertEquals(1, violations.size());
-		assertEquals("NOTNULL1", violations.get(0).getMessage());
-		violations = validator.validate(p, Profile1.class, Profile2.class);
 		assertEquals(2, violations.size());
+		violations = validator.validate(p, Profile1.class, Profile2.class);
+		assertEquals(3, violations.size());
 	}
 
 	public void testProfilesGloballyDisabled()
@@ -75,7 +74,7 @@ public class ProfilesTest extends TestCase
 		final Validator validator = new Validator();
 
 		// disable all profiles = no constraints
-		validator.disableAllProfiles();
+		validator.disableAllGroups();
 		assertFalse(validator.isProfileEnabled(Profile1.class));
 		assertFalse(validator.isProfileEnabled(Profile2.class));
 		assertFalse(validator.isProfileEnabled(Profile3.class));
@@ -86,42 +85,41 @@ public class ProfilesTest extends TestCase
 			assertEquals(0, violations.size());
 		}
 
-		// enable profile 1
-		validator.enableProfile(Profile1.class);
+		// enable profile 1 + default
+		validator.enableGroup(Profile1.class);
 		assertTrue(validator.isProfileEnabled(Profile1.class));
-		{
-			final Person p = new Person();
-			final List<ConstraintViolation> violations = validator.validate(p);
-			assertEquals(1, violations.size());
-			assertEquals("NOTNULL1", violations.get(0).getMessage());
-		}
-
-		// enable profile 1 + 2
-		validator.enableProfile(Profile2.class);
-		assertTrue(validator.isProfileEnabled(Profile2.class));
 		{
 			final Person p = new Person();
 			final List<ConstraintViolation> violations = validator.validate(p);
 			assertEquals(2, violations.size());
 		}
 
-		// enable profile 1 + 2 + 3
-		validator.enableProfile(Profile3.class);
-		assertTrue(validator.isProfileEnabled(Profile3.class));
+		// enable profile 1 + 2 + default
+		validator.enableGroup(Profile2.class);
+		assertTrue(validator.isProfileEnabled(Profile2.class));
 		{
 			final Person p = new Person();
 			final List<ConstraintViolation> violations = validator.validate(p);
 			assertEquals(3, violations.size());
 		}
 
-		// enable profile 1 + 2 + 3 + 4
+		// enable profile 1 + 2 + 3 + default
+		validator.enableGroup(Profile3.class);
+		assertTrue(validator.isProfileEnabled(Profile3.class));
+		{
+			final Person p = new Person();
+			final List<ConstraintViolation> violations = validator.validate(p);
+			assertEquals(4, violations.size());
+		}
+
+		// enable profile 1 + 2 + 3 + 4 + default
 		assertFalse(validator.isProfileEnabled(Profile4.class));
-		validator.enableProfile(Profile4.class);
+		validator.enableGroup(Profile4.class);
 		assertTrue(validator.isProfileEnabled(Profile4.class));
 		{
 			final Person p = new Person();
 			final List<ConstraintViolation> violations = validator.validate(p);
-			assertEquals(3, violations.size());
+			assertEquals(4, violations.size());
 		}
 
 		// enable profile 1 + 2 + 3 + 4 + default
@@ -137,7 +135,7 @@ public class ProfilesTest extends TestCase
 	{
 		final Validator validator = new Validator();
 
-		validator.enableAllProfiles();
+		validator.enableAllGroups();
 		{
 			final Person p = new Person();
 			final List<ConstraintViolation> violations = validator.validate(p);
@@ -145,7 +143,7 @@ public class ProfilesTest extends TestCase
 		}
 
 		assertTrue(validator.isProfileEnabled(Profile1.class));
-		validator.disableProfile(Profile1.class);
+		validator.disableGroup(Profile1.class);
 		assertFalse(validator.isProfileEnabled(Profile1.class));
 		{
 			final Person p = new Person();
@@ -154,7 +152,7 @@ public class ProfilesTest extends TestCase
 		}
 
 		assertTrue(validator.isProfileEnabled(Profile2.class));
-		validator.disableProfile(Profile2.class);
+		validator.disableGroup(Profile2.class);
 		assertFalse(validator.isProfileEnabled(Profile2.class));
 		{
 			final Person p = new Person();
@@ -163,7 +161,7 @@ public class ProfilesTest extends TestCase
 		}
 
 		assertTrue(validator.isProfileEnabled(Profile3.class));
-		validator.disableProfile(Profile3.class);
+		validator.disableGroup(Profile3.class);
 		assertFalse(validator.isProfileEnabled(Profile3.class));
 		{
 			final Person p = new Person();
@@ -179,7 +177,7 @@ public class ProfilesTest extends TestCase
 		}
 
 		assertTrue(validator.isProfileEnabled(Profile4.class));
-		validator.disableProfile(Profile4.class);
+		validator.disableGroup(Profile4.class);
 		assertFalse(validator.isProfileEnabled(Profile4.class));
 		{
 			final Person p = new Person();
@@ -188,7 +186,7 @@ public class ProfilesTest extends TestCase
 		}
 
 //		assertTrue(validator.isProfileEnabled("default"));
-//		validator.disableProfile("default");
+//		validator.disablePdisableGroupt");
 //		assertFalse(validator.isProfileEnabled("default"));
 //		{
 //			final Person p = new Person();
