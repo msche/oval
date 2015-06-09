@@ -19,7 +19,7 @@ import java.util.Collection;
  */
 public class ConstraintSet
 {
-	private Collection<Check> checks;
+	private final Collection<Check> checks;
 
 	private final String id;
 

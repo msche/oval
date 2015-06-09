@@ -619,10 +619,12 @@ public final class ClassChecks {
             final ParameterChecks checksOfMethodParameter = checksOfMethodByParameter.get(parameterIndex);
             if (checksOfMethodParameter == null) return;
 
+            // Remove specified checks
             for (final Check check : checks)
                 checksOfMethodParameter.removeCheck(check);
 
-            if (checksOfMethodParameter.hasChecks()) checksOfMethodByParameter.remove(parameterIndex);
+            // if no checks for parameter remove complete entry
+            if (!checksOfMethodParameter.hasChecks()) checksOfMethodByParameter.remove(parameterIndex);
         }
     }
 
