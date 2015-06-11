@@ -26,13 +26,13 @@ import java.util.Map;
  * violation that occurred during validation.
  *
  * @author Sebastian Thomschke
+ * @author msche
  */
 public class ConstraintViolation
 {
 	private static final Logger LOG = LoggerFactory.getLogger(ConstraintViolation.class);
 
 	private final ConstraintViolation[] causes;
-	private final OValContext checkDeclaringContext;
 	private final String checkName;
 	private final OValContext context;
 	private transient Object invalidValue;
@@ -52,7 +52,6 @@ public class ConstraintViolation
 			final OValContext context, final ConstraintViolation... causes)
 	{
 		checkName = check.getClass().getName();
-		checkDeclaringContext = check.getContext();
 		this.message = message;
 		messageTemplate = check.getMessage();
 		messageVariables = check.getMessageVariables();
@@ -66,7 +65,6 @@ public class ConstraintViolation
 			final OValContext context, final List<ConstraintViolation> causes)
 	{
 		checkName = check.getClass().getName();
-		checkDeclaringContext = check.getContext();
 		this.message = message;
 		messageTemplate = check.getMessage();
 		messageVariables = check.getMessageVariables();
@@ -82,21 +80,6 @@ public class ConstraintViolation
 	public ConstraintViolation[] getCauses()
 	{
 		return causes == null ? null : (ConstraintViolation[]) causes.clone();
-	}
-
-	/**
-	 * @return Returns the context where the constraint was declared.
-	 *
-	 * @see net.sf.oval.context.ClassContext
-	 * @see net.sf.oval.context.FieldContext
-	 * @see net.sf.oval.context.MethodEntryContext
-	 * @see net.sf.oval.context.MethodExitContext
-	 * @see net.sf.oval.context.MethodParameterContext
-	 * @see net.sf.oval.context.MethodReturnValueContext
-	 */
-	public OValContext getCheckDeclaringContext()
-	{
-		return checkDeclaringContext;
 	}
 
 	/**
