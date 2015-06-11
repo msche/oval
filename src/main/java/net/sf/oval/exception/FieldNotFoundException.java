@@ -13,7 +13,10 @@
 package net.sf.oval.exception;
 
 /**
+ * Exception thrown when specific field can't be found within the class
+ *
  * @author Sebastian Thomschke
+ * @author msche
  */
 public class FieldNotFoundException extends ReflectionException
 {
