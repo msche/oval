@@ -64,14 +64,7 @@ public class ConstraintViolation
 	public ConstraintViolation(final Check check, final String message, final Object validatedObject, final Object invalidValue,
 			final OValContext context, final List<ConstraintViolation> causes)
 	{
-		checkName = check.getClass().getName();
-		this.message = message;
-		messageTemplate = check.getMessage();
-		messageVariables = check.getMessageVariables();
-		this.validatedObject = validatedObject;
-		this.invalidValue = invalidValue;
-		this.context = context;
-		this.causes = causes == null || causes.size() == 0 ? null : causes.toArray(new ConstraintViolation[causes.size()]);
+		this(check, message, validatedObject,invalidValue,context, causes == null || causes.size() == 0 ? null : causes.toArray(new ConstraintViolation[causes.size()]));
 	}
 
 	/**
