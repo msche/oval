@@ -38,7 +38,6 @@ public class ConstraintViolation
 	private transient Object invalidValue;
 	private final String message;
 	private final String messageTemplate;
-	private final Map<String, ? extends Serializable> messageVariables;
 
 	private transient Object validatedObject;
 
@@ -54,7 +53,6 @@ public class ConstraintViolation
 		checkName = check.getClass().getName();
 		this.message = message;
 		messageTemplate = check.getMessage();
-		messageVariables = check.getMessageVariables();
 		this.validatedObject = validatedObject;
 		this.invalidValue = invalidValue;
 		this.context = context;
@@ -120,15 +118,6 @@ public class ConstraintViolation
 	public String getMessageTemplate()
 	{
 		return messageTemplate;
-	}
-
-	/**
-	 * Returns the message variables provided by the corresponding check.
-	 * @return an unmodifiable map holding the message variables provided by the corresponding check.
-	 */
-	public Map<String, ? extends Serializable> getMessageVariables()
-	{
-		return messageVariables;
 	}
 
 	/**
