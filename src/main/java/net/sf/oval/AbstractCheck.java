@@ -40,20 +40,9 @@ public abstract class AbstractCheck implements Check
 	 */
 	private Class[] groups;
 
-	// TODO remove properties which are not set by javax validation annotations (only message and profiles).
-	private ConstraintTarget[] appliesTo;
-
 	protected Map<String, ? extends Serializable> createMessageVariables()
 	{
 		return null;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public ConstraintTarget[] getAppliesTo()
-	{
-		return appliesTo == null ? getAppliesToDefault() : appliesTo;
 	}
 
 	/**
@@ -132,14 +121,6 @@ public abstract class AbstractCheck implements Check
 	protected void requireMessageVariablesRecreation()
 	{
 		messageVariablesUpToDate = false;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public void setAppliesTo(final ConstraintTarget... targets)
-	{
-		appliesTo = targets;
 	}
 
 	/**

@@ -25,14 +25,6 @@ import java.util.Map;
  */
 public interface Check extends Serializable
 {
-	/**
-	 * <p>In case the constraint is declared for an array, collection or map this controls how the constraint is applied to it and it's child objects.
-	 *
-	 * <p><b>Default:</b> ConstraintTarget.CONTAINER
-	 *
-	 * <p><b>Note:</b> This setting is ignored for object types other than array, map and collection.
-	 */
-	ConstraintTarget[] getAppliesTo();
 
 	/**
 	 * @return Returns the context where the constraint was declared.
@@ -81,11 +73,6 @@ public interface Check extends Serializable
 	 */
 	boolean isSatisfied(Object validatedObject, Object valueToValidate, OValContext context, Validator validator)
 			throws OValException;
-
-	/**
-	 * @param target the constraint target to set
-	 */
-	void setAppliesTo(ConstraintTarget... target);
 
 	/**
 	 * @param context the context to set

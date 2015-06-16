@@ -17,8 +17,12 @@ import net.sf.oval.Validator;
 import net.sf.oval.configuration.annotation.AbstractAnnotationCheck;
 
 import net.sf.oval.context.OValContext;
+import net.sf.oval.exception.InvalidConfigurationException;
+import net.sf.oval.internal.util.CollectionType;
+import net.sf.oval.internal.util.CollectionUtils;
 
 import javax.validation.constraints.DecimalMax;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -71,29 +75,32 @@ public final class DecimalMaxCheck extends AbstractAnnotationCheck<DecimalMax>
 		return max;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+		/**
+         * {@inheritDoc}
+         */
 	public boolean isSatisfied(final Object validatedObject, final Object valueToValidate, final OValContext context,
 			final Validator validator)
 	{
 		if (valueToValidate == null) return true;
 
-		if (valueToValidate instanceof Number)
-		{
-			final double doubleValue = ((Number) valueToValidate).doubleValue();
-			return doubleValue <= max;
-		}
+		if (CollectionUtils.getType(valueToValidate) == CollectionType.SINGLE) {
+			if (valueToValidate instanceof Number) {
+				final double doubleValue = ((Number) valueToValidate).doubleValue();
+				System.out.println("Checking value " + doubleValue);
+				return doubleValue <= max;
+			}
 
-		final String stringValue = valueToValidate.toString();
-		try
-		{
-			final double doubleValue = Double.parseDouble(stringValue);
-			return doubleValue <= max;
-		}
-		catch (final NumberFormatException e)
-		{
-			return false;
+			final String stringValue = valueToValidate.toString();
+			System.out.println("Checking value " + stringValue);
+			try {
+				final double doubleValue = Double.parseDouble(stringValue);
+				return doubleValue <= max;
+			} catch (final NumberFormatException e) {
+				System.out.println("Unable to convert value to double");
+				return false;
+			}
+		} else {
+			throw new InvalidConfigurationException("Constraint can only be applied to single values");
 		}
 	}
 

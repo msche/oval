@@ -50,6 +50,7 @@ public final class ValidCheck extends AbstractAnnotationCheck<Valid>
 	public boolean isSatisfied(final Object validatedObject, final Object valueToValidate, final OValContext context,
 			final Validator validator) throws UnsupportedOperationException
 	{
+		System.out.println("Check valid");
 		throw new UnsupportedOperationException();
 	}
 }

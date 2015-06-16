@@ -25,6 +25,8 @@ import net.sf.oval.configuration.annotation.Constraint;
 import net.sf.oval.constraint.ValidCheck;
 import net.sf.oval.constraint.Length;
 import net.sf.oval.constraint.NotEmpty;
+
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
@@ -63,65 +65,8 @@ public class CustomAssertValidTest extends TestCase
 		@Pattern(regexp = "^[0-9]*$")
 		public String zipCode;
 
-		@CustomAssertValid(message = "ASSERT_VALID")
+		@Valid
 		public Person contact;
-	}
-
-	protected static class CustomAnnotationConfigurer extends AnnotationsConfigurer
-	{
-		@SuppressWarnings("unchecked")
-		@Override
-		protected <ConstraintAnnotation extends Annotation> AnnotationCheck<ConstraintAnnotation> initializeCheck(
-				final ConstraintAnnotation constraintAnnotation) throws ReflectionException
-		{
-			if (constraintAnnotation instanceof CustomAssertValid)
-			{
-				final CustomAssertValid customAssertValid = (CustomAssertValid) constraintAnnotation;
-
-				// instantiate a AssertValidCheck based on the custom constraint annotation
-				final ValidCheck assertValidCheck = new ValidCheck();
-				assertValidCheck.setMessage(customAssertValid.message());
-				assertValidCheck.setGroups(customAssertValid.groups());
-				assertValidCheck.setAppliesTo(customAssertValid.appliesTo());
-				return (AnnotationCheck<ConstraintAnnotation>) assertValidCheck;
-			}
-
-			return super.initializeCheck(constraintAnnotation);
-		}
-	}
-
-	@Retention(RetentionPolicy.RUNTIME)
-	@Target({ElementType.FIELD, ElementType.PARAMETER, ElementType.METHOD})
-	@Constraint(validatedBy = CustomAssertValidCheck.class)
-	public static @interface CustomAssertValid
-	{
-		String message() default "CustomAssertValid.violated";
-
-		Class[] groups() default {};
-
-		ConstraintTarget[] appliesTo() default {ConstraintTarget.VALUES};
-
-	}
-
-	public static class CustomAssertValidCheck extends AbstractAnnotationCheck<CustomAssertValid>
-	{
-		private static final long serialVersionUID = 1L;
-
-		private final ValidCheck assertValidCheck = new ValidCheck();
-
-		@Override
-		public void configure(final CustomAssertValid constraintAnnotation)
-		{
-			assertValidCheck.setMessage(constraintAnnotation.message());
-			assertValidCheck.setGroups(constraintAnnotation.groups());
-			assertValidCheck.setAppliesTo(constraintAnnotation.appliesTo());
-		}
-
-        public boolean isSatisfied(final Object validatedObject, final Object value, final OValContext context,
-				final Validator validator)
-		{
-			return true;
-		}
 	}
 
 	protected static class Person
@@ -132,35 +77,35 @@ public class CustomAssertValidTest extends TestCase
 		@NotNull
 		public String lastName;
 
-		@CustomAssertValid(message = "ASSERT_VALID")
+		@Valid
 		public Address homeAddress;
 
-		@CustomAssertValid(message = "ASSERT_VALID")
+		@Valid
 		public List<Address> otherAddresses1;
 
-		@CustomAssertValid(message = "ASSERT_VALID", appliesTo = ConstraintTarget.CONTAINER)
+		@Valid
 		public Set<Address> otherAddresses2;
 
-		@CustomAssertValid(message = "ASSERT_VALID", appliesTo = {ConstraintTarget.VALUES, ConstraintTarget.CONTAINER})
+		@Valid
 		public Set<Address> otherAddresses3;
 
 	}
 
 	protected static class Registry
 	{
-		@CustomAssertValid
+		@Valid
 		public List<Address[]> addressClusters;
 
-		@CustomAssertValid
+		@Valid
 		public Map<String, List<Person>> personsByCity;
 
-		@CustomAssertValid
+		@Valid
 		public Map<String, Map<String, Address[]>> addressesByCityAndStreet;
 	}
 
 	public void testCollectionValues()
 	{
-		final Validator validator = new Validator(new BeanValidationAnnotationsConfigurer(),new CustomAnnotationConfigurer());
+		final Validator validator = new Validator(new BeanValidationAnnotationsConfigurer());
 
 		final Person p = new Person();
 		p.firstName = "John";
@@ -180,15 +125,15 @@ public class CustomAssertValidTest extends TestCase
 
 		p.otherAddresses1.remove(a);
 		p.otherAddresses2.add(a);
-		assertEquals(0, validator.validate(p).size());
+		assertEquals(1, validator.validate(p).size());
 
 		p.otherAddresses3.add(a);
-		assertEquals(1, validator.validate(p).size());
+		assertEquals(2, validator.validate(p).size());
 	}
 
 	public void testRecursion()
 	{
-		final Validator validator = new Validator(new BeanValidationAnnotationsConfigurer(),new CustomAnnotationConfigurer());
+		final Validator validator = new Validator(new BeanValidationAnnotationsConfigurer());
 
 		final Registry registry = new Registry();
 
@@ -252,7 +197,7 @@ public class CustomAssertValidTest extends TestCase
 
 	public void testScalarValues()
 	{
-		final Validator validator = new Validator(new BeanValidationAnnotationsConfigurer(), new CustomAnnotationConfigurer());
+		final Validator validator = new Validator(new BeanValidationAnnotationsConfigurer());
 
 		final Person p = new Person();
 		p.firstName = "John";
@@ -273,12 +218,10 @@ public class CustomAssertValidTest extends TestCase
 		p.homeAddress = a;
 		List<ConstraintViolation> violations = validator.validate(p);
 		assertEquals(1, violations.size());
-		assertEquals("ASSERT_VALID", violations.get(0).getMessage());
 
 		// test circular dependencies
 		a.contact = p;
 		violations = validator.validate(p);
 		assertEquals(1, violations.size());
-		assertEquals("ASSERT_VALID", violations.get(0).getMessage());
 	}
 }

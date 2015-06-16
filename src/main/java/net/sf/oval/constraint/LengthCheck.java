@@ -17,6 +17,9 @@ import net.sf.oval.Validator;
 import net.sf.oval.configuration.annotation.AbstractAnnotationCheck;
 
 import net.sf.oval.context.OValContext;
+import net.sf.oval.exception.InvalidConfigurationException;
+import net.sf.oval.internal.util.CollectionType;
+import net.sf.oval.internal.util.CollectionUtils;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -88,8 +91,12 @@ public final class LengthCheck extends AbstractAnnotationCheck<Length>
 	{
 		if (valueToValidate == null) return true;
 
-		final int len = valueToValidate.toString().length();
-		return len >= min && len <= max;
+		if (CollectionUtils.getType(valueToValidate) == CollectionType.SINGLE) {
+			final int len = valueToValidate.toString().length();
+			return len >= min && len <= max;
+		} else {
+			throw new InvalidConfigurationException("Constraint can only be applied to single values");
+		}
 	}
 
 	/**

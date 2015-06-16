@@ -18,6 +18,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.annotation.Annotation;
+import java.util.Collection;
+import java.util.Map;
 
 /**
  * Partial implementation of check classes configurable via annotations.

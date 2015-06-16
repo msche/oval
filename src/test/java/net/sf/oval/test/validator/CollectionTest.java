@@ -39,7 +39,6 @@ public class CollectionTest extends TestCase
 	{
 		@MinSize(value = 1, message = "MIN_SIZE")
 		@MaxSize(value = 4, message = "MAX_SIZE")
-		@Length(min = 1, max = 7, message = "LENGTH")
 		@NotNull(message = "NOT_NULL")
 		public List<String> members = new ArrayList<String>();
 
@@ -85,13 +84,14 @@ public class CollectionTest extends TestCase
 		assertEquals("NOT_NULL2", violations.get(0).getMessage());
 
 		// test elements length
-		group.members = new ArrayList<String>();
-		group.members.add("");
-		group.members.add("123456789");
-		violations = validator.validate(group);
-		assertEquals(3, violations.size());
-		assertEquals("LENGTH", violations.get(0).getMessage());
-		assertEquals("LENGTH", violations.get(1).getMessage());
+		// MASE: @Length can't be applied on array (JSR303)
+//		group.members = new ArrayList<String>();
+//		group.members.add("");
+//		group.members.add("123456789");
+//		violations = validator.validate(group);
+//		assertEquals(3, violations.size());
+//		assertEquals("LENGTH", violations.get(0).getMessage());
+//		assertEquals("LENGTH", violations.get(1).getMessage());
 
 		// test string array elements not null
 		group.members = new ArrayList<String>();

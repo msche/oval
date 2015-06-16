@@ -47,6 +47,8 @@ import net.sf.oval.internal.ContextCache;
 import net.sf.oval.internal.MessageRenderer;
 import net.sf.oval.internal.util.ArrayUtils;
 import net.sf.oval.internal.util.Assert;
+import net.sf.oval.internal.util.CollectionType;
+import net.sf.oval.internal.util.CollectionUtils;
 import net.sf.oval.internal.util.ReflectionUtils;
 import net.sf.oval.internal.util.StringUtils;
 import net.sf.oval.localization.context.OValContextRenderer;
@@ -567,49 +569,29 @@ public class Validator implements IValidator {
                                    Object valueToValidate, OValContext context, final Class[] profiles, final boolean isContainerValue) throws OValException {
         if (!isGroupEnabled(check.getGroups(), profiles)) return;
 
-        final ConstraintTarget[] targets = check.getAppliesTo();
-
-        final Class<?> compileTimeType = context.getCompileTimeType();
-
-        final boolean isCollection = valueToValidate != null ? //
-                valueToValidate instanceof Collection<?> : //
-                Collection.class.isAssignableFrom(compileTimeType);
-        final boolean isMap = !isCollection && //
-                (valueToValidate != null ? //
-                        valueToValidate instanceof Map<?, ?> : //
-                        Map.class.isAssignableFrom(compileTimeType));
-        final boolean isArray = !isCollection && !isMap && //
-                (valueToValidate != null ? //
-                        valueToValidate.getClass().isArray() : //
-                        compileTimeType.isArray());
-        final boolean isContainer = isCollection || isMap || isArray;
-
-        if (isContainer && valueToValidate != null) if (isCollection) {
-            if (ArrayUtils.containsSame(targets, ConstraintTarget.VALUES)) {
-                for (final Object item : (Collection<?>) valueToValidate) {
-                    checkConstraint(violations, check, validatedObject, item, context, profiles, true);
-                }
-            }
-        } else if (isMap) {
-            if (ArrayUtils.containsSame(targets, ConstraintTarget.KEYS)) {
-                for (final Object item : ((Map<?, ?>) valueToValidate).keySet()) {
-                    checkConstraint(violations, check, validatedObject, item, context, profiles, true);
-                }
-            }
-
-            if (ArrayUtils.containsSame(targets, ConstraintTarget.VALUES)) {
-                for (final Object item : ((Map<?, ?>) valueToValidate).values()) {
-                    checkConstraint(violations, check, validatedObject, item, context, profiles, true);
-                }
-            }
-        } else if (ArrayUtils.containsSame(targets, ConstraintTarget.VALUES)) {
-            for (final Object item : ArrayUtils.asList(valueToValidate)) {
-                checkConstraint(violations, check, validatedObject, item, context, profiles, true);
+        if (check instanceof ValidCheck) {
+            // Validate contained values collection
+            CollectionType type = CollectionUtils.getType(valueToValidate);
+            switch (type) {
+                case COLLECTION:
+                    for (final Object item : (Collection<?>) valueToValidate) {
+                        checkConstraint(violations, check, validatedObject, item, context, profiles, true);
+                    }
+                    break;
+                case MAP:
+                    for (final Object item : ((Map<?, ?>) valueToValidate).values()) {
+                        checkConstraint(violations, check, validatedObject, item, context, profiles, true);
+                    }
+                    break;
+                case ARRAY:
+                    for (final Object item : ArrayUtils.asList(valueToValidate)) {
+                        checkConstraint(violations, check, validatedObject, item, context, profiles, true);
+                    }
+                    break;
             }
         }
-        if (isContainerValue || !isContainer || isContainer && ArrayUtils.containsSame(targets, ConstraintTarget.CONTAINER)) {
-            _checkConstraint(violations, check, validatedObject, valueToValidate, context, profiles);
-        }
+
+        _checkConstraint(violations, check, validatedObject, valueToValidate, context, profiles);
     }
 
     protected void checkConstraintAssertConstraintSet(final List<ConstraintViolation> violations, final AssertConstraintSetCheck check,
@@ -656,7 +638,7 @@ public class Validator implements IValidator {
         String fieldName = check.getFieldName();
 
 		/*
-		 * calculate the field name based on the validation context if the @AssertFieldConstraints constraint didn't specify the field name
+         * calculate the field name based on the validation context if the @AssertFieldConstraints constraint didn't specify the field name
 		 */
         if (fieldName == null || fieldName.length() == 0)
             if (context instanceof ConstructorParameterContext) {
@@ -668,7 +650,7 @@ public class Validator implements IValidator {
             }
 
 		/*
-		 * find the field based on fieldName and targetClass
+         * find the field based on fieldName and targetClass
 		 */
         final Field field = ReflectionUtils.getFieldRecursive(targetClass, fieldName);
 

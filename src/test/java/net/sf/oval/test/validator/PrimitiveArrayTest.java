@@ -32,7 +32,7 @@ public class PrimitiveArrayTest extends TestCase
 	{
 		@MinSize(value = 1, message = "MIN_SIZE")
 		@MaxSize(value = 4, message = "MAX_SIZE")
-		@DecimalMax(value = "10", message = "MAX")
+		// Can't be applied to array (jsr 303) @DecimalMax(value = "10", message = "MAX")
 		@NotNull(message = "NOT_NULL")
 		public int[] items = new int[]{};
 
@@ -45,12 +45,14 @@ public class PrimitiveArrayTest extends TestCase
 
 		// test min size
 		List<ConstraintViolation> violations = validator.validate(account);
+		System.out.println("Exceptions " + violations);
 		assertEquals(1, violations.size());
 		assertEquals("MIN_SIZE", violations.get(0).getMessage());
 
 		// test valid
 		account.items = new int[]{1};
 		violations = validator.validate(account);
+		System.out.println("Violations " + violations);
 		assertEquals(0, violations.size());
 
 		// test max size
@@ -66,9 +68,10 @@ public class PrimitiveArrayTest extends TestCase
 		assertEquals("NOT_NULL", violations.get(0).getMessage());
 
 		// test elements max
-		account.items = new int[]{1, 100};
-		violations = validator.validate(account);
-		assertEquals(1, violations.size());
-		assertEquals("MAX", violations.get(0).getMessage());
+		// @DecimalMax can't be applied to array (JSR 303)
+//		account.items = new int[]{1, 100};
+//		violations = validator.validate(account);
+//		assertEquals(1, violations.size());
+//		assertEquals("MAX", violations.get(0).getMessage());
 	}
 }
