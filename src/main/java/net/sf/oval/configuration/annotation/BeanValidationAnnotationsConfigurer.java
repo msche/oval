@@ -162,7 +162,7 @@ public class BeanValidationAnnotationsConfigurer implements Configurer
 						method,
 						ReflectionUtils.isGetter(method),
 						paramChecks,
-						new ReturnValueChecks(returnValueChecks));
+						returnValueChecks);
 				classCfg.addChecks(mc);
 			}
 		}

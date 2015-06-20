@@ -45,14 +45,12 @@ public class PrimitiveArrayTest extends TestCase
 
 		// test min size
 		List<ConstraintViolation> violations = validator.validate(account);
-		System.out.println("Exceptions " + violations);
 		assertEquals(1, violations.size());
 		assertEquals("MIN_SIZE", violations.get(0).getMessage());
 
 		// test valid
 		account.items = new int[]{1};
 		violations = validator.validate(account);
-		System.out.println("Violations " + violations);
 		assertEquals(0, violations.size());
 
 		// test max size

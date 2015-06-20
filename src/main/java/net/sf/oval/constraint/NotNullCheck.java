@@ -36,6 +36,16 @@ public final class NotNullCheck extends AbstractAnnotationCheck<NotNull>
         setGroups(constraintAnnotation.groups());
     }
 
+    /**
+     * Verifies whether the type at which the check will be applied is supported
+     *
+     * @param type
+     */
+    @Override
+    public boolean supports(Class<?> type) {
+        return true;
+    }
+
 	/**
 	 * {@inheritDoc}
 	 */

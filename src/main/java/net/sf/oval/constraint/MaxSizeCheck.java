@@ -16,6 +16,8 @@ import net.sf.oval.Validator;
 import net.sf.oval.configuration.annotation.AbstractAnnotationCheck;
 
 import net.sf.oval.context.OValContext;
+import net.sf.oval.internal.util.CollectionType;
+import net.sf.oval.internal.util.CollectionUtils;
 
 import java.lang.reflect.Array;
 import java.util.Collection;
@@ -85,6 +87,16 @@ public final class MaxSizeCheck extends AbstractAnnotationCheck<MaxSize>
 			return size <= max;
 		}
 		return false;
+	}
+
+	/**
+	 * Verifies whether the type at which the check will be applied is supported
+	 *
+	 * @param type
+	 */
+	@Override
+	public boolean supports(Class<?> type) {
+		return CollectionUtils.getType(type) != CollectionType.SINGLE;
 	}
 
 	/**

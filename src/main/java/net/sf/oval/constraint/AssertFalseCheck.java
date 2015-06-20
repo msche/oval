@@ -59,4 +59,14 @@ public final class AssertFalseCheck extends AbstractAnnotationCheck<AssertFalse>
 		return !Boolean.parseBoolean(valueToValidate.toString());
 	}
 
+	/**
+	 * Verifies whether the type at which the check will be applied is supported
+	 *
+	 * @param type
+	 */
+	@Override
+	public boolean supports(Class<?> type) {
+		return type == Boolean.class || type == boolean.class;
+	}
+
 }

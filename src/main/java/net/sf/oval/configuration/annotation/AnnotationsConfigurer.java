@@ -21,8 +21,6 @@ import net.sf.oval.configuration.pojo.elements.ConstraintSetConfiguration;
 import net.sf.oval.configuration.pojo.elements.ConstructorConfiguration;
 import net.sf.oval.configuration.pojo.elements.FieldChecks;
 import net.sf.oval.configuration.pojo.elements.MethodConfiguration;
-import net.sf.oval.configuration.pojo.elements.ReturnValueChecks;
-import net.sf.oval.configuration.pojo.elements.ObjectConfiguration;
 import net.sf.oval.configuration.pojo.elements.ParameterChecks;
 import net.sf.oval.exception.OValException;
 import net.sf.oval.exception.ReflectionException;
@@ -144,7 +142,7 @@ public class AnnotationsConfigurer implements Configurer
 						method,
 						ReflectionUtils.isAnnotationPresent(method, IsInvariant.class, classCfg.inspectInterfaces),
 						paramChecks,
-						new ReturnValueChecks(returnValueChecks));
+						returnValueChecks);
 				classCfg.addChecks(mc);
 			}
 		}
@@ -163,7 +161,7 @@ public class AnnotationsConfigurer implements Configurer
 
 		if (checks.size() > 0)
 		{
-			classCfg.getObjectConfiguration().addChecks(checks);
+			classCfg.getInstanceChecks().addChecks(checks);
 		}
 	}
 

@@ -16,14 +16,14 @@ import net.sf.oval.constraint.DecimalMaxCheck;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.List;
+import java.util.Vector;
 
 /**
  * @author Sebastian Thomschke
  */
-public class DecimalMaxTest extends AbstractContraintsTest
-{
-	public void testMax()
-	{
+public class DecimalMaxTest extends AbstractContraintsTest {
+	public void testMax() {
 		final DecimalMaxCheck check = new DecimalMaxCheck();
 		super.testCheck(check);
 		assertTrue(check.isSatisfied(null, null, null, null));
@@ -63,5 +63,22 @@ public class DecimalMaxTest extends AbstractContraintsTest
 
 		assertFalse(check.isSatisfied(null, "", null, null));
 		assertFalse(check.isSatisfied(null, "sdfQ", null, null));
+	}
+
+	/**
+	 * Verifies whether type is supported
+	 */
+	public void testSupports() {
+		final DecimalMaxCheck check = new DecimalMaxCheck();
+
+		assertTrue(check.supports(String.class));
+		assertTrue(check.supports(BigDecimal.class));
+		assertTrue(check.supports(byte.class));
+		assertTrue(check.supports(short.class));
+		assertTrue(check.supports(float.class));
+		assertTrue(check.supports(double.class));
+
+		assertFalse(check.supports(new int[10].getClass()));
+		assertFalse(check.supports(new Vector<Integer>().getClass()));
 	}
 }

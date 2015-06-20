@@ -38,6 +38,7 @@ public final class FieldChecks extends AbstractChecks
 	 * @param field field at which checks apply
 	 */
 	public FieldChecks(Field field) {
+		super(field.getType());
 		this.field = field;
 	}
 
@@ -54,4 +55,5 @@ public final class FieldChecks extends AbstractChecks
 	public Field getField() {
 		return field;
 	}
+
 }

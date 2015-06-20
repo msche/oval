@@ -19,5 +19,9 @@ import java.util.List;
 /**
  * @author Sebastian Thomschke
  */
-public class ObjectConfiguration extends AbstractChecks {
+public class InstanceChecks extends AbstractChecks {
+
+    InstanceChecks(Class<?> type) {
+        super(type);
+    }
 }

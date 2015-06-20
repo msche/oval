@@ -23,4 +23,21 @@ public final class CollectionUtils {
             }
         }
     }
+
+    public static CollectionType getType(Class<?> type) {
+        if (type == null) {
+            throw new IllegalArgumentException("type may not be null");
+        } else {
+            if (Collection.class.isAssignableFrom(type)) {
+                return CollectionType.COLLECTION;
+            } else if (Map.class.isAssignableFrom(type)) {
+                return CollectionType.MAP;
+            } else if (type.isArray()) {
+                return CollectionType.ARRAY;
+            } else {
+                return CollectionType.SINGLE;
+            }
+        }
+    }
+
 }

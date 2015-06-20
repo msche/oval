@@ -45,4 +45,15 @@ public final class NullCheck extends AbstractAnnotationCheck<Null>
 		return valueToValidate == null;
 	}
 
+    /**
+     * Verifies whether the type at which the check will be applied is supported
+     *
+     * @param type
+     */
+    @Override
+    public boolean supports(Class<?> type) {
+        return true;
+    }
+
+
 }

@@ -14,6 +14,10 @@ package net.sf.oval.test.constraints;
 
 import net.sf.oval.constraint.AssertFalseCheck;
 
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+
 /**
  * @author Sebastian Thomschke
  */
@@ -31,5 +35,18 @@ public class AssertFalseTest extends AbstractContraintsTest
 		assertFalse(check.isSatisfied(null, Boolean.TRUE, null, null));
 		assertFalse(check.isSatisfied(null, "true", null, null));
 		assertTrue(check.isSatisfied(null, "bla", null, null));
+	}
+
+	/**
+	 * Verifies that annotation can only be applied to booleans
+	 */
+	public void testSupports() {
+		final AssertFalseCheck check = new AssertFalseCheck();
+		assertTrue(check.supports(Boolean.class));
+		assertTrue(check.supports(boolean.class));
+		assertFalse(check.supports(Object.class));
+		assertFalse(check.supports(Integer.class));
+		assertFalse(check.supports(Collection.class));
+		assertFalse(check.supports(Map.class));
 	}
 }

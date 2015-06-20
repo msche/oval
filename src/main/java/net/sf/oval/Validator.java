@@ -20,7 +20,6 @@ import net.sf.oval.configuration.pojo.elements.ConstraintSetConfiguration;
 import net.sf.oval.configuration.pojo.elements.ConstructorConfiguration;
 import net.sf.oval.configuration.pojo.elements.FieldChecks;
 import net.sf.oval.configuration.pojo.elements.MethodConfiguration;
-import net.sf.oval.configuration.pojo.elements.ObjectConfiguration;
 import net.sf.oval.configuration.pojo.elements.ParameterChecks;
 import net.sf.oval.constraint.AssertConstraintSetCheck;
 import net.sf.oval.constraint.AssertFieldConstraintsCheck;
@@ -255,7 +254,7 @@ public class Validator implements IValidator {
             /* ******************************
              * apply object level checks
 			 * ******************************/
-        cc.addObjectChecks(classCfg.getObjectConfiguration().getChecks());
+        cc.addObjectChecks(classCfg.getInstanceChecks().getChecks());
 
 			/* ******************************
              * apply field checks

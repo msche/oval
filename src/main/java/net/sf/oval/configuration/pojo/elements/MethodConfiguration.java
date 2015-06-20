@@ -12,6 +12,7 @@
  *******************************************************************************/
 package net.sf.oval.configuration.pojo.elements;
 
+import net.sf.oval.Check;
 import net.sf.oval.internal.util.Assert;
 
 import java.lang.reflect.Method;
@@ -42,7 +43,7 @@ public class MethodConfiguration
 	 */
 	private final ReturnValueChecks returnValueChecks;
 
-	public MethodConfiguration(Method method, boolean isInvariant, List<ParameterChecks> parameterChecks, ReturnValueChecks returnValueChecks) {
+	public MethodConfiguration(Method method, boolean isInvariant, List<ParameterChecks> parameterChecks, List<Check> returnValueChecks) {
 
 		Assert.argumentNotNull("method", method);
 		Assert.argumentNotNull("parameterChecks", parameterChecks);
@@ -51,7 +52,7 @@ public class MethodConfiguration
 		this.method = method;
 		this.isInvariant = isInvariant;
 		this.parameterChecks = parameterChecks;
-		this.returnValueChecks = returnValueChecks;
+		this.returnValueChecks = new ReturnValueChecks(method.getReturnType(), returnValueChecks);
 	}
 
 	/**

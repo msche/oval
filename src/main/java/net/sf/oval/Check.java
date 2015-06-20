@@ -22,9 +22,15 @@ import java.util.Map;
  * interface for classes that can check/validate if a constraint is satisfied
  *
  * @author Sebastian Thomschke
+ * @author mase
  */
 public interface Check extends Serializable
 {
+
+	/**
+	 * Verifies whether the type at which the check will be applied is supported
+	 */
+	boolean supports(Class<?> type);
 
 	/**
 	 * @return Returns the context where the constraint was declared.

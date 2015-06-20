@@ -37,6 +37,16 @@ public final class AssertTrueCheck extends AbstractAnnotationCheck<AssertTrue>
 	}
 
 	/**
+	 * Verifies whether the type at which the check will be applied is supported
+	 *
+	 * @param type
+	 */
+	@Override
+	public boolean supports(Class<?> type) {
+		return type == Boolean.class || type == boolean.class;
+	}
+
+	/**
 	 * {@inheritDoc}
 	 */
 	public boolean isSatisfied(final Object validatedObject, final Object valueToValidate, final OValContext context,

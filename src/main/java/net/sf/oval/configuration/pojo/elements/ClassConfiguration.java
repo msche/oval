@@ -30,7 +30,7 @@ public class ClassConfiguration
 	/**
 	 * object level constraints configuration
 	 */
-	private final ObjectConfiguration objectConfiguration = new ObjectConfiguration();
+	private final InstanceChecks instanceChecks;
 
 	/**
 	 * field constraints configuration
@@ -75,6 +75,7 @@ public class ClassConfiguration
 	 */
 	public ClassConfiguration(Class< ? > type) {
 		this.type = type;
+		instanceChecks = new InstanceChecks(type);
 	}
 
 	/**
@@ -114,8 +115,8 @@ public class ClassConfiguration
 		return Collections.unmodifiableSet(methodConfigurations);
 	}
 
-	public ObjectConfiguration getObjectConfiguration() {
-		return objectConfiguration;
+	public InstanceChecks getInstanceChecks() {
+		return instanceChecks;
 	}
 
 	/**
