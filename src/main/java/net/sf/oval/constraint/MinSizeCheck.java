@@ -67,26 +67,27 @@ public final class MinSizeCheck extends AbstractAnnotationCheck<MinSize>
 	 * {@inheritDoc}
 	 */
 	public boolean isSatisfied(final Object validatedObject, final Object valueToValidate, final OValContext context,
-			final Validator validator)
-	{
-		if (valueToValidate == null) return true;
+			final Validator validator) {
+		if (valueToValidate == null) {
+			return true;
+		} else {
 
-		if (valueToValidate instanceof Collection)
-		{
-			final int size = ((Collection< ? >) valueToValidate).size();
-			return size >= min;
+			int size;
+			switch (CollectionUtils.getType(valueToValidate)) {
+				case COLLECTION:
+					size = ((Collection<?>) valueToValidate).size();
+					return size >= min;
+				case MAP:
+					size = ((Map<?, ?>) valueToValidate).size();
+					return size >= min;
+				case ARRAY:
+					size = Array.getLength(valueToValidate);
+					return size >= min;
+				default:
+					return false;
+
+			}
 		}
-		if (valueToValidate instanceof Map)
-		{
-			final int size = ((Map< ? , ? >) valueToValidate).size();
-			return size >= min;
-		}
-		if (valueToValidate.getClass().isArray())
-		{
-			final int size = Array.getLength(valueToValidate);
-			return size >= min;
-		}
-		return false;
 	}
 
 	/**
